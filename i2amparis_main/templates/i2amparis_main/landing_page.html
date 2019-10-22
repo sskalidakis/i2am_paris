@@ -30,9 +30,12 @@
             vertical-align: super;
             font-size: smaller;
         }
+
         .mylogo{
             text-align: left;
         }
+
+
     </style>
   <!-- =======================================================
     Theme Name: Green
@@ -46,7 +49,7 @@
 
 
   <div class="header">
-    <section id="header" class="appear">
+    <section id="header" class="section appear clearfix " style="padding:1px">
 
       <div class="navbar navbar-fixed-top" role="navigation" data-0="line-height:100px; height:100px; background-color:rgba(0,0,0,0.3);" data-300="line-height:60px; height:60px; background-color:rgba(0,0,0,1);">
 
@@ -62,13 +65,12 @@
 {#              PLATFORM#}
 {#            </a></h1>#}
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-            <li class="active"><a href="#header">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#section-works">Documentation</a></li>
-              <li><a href="#section-about">About</a></li>
-            <li><a href="#section-contact">Contact</a></li>
+        <div class="navbar-collapse collapse" style="margin-right: 0px;">
+          <ul class="nav navbar-nav" data-0="margin-top:0px;" data-300="margin-top:0px;" style="background-color: rgba(184, 184, 184, 0.65);width: 100%">
+            <li class="active"><a href="#header" style="font-weight: 500">Home</a></li>
+            <li><a href="#section-services" style="font-weight: 500">Services</a></li>
+            <li><a href="#section-works" style="font-weight: 500">Documentation</a></li>
+            <li><a href="#section-contact" style="font-weight: 500">Contact</a></li>
           </ul>
         </div>
         <!--/.navbar-collapse -->
@@ -120,14 +122,19 @@
                 </div>
               </div>
               <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="1.6s">
-                <form class="form-inline">
+
                   <div class="form-group">
-                    <button type="getnow" name="documentation" class="btn btn-primary btn-lg" required="required">Explore</button>
+{#                    <button type="getnow"  class="btn btn-primary btn-lg" required="required">Explore</button>#}
+                      <button type="livedemo" class="btn btn-primary btn-lg doc_index" >
+                        <a href="#section-works" style="color: white" class="doc_index">
+                          Explore
+                        </a>
+                      </button>
                   </div>
 {#                  <div class="form-group">#}
 {#                    <button type="getnow" name="subscribe" class="btn btn-primary btn-lg" required="required">Get Now</button>#}
 {#                  </div>#}
-                </form>
+
               </div>
             </div>
           </div>
@@ -142,16 +149,18 @@
                         </div>
                     </div>
                     <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="1.6s">
-                        <form class="form-inline">
+
                             <div class="form-group">
-                                <button type="getnow" name="documentation" class="btn btn-primary btn-lg"
-                                        required="required">Explore
+                                <button type="livedemo" class="btn btn-primary btn-lg service_index">
+                                    <a href="#section-services" style="color: white" class="service_index">
+                                        Explore
+                                    </a>
                                 </button>
                             </div>
                             {#                  <div class="form-group">#}
                             {#                    <button type="getnow" name="subscribe" class="btn btn-primary btn-lg" required="required">Get Now</button>#}
                             {#                  </div>#}
-                        </form>
+
                     </div>
                 </div>
             </div>
@@ -276,7 +285,7 @@
 {#  </section>#}
 
   <!-- services -->
-  <section id="services" class="section pad-bot5 bg-white">
+  <section id="section-services" class="section appear clearfix bg-white" >
     <div class="container">
       <div class="row mar-bot5">
         <div class="col-md-offset-3 col-md-6">
@@ -624,7 +633,7 @@
 {#  </section>#}
 
   <!-- section works -->
-  <section id="section-works" class="section appear clearfix">
+  <section id="section-works" class="section appear clearfix bg-white">
     <div class="container">
 
       <div class="row mar-bot40">
@@ -660,11 +669,11 @@
                         <div class="wow bounceIn">
 
                             <div class="wow rotateIn">
-                                <div class="service-col">
+                                <div class="service-col overview_doc">
                                     <div class="service-icon">
                                         <figure><i class="fa fa-archive"></i></figure>
                                     </div>
-                                    <h2><a href="#">Overview and Comparative Assessment</a></h2>
+                                    <h2><a href="overview_comparative_assessment_doc" class="overview_doc">Overview and Comparative Assessment</a></h2>
                                     <p>
                                         <ul style="text-align: left">
                                             <li>Global Models</li>
@@ -855,9 +864,9 @@
 {#        Nunc quis semper.</p>#}
 {#    </div>#}
 {#  </section>#}
-
+    <hr>
   <!-- contact -->
-  <section id="section-contact" class="section appear clearfix">
+  <section id="section-contact" class="section appear clearfix" style="padding-top:0px">
     <div class="container">
 
       <div class="row mar-bot40">
@@ -921,20 +930,20 @@
         </div>
       </div>
 
-      <div class="row align-center copyright">
-        <div class="col-sm-12">
+{#      <div class="row align-center copyright">#}
+{#        <div class="col-sm-12">#}
 {#          <p>&copy; GREEN Theme</p>#}
-          <div class="credits">
-            <!--
-              All the links in the footer should remain intact.
-              You can delete the links only if you purchased the pro version.
-              Licensing information: https://bootstrapmade.com/license/
-              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Green
-            -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-          </div>
-        </div>
-      </div>
+{#          <div class="credits">#}
+{#            <!--#}
+{#              All the links in the footer should remain intact.#}
+{#              You can delete the links only if you purchased the pro version.#}
+{#              Licensing information: https://bootstrapmade.com/license/#}
+{#              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Green#}
+{#            -->#}
+{#            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
     </div>
 
   </section>
@@ -960,6 +969,18 @@
     wow = new WOW({}).init();
   </script>
   <script src={% static "main_theme/contactform/contactform.js"%}></script>
+
+    <script>
+        $(document).on('click', 'button.doc_index', function (e) {
+            $("a.doc_index")[0].click()
+        });
+        $(document).on('click', 'button.service_index', function (e) {
+            $("a.service_index")[0].click()
+        });
+        $(document).on('click', 'div.overview_doc', function (e) {
+            $("a.overview_doc")[0].click()
+        });
+    </script>
 
 </body>
 
