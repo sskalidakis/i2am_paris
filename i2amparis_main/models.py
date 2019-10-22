@@ -35,11 +35,11 @@ class Sectors(models.Model):
     """
     category = models.TextField()
     subcategory = models.TextField(default="")
-    sector = models.TextField()
+    name = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.sector
+        return self.name
 
 
 class Emissions(models.Model):
@@ -47,13 +47,13 @@ class Emissions(models.Model):
     Tab Emission Granularity
 
     """
-    categories = models.TextField()
-    emission = models.TextField()
+    categories = models.TextField()  # TODO change the name to category
+    name = models.TextField()
     state = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.emission
+        return self.name
 
 
 class Socioecons(models.Model):
@@ -63,12 +63,12 @@ class Socioecons(models.Model):
     """
     category = models.TextField()
     subcategory = models.TextField(default="")
-    socioecon = models.TextField()
+    name = models.TextField()
     state = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.socioecon
+        return self.name
 
 
 class Policies(models.Model):
@@ -77,12 +77,12 @@ class Policies(models.Model):
 
     """
     category = models.TextField()
-    policy = models.TextField()
+    name = models.TextField()
     state = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.policy
+        return self.name
 
 
 class Regions(models.Model):
@@ -91,6 +91,7 @@ class Regions(models.Model):
 
     """
     region = models.TextField()
+    descr = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -118,11 +119,11 @@ class Mitigations(models.Model):
     """
     category = models.TextField()
     subcategory = models.TextField(default="")
-    measure = models.TextField()
+    name = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.measure
+        return self.name
 
 
 class Adaptation(models.Model):
@@ -131,11 +132,11 @@ class Adaptation(models.Model):
 
     """
     category = models.TextField()
-    measure = models.TextField()
+    name = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.measure
+        return self.name
 
 
 class Sdgs(models.Model):
@@ -143,9 +144,9 @@ class Sdgs(models.Model):
     Tab SDG Granularity
 
     """
-    sdg_name = models.TextField()
+    name = models.TextField()
     description = models.TextField()
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.sdg_name
+        return self.name
