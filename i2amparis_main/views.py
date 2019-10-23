@@ -26,4 +26,4 @@ def dynamic_doc(request, model=''):
         'buttons': list_of_models,
         'granularities': db.retrieve_granularity
     }
-    return render(request, 'i2amparis_main/dynamic_documentation.html', context)
+    return render(request, 'i2amparis_main/dynamic_documentation_final.html', context)

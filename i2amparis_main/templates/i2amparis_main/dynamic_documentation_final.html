@@ -1,0 +1,446 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <!-- BASICS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>I2AMPARIS - Dynamic Documentation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href={% static "main_theme/css/isotope.css " %} media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/js/fancybox/jquery.fancybox.css" %} type="text/css"
+          media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap-theme.css" %}>
+    <link href={% static "main_theme/css/responsive-slider.css" %} rel="stylesheet">
+    <link rel="stylesheet" href={% static "main_theme/css/animate.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/style.css" %}>
+
+    <link rel="stylesheet" href={% static "main_theme/css/font-awesome.min.css" %}>
+    <!-- skin -->
+    <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <style>
+        .model-list svg {
+            margin-right: 10px;
+            margin-left: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+
+        }
+        .model-list svg{
+            cursor: pointer;
+        }
+        .model-list svg text{
+            fill : rgba(64,64,64,0.75)
+        }
+        .model-list rect{
+            fill: rgba(144, 144, 144, 0.31);
+            stroke: rgba(64, 64, 64, 0.75);
+            stroke-width: 1;
+        }
+        .model-list svg:hover rect{
+            fill: rgba(151, 174, 33, 0.8);
+            stroke: #5e6d13e6;
+            stroke-width: 2;
+        }
+
+        .model-list svg:hover text {
+            fill: rgba(255, 255, 255, 0.91)
+        }
+
+        .model-list svg:hover {
+            -webkit-animation-name: wiggle;
+            -ms-animation-name: wiggle;
+            -ms-animation-duration: 200ms;
+            -webkit-animation-duration: 200ms;
+            -webkit-animation-iteration-count: 1;
+            -ms-animation-iteration-count: 1;
+            -webkit-animation-timing-function: ease-in-out;
+            -ms-animation-timing-function: ease-in-out;
+        }
+
+        @-webkit-keyframes wiggle {
+            0% {
+                -webkit-transform: rotate(1deg);
+            }
+            25% {
+                -webkit-transform: rotate(-1deg);
+            }
+            50% {
+                -webkit-transform: rotate(3deg);
+            }
+            75% {
+                -webkit-transform: rotate(-0.5deg);
+            }
+            100% {
+                -webkit-transform: rotate(0deg);
+            }
+        }
+
+        @-ms-keyframes wiggle {
+            0% {
+                -ms-transform: rotate(0.5deg);
+            }
+            25% {
+                -ms-transform: rotate(-0.5deg);
+            }
+            50% {
+                -ms-transform: rotate(1deg);
+            }
+            75% {
+                -ms-transform: rotate(-2.5deg);
+            }
+            100% {
+                -ms-transform: rotate(0deg);
+            }
+        }
+
+        @keyframes wiggle {
+            0% {
+                transform: rotate(1deg);
+            }
+            25% {
+                transform: rotate(-1deg);
+            }
+            50% {
+                transform: rotate(3deg);
+            }
+            75% {
+                transform: rotate(-0.5deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/maps.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/worldHigh.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <!-- =======================================================
+      Theme Name: Green
+      Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
+      Author: BootstrapMade
+      Author URL: https://bootstrapmade.com
+    ======================================================= -->
+</head>
+
+
+<body>
+
+<div class="header">
+    <section id="header" class="appear">
+
+        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
+             data-300="background-color:rgba(0,0,0,1);">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="fa fa-bars color-white"></span>
+                </button>
+                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
+                    {#                  data-0="width:100%;height:100%" data-300="width:40%;height:40%;">#}
+                    <a href="../main"><img src="../static/images/logo.png" style="width: 15%;height:15%"></a>
+                </div>
+                {#          <h1><a class="navbar-brand" href="main" data-0="line-height:90px;" data-300="line-height:50px;">I<sup>2</sup>AM PARIS#}
+                {#              PLATFORM#}
+                {#            </a></h1>#}
+            </div>
+
+
+            <!--/.navbar-collapse -->
+        </div>
+
+    </section>
+
+</div>
+
+<div class="main-page" style="margin-top: 115px">
+    {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
+    <section id="section-main-content" style="margin-top: 20px;width: 99%">
+        <div class="main-content">
+        <div class="row">
+            <h3 class="col-sm-6" style="display:inline-block;text-align: center ;margin-bottom: 5px ">Models</h3>
+            <h3 class="col-sm-6" style="display:inline-block; text-align: center ;margin-bottom: 5px ">Spatial
+                Coverage</h3>
+        </div>
+            <div class="row" style="height:44vh; margin: 10px">
+                <div class="model-list" style="display: inline-block; float:left; width: 45vw;height:100% ;overflow: auto">
+                    {% for model in buttons %}
+                        <a href="/dynamic_doc/{{ model }}">
+                        <svg width="9vw" height="10vh">
+
+                            <rect width="9vw" height="10vh" x="0" y="0" rx="5" ry="5"
+                                  style=""></rect>
+                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="16" font-weight="bold">{{ model }}</text>
+
+
+                        </svg>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div style="width: 50vw;height:100%; float:right; display: inline-block" id="chartdiv"></div>
+            </div>
+            <div class="container" style="margin: 0px;overflow: visible!important;z-index: 1; width:100%">
+                {% for granulrity,v in granularities.items %}
+                    <div style="margin: 15px">
+                        <h4 class="col-sm-1" style="display: inline-block; position:relative; top:2.5vh">{{ granulrity }}</h4>
+                        <div class="col-sm-5 tooltip-demo well" style="display: inline-block;">
+                            {% for k,vv in v.items %}
+    {#                            <button type="button" class="btn btn-default" style="margin-bottom: 0; color: {{ vv.is_enable }}" class="muted"#}
+    {#                                    {% if vv.html == "" %} data-toggle="">#}
+    {#                                    {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+    {#                                    {% else %}#}
+    {#                                        data-toggle="tooltip" title='{{ vv.html }}' >#}
+    {#                                    {% endif %}#}
+    {#                            {{ k }}#}
+    {#                            </button>#}
+                                <i class="fa fa-certificate"
+                                        style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh; background: transparent; padding: 0; color: {{ vv.is_enable }}; font-size:40px" class="muted"
+                                        {% if vv.html == "" %} data-toggle="">
+                                        {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                        {% else %}
+                                            data-toggle="tooltip" title='{{ vv.html }}' >
+                                        {% endif %}
+                                </i>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src={% static "main_theme/js/modernizr-2.6.2-respond-1.1.0.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.js" %}></script>
+<script src={% static "main_theme/js/jquery.easing.1.3.js" %}></script>
+<script src={% static "main_theme/js/bootstrap.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.isotope.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.nicescroll.min.js" %}></script>
+<script src={% static "main_theme/js/fancybox/jquery.fancybox.pack.js" %}></script>
+<script src={% static "main_theme/js/skrollr.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.scrollTo.js" %}></script>
+<script src={% static "main_theme/js/jquery.localScroll.js" %}></script>
+<script src={% static "main_theme/js/stellar.js" %}></script>
+<script src={% static "main_theme/js/responsive-slider.js" %}></script>
+<script src={% static "main_theme/js/jquery.appear.js" %}></script>
+<script src={% static "main_theme/js/grid.js" %}></script>
+<script src={% static "main_theme/js/main.js" %}></script>
+<script src={% static "main_theme/js/wow.min.js" %}></script>
+<script>
+    wow = new WOW({}).init();
+</script>
+<script src={% static "main_theme/contactform/contactform.js" %}></script>
+<script>
+    $(document).ready(function () {
+        var stopClickSide = false;
+        var stopClickHeading = false;
+        $(".sidebar h4 a").on('click', function () {
+            $(this).find('i.rotate').toggleClass("down");
+
+        });
+
+        $(".accordion button").on('click', function () {
+            $(this).find('i.rotate').toggleClass("down");
+
+
+        });
+        $('#accordion_introduction').find('button').click();
+        {#        $('li a').on('click', function () {#}
+        {#            $('#main_bar .collapse.in').collapse('hide');#}
+        {#            var x = this.href.split('#')[1];#}
+        {#            $('#collapse_' + x).collapse('show');#}
+        {#        });#}
+        $('li span').on('click', function () {
+            var x = $(this).siblings()[0].href.split('#')[1];
+            var y = $(this).siblings()[0];
+            close_all_collapses(x, y, move_to_collapse);
+            {#            $('#main_bar .collapse.in').on('hidden.bs.collapse', function () {#}
+            {#                if(y!==null){#}
+            {#                    y.click();}#}
+            {#                y= null;#}
+            {#            });#}
+            {#            $('#main_bar .collapse.in').not('#collapse_' + x).collapse('hide');#}
+            {#            $('#collapse_' + x ).collapse('show');#}
+
+
+        });
+
+
+        $('body').css('height', '100%');
+
+        function close_all_collapses(x_to_open, y_to_move_to, callback) {
+            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
+            setTimeout(function () {
+                callback(y_to_move_to, x_to_open, open_chosen_collapse);
+            }, 400);
+        }
+
+        function move_to_collapse(y_to_move_to, x_to_open, callback) {
+            y_to_move_to.click();
+            callback(x_to_open);
+            y_to_move_to = null;
+        }
+
+        function open_chosen_collapse(x_to_open) {
+            $('#accordion_' + x_to_open).find('button').click();
+
+        }
+
+
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('.tooltip-demo.well').tooltip({
+            html: true,
+            selector: 'i[data-toggle=tooltip]'
+        });
+
+
+    });
+</script>
+<script>
+    am4core.ready(function () {
+
+// Themes begin
+        am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create map instance
+        var chart = am4core.create("chartdiv", am4maps.MapChart);
+
+// Set map definition
+        chart.geodata = am4geodata_worldHigh;
+
+// Set projection
+        chart.projection = new am4maps.projections.Mercator();
+
+// Export
+        chart.exporting.menu = new am4core.ExportMenu();
+
+// Zoom control
+        chart.zoomControl = new am4maps.ZoomControl();
+
+        var homeButton = new am4core.Button();
+        homeButton.events.on("hit", function () {
+            chart.goHome();
+        });
+
+        homeButton.icon = new am4core.Sprite();
+        homeButton.padding(7, 5, 7, 5);
+        homeButton.width = 30;
+        homeButton.icon.path = "M16,8 L14,8 L14,16 L10,16 L10,10 L6,10 L6,16 L2,16 L2,8 L0,8 L8,0 L16,8 Z M16,8";
+        homeButton.marginBottom = 10;
+        homeButton.parent = chart.zoomControl;
+        homeButton.insertBefore(chart.zoomControl.plusButton);
+
+// Center on the groups by default
+        chart.homeZoomLevel = 3.5;
+        chart.homeGeoPoint = {longitude: 10, latitude: 52};
+        console.log({{ data|safe }});
+        var groupData = {{ data|safe }};
+
+
+// This array will be populated with country IDs to exclude from the world series
+        var excludedCountries = ["AQ"];
+
+// Create a series for each group, and populate the above array
+        groupData.forEach(function (group) {
+            var series = chart.series.push(new am4maps.MapPolygonSeries());
+            series.name = group.name;
+            series.useGeodata = true;
+            var includedCountries = [];
+            group.data.forEach(function (country) {
+                includedCountries.push(country.id);
+                excludedCountries.push(country.id);
+            });
+            series.include = includedCountries;
+
+            series.fill = am4core.color("#97ae21");
+
+            // By creating a hover state and setting setStateOnChildren to true, when we
+            // hover over the series itself, it will trigger the hover SpriteState of all
+            // its countries (provided those countries have a hover SpriteState, too!).
+            series.setStateOnChildren = true;
+            series.calculateVisualCenter = true;
+
+            // Country shape properties & behaviors
+            var mapPolygonTemplate = series.mapPolygons.template;
+            // Instead of our custom title, we could also use {name} which comes from geodata
+            mapPolygonTemplate.fill = am4core.color("#97ae21");
+            mapPolygonTemplate.fillOpacity = 0.8;
+            mapPolygonTemplate.nonScalingStroke = true;
+            mapPolygonTemplate.tooltipPosition = "fixed";
+
+            mapPolygonTemplate.events.on("over", function (event) {
+                series.mapPolygons.each(function (mapPolygon) {
+                    mapPolygon.isHover = true;
+                });
+                event.target.isHover = false;
+                event.target.isHover = true;
+            });
+
+            mapPolygonTemplate.events.on("out", function (event) {
+                series.mapPolygons.each(function (mapPolygon) {
+                    mapPolygon.isHover = false;
+                })
+            });
+
+            // States
+            var hoverState = mapPolygonTemplate.states.create("hover");
+            hoverState.properties.fill = am4core.color("#5e6d13");
+
+            // Tooltip
+            mapPolygonTemplate.tooltipText = "{title} joined EU at {customData}"; // enables tooltip
+            // series.tooltip.getFillFromObject = false; // prevents default colorization, which would make all tooltips red on hover
+            // series.tooltip.background.fill = am4core.color(group.color);
+
+            // MapPolygonSeries will mutate the data assigned to it,
+            // we make and provide a copy of the original data array to leave it untouched.
+            // (This method of copying works only for simple objects, e.g. it will not work
+            //  as predictably for deep copying custom Classes.)
+            series.data = JSON.parse(JSON.stringify(group.data));
+        });
+
+// The rest of the world.
+        var worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
+        var worldSeriesName = "world";
+        worldSeries.name = worldSeriesName;
+        worldSeries.useGeodata = true;
+        worldSeries.exclude = excludedCountries;
+        worldSeries.fillOpacity = 0.8;
+        worldSeries.hiddenInLegend = true;
+        worldSeries.mapPolygons.template.nonScalingStroke = true;
+
+{#// This auto-generates a legend according to each series' name and fill#}
+{#        chart.legend = new am4maps.Legend();#}
+{##}
+{#// Legend styles#}
+{#        chart.legend.paddingLeft = 27;#}
+{#        chart.legend.paddingRight = 27;#}
+{#        chart.legend.marginBottom = 15;#}
+{#        chart.legend.width = am4core.percent(90);#}
+{#        chart.legend.valign = "bottom";#}
+{#        chart.legend.contentAlign = "left";#}
+{##}
+{#// Legend items#}
+{#        chart.legend.itemContainers.template.interactionsEnabled = false;#}
+
+    }); // end am4core.ready()
+</script>
+
+
+</body>
+</html>

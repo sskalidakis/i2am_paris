@@ -221,9 +221,6 @@ body {
     height: 100%;
 }
 
-#section-main-content {
-    min-height: 3380px;
-}
 
 .sidebar .list-group-item {
     padding: 5px;
