@@ -211,7 +211,7 @@ class RetriveDB:
             temp = list(filter(lambda y: y[1]!= 'Not represented', temp))
             for j in temp:
                 emission_html.update({
-                    j[0]: j[1]
+                    j[0]: {'html': j[1]}
                 })
         #     temp = list(
         #         map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(self.bool_dict[x[1]], x[0]), temp))
