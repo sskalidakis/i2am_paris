@@ -143,7 +143,7 @@ class RetriveDB:
             for j in sectors_cat_dict[i]:
                 [[k, v]] = j.items()
                 temp_lst.append(' <li> <font color = "{}" >{} </font> </li> '.format(color_dict[v], k))
-            sectors_dict_html[i] = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)))
+            sectors_dict_html[i] = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)), cat=i)
         # Category Transportation has sub categories so we should create a nested list
         transportations = []
         for i in sectors_cat_dict2:
@@ -155,7 +155,7 @@ class RetriveDB:
             transportations.append(temp)
         transportations = '<ul> {} </ul>'.format(''.join(transportations))
         sectors_dict_html.update({
-            'Transportation': self.is_enable_category(transportations)
+            'Transportation': self.is_enable_category(transportations, cat='Transportation')
         })
         # TODO generate the tooltip. Take the keys from the sectors_dict_html and generate the categories
         # TODO return sectors_dict_html
@@ -193,7 +193,7 @@ class RetriveDB:
                             , socioecons_dict[i]))
             temp = '<ul> {} </ul>'.format(''.join(temp))
             socioecons_html.update({
-                i: self.is_enable_category(temp)
+                i: self.is_enable_category(temp, cat=i)
             })
         return socioecons_html
 
@@ -240,7 +240,7 @@ class RetriveDB:
                 map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(bool_dict[x[1]], x[0]), temp))
             temp = '<ul> {} </ul>'.format(''.join(temp))
             policies_html.update({
-                i: self.is_enable_category(temp)
+                i: self.is_enable_category(temp, cat=i)
             })
         return policies_html
 
@@ -268,7 +268,7 @@ class RetriveDB:
                     'name', flat=True).distinct())
                 mitigation_adaption_dict.update({
                     j: self.is_enable_category(self.create_html_lists(
-                        list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))))
+                        list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
                 })
         for i in categories_mitgation[3:-1]:
             sub_categories = list(
@@ -284,14 +284,15 @@ class RetriveDB:
                     j: list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))
                 })
             mitigation_adaption_dict.update({
-                i: self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True))
+                i: self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=i)
             })
         temp_all = list(Mitigations.objects.filter(category='LULUCF').values_list('name', flat=True).distinct())
         temp_true = list(Mitigations.objects.filter(category='LULUCF', model_name=self.model_id)
                          .values_list('name', flat=True).distinct())
         mitigation_adaption_dict.update({
             'LULUCF': self.is_enable_category(
-                self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))))
+                self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))),
+                cat='LULUCF')
         })
         adaptation_sub = list(Adaptation.objects.values_list('category', flat=True).distinct())
         temp_dict = {}
@@ -303,13 +304,13 @@ class RetriveDB:
                 i: list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))
             })
         mitigation_adaption_dict.update({
-            'Adaptation': self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True))
+            'Adaptation': self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat='Adaptation')
         })
         temp = list(map(lambda x: {x: True} if Mitigations.objects.filter(subcategory=x,
                                                                           model_name=self.model_id).count() > 0
         else {x: False}, behavior_lst))
         mitigation_adaption_dict.update({
-            'Behavioural changes': self.is_enable_category(self.create_html_lists(temp))
+            'Behavioural changes': self.is_enable_category(self.create_html_lists(temp), cat='Behavioural changes')
         })
         return mitigation_adaption_dict
 
@@ -331,13 +332,13 @@ class RetriveDB:
                 temp = '12'
             temp_html = '<h3> {} </h3> <ul> <li> {} </li> </ul>'.format(name, descr)
             sdgs_html.update({
-                temp: temp_html
+                temp: {'html':temp_html}
             })
         return sdgs_html
 
 
 
-    def is_enable_category(self, html_code):
+    def is_enable_category(self, html_code, cat):
         """
 
         :param html_code:
@@ -348,7 +349,7 @@ class RetriveDB:
             False: 'grey'
         }
         return {
-            'html': html_code,
+            'html': '<h3> {} </h3> {}'.format(cat, html_code),
             'is_enable': bool_dict['green' in html_code]
         }
 
