@@ -6,7 +6,7 @@ import random
 
 class RetriveDB:
     def __init__(self, model_name):
-        self.model_json = {}  # Create in method create_model_json
+        # self.model_json = {}  # Create in method create_model_json
         self.model_name = model_name
         self.bool_dict = {
             'Endogenous': 'green',
@@ -469,7 +469,7 @@ class RetriveDB:
         """
         data = list(ModelsInfo.objects.all().values_list('model_name', 'model_descr'))
         data = list(map(lambda x: {x[0], {'descr': x[1], 'heading': ''}}, data))
-        self.model_json = dict(j for i in data for j in i.items())
+        return dict(j for i in data for j in i.items())
 
 
 
