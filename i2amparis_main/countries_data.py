@@ -6,6 +6,7 @@ import random
 
 class RetriveDB:
     def __init__(self, model_name):
+        self.model_json = {}  # Create in method create_model_json
         self.model_name = model_name
         self.bool_dict = {
             'Endogenous': 'green',
@@ -45,10 +46,18 @@ class RetriveDB:
         for k, region in enumerate(regions):
             region_id = region.id
             region_name = region.region
+            countries = Countries.objects.filter(model_name=self.model_id, region=region_id)
+            # If the region name is the " " descr is the name of the country else we retrieve the description of
+            # the specific region and set the field descr which will use in front- end to appear the tooltip when we
+            # hover over the country-region
             if region_name == " ":
                 region_name = "The region of " + self.model_name
-            countries = Countries.objects.filter(model_name=self.model_id, region=region_id)
-            countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code}, countries))
+                countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code,
+                                                     "descr": x.country_name}, countries))
+            else:
+                descr = Regions.objects.get(region=region_name).descr
+                countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code,
+                                                     "descr": descr}, countries))
             temp = {
                 "name": region_name,
                 "color": color_list[k],
@@ -190,7 +199,7 @@ class RetriveDB:
     def retrieve_emission(self):
         """
 
-        :return:
+        :return: A dict with keys the name of emissions, such as CO2 and value the is Endogenous or Exogenous
         """
         categories = list(Emissions.objects.values_list('categories', flat=True).distinct())
         emission_html = {}
@@ -198,12 +207,17 @@ class RetriveDB:
             temp = \
                 list(Emissions.objects.filter(categories=i, model_name=
                 self.model_id).values_list('name', 'state').distinct())
-            temp = list(
-                map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(self.bool_dict[x[1]], x[0]), temp))
-            temp = '<ul> {} </ul>'.format(''.join(temp))
-            emission_html.update({
-                i: self.is_enable_category(temp)
-            })
+            temp = list(filter(lambda y: y[1]!= 'Not represented', temp))
+            for j in temp:
+                emission_html.update({
+                    j[0]: j[1]
+                })
+        #     temp = list(
+        #         map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(self.bool_dict[x[1]], x[0]), temp))
+        #     temp = '<ul> {} </ul>'.format(''.join(temp))
+        #     emission_html.update({
+        #         i: self.is_enable_category(temp)
+        #     })
         return emission_html
 
     def retrieve_policy(self):
@@ -417,6 +431,21 @@ class RetriveDB:
             r = lambda: random.randint(0, 255)
             color_list.append('#%02X%02X%02X' % (r(), r(), r()))
         return color_list
+
+    def create_model_json(self):
+        """
+        Create the self.model_json,
+        The model_json is a dict with keys the names of models and value  a dict with two keys
+        descr, which include the description of model  and
+        heading, which for now is remain empty
+
+        :return:
+        """
+        data = list(ModelsInfo.objects.all().values_list('model_name', 'model_descr'))
+        data = list(map(lambda x: {x[0], {'descr': x[1], 'heading': ''}}, data))
+        self.model_json = dict(j for i in data for j in i.items())
+
+
 
 
 
