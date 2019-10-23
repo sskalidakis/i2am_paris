@@ -9,8 +9,8 @@ class RetriveDB:
         # self.model_json = {}  # Create in method create_model_json
         self.model_name = model_name
         self.bool_dict = {
-            'Endogenous': 'green',
-            'Exogenous': 'green',
+            'Endogenous': '#97ae21',
+            'Exogenous': '#97ae21',
             'Not represented': 'grey'
         }
         models_lst = list(ModelsInfo.objects.values_list('model_name', flat=True))
@@ -132,7 +132,7 @@ class RetriveDB:
                     j: temp_lst
                 })
         color_dict = {
-            True: 'green',
+            True: '#97ae21',
             False: 'gray'
         }
         sectors_dict_html = {}
@@ -169,8 +169,8 @@ class RetriveDB:
         :return:
         """
         # bool_dict = {
-        #     'Endogenous': 'green',
-        #     'Exogenous': 'green',
+        #     'Endogenous': '#97ae21',
+        #     'Exogenous': '#97ae21',
         #     'Not represented': 'grey'
         # }
         category = ['Demography']
@@ -227,8 +227,8 @@ class RetriveDB:
         :return:
         """
         bool_dict = {
-            'Feasible': 'green',
-            'Feasible with modifications': 'green',
+            'Feasible': '#97ae21',
+            'Feasible with modifications': '#97ae21',
             'Not feasible': 'grey'
         }
         categories = list(Policies.objects.values_list('category', flat=True).distinct())
@@ -350,7 +350,7 @@ class RetriveDB:
         }
         return {
             'html': '<h4> {} </h4> {}'.format(cat, html_code),
-            'is_enable': bool_dict['green' in html_code]
+            'is_enable': bool_dict['#97ae21' in html_code]
         }
 
     def create_html_lists(self, data, is_nested=False):
@@ -389,7 +389,7 @@ class RetriveDB:
         :return:
         """
         bool_dict = {
-            True: 'green',
+            True: '#97ae21',
             False: 'grey'
         }
         temp = list(map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(
@@ -438,7 +438,7 @@ class RetriveDB:
     #                 # granularities_bool.update({
     #                 #     i: True
     #                 # })
-    #                 granularities_html.append('<font color = "{}" >{} </font> '.format("green", i))
+    #                 granularities_html.append('<font color = "{}" >{} </font> '.format("#97ae21", i))
     #     return " ".join(granularities_html)
 
     def create_models_btn(self):
