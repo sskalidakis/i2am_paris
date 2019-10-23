@@ -19,12 +19,11 @@ def dynamic_doc(request, model=''):
     print(db.retrieve_policy())
 
     list_of_models = db.create_models_btn()
+    # import pdb
+    # pdb.set_trace()
     context = {
         'data': data,
-        'sectors': format_html(db.retrive_granularity("sectoral")),
-        'emission': format_html(db.retrive_granularity("emission")),
-        'socioecon': format_html(db.retrive_granularity("socioecon")),
         'buttons': list_of_models,
-        'test': db.retrieve_mitigation_adaption()
+        'granularities': db.retrieve_granularity
     }
     return render(request, 'i2amparis_main/dynamic_documentation.html', context)
