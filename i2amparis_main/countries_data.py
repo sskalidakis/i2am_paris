@@ -23,7 +23,8 @@ class RetriveDB:
             'Emissions': self.retrieve_emission(),
             'Socioecons': self.retrieve_socioecon(),
             'Policy': self.retrieve_policy(),
-            'Mitigation-Adaption measures': self.retrieve_mitigation_adaption()
+            'Mitigation-Adaption measures': self.retrieve_mitigation_adaption(),
+            'SDGs': self.retrieve_sdgs()
         }
 
     def create_json(self):
@@ -311,6 +312,30 @@ class RetriveDB:
             'Behavioural changes': self.is_enable_category(self.create_html_lists(temp))
         })
         return mitigation_adaption_dict
+
+    def retrieve_sdgs(self):
+        """
+        Retrieve the sdgs for the given model
+
+        :return: Dict with keys 7,9,12(are strings) and value html code with head the full name of sdg and a list of
+        description
+        """
+        data = list(Sdgs.objects.filter(model_name=self.model_id).values_list('description', 'name'))
+        sdgs_html = {}
+        for descr,name in data:
+            if '7' in name:
+                temp = '7'
+            elif '9' in name:
+                temp = '9'
+            elif '12' in name:
+                temp = '12'
+            temp_html = '<h3> {} </h3> <ul> <li> {} </li> </ul>'.format(name, descr)
+            sdgs_html.update({
+                temp: temp_html
+            })
+        return sdgs_html
+
+
 
     def is_enable_category(self, html_code):
         """
