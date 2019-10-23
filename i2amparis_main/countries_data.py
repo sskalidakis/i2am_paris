@@ -349,7 +349,7 @@ class RetriveDB:
             False: 'grey'
         }
         return {
-            'html': '<h3> {} </h3> {}'.format(cat, html_code),
+            'html': '<h4> {} </h4> {}'.format(cat, html_code),
             'is_enable': bool_dict['green' in html_code]
         }
 
