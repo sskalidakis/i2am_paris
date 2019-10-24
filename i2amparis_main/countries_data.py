@@ -20,11 +20,11 @@ class RetriveDB:
             self.model_id = ModelsInfo.objects.all()[0].id
         self.retrieve_granularity = {
             'Sectors': self.retrieve_sectors(),
-            'Emissions': self.retrieve_emission(),
-            'Socioecons': self.retrieve_socioecon(),
             'Policy': self.retrieve_policy(),
-            'Mitigation-Adaption measures': self.retrieve_mitigation_adaption(),
-            'SDGs': self.retrieve_sdgs()
+            'SDGs': self.retrieve_sdgs(),
+            'SocioEconomics': self.retrieve_socioecon(),
+            'Emissions': self.retrieve_emission(),
+            'MitigationAdaptionMeasures': self.retrieve_mitigation_adaption(),
         }
 
     def create_json(self):
@@ -208,12 +208,20 @@ class RetriveDB:
             temp = \
                 list(Emissions.objects.filter(categories=i, model_name=
                 self.model_id).values_list('name', 'state').distinct())
-            temp = list(filter(lambda y: y[1]!= 'Not represented', temp))
+            temp = list(filter(lambda y: y[1] != 'Not represented', temp))
             for j in temp:
                 emission_html.update({
-                    j[0]: {'html': j[1]}
+                    j[0]: {'html': j[1], 'is_enable': 'green'}
                 })
-        #     temp = list(
+        emission_true = list(emission_html.keys())
+        emission_all = list(Emissions.objects.all().values_list('name', flat=True).distinct())
+        for i in emission_all:
+            if i not in emission_true:
+                emission_html.update({
+                    i: {'html': ' ', 'is_enable': 'grey'}
+                })
+
+        # temp = list(
         #         map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(self.bool_dict[x[1]], x[0]), temp))
         #     temp = '<ul> {} </ul>'.format(''.join(temp))
         #     emission_html.update({
@@ -321,22 +329,35 @@ class RetriveDB:
         :return: Dict with keys 7,9,12(are strings) and value html code with head the full name of sdg and a list of
         description
         """
+        # Get all names of sdgs
+        data_all = list(Sdgs.objects.all().values_list('name', flat=True).distinct())
         data = list(Sdgs.objects.filter(model_name=self.model_id).values_list('description', 'name'))
+        # Get a list of name of sdgs which is enable for a specific model
+        data_name_true = list(map(lambda x: x[1], data))
         sdgs_html = {}
-        for descr,name in data:
-            if '7' in name:
-                temp = '7'
-            elif '9' in name:
-                temp = '9'
-            elif '12' in name:
-                temp = '12'
-            temp_html = '<h3> {} </h3> <ul> <li> {} </li> </ul>'.format(name, descr)
+        for descr, name in data:
+            # if '7' in name:
+            #     temp = '7'
+            # elif '9' in name:
+            #     temp = '9'
+            # elif '12' in name:
+            #     temp = '12'
+            # All the name have one digit, names are numbers for 1 to 16
+            title = name
+            name = [t for t in name if t.isdigit()][0]
+            temp_html = '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> <p>{}</p> </h4>  {} '.format(title, descr)
             sdgs_html.update({
-                temp: {'html':temp_html}
+                name: {'html': temp_html, 'is_enable': 'green', 'title':title}
             })
+        for i in data_all:
+            if i not in data_name_true:
+                # All the name have one digit, names are numbers for 1 to 16
+                name = [t for t in i if t.isdigit()][0]
+                sdgs_html.update({
+                    name: {'html': ' ', 'is_enable': 'grey'}
+                })
+
         return sdgs_html
-
-
 
     def is_enable_category(self, html_code, cat):
         """
@@ -349,7 +370,7 @@ class RetriveDB:
             False: 'grey'
         }
         return {
-            'html': '<h4> {} </h4> {}'.format(cat, html_code),
+            'html': '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> {} </h4> {}'.format(cat, html_code),
             'is_enable': bool_dict['#97ae21' in html_code]
         }
 
@@ -448,7 +469,14 @@ class RetriveDB:
         :return:
         """
         models_names = list(map(lambda x: x.model_name, ModelsInfo.objects.all()))
-        return models_names
+        models_descriptions = list(map(lambda x: x.model_descr, ModelsInfo.objects.all()))
+        # models_headings = list(map(lambda x: x.model_descr, ModelsInfo.objects.all()))
+        model_dict = {}
+        for i in range(0, len(models_names)):
+            model_dict[models_names[i]]= models_descriptions[i]
+        print (model_dict)
+
+        return model_dict
         # return " ".join(list(map(lambda x: '<a href="{}" >Model {}</a>'.format(x, x),  models_names)))
 
     def generate_colors(self, n):

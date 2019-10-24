@@ -5347,6 +5347,21 @@ a.list-group-item-danger.active:focus {
   padding: 9px;
   border-radius: 3px;
 }
+
+.large blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, .15);
+}
+
+.large-lg {
+  padding: 24px;
+  border-radius: 6px;
+}
+
+.large-sm {
+  padding: 9px;
+  border-radius: 3px;
+}
 .close {
   float: right;
   font-size: 21px;
@@ -5525,7 +5540,7 @@ button.close {
   margin-left: -3px;
 }
 .tooltip-inner {
-  max-width: 200px;
+  max-width: 500px;
   padding: 3px 8px;
   color: #fff;
   text-align: left;
