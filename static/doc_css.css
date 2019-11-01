@@ -1,6 +1,4 @@
-html {
-    scroll-behavior: smooth;
-}
+
 
 h1 {
     font-size: 38px;
@@ -241,4 +239,15 @@ body {
     -moz-transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+}
+
+.content_btn{
+    position: absolute;
+    top: 10.3rem;
+    left: 1rem;}
+
+.card-header button{
+    font-size: 1em;
+    white-space: normal;
+    text-align: left;
 }

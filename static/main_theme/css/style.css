@@ -58,24 +58,24 @@ h6 {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 1.8em;
   line-height: 30px;
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 1.6em;
 }
 
 h3 {
-  font-size: 24px;
+  font-size: 1.4em;
 }
 
 h4 {
-  font-size: 18px;
+  font-size: 1.2em;
 }
 
 h5 {
-  font-size: 16px;
+  font-size: 1em;
 }
 
 .txt-light {
@@ -484,11 +484,20 @@ i.service-icon:hover {
   margin: 1em 0 0.75em;
 }
 
+.service-col h1 {
+  font-weight: 600;
+  margin: 1em 0 0.75em;
+}
+
 .service-col h2 a {
   color: #828f30;
 }
 
+.service-col h1 a {
+  color: #828f30;
 }
+
+
 
 .service-col p {
   font-size: 0.875em;
@@ -855,7 +864,7 @@ button[type="submit"].light:hover {
 
 .navbar {
   line-height: 100px;
-  height: 100px;
+  height: 10rem;
   background-color: rgba(5, 42, 2, 0.4);
   display: block;
   vertical-align: middle;
@@ -1002,6 +1011,9 @@ section.featured h2.slogan {
 }
 
 @media (max-width: 768px) {
+  .sidebar{
+    margin-top: 60px!important;
+  }
   .slider {
     margin-top: 60px;
   }
@@ -1274,7 +1286,7 @@ section.featured.inner {
 
 #section-services {
   background-color: #fff;
-  height: 750px;
+  height: auto;
 }
 
 #section-team {
@@ -1653,7 +1665,7 @@ About
 }
 
 .box-bg h6,
-h4 {
+h4,h2 {
   font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 700;
   line-height: 1.1em;

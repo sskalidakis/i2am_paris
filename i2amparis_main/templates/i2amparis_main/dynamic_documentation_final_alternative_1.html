@@ -122,12 +122,12 @@
         }
 
         .model-list svg{
-            width: 8.6rem;
-            height: 4rem;
+            width: 12rem;
+            height: 6rem;
         }
         .model-list svg rect{
-            width: 8.6rem;
-            height: 4rem;
+            width: 12rem;
+            height: 6rem;
         }
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
@@ -181,14 +181,13 @@
 {#            <h3 class="col-sm-6 col-md-6" style="display:inline-block; text-align: center ;margin-bottom: 5px ">Spatial#}
 {#                Coverage</h3>#}
 {#        </div>#}
-            <div class="container" style="overflow: visible!important;z-index: 1; width: 100%; margin-left: 0;margin-right: 0;margin-bottom: 2em" >
-                <div class="row">
-                    <div class="col-sm-12 col-md-6" style="margin-bottom: 1em">
+            <div class="container" style="overflow: visible!important;z-index: 1; width: 100%; margin-left: 0;margin-right: 0;margin-bottom: 3em" >
+                <div class="row" style="margin-bottom: 3em">
                         <h3 style="text-align: center ;margin-bottom: 1em; width:100%">
                             Models</h3>
-                        <div class="model-list tooltip-demo large" style="overflow: auto; height:19em; text-align: center">
+                        <div class="model-list tooltip-demo large" style="overflow: auto; text-align: center">
                             {% for model,desc in buttons.items %}
-                                <a class="col" href="/dynamic_doc/{{ model }}" style="overflow: visible; padding: 0">
+                                <a class="col" href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics" style="overflow: visible;display: inline-block;margin: 0.9em ">
                                 <svg  data-toggle="tooltip" data-placement="auto" title='<p>{{ desc }}</p>'>
 
                                     <rect x="0" y="0" rx="10" ry="10"
@@ -205,15 +204,15 @@
                                         >{{ model }}</text>
 
                                 </svg>
-{#                                    <div style="font-size: 0.6em; text-align: center">{{ model }}</div>#}
+                                    <div style="font-size: 0.8em; text-align: center;">{{ model }}</div>
                                 </a>
                             {% endfor %}
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                            <h3 style="text-align: center ;margin-bottom: 1em ">Spatial Coverage</h3>
-                        <div style="height:19em" id="chartdiv"></div>
-                    </div>
+                </div>
+                <div id="model-characteristics" class="row" style="margin: 0.5em">
+                    <h3 style="text-align: center">Spatial Coverage of {{ selected_model }}</h3>
+                    <div style="height:19em" id="chartdiv"></div>
+
                 </div>
             </div>
 
@@ -367,6 +366,7 @@
         </div>
     </section>
 </div>
+<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
 
 <script src={% static "main_theme/js/modernizr-2.6.2-respond-1.1.0.min.js" %}></script>
 <script src={% static "main_theme/js/jquery.js" %}></script>

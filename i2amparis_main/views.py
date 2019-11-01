@@ -12,6 +12,8 @@ def overview_comparative_assessment_doc(request):
     return render(request, 'i2amparis_main/overview_comparative_assessment_doc.html')
 
 def dynamic_doc(request, model=''):
+
+    template_format = request.GET.get('format')
     db = countries_data.RetriveDB(model)
     data = db.create_json()
     list_of_models = db.create_models_btn()
@@ -21,6 +23,11 @@ def dynamic_doc(request, model=''):
         'data': data,
         'buttons': list_of_models,
         'granularities': db.retrieve_granularity,
-        'selected_model': ModelsInfo.objects.get(id=db.model_id).model_name
+        'selected_model': ModelsInfo.objects.get(id=db.model_id).model_name,
+        'template_format': template_format
     }
-    return render(request, 'i2amparis_main/dynamic_documentation_final.html', context)
+    if template_format is not None:
+        template = 'i2amparis_main/dynamic_documentation_final' + template_format + '.html'
+    else:
+        template = 'i2amparis_main/dynamic_documentation_final.html'
+    return render(request, template, context)
