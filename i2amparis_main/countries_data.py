@@ -9,8 +9,8 @@ class RetriveDB:
         # self.model_json = {}  # Create in method create_model_json
         self.model_name = model_name
         self.bool_dict = {
-            'Endogenous': '#97ae21',
-            'Exogenous': '#97ae21',
+            'Endogenous': 'green',
+            'Exogenous': 'green',
             'Not represented': 'grey'
         }
         models_lst = list(ModelsInfo.objects.values_list('model_name', flat=True))
@@ -39,39 +39,67 @@ class RetriveDB:
       :param model_name:
       :return:
       """
-        # model_id = ModelsInfo.objects.filter(model_name=self.model_name)[0].id
-        # TODO first we must check if there is a region for current model
-        regions = Regions.objects.filter(model_name=self.model_id)
         data = []
+        # First we take the list of region for the given model id
+        regions = list(Regions.objects.filter(model_name=self.model_id).values_list('region_name', flat=True))
         color_list = self.generate_colors(len(regions))
-        for k, region in enumerate(regions):
-            region_id = region.id
-            region_name = region.region
-            countries = Countries.objects.filter(model_name=self.model_id, region=region_id)
-            # If the region name is the " " descr is the name of the country else we retrieve the description of
-            # the specific region and set the field descr which will use in front- end to appear the tooltip when we
-            # hover over the country-region
-            if region_name == " ":
-                region_name = "The region of " + self.model_name
-                countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code,
-                                                     "descr": x.country_name}, countries))
-            else:
-                descr = Regions.objects.get(region=region_name).descr
-                countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code,
-                                                     "descr": descr}, countries))
-            temp = {
-                "name": region_name,
+        # Then loop in regions and get the countries, name and code of each one
+        print (regions)
+        for k,region in enumerate(regions):
+            temp = Regions.objects.get(region_name=region)
+            # Get the id of the region
+            region_id = temp.id
+            # Get the description of region
+            region_descr = temp.descr
+            countries_of_region = list(Countries.objects.filter(region_name=region_id).values_list(
+                'country_name', 'country_code'))
+            # Make a list which each element is a dict with keys tittle:<name of country>,id:<country code>,
+            # descr:<descr of region>
+            countries_list = list(map(lambda x: {'title': x[0], 'id': x[-1], 'descr': region_descr},
+                                      countries_of_region))
+            temp_dict = {
+                "name": temp.region_title,
                 "color": color_list[k],
                 "data": countries_list
             }
-            data.append(temp)
+            data.append(temp_dict)
         return data
+        #
+        #
+        # # model_id = ModelsInfo.objects.filter(model_name=self.model_name)[0].id
+        # # TODO first we must check if there is a region for current model
+        # regions = Regions.objects.filter(model_name=self.model_id)
+        # data = []
+        # color_list = self.generate_colors(len(regions))
+        # for k, region in enumerate(regions):
+        #     region_id = region.id
+        #     region_name = region.region
+        #     countries = Countries.objects.filter(model_name=self.model_id, region=region_id)
+        #     # If the region name is the " " descr is the name of the country else we retrieve the description of
+        #     # the specific region and set the field descr which will use in front- end to appear the tooltip when we
+        #     # hover over the country-region
+        #     if region_name == " ":
+        #         region_name = "The region of " + self.model_name
+        #         countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code,
+        #                                              "descr": x.country_name}, countries))
+        #     else:
+        #         descr = Regions.objects.get(region=region_name).descr
+        #         countries_list = list(map(lambda x: {"title": x.country_name, "id": x.country_code,
+        #                                              "descr": descr}, countries))
+        #     temp = {
+        #         "name": region_name,
+        #         "color": color_list[k],
+        #         "data": countries_list
+        #     }
+        #     data.append(temp)
+        # return data
 
     def retrieve_sectors(self):
         """
           d=Sectors.objects.values_list('name',flat=True).distinct()
         :return:
         """
+        green_color = '#97ae21'
         subcategories = {
             "Energy sources": "Commodities / Sources",
             "Energy transformation": "Transformation sectors",
@@ -80,7 +108,7 @@ class RetriveDB:
         categories = {
             "Industry": "Industry (energy demand/economic output)",
             "Buildings": "Buildings",
-            "Agriculture, Forestry, Land Use (AFOLU)": "AFOLU"
+            "Agriculture, Forestry, Land Use(AFOLU)": "AFOLU"
         }
         categories2 = {
             "Transportation": "Transportation"
@@ -117,9 +145,9 @@ class RetriveDB:
         sectors_cat_dict2 = {}
         for i in categories2:
             temp = categories2[i]
-            subcategories = list(Sectors.objects.
+            subcategories2 = list(Sectors.objects.
                                  filter(category=temp).values_list('subcategory', flat=True).distinct())
-            for j in subcategories:
+            for j in subcategories2:
                 temp_lst = list(Sectors.objects.filter(subcategory=j).values_list('name', flat=True).distinct())
                 if self.model_name == '':
                     temp_lst = list(map(lambda x: {x: False}, temp_lst))
@@ -132,8 +160,8 @@ class RetriveDB:
                     j: temp_lst
                 })
         color_dict = {
-            True: '#97ae21',
-            False: 'gray'
+            True: green_color,
+            False: 'grey'
         }
         sectors_dict_html = {}
         # Because the sector_cat_dict and sector_sub_dict haven't sub categories we treat them the same
@@ -143,7 +171,20 @@ class RetriveDB:
             for j in sectors_cat_dict[i]:
                 [[k, v]] = j.items()
                 temp_lst.append(' <li> <font color = "{}" >{} </font> </li> '.format(color_dict[v], k))
-            sectors_dict_html[i] = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)), cat=i)
+            # sectors_dict_html[i] = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)), cat=i)
+            temp_dict = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)), cat=i)
+            temp_html = temp_dict['html']
+            temp_is_enable = temp_dict['is_enable']
+
+            if i in categories:
+                icon = Sectors.objects.filter(category=categories[i])[0].icon
+            else:
+                icon = Sectors.objects.filter(subcategory=subcategories[i])[0].icon
+            sectors_dict_html[i] = {
+                'html': temp_html,
+                'is_enable': temp_is_enable,
+                'icon': icon
+            }
         # Category Transportation has sub categories so we should create a nested list
         transportations = []
         for i in sectors_cat_dict2:
@@ -154,8 +195,17 @@ class RetriveDB:
             temp = '<li> {} <ul> {} </ul></li>'.format(i, ''.join(temp))
             transportations.append(temp)
         transportations = '<ul> {} </ul>'.format(''.join(transportations))
+        # sectors_dict_html.update({
+        #     'Transportation': self.is_enable_category(transportations, cat='Transportation')
+        # })
+        temp_dict = self.is_enable_category(transportations, cat='Transportation')
+        temp_html = temp_dict['html']
+        temp_is_enable = temp_dict['is_enable']
+        icon = Sectors.objects.filter(category='Transportation')[0].icon
         sectors_dict_html.update({
-            'Transportation': self.is_enable_category(transportations, cat='Transportation')
+            'html': temp_html,
+            'is_enable': temp_is_enable,
+            'icon': icon
         })
         # TODO generate the tooltip. Take the keys from the sectors_dict_html and generate the categories
         # TODO return sectors_dict_html
@@ -168,11 +218,13 @@ class RetriveDB:
 
         :return:
         """
-        # bool_dict = {
-        #     'Endogenous': '#97ae21',
-        #     'Exogenous': '#97ae21',
-        #     'Not represented': 'grey'
-        # }
+        green_color = '#97ae21'
+        bool_dict = {
+            'Endogenous': green_color,
+            'Exogenous': green_color,
+            'Not represented': 'grey'
+        }
+
         category = ['Demography']
         category2 = list(Socioecons.objects.values_list('subcategory', flat=True).distinct())
         category2 = list(filter(lambda x: x != ' ', category2))
@@ -189,44 +241,62 @@ class RetriveDB:
         socioecons_dict.update(category2_dict)
         socioecons_html = {}
         for i in socioecons_dict:
-            temp = list(map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(self.bool_dict[x[0]], x[1])
+            temp = list(map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(bool_dict[x[0]], x[1])
                             , socioecons_dict[i]))
             temp = '<ul> {} </ul>'.format(''.join(temp))
-            socioecons_html.update({
-                i: self.is_enable_category(temp, cat=i)
-            })
+            # socioecons_html.update({
+            #     i: self.is_enable_category(temp, cat=i)
+            # })
+            bool_dict2 = {
+                True: 'green',
+                False: 'grey'
+            }
+            socioecons_html.update(({
+                    i: {
+                        'html': '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> {} </h4> {}'.format(i,
+                                                                                                                  temp),
+                        'is_enable': bool_dict2[green_color in temp],
+                        'icon': Socioecons.objects.filter(subcategory=i)[0].icon}
+            }))
         return socioecons_html
 
     def retrieve_emission(self):
+        categories = list(Emissions.objects.values_list('categories', flat=True).distinct())
+        emission_html = {}
+        for category in categories:
+            category_emissions = (Emissions.objects.filter(categories=category, model_name=
+            self.model_id).distinct())
+            for emission in category_emissions:
+                if emission.state != 'Not represented':
+                    is_enabled = 'green'
+                else:
+                    is_enabled = 'grey'
+                emission_html[emission.name] = {'html':'<p>'+ emission.state + '</p>','is_enable': is_enabled, 'icon':emission.icon}
+
+
         """
 
         :return: A dict with keys the name of emissions, such as CO2 and value the is Endogenous or Exogenous
         """
-        categories = list(Emissions.objects.values_list('categories', flat=True).distinct())
-        emission_html = {}
-        for i in categories:
-            temp = \
-                list(Emissions.objects.filter(categories=i, model_name=
-                self.model_id).values_list('name', 'state').distinct())
-            temp = list(filter(lambda y: y[1] != 'Not represented', temp))
-            for j in temp:
-                emission_html.update({
-                    j[0]: {'html': j[1], 'is_enable': 'green'}
-                })
-        emission_true = list(emission_html.keys())
-        emission_all = list(Emissions.objects.all().values_list('name', flat=True).distinct())
-        for i in emission_all:
-            if i not in emission_true:
-                emission_html.update({
-                    i: {'html': ' ', 'is_enable': 'grey'}
-                })
+        # categories = list(Emissions.objects.values_list('categories', flat=True).distinct())
+        # emission_html = {}
+        # for i in categories:
+        #     temp = \
+        #         list(Emissions.objects.filter(categories=i, model_name=
+        #         self.model_id).values_list('name', 'state').distinct())
+        #     temp = list(filter(lambda y: y[1] != 'Not represented', temp))
+        #     for j in temp:
+        #         emission_html.update({
+        #             j[0]: {'html': j[1], 'is_enable': 'green'}
+        #         })
+        # emission_true = list(emission_html.keys())
+        # emission_all = list(Emissions.objects.all().values_list('name', flat=True).distinct())
+        # for i in emission_all:
+        #     if i not in emission_true:
+        #         emission_html.update({
+        #             i: {'html': ' ', 'is_enable': 'grey'}
+        #         })
 
-        # temp = list(
-        #         map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(self.bool_dict[x[1]], x[0]), temp))
-        #     temp = '<ul> {} </ul>'.format(''.join(temp))
-        #     emission_html.update({
-        #         i: self.is_enable_category(temp)
-        #     })
         return emission_html
 
     def retrieve_policy(self):
@@ -234,9 +304,10 @@ class RetriveDB:
 
         :return:
         """
+        green_color =  '#97ae21'
         bool_dict = {
-            'Feasible': '#97ae21',
-            'Feasible with modifications': '#97ae21',
+            'Feasible': green_color,
+            'Feasible with modifications': green_color,
             'Not feasible': 'grey'
         }
         categories = list(Policies.objects.values_list('category', flat=True).distinct())
@@ -247,8 +318,18 @@ class RetriveDB:
             temp = list(
                 map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(bool_dict[x[1]], x[0]), temp))
             temp = '<ul> {} </ul>'.format(''.join(temp))
+
+            bool_dict2 = {
+                True: 'green',
+                False: 'grey'
+            }
+
             policies_html.update({
-                i: self.is_enable_category(temp, cat=i)
+                i: {
+                    'html': '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> {} </h4> {}'.format(i,
+                                                                                                              temp),
+                    'is_enable': bool_dict2[green_color in temp],
+                    'icon': Policies.objects.filter(category=i)[0].icon}
             })
         return policies_html
 
@@ -274,10 +355,22 @@ class RetriveDB:
                 temp_true = list(Mitigations.objects.filter(subcategory=j,
                                                             category=i, model_name=self.model_id).values_list(
                     'name', flat=True).distinct())
+                temp_dict = self.is_enable_category(self.create_html_lists(
+                    list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+                temp_is_enable = temp_dict['is_enable']
+                temp_html = temp_dict['html']
+                icon = Mitigations.objects.filter(subcategory=j)[0].icon
                 mitigation_adaption_dict.update({
-                    j: self.is_enable_category(self.create_html_lists(
-                        list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+                    j: {
+                        'html': temp_html,
+                        'is_enable': temp_is_enable,
+                        'icon': icon
+                    }
                 })
+                # mitigation_adaption_dict.update({
+                #     j: self.is_enable_category(self.create_html_lists(
+                #         list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+                # })
         for i in categories_mitgation[3:-1]:
             sub_categories = list(
                 Mitigations.objects.filter(category=i).values_list('subcategory', flat=True).distinct())
@@ -291,16 +384,41 @@ class RetriveDB:
                 temp_dict.update({
                     j: list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))
                 })
+
+            temp_dict = self.is_enable_category(self.create_html_lists(
+                list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+            temp_is_enable = temp_dict['is_enable']
+            temp_html = temp_dict['html']
+            icon = Mitigations.objects.filter(category=i)[0].icon
             mitigation_adaption_dict.update({
-                i: self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=i)
+                i: {
+                    'html': temp_html,
+                    'is_enable': temp_is_enable,
+                    'icon': icon
+                }
             })
+            # mitigation_adaption_dict.update({
+            #     i: self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=i)
+            # })
         temp_all = list(Mitigations.objects.filter(category='LULUCF').values_list('name', flat=True).distinct())
         temp_true = list(Mitigations.objects.filter(category='LULUCF', model_name=self.model_id)
                          .values_list('name', flat=True).distinct())
+        # mitigation_adaption_dict.update({
+        #     'LULUCF': self.is_enable_category(
+        #         self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))),
+        #         cat='LULUCF')
+        # })
+        temp_dict = self.is_enable_category(self.create_html_lists(
+            list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat='LULUCF')
+        temp_is_enable = temp_dict['is_enable']
+        temp_html = temp_dict['html']
+        icon = Mitigations.objects.filter(category='LULUCF')[0].icon
         mitigation_adaption_dict.update({
-            'LULUCF': self.is_enable_category(
-                self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))),
-                cat='LULUCF')
+            'LULUCF': {
+                'html': temp_html,
+                'is_enable': temp_is_enable,
+                'icon': icon
+            }
         })
         adaptation_sub = list(Adaptation.objects.values_list('category', flat=True).distinct())
         temp_dict = {}
@@ -311,15 +429,38 @@ class RetriveDB:
             temp_dict.update({
                 i: list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))
             })
+        # mitigation_adaption_dict.update({
+        #     'Adaptation': self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat='Adaptation')
+        # })
+        temp_dict = self.is_enable_category(self.create_html_lists(
+            list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat='Adaptation')
+        temp_is_enable = temp_dict['is_enable']
+        temp_html = temp_dict['html']
+        icon = Adaptation.objects.all()[0].icon
         mitigation_adaption_dict.update({
-            'Adaptation': self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat='Adaptation')
+            'Adaptation': {
+                'html': temp_html,
+                'is_enable': temp_is_enable,
+                'icon': icon
+            }
         })
         temp = list(map(lambda x: {x: True} if Mitigations.objects.filter(subcategory=x,
                                                                           model_name=self.model_id).count() > 0
         else {x: False}, behavior_lst))
+        temp_dict = self.is_enable_category(self.create_html_lists(temp), cat='Behavioural changes')
+        temp_is_enable = temp_dict['is_enable']
+        temp_html = temp_dict['html']
+        icon = Mitigations.objects.filter(subcategory=behavior_lst[0])[0].icon
         mitigation_adaption_dict.update({
-            'Behavioural changes': self.is_enable_category(self.create_html_lists(temp), cat='Behavioural changes')
+            'Behavioural changes': {
+                'html': temp_html,
+                'is_enable': temp_is_enable,
+                'icon': icon
+            }
         })
+        # mitigation_adaption_dict.update({
+        #     'Behavioural changes': self.is_enable_category(self.create_html_lists(temp), cat='Behavioural changes')
+        # })
         return mitigation_adaption_dict
 
     def retrieve_sdgs(self):
@@ -329,33 +470,47 @@ class RetriveDB:
         :return: Dict with keys 7,9,12(are strings) and value html code with head the full name of sdg and a list of
         description
         """
-        # Get all names of sdgs
-        data_all = list(Sdgs.objects.all().values_list('name', flat=True).distinct())
-        data = list(Sdgs.objects.filter(model_name=self.model_id).values_list('description', 'name'))
-        # Get a list of name of sdgs which is enable for a specific model
-        data_name_true = list(map(lambda x: x[1], data))
+
+        sdgs_all = Sdgs.objects.values_list('name',flat=True).distinct()
+        sdgs_valid = Sdgs.objects.filter(model_name=self.model_id)
         sdgs_html = {}
-        for descr, name in data:
-            # if '7' in name:
-            #     temp = '7'
-            # elif '9' in name:
-            #     temp = '9'
-            # elif '12' in name:
-            #     temp = '12'
-            # All the name have one digit, names are numbers for 1 to 16
-            title = name
-            name = [t for t in name if t.isdigit()][0]
-            temp_html = '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> <p>{}</p> </h4>  {} '.format(title, descr)
-            sdgs_html.update({
-                name: {'html': temp_html, 'is_enable': 'green', 'title':title}
-            })
-        for i in data_all:
-            if i not in data_name_true:
-                # All the name have one digit, names are numbers for 1 to 16
-                name = [t for t in i if t.isdigit()][0]
-                sdgs_html.update({
-                    name: {'html': ' ', 'is_enable': 'grey'}
-                })
+        for sdg in sdgs_all:
+            element = sdgs_valid.filter(name=sdg)
+            if len(element)>0:
+                is_enabled = 'green'
+                sdgs_html[element[0].name] = {
+                    'html': '<h4 style="padding:5px;margin-bottom:5px"> {}</h4>  <p style="margin-left:1em">{}</p> '.format(
+                        element[0].title, element[0].description), 'is_enable': is_enabled,
+                                                'icon': element[0].icon}
+            else:
+                is_enabled = 'grey'
+                sdgs_html[sdg] = {
+                    'html': '', 'is_enable': is_enabled,
+                    'icon': Sdgs.objects.filter(name=sdg)[0].icon}
+
+
+
+
+        # # Get all names of sdgs
+        # data_all = list(Sdgs.objects.all().values_list('name', flat=True).distinct())
+        # data = list(Sdgs.objects.filter(model_name=self.model_id).values_list('description', 'name'))
+        # # Get a list of name of sdgs which is enable for a specific model
+        # data_name_true = list(map(lambda x: x[1], data))
+        # sdgs_html = {}
+        # for descr, name in data:
+        #     title = name
+        #     name = [t for t in name if t.isdigit()][0]
+        #     temp_html = '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> <p>{}</p> </h4>  {} '.format(title, descr)
+        #     sdgs_html.update({
+        #         name: {'html': temp_html, 'is_enable': 'green', 'title':title}
+        #     })
+        # for i in data_all:
+        #     if i not in data_name_true:
+        #         # All the name have one digit, names are numbers for 1 to 16
+        #         name = [t for t in i if t.isdigit()][0]
+        #         sdgs_html.update({
+        #             name: {'html': ' ', 'is_enable': 'grey'}
+        #         })
 
         return sdgs_html
 
@@ -365,13 +520,15 @@ class RetriveDB:
         :param html_code:
         :return:
         """
+        green_color =  '#97ae21'
         bool_dict = {
             True: 'green',
             False: 'grey'
         }
+
         return {
             'html': '<h4 style="text-align:center;padding:5px;margin-bottom:5px"> {} </h4> {}'.format(cat, html_code),
-            'is_enable': bool_dict['#97ae21' in html_code]
+            'is_enable': bool_dict[green_color in html_code],
         }
 
     def create_html_lists(self, data, is_nested=False):
@@ -409,8 +566,9 @@ class RetriveDB:
         :param data_tuple:
         :return:
         """
+        green_color = '#97ae21'
         bool_dict = {
-            True: '#97ae21',
+            True: green_color,
             False: 'grey'
         }
         temp = list(map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(
@@ -418,66 +576,25 @@ class RetriveDB:
         temp = '<ul> {} </ul>'.format(''.join(temp))
         return temp
 
-    # def retrive_granularity(self, granularity):
-    #     """
-    #     Abstract method which will place the granularity and will generate
-    #     the html we want ( with this will manipulate and Mitigation- Adaption measures)
-    #     Will we have a dictionary where we connect name with our db object, addtionaly each name of each granularity
-    #     will have a icon this will be represented with the granularity_icon which will be a dict
-    #
-    #     :param granularity: sector, emission etc
-    #     :return:
-    #     """
-    #     granularities_html = []
-    #     # TODO add SDG
-    #     granularity_dict ={
-    #         "sectoral": Sectors,
-    #         "emission": Emissions,
-    #         "socioecon": Socioecons,
-    #         "policy": Policies,
-    #         "mitigation": Mitigations,
-    #         "adaption": Adaptation
-    #     }
-    #
-    #     granularities = granularity_dict[granularity]
-    #     granularities_lst = list(set(map(lambda x: x.name, granularities.objects.all())))
-    #     if self.model_name == '':
-    #         for i in granularities_lst:
-    #             granularities_html.append('<font color = "{}" >{} </font> '.format("red", i))
-    #     else:
-    #         model_granularities = list(map(lambda x: x.name, granularities.objects.filter(
-    #             model_name=ModelsInfo.objects.filter(model_name=self.model_name)[0].id)))
-    #         granularities_false = list(set(granularities_lst) - set(model_granularities))
-    #         granularities_bool = {}
-    #         for i in granularities_lst:
-    #             if i in granularities_false:
-    #                 # granularities_bool.update({
-    #                 #     i: False
-    #                 # })
-    #                 granularities_html.append('<font color = "{}" >{} </font> '.format("red", i))
-    #             else:
-    #                 # granularities_bool.update({
-    #                 #     i: True
-    #                 # })
-    #                 granularities_html.append('<font color = "{}" >{} </font> '.format("#97ae21", i))
-    #     return " ".join(granularities_html)
-
     def create_models_btn(self):
         """
         Retrive all models names and create the buttons
 
         :return:
         """
-        models_names = list(map(lambda x: x.model_name, ModelsInfo.objects.all()))
-        models_descriptions = list(map(lambda x: x.model_descr, ModelsInfo.objects.all()))
-        # models_headings = list(map(lambda x: x.model_descr, ModelsInfo.objects.all()))
+        # models_names = list(map(lambda x: x.model_name, ModelsInfo.objects.all()))
+        # models_descriptions = list(map(lambda x: x.model_descr, ModelsInfo.objects.all()))
+        # Get all table of models
+        models_data = ModelsInfo.objects.all()
+        # Get the titles of each model
         model_dict = {}
-        for i in range(0, len(models_names)):
-            model_dict[models_names[i]]= models_descriptions[i]
-        print (model_dict)
-
+        for el in models_data:
+            new_dict = {}
+            new_dict['description'] = el.short_description
+            new_dict['icon'] = el.icon
+            new_dict['title'] = el.model_title
+            model_dict[el.model_name] = new_dict
         return model_dict
-        # return " ".join(list(map(lambda x: '<a href="{}" >Model {}</a>'.format(x, x),  models_names)))
 
     def generate_colors(self, n):
         color_list = []

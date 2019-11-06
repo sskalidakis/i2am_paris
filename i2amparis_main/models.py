@@ -18,11 +18,15 @@ class ModelsInfo(models.Model):
 
     """
     model_name = models.TextField()
+    model_title = models.TextField(default="")
     partener = models.TextField()
     type_of_model = models.TextField()
     time_horizon = models.IntegerField()
-    time_steps_in_solution = models.IntegerField()
-    model_descr = models.TextField()
+    time_steps_in_solution = models.IntegerField(default=0)
+    long_description = models.TextField()
+    short_description = models.TextField(default="")
+    icon = models.TextField(default="")
+
 
     def __str__(self):
         return self.model_name
@@ -36,6 +40,7 @@ class Sectors(models.Model):
     category = models.TextField()
     subcategory = models.TextField(default="")
     name = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -50,6 +55,7 @@ class Emissions(models.Model):
     categories = models.TextField()  # TODO change the name to category
     name = models.TextField()
     state = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -65,6 +71,7 @@ class Socioecons(models.Model):
     subcategory = models.TextField(default="")
     name = models.TextField()
     state = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -79,6 +86,7 @@ class Policies(models.Model):
     category = models.TextField()
     name = models.TextField()
     state = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -90,12 +98,13 @@ class Regions(models.Model):
     Tab Regional Granularity(1)
 
     """
-    region = models.TextField()
+    region_name = models.TextField()
+    region_title = models.TextField(default="")
     descr = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
-        return self.region
+        return self.region_name
 
 
 class Countries(models.Model):
@@ -105,8 +114,8 @@ class Countries(models.Model):
     """
     country_name = models.TextField()
     country_code = models.CharField(max_length=3)
-    region = models.ManyToManyField(Regions)
-    model_name = models.ManyToManyField(ModelsInfo)
+    region_name = models.ManyToManyField(Regions)
+    # model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
         return self.country_name
@@ -120,6 +129,7 @@ class Mitigations(models.Model):
     category = models.TextField()
     subcategory = models.TextField(default="")
     name = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -133,6 +143,7 @@ class Adaptation(models.Model):
     """
     category = models.TextField()
     name = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -145,7 +156,9 @@ class Sdgs(models.Model):
 
     """
     name = models.TextField()
+    title = models.TextField(default="")
     description = models.TextField()
+    icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
