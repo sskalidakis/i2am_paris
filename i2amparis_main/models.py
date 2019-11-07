@@ -19,6 +19,7 @@ class ModelsInfo(models.Model):
     """
     model_name = models.TextField()
     model_title = models.TextField(default="")
+    long_title = models.TextField(default="")
     partener = models.TextField()
     type_of_model = models.TextField()
     time_horizon = models.IntegerField()

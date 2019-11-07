@@ -56,7 +56,26 @@
             fill: rgba(255, 255, 255, 0.91)
         }
 
+        .model-list img.not-selected {
+            opacity: 0.5;
+        }
+
+        .model-list img:hover {
+            opacity: 1;
+        }
+
         .model-list svg:hover {
+            -webkit-animation-name: wiggle;
+            -ms-animation-name: wiggle;
+            -ms-animation-duration: 200ms;
+            -webkit-animation-duration: 200ms;
+            -webkit-animation-iteration-count: 1;
+            -ms-animation-iteration-count: 1;
+            -webkit-animation-timing-function: ease-in-out;
+            -ms-animation-timing-function: ease-in-out;
+        }
+
+        .model-list img:hover {
             -webkit-animation-name: wiggle;
             -ms-animation-name: wiggle;
             -ms-animation-duration: 200ms;
@@ -121,13 +140,23 @@
             }
         }
 
-        .model-list svg{
-            width: 12rem;
-            height: 6rem;
+        .model-list svg {
+            width: 8.6rem;
+            height: 4rem;
         }
-        .model-list svg rect{
-            width: 12rem;
-            height: 6rem;
+
+        .model-list svg rect {
+            width: 8.6rem;
+            height: 4rem;
+        }
+
+        .granularities img {
+            margin: 0.2rem;
+            width: 3.2em;
+        }
+
+        .tooltip-demo {
+            box-shadow: none;
         }
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
@@ -159,9 +188,6 @@
                     {#                  data-0="width:100%;height:100%" data-300="width:40%;height:40%;">#}
                     <a href="/main"><img src="/static/images/logo.png" style="width: 15%;height:15%"></a>
                 </div>
-                {#          <h1><a class="navbar-brand" href="main" data-0="line-height:90px;" data-300="line-height:50px;">I<sup>2</sup>AM PARIS#}
-                {#              PLATFORM#}
-                {#            </a></h1>#}
             </div>
 
 
@@ -176,189 +202,282 @@
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="width: 99%">
         <div class="main-content">
-{#        <div class="row">#}
-{#            <h3 class="col-sm-6 col-md-6" style="display:inline-block;text-align: center ;margin-bottom: 5px ">Models</h3>#}
-{#            <h3 class="col-sm-6 col-md-6" style="display:inline-block; text-align: center ;margin-bottom: 5px ">Spatial#}
-{#                Coverage</h3>#}
-{#        </div>#}
-            <div class="container" style="overflow: visible!important;z-index: 1; width: 100%; margin-left: 0;margin-right: 0;margin-bottom: 3em" >
-                <div class="row" style="margin-bottom: 3em">
-                        <h3 style="text-align: center ;margin-bottom: 1em; width:100%">
+
+            <div class="container" style="overflow: visible!important;z-index: 1; width: 100%; margin-left: 0;margin-right: 0;margin-bottom: 1em" >
+                <div class="row" style="margin-bottom: 1em">
+                        <h3 style="text-align: center ;margin-bottom: 1.0em; width:100%">
                             Models</h3>
-                        <div class="model-list tooltip-demo large" style="overflow: auto; text-align: center">
-                            {% for model,desc in buttons.items %}
-                                <a class="col" href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics" style="overflow: visible;display: inline-block;margin: 0.9em ">
-                                <svg  data-toggle="tooltip" data-placement="auto" title='<p>{{ desc }}</p>'>
-
-                                    <rect x="0" y="0" rx="10" ry="10"
-                                          {% if selected_model == model %}
-                                          style="fill: #5e6d13e6; stroke: #5e6d13e6; stroke-width: 3;"
-                                          {% endif %}
-                                    ></rect>
-                                        <text x="50%" y="50%" dominant-baseline="middle"
-                                              style="text-anchor: middle; font-size: 1.2rem; font-weight:600;
-                                                {% if selected_model == model %}
-                                                    fill: white;
+                           <div class="model-list tooltip-demo large"
+                                         style="overflow: auto;  text-align: center">
+                                        {% for model,json in buttons.items %}
+                                            <a class="col" href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics"
+                                               style="overflow: visible; display:inline-block; margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
+                                                {% if model == selected_model_name %}
+                                                    <img class="selected"
+                                                         style="width:8em;"
+                                                         src="/static/icons/colored/{{ json.icon }}"
+                                                         data-toggle="tooltip" data-placement="auto"
+                                                         title='<p>{{ json.description }}</p>'>
+                                                {% else %}
+                                                    <img class="not-selected"
+                                                         style="width:8em;"
+                                                         src="/static/icons/grey/{{ json.icon }}" data-toggle="tooltip"
+                                                         data-placement="auto" title='<p>{{ json.description }}</p>'>
                                                 {% endif %}
-                                              "
-                                        >{{ model }}</text>
+                                                <div class="long_title" style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ json.long_title }}</div>
 
-                                </svg>
-                                    <div style="font-size: 0.8em; text-align: center;">{{ model }}</div>
+{#                                <svg  data-toggle="tooltip" data-placement="auto" title='<p>{{ desc }}</p>'>#}
+{#                                    <rect x="0" y="0" rx="10" ry="10"#}
+{#                                          {% if selected_model == model %}#}
+{#                                          style="fill: #5e6d13e6; stroke: #5e6d13e6; stroke-width: 3;"#}
+{#                                          {% endif %}#}
+{#                                    ></rect>#}
+{#                                        <text x="50%" y="50%" dominant-baseline="middle"#}
+{#                                              style="text-anchor: middle; font-size: 1.2rem; font-weight:600;#}
+{#                                                {% if selected_model == model %}#}
+{#                                                    fill: white;#}
+{#                                                {% endif %}#}
+{#                                              "#}
+{#                                        >{{ model }}</text>#}
+{##}
+{#                                </svg>#}
+{#                                    <div style="font-size: 0.8em; text-align: center;">{{ model }}</div>#}
                                 </a>
                             {% endfor %}
                         </div>
                 </div>
                 <div id="model-characteristics" class="row" style="margin: 0.5em">
-                    <h3 style="text-align: center">Spatial Coverage of {{ selected_model }}</h3>
+                    <h3 style="text-align: center; margin-bottom: 1.5em">Spatial Coverage of {{ selected_model_title }}</h3>
                     <div style="height:19em" id="chartdiv"></div>
 
                 </div>
             </div>
 
-            <div class="container" style="margin: 0;overflow: visible!important;z-index: 1; width:100%">
+            <div class="container granularities" style="margin: 0;overflow: visible!important;z-index: 1; width:100%">
                 <div class="row">
                     <h4 class="col-sm-6 col-md-1"
-                        style="display: inline-block; position:relative; top:1em; font-size: 1em">Sectors</h4>
+                        style="display: inline-block; position:relative; font-size: 1em">Sectors</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well"
                          style="display: inline-block;background:transparent;">
                         {% for k,vv in granularities.Sectors.items %}
-                        <i class="fa fa-certificate"
-                           style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
-                                   background: transparent; padding: 0;
-                                   {% if vv.is_enable == 'green' %}
-                                       color: #97ae21E6;
-                                   {% else %}
-{#                                       color: {{ vv.is_enable }};#}
-                                       color:#777;
-                                   {% endif %}
-                                   font-size:3.5rem" class="muted"
-                                {% if vv.html == "" %} data-toggle="">
-                                {% elif vv.is_enable == 'grey' %} data-toggle="">
-                                {% else %}
-                                    data-toggle="tooltip" title='{{ vv.html }}' >
-                                {% endif %}
-                        </i>
-                    {% endfor %}
+                            {#                        <i class="fa fa-certificate"#}
+                            {#                           style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;#}
+                            {#                                   background: transparent; padding: 0;#}
+                            {#                                   {% if vv.is_enable == 'green' %}#}
+                            {#                                       color: #97ae21E6;#}
+                            {#                                   {% else %}#}
+                            {#                                       color: {{ vv.is_enable }};#}
+                            {#                                       color:#777;#}
+                            {#                                   {% endif %}#}
+                            {#                                   font-size:3.5rem" class="muted"#}
+                            {#                                {% if vv.html == "" %} data-toggle="">#}
+                            {#                                {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+                            {#                                {% else %}#}
+                            {#                                    data-toggle="tooltip" title='{{ vv.html }}' >#}
+                            {#                                {% endif %}#}
+                            {#                        </i>#}
+                            <img
+                                    style="background: transparent; padding: 0;"
+                                    {% if vv.is_enable == 'green' %}
+                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    {% else %}
+                                    src="/static/icons/grey/{{ vv.icon }}"
+                                    {% endif %}
+                                    class="muted"
+                                    {% if vv.html == "" %} data-toggle="">
+                                    {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                    {% else %}
+                                        data-toggle="tooltip" title='{{ vv.html }}' >
+                                    {% endif %}
+                        {% endfor %}
                     </div>
 
                     <h4 class="col-sm-6 col-md-1"
-                        style="position:relative; top:1em; font-size: 1em">Policy</h4>
+                        style="position:relative; font-size: 1em">Policy</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well"
                          style="display: inline-block;background:transparent;">
                         {% for k,vv in granularities.Policy.items %}
-                            <i class="fa fa-certificate"
-                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
-                                       background: transparent; padding: 0;
-                                       {% if vv.is_enable == 'green' %}
-                                           color: #97ae21E6;
-                                       {% else %}
-                                           color: {{ vv.is_enable }};
-                                       {% endif %}
-                                       font-size:3.5rem" class="muted"
+                            <img
+                                    style="background: transparent; padding: 0;"
+                                    {% if vv.is_enable == 'green' %}
+                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    {% else %}
+                                    src="/static/icons/grey/{{ vv.icon }}"
+                                    {% endif %}
+                                    class="muted"
                                     {% if vv.html == "" %} data-toggle="">
                                     {% elif vv.is_enable == 'grey' %} data-toggle="">
                                     {% else %}
                                         data-toggle="tooltip" title='{{ vv.html }}' >
                                     {% endif %}
-                            </i>
+                            {#                            <i class="fa fa-certificate"#}
+                            {#                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;#}
+                            {#                                       background: transparent; padding: 0;#}
+                            {#                                       {% if vv.is_enable == 'green' %}#}
+                            {#                                           color: #97ae21E6;#}
+                            {#                                       {% else %}#}
+                            {#                                           color: {{ vv.is_enable }};#}
+                            {#                                       {% endif %}#}
+                            {#                                       font-size:3.5rem" class="muted"#}
+                            {#                                    {% if vv.html == "" %} data-toggle="">#}
+                            {#                                    {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+                            {#                                    {% else %}#}
+                            {#                                        data-toggle="tooltip" title='{{ vv.html }}' >#}
+                            {#                                    {% endif %}#}
+                            {#                            </i>#}
                         {% endfor %}
                     </div>
                 </div>
 
                 <div class="row">
                     <h4 class="col-sm-6 col-md-1"
-                        style=" position:relative; top:1em; font-size: 1em">SDGs</h4>
+                        style=" position:relative; font-size: 1em">Emissions</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well"
                          style="display: inline-block;background:transparent;">
-                        {% for k,vv in granularities.SDGs.items %}
-                            <i class="fa fa-certificate"
-                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
-                                       background: transparent; padding: 0;
-                                       {% if vv.is_enable == 'green' %}
-                                           color: #97ae21E6;
-                                       {% else %}
-                                           color: {{ vv.is_enable }};
-                                       {% endif %}
-                                       font-size:3.5rem" class="muted"
+                        {% for k,vv in granularities.Emissions.items %}
+                            <img
+                                    style="
+                                       background: transparent; padding: 0;"
+                                    {% if vv.is_enable == 'green' %}
+                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    {% else %}
+                                    src="/static/icons/grey/{{ vv.icon }}"
+                                    {% endif %}
+                                    class="muted"
                                     {% if vv.html == "" %} data-toggle="">
                                     {% elif vv.is_enable == 'grey' %} data-toggle="">
                                     {% else %}
                                         data-toggle="tooltip" title='{{ vv.html }}' >
                                     {% endif %}
-                            </i>
+                            {#                            <i class="fa fa-certificate"#}
+                            {#                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;#}
+                            {#                                       background: transparent; padding: 0;#}
+                            {#                                       {% if vv.is_enable == 'green' %}#}
+                            {#                                           color: #97ae21E6;#}
+                            {#                                       {% else %}#}
+                            {#                                           color: {{ vv.is_enable }};#}
+                            {#                                       {% endif %}#}
+                            {#                                       font-size:3.5rem" class="muted"#}
+                            {#                                    {% if vv.html == "" %} data-toggle="">#}
+                            {#                                    {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+                            {#                                    {% else %}#}
+                            {#                                        data-toggle="tooltip" title='{{ vv.html }}' >#}
+                            {#                                    {% endif %}#}
+                            {#                            </i>#}
                         {% endfor %}
                     </div>
                     <h4 class="col-sm-6 col-md-1"
-                        style=" position:relative; top:1em; font-size: 1em">Socio-Economics</h4>
+                        style=" position:relative; font-size: 1em">Socio-Economics</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well"
                          style="display: inline-block;background:transparent;">
                         {% for k,vv in granularities.SocioEconomics.items %}
-                            <i class="fa fa-certificate"
-                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
-                                       background: transparent; padding: 0;
-                                       {% if vv.is_enable == 'green' %}
-                                           color: #97ae21E6;
-                                       {% else %}
-                                           color: {{ vv.is_enable }};
-                                       {% endif %}
-                                       font-size:3.5rem" class="muted"
+                            <img
+                                    style="background: transparent; padding: 0;"
+                                    {% if vv.is_enable == 'green' %}
+                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    {% else %}
+                                    src="/static/icons/grey/{{ vv.icon }}"
+                                    {% endif %}
+                                    class="muted"
                                     {% if vv.html == "" %} data-toggle="">
                                     {% elif vv.is_enable == 'grey' %} data-toggle="">
                                     {% else %}
                                         data-toggle="tooltip" title='{{ vv.html }}' >
                                     {% endif %}
-                            </i>
+                            {#                            <i class="fa fa-certificate"#}
+                            {#                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;#}
+                            {#                                       background: transparent; padding: 0;#}
+                            {#                                       {% if vv.is_enable == 'green' %}#}
+                            {#                                           color: #97ae21E6;#}
+                            {#                                       {% else %}#}
+                            {#                                           color: {{ vv.is_enable }};#}
+                            {#                                       {% endif %}#}
+                            {#                                       font-size:3.5rem" class="muted"#}
+                            {#                                    {% if vv.html == "" %} data-toggle="">#}
+                            {#                                    {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+                            {#                                    {% else %}#}
+                            {#                                        data-toggle="tooltip" title='{{ vv.html }}' >#}
+                            {#                                    {% endif %}#}
+                            {#                            </i>#}
                         {% endfor %}
                     </div>
                 </div>
 
                 <div class="row">
                     <h4 class="col-sm-6 col-md-1"
-                        style=" position:relative; top:1em; font-size: 1em">
+                        style=" position:relative;  font-size: 1em">
                         Mitigation-Adaption Measures</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well icons-list"
                          style="display: inline-block;background:transparent;">
                         {% for k,vv in granularities.MitigationAdaptionMeasures.items %}
-                            <i class="fa fa-certificate"
-                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
-                                       background: transparent; padding: 0;
-                                       {% if vv.is_enable == 'green' %}
-                                           color: #97ae21E6;
-                                       {% else %}
-                                           color: {{ vv.is_enable }};
-                                       {% endif %}
-                                       font-size:3.5rem" class="muted"
+                            <img
+                                    style="background: transparent; padding: 0;"
+                                    {% if vv.is_enable == 'green' %}
+                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    {% else %}
+                                    src="/static/icons/grey/{{ vv.icon }}"
+                                    {% endif %}
+                                    class="muted"
                                     {% if vv.html == "" %} data-toggle="">
                                     {% elif vv.is_enable == 'grey' %} data-toggle="">
                                     {% else %}
                                         data-toggle="tooltip" title='{{ vv.html }}' >
                                     {% endif %}
-                            </i>
+                            {#                            <i class="fa fa-certificate"#}
+                            {#                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;#}
+                            {#                                       background: transparent; padding: 0;#}
+                            {#                                       {% if vv.is_enable == 'green' %}#}
+                            {#                                           color: #97ae21E6;#}
+                            {#                                       {% else %}#}
+                            {#                                           color: {{ vv.is_enable }};#}
+                            {#                                       {% endif %}#}
+                            {#                                       font-size:3.5rem" class="muted"#}
+                            {#                                    {% if vv.html == "" %} data-toggle="">#}
+                            {#                                    {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+                            {#                                    {% else %}#}
+                            {#                                        data-toggle="tooltip" title='{{ vv.html }}' >#}
+                            {#                                    {% endif %}#}
+                            {#                            </i>#}
                         {% endfor %}
                     </div>
                     <h4 class="col-sm-6 col-md-1"
-                        style=" position:relative; top:1em; font-size: 1em">Emissions</h4>
+                        style=" position:relative;  font-size: 1em">SDGs</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well"
                          style="display: inline-block;background:transparent;">
-                        {% for k,vv in granularities.Emissions.items %}
-                            <i class="fa fa-certificate"
-                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
-                                       background: transparent; padding: 0;
-                                       {% if vv.is_enable == 'green' %}
-                                           color: #97ae21E6;
-                                       {% else %}
-                                           color: {{ vv.is_enable }};
-                                       {% endif %}
-                                       font-size:3.5rem" class="muted"
+                        {% for k,vv in granularities.SDGs.items %}
+                            <img
+                                    style="
+                                       background: transparent; padding: 0;"
+                                    {% if vv.is_enable == 'green' %}
+                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    {% else %}
+                                    src="/static/icons/grey/{{ vv.icon }}"
+                                    {% endif %}
+                                    class="muted"
                                     {% if vv.html == "" %} data-toggle="">
                                     {% elif vv.is_enable == 'grey' %} data-toggle="">
                                     {% else %}
                                         data-toggle="tooltip" title='{{ vv.html }}' >
                                     {% endif %}
-                            </i>
+                            {#                            <i class="fa fa-certificate"#}
+                            {#                               style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;#}
+                            {#                                       background: transparent; padding: 0;#}
+                            {#                                       {% if vv.is_enable == 'green' %}#}
+                            {#                                           color: #97ae21E6;#}
+                            {#                                       {% else %}#}
+                            {#                                           color: {{ vv.is_enable }};#}
+                            {#                                       {% endif %}#}
+                            {#                                       font-size:3.5rem" class="muted"#}
+                            {#                                    {% if vv.html == "" %} data-toggle="">#}
+                            {#                                    {% elif vv.is_enable == 'grey' %} data-toggle="">#}
+                            {#                                    {% else %}#}
+                            {#                                        data-toggle="tooltip" title='{{ vv.html }}' >#}
+                            {#                                    {% endif %}#}
+                            {#                            </i>#}
                         {% endfor %}
                     </div>
+
+
                 </div>
 
             </div>
@@ -451,13 +570,22 @@
 </script>
 <script>
     $(document).ready(function () {
+{#        $('.tooltip-demo.well').tooltip({#}
+{#            html: true,#}
+{#            selector: 'i[data-toggle=tooltip]'#}
+{#        });#}
+{#        $('.tooltip-demo.large').tooltip({#}
+{#            html: true,#}
+{#            selector: 'svg[data-toggle=tooltip]',#}
+{#            container: ".model-list"#}
+{#        });#}
         $('.tooltip-demo.well').tooltip({
             html: true,
-            selector: 'i[data-toggle=tooltip]'
+            selector: 'img[data-toggle=tooltip]'
         });
         $('.tooltip-demo.large').tooltip({
             html: true,
-            selector: 'svg[data-toggle=tooltip]',
+            selector: 'img[data-toggle=tooltip]',
             container: ".model-list"
         });
 
@@ -500,7 +628,7 @@
         homeButton.insertBefore(chart.zoomControl.plusButton);
 
 // Center on the groups by default
-        chart.homeZoomLevel = 3.5;
+        chart.homeZoomLevel = 1.5;
         chart.homeGeoPoint = {longitude: 10, latitude: 52};
         console.log({{ data|safe }});
         var groupData = {{ data|safe }};

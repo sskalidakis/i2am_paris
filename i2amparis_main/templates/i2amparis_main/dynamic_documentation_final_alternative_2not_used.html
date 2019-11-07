@@ -130,15 +130,8 @@
             height: 6rem;
         }
 
-        .category-caption{
-            font-size: 0.7em;
-            text-align: center;
-            display: block;
-            width: 100%;
-            line-height: 1.2em;
-        }
-        .granularity .row{
-            margin-bottom: 0.5em;
+        .categories .row{
+            margin-bottom: 1em;
         }
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
@@ -221,44 +214,161 @@
                         </div>
                 </div>
                 <div id="model-characteristics" class="row" style="margin: 0.5em">
-                    <h3 style="text-align: center">Spatial Coverage of {{ selected_model }}</h3>
-                    <div style="height:27em" id="chartdiv"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <h3 style="text-align: center">Spatial Coverage of {{ selected_model }}</h3>
+                        <div style="height:29em" id="chartdiv"></div>
+                    </div>
+                    <div class="container col-sm-12 col-md-6 categories"
+                         style="margin: 0;overflow: visible!important;z-index: 1;top:2em">
+                        <div class="row">
+                            <h4 class="col-sm-6 col-md-1"
+                                style="display: inline-block; position:relative; font-size:0.9em; top:1em ;padding:0">Sectors</h4>
+                            <div class="col-sm-6 col-md-5 tooltip-demo well"
+                                 style="display: inline-block; background:transparent; box-shadow:none">
+                                {% for k,vv in granularities.Sectors.items %}
+                                    <i class="fa fa-certificate"
+                                       style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
+                                               background: transparent; padding: 0;
+                                               {% if vv.is_enable == 'green' %}
+                                                   color: #97ae21E6;
+                                               {% else %}
+                                                   {#                                       color: {{ vv.is_enable }};#}
+                                                   color:#777;
+                                               {% endif %}
+                                               font-size:3.5rem" class="muted"
+                                            {% if vv.html == "" %} data-toggle="">
+                                            {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                            {% else %}
+                                                data-toggle="tooltip" title='{{ vv.html }}' >
+                                            {% endif %}
+                                    </i>
+                                {% endfor %}
+                            </div>
+
+                            <h4 class="col-sm-6 col-md-1"
+                                style="position:relative;  font-size:0.9em; top:1em; padding:0">Policy</h4>
+                            <div class="col-sm-6 col-md-5 tooltip-demo well"
+                                 style="display: inline-block;background:transparent; box-shadow:none">
+                                {% for k,vv in granularities.Policy.items %}
+                                    <i class="fa fa-certificate"
+                                       style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
+                                               background: transparent; padding: 0;
+                                               {% if vv.is_enable == 'green' %}
+                                                   color: #97ae21E6;
+                                               {% else %}
+                                                   color: {{ vv.is_enable }};
+                                               {% endif %}
+                                               font-size:3.5rem" class="muted"
+                                            {% if vv.html == "" %} data-toggle="">
+                                            {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                            {% else %}
+                                                data-toggle="tooltip" title='{{ vv.html }}' >
+                                            {% endif %}
+                                    </i>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <h4 class="col-sm-6 col-md-1"
+                                style=" position:relative;  font-size:0.9em; top:1em; padding:0">SDGs</h4>
+                            <div class="col-sm-6 col-md-5 tooltip-demo well"
+                                 style="display: inline-block;background:transparent; box-shadow:none">
+                                {% for k,vv in granularities.SDGs.items %}
+                                    <i class="fa fa-certificate"
+                                       style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
+                                               background: transparent; padding: 0;
+                                               {% if vv.is_enable == 'green' %}
+                                                   color: #97ae21E6;
+                                               {% else %}
+                                                   color: {{ vv.is_enable }};
+                                               {% endif %}
+                                               font-size:3.5rem" class="muted"
+                                            {% if vv.html == "" %} data-toggle="">
+                                            {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                            {% else %}
+                                                data-toggle="tooltip" title='{{ vv.html }}' >
+                                            {% endif %}
+                                    </i>
+                                {% endfor %}
+                            </div>
+                            <h4 class="col-sm-6 col-md-1"
+                                style=" position:relative;  font-size:0.9em; top:1em; padding:0">Socio-Economics</h4>
+                            <div class="col-sm-6 col-md-5 tooltip-demo well"
+                                 style="display: inline-block;background:transparent; box-shadow:none">
+                                {% for k,vv in granularities.SocioEconomics.items %}
+                                    <i class="fa fa-certificate"
+                                       style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
+                                               background: transparent; padding: 0;
+                                               {% if vv.is_enable == 'green' %}
+                                                   color: #97ae21E6;
+                                               {% else %}
+                                                   color: {{ vv.is_enable }};
+                                               {% endif %}
+                                               font-size:3.5rem" class="muted"
+                                            {% if vv.html == "" %} data-toggle="">
+                                            {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                            {% else %}
+                                                data-toggle="tooltip" title='{{ vv.html }}' >
+                                            {% endif %}
+                                    </i>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <h4 class="col-sm-6 col-md-1"
+                                style=" position:relative;  font-size:0.9em; top:1em; padding:0">
+                                Mitigation-Adaption Measures</h4>
+                            <div class="col-sm-6 col-md-5 tooltip-demo well icons-list"
+                                 style="display: inline-block;background:transparent; box-shadow:none">
+                                {% for k,vv in granularities.MitigationAdaptionMeasures.items %}
+                                    <i class="fa fa-certificate"
+                                       style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
+                                               background: transparent; padding: 0;
+                                               {% if vv.is_enable == 'green' %}
+                                                   color: #97ae21E6;
+                                               {% else %}
+                                                   color: {{ vv.is_enable }};
+                                               {% endif %}
+                                               font-size:3.5rem" class="muted"
+                                            {% if vv.html == "" %} data-toggle="">
+                                            {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                            {% else %}
+                                                data-toggle="tooltip" title='{{ vv.html }}' >
+                                            {% endif %}
+                                    </i>
+                                {% endfor %}
+                            </div>
+                            <h4 class="col-sm-6 col-md-1"
+                                style=" position:relative;  font-size:0.9em; top:1em; padding:0">Emissions</h4>
+                            <div class="col-sm-6 col-md-5 tooltip-demo well"
+                                 style="display: inline-block;background:transparent; box-shadow:none">
+                                {% for k,vv in granularities.Emissions.items %}
+                                    <i class="fa fa-certificate"
+                                       style="margin-left:1vw;margin-right:1vw;margin-top:1vh;margin-bottom: 1vh;
+                                               background: transparent; padding: 0;
+                                               {% if vv.is_enable == 'green' %}
+                                                   color: #97ae21E6;
+                                               {% else %}
+                                                   color: {{ vv.is_enable }};
+                                               {% endif %}
+                                               font-size:3.5rem" class="muted"
+                                            {% if vv.html == "" %} data-toggle="">
+                                            {% elif vv.is_enable == 'grey' %} data-toggle="">
+                                            {% else %}
+                                                data-toggle="tooltip" title='{{ vv.html }}' >
+                                            {% endif %}
+                                    </i>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+
 
                 </div>
             </div>
-
-            <div class="container granularity" style="margin: 0;overflow: visible!important;z-index: 1; width:100%">
-                <h3 style="text-align: center">Granularity of {{ selected_model }}</h3>
-            {% for gran,json in granularities.items %}
-                <div class="row">
-                    <h4 class="col-sm-12 col-md-2"
-                        style="display: inline-block; position:relative; top:1em; font-size: 1em">{{ gran }}</h4>
-                    <div class="col-sm-12 col-md-10 tooltip-demo well"
-                         style="display: inline-block;background:transparent;">
-                        {% for k,vv in json.items %}
-                            <div  style="display: inline-block; width: 6em; text-align: center;vertical-align: top">
-                                <i class="fa fa-certificate"
-                                   style="margin-left:1vw; margin-right:1vw; margin-top:1vh; margin-bottom: 1vh;
-                                           background: transparent; padding: 0;
-                                           {% if vv.is_enable == 'green' %}
-                                               color: #97ae21E6;
-                                           {% else %}
-        {#                                       color: {{ vv.is_enable }};#}
-                                               color:#777;
-                                           {% endif %}
-                                           font-size:3.5rem" class="muted"
-                                        {% if vv.html == "" %} data-toggle="">
-                                        {% elif vv.is_enable == 'grey' %} data-toggle="">
-                                        {% else %}
-                                            data-toggle="tooltip" title='{{ vv.html }}' >
-                                        {% endif %}
-                                </i>
-                                <span class="category-caption">{{ k }}</span>
-                            </div>
-                    {% endfor %}
-                    </div>
-                </div>
-                {% endfor %}
 
         </div>
     </section>

@@ -149,7 +149,7 @@
         }
         .granularities img{
             margin:0.2rem;
-            width:3.5em;
+            width:3.2em;
         }
         .tooltip-demo{
             box-shadow: none;
@@ -184,9 +184,6 @@
                     {#                  data-0="width:100%;height:100%" data-300="width:40%;height:40%;">#}
                     <a href="/main"><img src="/static/images/logo.png" style="width: 15%;height:15%"></a>
                 </div>
-                {#          <h1><a class="navbar-brand" href="main" data-0="line-height:90px;" data-300="line-height:50px;">I<sup>2</sup>AM PARIS#}
-                {#              PLATFORM#}
-                {#            </a></h1>#}
             </div>
 
 
@@ -201,11 +198,6 @@
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="width: 99%">
         <div class="main-content">
-{#        <div class="row">#}
-{#            <h3 class="col-sm-6 col-md-6" style="display:inline-block;text-align: center ;margin-bottom: 5px ">Models</h3>#}
-{#            <h3 class="col-sm-6 col-md-6" style="display:inline-block; text-align: center ;margin-bottom: 5px ">Spatial#}
-{#                Coverage</h3>#}
-{#        </div>#}
             <div class="container" style="overflow: visible!important;z-index: 1; width: 100%; margin-left: 0;margin-right: 0;" >
                 <div class="row">
                     <div class="col-sm-12 col-md-6" style="margin-bottom: 1em">
@@ -576,6 +568,15 @@
             selector: 'img[data-toggle=tooltip]',
             container: ".model-list"
         });
+{#        $('.tooltip-demo.well').tooltip({#}
+{#            html: true,#}
+{#            selector: 'i[data-toggle=tooltip]'#}
+{#        });#}
+{#        $('.tooltip-demo.large').tooltip({#}
+{#            html: true,#}
+{#            selector: 'svg[data-toggle=tooltip]',#}
+{#            container: ".model-list"#}
+{#        });#}
 
 
     });
@@ -616,7 +617,7 @@
         homeButton.insertBefore(chart.zoomControl.plusButton);
 
 // Center on the groups by default
-        chart.homeZoomLevel = 3.5;
+        chart.homeZoomLevel = 1.5;
         chart.homeGeoPoint = {longitude: 10, latitude: 52};
         console.log({{ data|safe }});
         var groupData = {{ data|safe }};

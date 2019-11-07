@@ -22,7 +22,7 @@ def dynamic_doc(request, model=''):
     db = countries_data.RetriveDB(model)
     data = db.create_json()
     list_of_models = db.create_models_btn()
-    print (db.retrieve_granularity)
+    print(db.retrieve_granularity)
     context = {
         'data': data,
         'buttons': list_of_models,

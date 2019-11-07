@@ -1,5 +1,6 @@
 from i2amparis_main.models import *
 import random
+from random import shuffle
 
 
 
@@ -202,11 +203,11 @@ class RetriveDB:
         temp_html = temp_dict['html']
         temp_is_enable = temp_dict['is_enable']
         icon = Sectors.objects.filter(category='Transportation')[0].icon
-        sectors_dict_html.update({
+        sectors_dict_html['Transportation']={
             'html': temp_html,
             'is_enable': temp_is_enable,
             'icon': icon
-        })
+        }
         # TODO generate the tooltip. Take the keys from the sectors_dict_html and generate the categories
         # TODO return sectors_dict_html
         # TODO check the name for AFOLU
@@ -593,14 +594,23 @@ class RetriveDB:
             new_dict['description'] = el.short_description
             new_dict['icon'] = el.icon
             new_dict['title'] = el.model_title
+            new_dict['long_title'] = el.long_title
             model_dict[el.model_name] = new_dict
         return model_dict
 
     def generate_colors(self, n):
         color_list = []
-        for i in range(n):
-            r = lambda: random.randint(0, 255)
-            color_list.append('#%02X%02X%02X' % (r(), r(), r()))
+        color_list = ['#eef2c0','#ffdeb3','#b6f3fb','#d9d9d9','#e2e995','#ffc880','#85ebf9','#bfbfbf',
+                      '#d6e06b','#ffb14d','#55e4f7','#a6a6a6','#cbd741','#ff9b1a','#24dcf4','#8c8c8c',
+                      '#b1be28','#e68200','#0bc2db','#737373','#8a941f','#b36500','#0897aa','#595959',
+                      '#626a16','#804800','#066c7a','#404040','#3b3f0d','#4d2b00','#044149','#262626','#0d0d0d',
+                      ]
+        shuffle(color_list)
+        color_list = color_list +color_list
+        # for i in range(n):
+        #     r = lambda: random.randint(0, 255)
+        #     color_list.append('#%02X%02X%02X' % (r(), r(), r()))
+
         return color_list
 
     def create_model_json(self):
