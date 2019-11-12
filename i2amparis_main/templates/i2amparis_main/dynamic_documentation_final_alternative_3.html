@@ -35,18 +35,22 @@
             margin-bottom: 0.2em;
 
         }
-        .model-list svg{
+
+        .model-list svg {
             cursor: pointer;
         }
-        .model-list svg text{
-            fill : #777
+
+        .model-list svg text {
+            fill: #777
         }
-        .model-list rect{
+
+        .model-list rect {
             fill: rgba(77, 77, 77, 0.31);
             stroke: rgba(64, 64, 64, 0.75);
             stroke-width: 1;
         }
-        .model-list svg:hover rect{
+
+        .model-list svg:hover rect {
             fill: rgba(151, 174, 33, 0.8);
             stroke: #5e6d13e6;
             stroke-width: 2;
@@ -56,12 +60,13 @@
             fill: rgba(255, 255, 255, 0.91)
         }
 
-        .model-list img.not-selected {
-            opacity: 0.5;
+        .model-list a.not-selected {
+            opacity: 0.7;
         }
 
-        .model-list img:hover {
+        .model-list a:hover {
             opacity: 1;
+            cursor: pointer;
         }
 
         .model-list svg:hover {
@@ -75,7 +80,7 @@
             -ms-animation-timing-function: ease-in-out;
         }
 
-        .model-list img:hover {
+        .model-list a:hover {
             -webkit-animation-name: wiggle;
             -ms-animation-name: wiggle;
             -ms-animation-duration: 200ms;
@@ -158,6 +163,18 @@
         .tooltip-demo {
             box-shadow: none;
         }
+
+        .model-list i.fa-info-circle:hover {
+            cursor: help;
+        }
+
+        .model-list i.fa-info-circle {
+            display: none;
+        }
+
+        .model-list a:hover i.fa-info-circle {
+            display: inline-block;
+        }
         .category-caption{
             line-height: 1.5em;
             font-size: 0.6em;
@@ -168,7 +185,7 @@
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/maps.js"></script>
-    <script src="https://www.amcharts.com/lib/4/geodata/worldHigh.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/worldLow.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
     <!-- =======================================================
       Theme Name: Green
@@ -218,82 +235,73 @@
                     <div class="model-list tooltip-demo large"
                          style="overflow: auto;  text-align: center">
                         {% for model,json in buttons.items %}
-                            <a class="col"
-                               href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics"
-                               style="overflow: visible; display:inline-block; margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                                {% if model == selected_model_name %}
-                                    <img class="selected"
-                                         style="width:8em;"
-                                         src="/static/icons/colored/{{ json.icon }}"
-                                         data-toggle="tooltip" data-placement="auto"
-                                         title='<p>{{ json.description }}</p>'>
-                                {% else %}
-                                    <img class="not-selected"
-                                         style="width:8em;"
-                                         src="/static/icons/grey/{{ json.icon }}" data-toggle="tooltip"
-                                         data-placement="auto" title='<p>{{ json.description }}</p>'>
-                                {% endif %}
-                                <div class="long_title"
-                                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ json.long_title }}</div>
-
-                                {#                                <svg  data-toggle="tooltip" data-placement="auto" title='<p>{{ desc }}</p>'>#}
-                                {#                                    <rect x="0" y="0" rx="10" ry="10"#}
-                                {#                                          {% if selected_model == model %}#}
-                                {#                                          style="fill: #5e6d13e6; stroke: #5e6d13e6; stroke-width: 3;"#}
-                                {#                                          {% endif %}#}
-                                {#                                    ></rect>#}
-                                {#                                        <text x="50%" y="50%" dominant-baseline="middle"#}
-                                {#                                              style="text-anchor: middle; font-size: 1.2rem; font-weight:600;#}
-                                {#                                                {% if selected_model == model %}#}
-                                {#                                                    fill: white;#}
-                                {#                                                {% endif %}#}
-                                {#                                              "#}
-                                {#                                        >{{ model }}</text>#}
-                                {##}
-                                {#                                </svg>#}
-                                {#                                    <div style="font-size: 0.8em; text-align: center;">{{ model }}</div>#}
-                            </a>
+                            {% if model == selected_model_name %}
+                                <a class="col selected" data-link="{{ model }}"
+                                   style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top">
+                                <i style="position: absolute;left: 1em;top:1em;font-size: 0.9em;z-index: 1050;color:#f7f7f7;"
+                                   class="fa fa-info-circle"></i>
+                                {#                                    <i style="position: absolute;right: 0.6em;bottom:1.3em;font-size: 0.6em;color: #828f38"#}
+                                {#                                       class="fa fa-check"></i>#}
+                                <img class="selected"
+                                     style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                     src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
+                                     data-toggle="tooltip" data-placement="auto"
+                                     title='<p>{{ json.description }}</p>'>
+                            {% else %}
+                                <a class="col not-selected" data-link="{{ model }}"
+                                   style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
+                                <i style="position: absolute;left: 1em;top:1em;color:#cfd0d2;font-size: 0.9em;z-index: 1050"
+                                   class="fa fa-info-circle"></i>
+                                <img class="not-selected"
+                                     style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                     src="/static/{{ sel_icons }}/grey/{{ json.icon }}"
+                                     data-toggle="tooltip" data-placement="auto"
+                                     title='<p>{{ json.description }}</p>'>
+                            {% endif %}
+                        <div class="long_title"
+                             style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ json.long_title }}</div>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
-                <div id="model-characteristics" class="row" style="margin: 0.5em">
+                <div id="model-characteristics" class="row" style="margin: 0.1em;">
                     <h3 style="text-align: center; margin-bottom: 1.5em">Spatial Coverage
                         of {{ selected_model_title }}</h3>
-                    <div style="height:30em" id="chartdiv"></div>
-
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10" style="height:28.5em; " id="chartdiv"></div>
+                    <div class="col-md-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10" style="font-size: 0.9em;margin: 0.3em;line-height: 1em;font-weight: 600">
+                        <p>Hover over the map to see the model's spatial coverage. Each color represents a different region.</p>
+                        <p><i class="fa fa-circle" style="color: #dfdfdf;margin-right: 0.5em"></i> Greyed out areas - Not
+                            available.</p>
+                        <p><i class="fa fa-circle" style="color: #8a941f;margin-right: 0.5em"></i>Green Areas - National Coverage</p>
+                    </div>
+                    <div class="col-md-1"></div>
                 </div>
             </div>
 
-            <div class="container granularity granularities" style="margin: 0;overflow: visible!important;z-index: 1; width:100%">
+            <div class="container granularity granularities" style="margin: 0 0 1em 0;overflow: visible!important;z-index: 1; width:100%">
                 <h3 style="text-align: center">Granularity of {{ selected_model_title }}</h3>
             {% for gran,json in granularities.items %}
                 <div class="row">
-                    <h4 class="col-sm-12 col-md-2"
-                        style="display: inline-block;  font-size: 1em">{{ gran }}</h4>
-                    <div class="col-sm-12 col-md-10 tooltip-demo well"
+                    {% if gran == 'MitigationAdaptationMeasures' %}
+                        <h4 class="col-sm-12 col-md-1"
+                            style="display: inline-block;  font-size: 1em">Mitigation/ Adaptation Measures</h4>
+                    {% else %}
+                        <h4 class="col-sm-12 col-md-1"
+                            style="display: inline-block;  font-size: 1em">{{ gran }}</h4>
+                    {% endif %}
+                    <div class="col-sm-12 col-md-11 tooltip-demo well"
                          style="display: inline-block;background:transparent;">
                         {% for k,vv in json.items %}
-                            <div  style="display: inline-block; width: 6em; text-align: center;vertical-align: top">
-{#                                <i class="fa fa-certificate"#}
-{#                                   style="margin-left:1vw; margin-right:1vw; margin-top:1vh; margin-bottom: 1vh;#}
-{#                                           background: transparent; padding: 0;#}
-{#                                           {% if vv.is_enable == 'green' %}#}
-{#                                               color: #97ae21E6;#}
-{#                                           {% else %}#}
-        {#                                       color: {{ vv.is_enable }};#}
-{#                                               color:#777;#}
-{#                                           {% endif %}#}
-{#                                           font-size:3.5rem" class="muted"#}
-{#                                        {% if vv.html == "" %} data-toggle="">#}
-{#                                        {% elif vv.is_enable == 'grey' %} data-toggle="">#}
-{#                                        {% else %}#}
-{#                                            data-toggle="tooltip" title='{{ vv.html }}' >#}
-{#                                        {% endif %}#}
-{#                                </i>#}
+                            <div  style="display: inline-block; width: 5.3em; text-align: center;vertical-align: top">
                                 <img
                                         style="background: transparent; padding: 0;"
                                         {% if vv.is_enable == 'green' %}
-                                        src="/static/icons/colored/{{ vv.icon }}"
+                                        src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
                                         {% else %}
                                         src="/static/icons/grey/{{ vv.icon }}"
                                         {% endif %}
@@ -336,85 +344,30 @@
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
 <script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-
-        });
-        $('#accordion_introduction').find('button').click();
-        {#        $('li a').on('click', function () {#}
-        {#            $('#main_bar .collapse.in').collapse('hide');#}
-        {#            var x = this.href.split('#')[1];#}
-        {#            $('#collapse_' + x).collapse('show');#}
-        {#        });#}
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-            {#            $('#main_bar .collapse.in').on('hidden.bs.collapse', function () {#}
-            {#                if(y!==null){#}
-            {#                    y.click();}#}
-            {#                y= null;#}
-            {#            });#}
-            {#            $('#main_bar .collapse.in').not('#collapse_' + x).collapse('hide');#}
-            {#            $('#collapse_' + x ).collapse('show');#}
-
-
-        });
-
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
+    $('body').css('height', '100%');
 </script>
 <script>
     $(document).ready(function () {
-{#        $('.tooltip-demo.well').tooltip({#}
-{#            html: true,#}
-{#            selector: 'i[data-toggle=tooltip]'#}
-{#        });#}
-{#        $('.tooltip-demo.large').tooltip({#}
-{#            html: true,#}
-{#            selector: 'svg[data-toggle=tooltip]',#}
-{#            container: ".model-list"#}
-{#        });#}
+
         $('.tooltip-demo.well').tooltip({
             html: true,
-            selector: 'img[data-toggle=tooltip]'
+            selector: 'img[data-toggle=tooltip]',
+{#            container: ".granularities"#}
         });
         $('.tooltip-demo.large').tooltip({
             html: true,
             selector: 'img[data-toggle=tooltip]',
             container: ".model-list"
+        });
+        $(".model-list a img").click(function (event) {
+            console.log('pressed link');
+            window.location.href = "/dynamic_doc/" + $(this).parent().data('link') + "/?format={{ template_format }}#model-characteristics";
+            // Do something
+        });
+        $(".model-list i.fa-info-circle").click(function (event) {
+            console.log('pressed icon');
+            window.location.href = "/detailed_model_doc#" + $(this).parent().data('link');
+            // Do something
         });
 
 
@@ -431,7 +384,7 @@
         var chart = am4core.create("chartdiv", am4maps.MapChart);
 
 // Set map definition
-        chart.geodata = am4geodata_worldHigh;
+        chart.geodata = am4geodata_worldLow;
 
 // Set projection
         chart.projection = new am4maps.projections.Mercator();

@@ -58,6 +58,7 @@ class Emissions(models.Model):
     state = models.TextField()
     icon = models.TextField(default="")
     model_name = models.ManyToManyField(ModelsInfo)
+    title = models.TextField(default="")
 
     def __str__(self):
         return self.name

@@ -56,12 +56,15 @@
             fill: rgba(255, 255, 255, 0.91)
         }
 
-        .model-list img.not-selected{
-            opacity: 0.5;
+        .model-list a.not-selected{
+            opacity: 0.7;
         }
-        .model-list img:hover {
+        .model-list a:hover {
             opacity: 1;
+            cursor: pointer;
         }
+
+
 
         .model-list svg:hover {
             -webkit-animation-name: wiggle;
@@ -74,7 +77,7 @@
             -ms-animation-timing-function: ease-in-out;
         }
 
-        .model-list img:hover {
+        .model-list a:hover {
             -webkit-animation-name: wiggle;
             -ms-animation-name: wiggle;
             -ms-animation-duration: 200ms;
@@ -84,6 +87,8 @@
             -webkit-animation-timing-function: ease-in-out;
             -ms-animation-timing-function: ease-in-out;
         }
+
+
 
         @-webkit-keyframes wiggle {
             0% {
@@ -154,10 +159,21 @@
         .tooltip-demo{
             box-shadow: none;
         }
+        .model-list i.fa-info-circle:hover{
+            cursor: help;
+        }
+        .model-list i.fa-info-circle{
+            display: none;
+        }
+
+        .model-list a:hover i.fa-info-circle {
+            display: inline-block;
+        }
+
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/maps.js"></script>
-    <script src="https://www.amcharts.com/lib/4/geodata/worldHigh.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/worldLow.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
     <!-- =======================================================
       Theme Name: Green
@@ -205,13 +221,20 @@
                             Models</h3>
                         <div class="model-list tooltip-demo large" style="overflow: auto; height:19em; text-align: center">
                             {% for model,json in buttons.items %}
-                                <a class="col" href="/dynamic_doc/{{ model }}" style="overflow: visible; padding: 0">
                                 {% if model == selected_model_name %}
-                                    <img class="selected" style="width:6.3em; margin: 0.5em 0.1em 0.5em 0.1em " src="/static/icons/colored/{{ json.icon }}"
+                                    <a class="col selected" data-link="{{ model }}"
+                                       style="overflow: visible; padding: 0;position: relative;display: inline-block;">
+                                    <i style="position: absolute;left: 0.5em;top:1em;font-size: 0.8em;z-index: 1050;color:#f7f7f7;" class="fa fa-info-circle"></i>
+{#                                    <i style="position: absolute;right: 0.6em;bottom:1.3em;font-size: 0.6em;color: #828f38"#}
+{#                                       class="fa fa-check"></i>#}
+                                    <img class="selected" style="width:6.3em; margin: 0.5em 0.1em 0.5em 0.1em " src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
                                          data-toggle="tooltip" data-placement="auto"
                                          title='<p>{{ json.description }}</p>'>
                                     {% else %}
-                                        <img class="not-selected" style="width:6.3em; margin: 0.1em; margin: 0.5em 0.1em 0.5em 0.1em " src="/static/icons/grey/{{ json.icon }}" data-toggle="tooltip" data-placement="auto" title='<p>{{ json.description }}</p>'>
+                                    <a class="col not-selected" data-link="{{ model }}"
+                                       style="overflow: visible; padding: 0;position: relative;display: inline-block;">
+                                        <i style="position: absolute;left: 0.5em;top:1em;color:#cfd0d2;font-size: 0.8em;z-index: 1050" class="fa fa-info-circle"></i>
+                                        <img class="not-selected" style="width:6.3em; margin: 0.1em; margin: 0.5em 0.1em 0.5em 0.1em " src="/static/{{ sel_icons }}/grey/{{ json.icon }}" data-toggle="tooltip" data-placement="auto" title='<p>{{ json.description }}</p>'>
                                     {% endif %}
 {#                                <svg  data-toggle="tooltip" data-placement="auto" title='<p>{{ json.description }}</p>'>#}
 {##}
@@ -267,7 +290,7 @@
                             <img
                                style="background: transparent; padding: 0;"
                                        {% if vv.is_enable == 'green' %}
-                                          src="/static/icons/colored/{{ vv.icon }}"
+                                          src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
                                        {% else %}
                                         src="/static/icons/grey/{{ vv.icon }}"
                                        {% endif %}
@@ -288,7 +311,7 @@
                             <img
                                     style="background: transparent; padding: 0;"
                                     {% if vv.is_enable == 'green' %}
-                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
@@ -327,7 +350,7 @@
                                     style="
                                        background: transparent; padding: 0;"
                                     {% if vv.is_enable == 'green' %}
-                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
@@ -362,7 +385,7 @@
                             <img
                                     style="background: transparent; padding: 0;"
                                     {% if vv.is_enable == 'green' %}
-                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
@@ -394,14 +417,14 @@
                 <div class="row">
                     <h4 class="col-sm-6 col-md-1"
                         style=" position:relative;  font-size: 1em">
-                        Mitigation-Adaption Measures</h4>
+                        Mitigation-Adaptation Measures</h4>
                     <div class="col-sm-6 col-md-5 tooltip-demo well icons-list"
                          style="display: inline-block;background:transparent;">
-                        {% for k,vv in granularities.MitigationAdaptionMeasures.items %}
+                        {% for k,vv in granularities.MitigationAdaptationMeasures.items %}
                             <img
                                     style="background: transparent; padding: 0;"
                                     {% if vv.is_enable == 'green' %}
-                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    src="/static/{{ sel_icons}}/colored/{{ vv.icon }}"
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
@@ -437,7 +460,7 @@
                                     style="
                                        background: transparent; padding: 0;"
                                     {% if vv.is_enable == 'green' %}
-                                    src="/static/icons/colored/{{ vv.icon }}"
+                                    src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
@@ -568,6 +591,18 @@
             selector: 'img[data-toggle=tooltip]',
             container: ".model-list"
         });
+
+        $(".model-list a img").click(function (event) {
+            console.log('pressed link');
+            window.location.href = "/dynamic_doc/" + $(this).parent().data('link');
+            // Do something
+        });
+        $(".model-list i.fa-info-circle").click(function (event) {
+            console.log('pressed icon');
+            window.location.href = "/detailed_model_doc#" + $(this).parent().data('link');
+            // Do something
+        });
+
 {#        $('.tooltip-demo.well').tooltip({#}
 {#            html: true,#}
 {#            selector: 'i[data-toggle=tooltip]'#}
@@ -592,7 +627,7 @@
         var chart = am4core.create("chartdiv", am4maps.MapChart);
 
 // Set map definition
-        chart.geodata = am4geodata_worldHigh;
+        chart.geodata = am4geodata_worldLow;
 
 // Set projection
         chart.projection = new am4maps.projections.Mercator();

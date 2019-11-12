@@ -22,14 +22,18 @@ def dynamic_doc(request, model=''):
     db = countries_data.RetriveDB(model)
     data = db.create_json()
     list_of_models = db.create_models_btn()
+    sel_model_long_description = ModelsInfo.objects.get(id=db.model_id).long_description
     print(db.retrieve_granularity)
+    sel_icons = 'rev_icons'
     context = {
         'data': data,
         'buttons': list_of_models,
         'granularities': db.retrieve_granularity,
         'selected_model_name': ModelsInfo.objects.get(id=db.model_id).model_name,
         'selected_model_title': ModelsInfo.objects.get(id=db.model_id).model_title,
-        'template_format': template_format
+        'selected_model_description':sel_model_long_description,
+        'template_format': template_format,
+        'sel_icons':sel_icons
     }
     if template_format is not None:
         template = 'i2amparis_main/dynamic_documentation_final' + template_format + '.html'

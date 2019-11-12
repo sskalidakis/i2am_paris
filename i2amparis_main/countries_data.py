@@ -25,7 +25,7 @@ class RetriveDB:
             'SDGs': self.retrieve_sdgs(),
             'SocioEconomics': self.retrieve_socioecon(),
             'Emissions': self.retrieve_emission(),
-            'MitigationAdaptionMeasures': self.retrieve_mitigation_adaption(),
+            'MitigationAdaptationMeasures': self.retrieve_mitigation_adaption(),
         }
 
     def create_json(self):
@@ -40,6 +40,7 @@ class RetriveDB:
       :param model_name:
       :return:
       """
+        counter = 0
         data = []
         # First we take the list of region for the given model id
         regions = list(Regions.objects.filter(model_name=self.model_id).values_list('region_name', flat=True))
@@ -58,9 +59,15 @@ class RetriveDB:
             # descr:<descr of region>
             countries_list = list(map(lambda x: {'title': x[0], 'id': x[-1], 'descr': region_descr},
                                       countries_of_region))
+            if len(countries_list) == 1:
+                selected_color = color_list[0]
+                print('!!region has one country!!')
+            else:
+                counter = counter + 1
+                selected_color = color_list[counter]
             temp_dict = {
                 "name": temp.region_title,
-                "color": color_list[k],
+                "color": selected_color,
                 "data": countries_list
             }
             data.append(temp_dict)
@@ -272,7 +279,7 @@ class RetriveDB:
                     is_enabled = 'green'
                 else:
                     is_enabled = 'grey'
-                emission_html[emission.name] = {'html':'<p>'+ emission.state + '</p>','is_enable': is_enabled, 'icon':emission.icon}
+                emission_html[emission.name] = {'html':'<h4 style="text-align:center">' + emission.title + '</h4><p  style="text-align:center">'+ emission.state + '</p>','is_enable': is_enabled, 'icon':emission.icon}
 
 
         """
@@ -600,13 +607,18 @@ class RetriveDB:
 
     def generate_colors(self, n):
         color_list = []
-        color_list = ['#eef2c0','#ffdeb3','#b6f3fb','#d9d9d9','#e2e995','#ffc880','#85ebf9','#bfbfbf',
-                      '#d6e06b','#ffb14d','#55e4f7','#a6a6a6','#cbd741','#ff9b1a','#24dcf4','#8c8c8c',
-                      '#b1be28','#e68200','#0bc2db','#737373','#8a941f','#b36500','#0897aa','#595959',
-                      '#626a16','#804800','#066c7a','#404040','#3b3f0d','#4d2b00','#044149','#262626','#0d0d0d',
+        # color_list = ['#eef2c0','#ffdeb3','#b6f3fb','#d9d9d9','#e2e995','#ffc880','#85ebf9','#bfbfbf',
+        #               '#d6e06b','#ffb14d','#55e4f7','#a6a6a6','#cbd741','#ff9b1a','#24dcf4','#8c8c8c',
+        #               '#b1be28','#e68200','#0bc2db','#737373','#8a941f','#b36500','#0897aa','#595959',
+        #               '#626a16','#804800','#066c7a','#404040','#3b3f0d','#4d2b00','#044149','#262626','#0d0d0d',
+        #               ]
+        color_list = ['#8a941f',  '#e68200', '#066c7a',
+                      '#c7c78a','#91bec4','#ffb049','#0aaec5'
+                      ,'#454a0f','#ab6100', '#033a42','#758000','#434747', '#26909e', '#a89172', '#8fbec4', '#a89fc9',
+                      '#5a5275'
                       ]
-        shuffle(color_list)
-        color_list = color_list +color_list
+        # shuffle(color_list)
+        color_list = color_list
         # for i in range(n):
         #     r = lambda: random.randint(0, 255)
         #     color_list.append('#%02X%02X%02X' % (r(), r(), r()))
