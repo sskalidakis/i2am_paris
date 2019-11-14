@@ -264,8 +264,9 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div id="model-characteristics" class="row" style="margin: 0.1em;">
-                    <h3 style="text-align: center; margin-bottom: 1.5em">Spatial Coverage
+                <div class="row" style="margin: 0.1em;">
+                    <span style="position: relative;top:-5.5em" id="model-characteristics"></span>
+                    <h3 style="text-align: center; margin-bottom: 1.5em">Geographic Coverage
                         of {{ selected_model_title }}</h3>
                     <div class="col-md-1"></div>
                     <div class="col-md-10" style="height:28.5em; " id="chartdiv"></div>
@@ -273,23 +274,31 @@
                 </div>
                 <div class="row">
                     <div class="col-md-1"></div>
-                    <div class="col-md-10" style="font-size: 0.9em;margin: 0.3em;line-height: 1em;font-weight: 600">
-                        <p>Hover over the map to see the model's spatial coverage. Each color represents a different region.</p>
-                        <p><i class="fa fa-circle" style="color: #dfdfdf;margin-right: 0.5em"></i> Greyed out areas - Not
-                            available.</p>
-                        <p><i class="fa fa-circle" style="color: #8a941f;margin-right: 0.5em"></i>Green Areas - National Coverage</p>
+                    <div class="col-md-10" style="font-size: 0.8em;margin: 0.3em;line-height: 1.2em;font-weight: 400">
+                        <p>Note: Hover over the map to see the model's spatial coverage.</p>
+                        <p><i class="fa fa-circle" style="color: #dfdfdf;margin-right: 0.5em"></i> Grey indicates
+                            non-availability (i.e. areas not covered). </p>
+                        <p><i class="fa fa-circle" style="color: #8a941f;margin-right: 0.5em"></i>Green colour
+                            indicates national coverage (i.e. countries represented at the country-level.</p>
+                        <p>For countries not represented with national granularity, same colour for multiple
+                            countries indicates countries covered as part of the same region. Pop-up title on mouse
+                            over each covered country displays Name of Region (Name of Country)</p>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
             </div>
 
             <div class="container granularity granularities" style="margin: 0 0 1em 0;overflow: visible!important;z-index: 1; width:100%">
-                <h3 style="text-align: center">Granularity of {{ selected_model_title }}</h3>
+                <h3 style="text-align: center">Sectoral, Policy, SDG, Socioeconomic, Emissions and Technological
+                    Coverage/Granularity of {{ selected_model_title }}</h3>
             {% for gran,json in granularities.items %}
                 <div class="row">
                     {% if gran == 'MitigationAdaptationMeasures' %}
                         <h4 class="col-sm-12 col-md-1"
                             style="display: inline-block;  font-size: 1em">Mitigation/ Adaptation Measures</h4>
+                    {% elif gran == "SocioEconomics"%}
+                        <h4 class="col-sm-12 col-md-1"
+                            style="display: inline-block;  font-size: 1em">Socio- Economics</h4>
                     {% else %}
                         <h4 class="col-sm-12 col-md-1"
                             style="display: inline-block;  font-size: 1em">{{ gran }}</h4>
