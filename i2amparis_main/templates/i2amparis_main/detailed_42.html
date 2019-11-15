@@ -81,399 +81,147 @@
                 <div>
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                 </div>
-                <div class="panel-group gcam">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title" style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse" href="#collapse_gcam"><i
-                                        class="fa fa-caret-right rotate" style="margin-right: 10px;"></i>GCAM</a>
-                            </h4>
-                        </div>
-                        <div id="collapse_gcam" class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <span>Short overview </span>
-                                    <a style="display: none" href="#gcam_overview">Short overview </a>
-                                </li>
-                                <li class="list-group-item" style="padding: 0">
-                                    <div class="panel-group gcam_key_feat">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse" href="#collapse_gcam_key_feat"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>Key features of the GCAM
-                                                        model</a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_key_feat" class="panel-collapse collapse">
-                                                {#                                      MENU BAR#}
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Introduction</span>
-                                                        <a style="display: none" href="#gcam_key_feat_intro">Introduction</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Geographic coverage</span>
-                                                        <a style="display: none" href="#gcam_geo">Geographic
-                                                            coverage</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Energy system detail</span>
-                                                        <a style="display: none" href="#gcam_energy_system">Energy
-                                                            system detail</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Land and agricultural system detail</span>
-                                                        <a style="display: none" href="#gcam_land_agr">Land and
-                                                            agricultural system detail</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item"><span>Climate module & emissions granularity</span>
-                                    <a style="display: none" href="#gcam_emissions">
-                                        Climate module & emissions granularity</a></li>
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_socecon">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse" href="#collapse_gcam_socecon"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>Socioeconomic dimensions
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_socecon" class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Economic growth</span>
-                                                        <a style="display: none" href="#gcam_econ_growth">Economic
-                                                            growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Industrial sector growth</span>
-                                                        <a style="display: none" href="#gcam_industrial">Industrial
-                                                            sector growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Transport sector growth</span>
-                                                        <a style="display: none" href="#gcam_transport">Transport
-                                                            sector growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Building sector growth</span>
-                                                        <a style="display: none" href="#gcam_building">Building
-                                                            sector growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Demand for agricultural commodities</span>
-                                                        <a style="display: none" href="#gcam_demand_agr">Demand for
-                                                            agricultural commodities</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item"><span>Mitigation/adaptation measures and technologies</span>
-                                    <a style="display: none" href="#gcam_mitigation">
-                                        Mitigation/adaptation measures and technologies</a></li>
-                                <li class="list-group-item">
-                                    <span>Economic rationale and model solution</span>
-                                    <a style="display: none" href="#gcam_econ_rationale">
-                                        Economic rationale and model solution</a></li>
-                                <li class="list-group-item">
-                                    <span>Key parameters </span>
-                                    <a style="display: none" href="#gcam_key_parameters">
-                                        Key parameters </a></li>
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_policy">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_policy"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>Policy
-                                                        questions and SDGs
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_policy"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Key policies that can be addressed</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_addressed_pol">Key policies
-                                                            that can be addressed</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Implications for other SDGs</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sdg_implications">Implications
-                                                            for other SDGs</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>Recent use cases</span>
-                                    <a style="display: none" href="#gcam_recent_use_cases">Recent use
-                                        cases</a>
-                                </li>
-                                {#                                                      gcam_china#}
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_china">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_china"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>GCAM-China
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_china"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Overview</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_overview">Overview</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Key features of the GCAM-China model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_key_feat">Key
-                                                            features of the GCAM-China model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Calibration of the model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_calibration">Calibration
-                                                            of the model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key parameters</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_key_param">Key
-                                                            parameters</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Recent publications using GCAM-China</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_publications">Recent
-                                                            publications using GCAM-China</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>References </span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_references">References </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {#                                                      gcam_sousei#}
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_sousei">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_sousei"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>GCAM-SOUSEI
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_sousei"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Overview</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei_overview">Overview</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key features of the GCAM-SOUSEI model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei__key_feat">Key
-                                                            features of the GCAM-China model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Recent publications using GCAM-SOUSEI</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei__publications">Recent
-                                                            publications using GCAM-SOUSEI</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>References </span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei__references">References </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {#                                                      gcam_usa#}
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_usa">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_usa"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>GCAM-USA
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_usa"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Overview</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_overview">Overview</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key features of the GCAM-USA model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_key_feat">Key
-                                                            features of the GCAM-USA model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Calibration of the model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_calibration">Calibration
-                                                            of the model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key parameters</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_key_parameters">Key
-                                                            parameters</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Recent publications using GCAM-USA</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_publications">Recent
-                                                            publications using GCAM-USA</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>References </span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_references">References </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
 
-                {#                                  ALADIN#}
+
+                {#                                  42#}
                 <div class="panel-group aladin">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="padding:0px">
                             <h4 class="panel-title"
                                 style="background-color:#343a40; padding: 5px">
                                 <a data-toggle="collapse"
-                                   href="#collapse_aladin"><i
+                                   href="#collapse_42"><i
                                         class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>ALADIN
+                                        style="margin-right: 10px;"></i>42
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapse_aladin"
+                        <div id="collapse_42"
                              class="panel-collapse collapse">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Short overview</span>
                                     <a style="display: none"
-                                       href="#aladin_short_overview">Short Overview</a>
+                                       href="#42_short_overview">Short Overview</a>
                                 </li>
-                                <div class="panel-group aladin_methology">
+                                <div class="panel-group 42_key_feautures">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
                                             <h5 class="panel-title"
                                                 style="background-color:#343a40; padding: 5px">
                                                 <a data-toggle="collapse"
-                                                   href="#collapse_aladin_methology"><i
+                                                   href="#collapse_42_key_feautures"><i
                                                         class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Methology
+                                                        style="margin-right: 10px;"></i>Key features of the 42 model
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="collapse_aladin_methology"
+                                        <div id="collapse_collapse_42_key_feautures"
                                              class="panel-collapse collapse">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <span>Model core for Germany</span>
+                                                    <span>Geographic coverage</span>
                                                     <a style="display: none"
-                                                       href="#aladin_model_core_germany">
-                                                        Model core for Germany</a>
+                                                       href="#42_groegraphic_coverage">
+                                                       Geographic coverage</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <span>Passenger Cars outside of Germany</span>
+                                                    <span>Energy sectoral detail</span>
                                                     <a style="display: none"
-                                                       href="#aladin_passenger_cars_outside_germany">
-                                                        Passenger Cars outside of Germany</a>
+                                                       href="#42_energy_sectoral_detail">
+                                                       Energy sectoral detail</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <span>Heavy-duty vehicles</span>
+                                                    <span>Time coverage</span>
                                                     <a style="display: none"
-                                                       href="#aladin_heavy_duty_vehicles">
-                                                        Heavy-duty vehicles</a>
+                                                       href="#42_time_coverage">
+                                                       Time coverage</a>
                                                 </li>
-                                                <li class="list-group-item">
-                                                    <span>Input Data</span>
-                                                    <a style="display: none"
-                                                       href="#aladin_input_data">
-                                                        Input Data</a>
+
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="panel-group aladin_model_coverage">
+                                <li class="list-group-item">
+                                    <span>Emissions granularity</span>
+                                    <a style="display: none"
+                                       href="#42_emissions_granularity">Emissions granularity</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Socioeconomic dimensions</span>
+                                    <a style="display: none"
+                                       href="#42_socioecon_dim">Socioeconomic dimensions</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Population growth</span>
+                                    <a style="display: none"
+                                       href="#42_population_growth">Population growth</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Economic growth</span>
+                                    <a style="display: none"
+                                       href="#42_econ_growth">Economic growth</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Vehicle fleet</span>
+                                    <a style="display: none"
+                                       href="#42_vehicle_fleet">Vehicle fleet</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Energy intensity of the economy</span>
+                                    <a style="display: none"
+                                       href="#42_energy_intensity">Energy intensity of the economy</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Calibration of the model</span>
+                                    <a style="display: none"
+                                       href="#42_calibration">Calibration of the model</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Mitigation/adaptation measures and technologies</span>
+                                    <a style="display: none"
+                                       href="#42_mitigation_adaptation">Mitigation/adaptation measures and technologies</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Economic rationale and model solution</span>
+                                    <a style="display: none"
+                                       href="#42_econ_rationale">Economic rationale and model solution</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Key parameters</span>
+                                    <a style="display: none"
+                                       href="42_key_params">Key parameters</a>
+                                </li>
+
+
+                                <div class="panel-group 42_policies_sdgs">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
                                             <h5 class="panel-title"
                                                 style="background-color:#343a40; padding: 5px">
                                                 <a data-toggle="collapse"
-                                                   href="#collapse_aladin_model_coverage"><i
+                                                   href="#collapse_42_policies_sdgs"><i
                                                         class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Model
-                                                    coverage
+                                                        style="margin-right: 10px;"></i>Policy questions and SDGs
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="collapse_aladin_model_coverage"
+                                        <div id="collapse_42_policies_sdgs"
                                              class="panel-collapse collapse">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <span>Geographical, temporal, and segment coverage</span>
+                                                    <span>Key policies that can be addressed</span>
                                                     <a style="display: none"
-                                                       href="#aladin_gegraphical_temporal_segment">
-                                                        Geographical, temporal, and segment
-                                                        coverage</a>
+                                                       href="#42_key_policies">
+                                                        Key policies that can be addressed</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <span>Mitigation options</span>
+                                                    <span>Implications for other SDGs</span>
                                                     <a style="display: none"
-                                                       href="#aladin_mitigation_options">
-                                                        Mitigation options</a>
+                                                       href="#42_implications_sdgs">
+                                                        Implications for other SDGs</a>
                                                 </li>
 
 
@@ -484,18 +232,11 @@
                                     </div>
                                 </div>
                                 <li class="list-group-item">
-                                    <span>Specific modelling for PARIS REINFORCE</span>
+                                    <span>Recent use cases</span>
                                     <a style="display: none"
-                                       href="#aladin_paris_reinforce">Specific modelling for PARIS
-                                        REINFORCE</a>
+                                       href="#42_recent_use_cases">Recent use cases</a>
                                 </li>
-                                <li class="list-group-item">
-                                    <span>Recent publications using the ALADIN model</span>
-                                    <a style="display: none"
-                                       href="#aladin_recent_publications">
-                                        Recent publications using the ALADIN model
-                                    </a>
-                                </li>
+
 
                             </ul>
                         </div>
@@ -503,1203 +244,7 @@
                 </div>
 
 
-{#                                                  FORECAST#}
-                <div class="panel-group forecast">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_forecast"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>FORECAST
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_forecast"
-                             class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <span>Short overview</span>
-                                    <a style="display: none"
-                                       href="#forecast_short_overview">Short Overview</a>
-                                </li>
-                                <div class="panel-group forecast_key_feauters">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" style="padding:0px">
-                                            <h5 class="panel-title"
-                                                style="background-color:#343a40; padding: 5px">
-                                                <a data-toggle="collapse"
-                                                   href="#collapse_forecast_key_feauters"><i
-                                                        class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Key features
-                                                    of the FORECAST model
 
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapse_forecast_key_feauters"
-                                             class="panel-collapse collapse">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <span>Model structure</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_model_structure">
-                                                        Model structure
-                                                    </a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Geographical coverage and time-horizon</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_geographical_coverage">
-                                                        Geographical coverage and time-horizon</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Model result granularity</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_model_result_granularity">
-                                                        Model result granularity</a>
-                                                </li>
-
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-group forecast_methodology">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" style="padding:0px">
-                                            <h5 class="panel-title"
-                                                style="background-color:#343a40; padding: 5px">
-                                                <a data-toggle="collapse"
-                                                   href="#collapse_forecast_methodology"><i
-                                                        class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Methodology
-
-
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapse_forecast_methodology"
-                                             class="panel-collapse collapse">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <span>Industry</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_industry">
-                                                        Industry</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Tertiary</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_tertiary">
-                                                        Tertiary</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Residential</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_residential">
-                                                        Residential</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Modelling investment decision</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_modelling_investment">
-                                                        Modelling investment decision</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Modelling policies</span>
-                                                    <a style="display: none"
-                                                       href="#forecast_modelling_policies">
-                                                        Modelling policies</a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <li class="list-group-item">
-                                    <span>Key data sets</span>
-                                    <a style="display: none"
-                                       href="#forecast_key_data_sets">
-                                        Key data sets</a>
-                                </li>
-                                <li class="list-group-item">
-
-                                    <span>Recent publications using the FORECAST model</span>
-                                    <a style="display: none"
-                                       href="#forecast_recent_publications">
-                                        Recent publications using the FORECAST model</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-{#                                                  LEAP#}
-                <div class="panel-group leap">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_leap"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>LEAP
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_leap"
-                             class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <span>Short overview</span>
-                                    <a style="display: none"
-                                       href="#leap_short_overview">Short Overview</a>
-                                </li>
-                                <div class="panel-group leap_key_feauters">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" style="padding:0px">
-                                            <h5 class="panel-title"
-                                                style="background-color:#343a40; padding: 5px">
-                                                <a data-toggle="collapse"
-                                                   href="#collapse_leap_key_feauters"><i
-                                                        class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Key features
-                                                    of the LEAP tool
-
-
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapse_leap_key_feauters"
-                                             class="panel-collapse collapse">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                      <span>Energy sectoral detail
-
-</span>
-                                                    <a style="display: none"
-                                                       href="#leap_energy_sectoral">
-                                                        Energy sectoral detail
-
-                                                    </a>
-                                                </li>
-                                                <li class="list-group-item">
-                                      <span>Geographic coverage
-</span>
-                                                    <a style="display: none"
-                                                       href="#leap_geographic_coverage">
-                                                        Geographic coverage
-                                                    </a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Multi-year time periods</span>
-                                                    <a style="display: none"
-                                                       href="#leap_multi_year_time_periods">
-                                                        Multi-year time periods</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Intra-year time periods (time slices)</span>
-                                                    <a style="display: none"
-                                                       href="#leap_intra_year_time_periods">
-                                                        Intra-year time periods (time slices)</a>
-                                                </li>
-
-
-                                            </ul>
-                                        </div>
-                                        <li class="list-group-item">
-                                            <span>Climate module & emissions granularity</span>
-                                            <a style="display: none"
-                                               href="#leap_climate_module_emissions_granularity">
-                                                Climate module & emissions granularity</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Socioeconomic dimensions</span>
-                                            <a style="display: none"
-                                               href="#leap_socioecon_dimension">
-                                                Socioeconomic dimensions</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Calibration of the model</span>
-                                            <a style="display: none" href="#leap_calibration">
-                                                Calibration of the model</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Mitigation/adaptation measures and technologies</span>
-                                            <a style="display: none"
-                                               href="#leap_mitigation_adaptation">
-                                                Mitigation/adaptation measures and technologies</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Economic rationale and model solution</span>
-                                            <a style="display: none"
-                                               href="#leap_economic_rationale">
-                                                Economic rationale and model solution</a>
-                                        </li>
-
-                                        <div class="panel-group leap_policies_sdgs">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading" style="padding:0px">
-                                                    <h5 class="panel-title"
-                                                        style="background-color:#343a40; padding: 5px">
-                                                        <a data-toggle="collapse"
-                                                           href="#collapse_leap_policies_sdgs"><i
-                                                                class="fa fa-caret-right rotate"
-                                                                style="margin-right: 10px;"></i>Methodology
-
-
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapse_leap_policies_sdgs"
-                                                     class="panel-collapse collapse">
-                                                    <ul class="list-group">
-                                                        <li class="list-group-item">
-                                                            <span>Key policies that can be addressed</span>
-                                                            <a style="display: none"
-                                                               href="#leap_key_policies">
-                                                                Key policies that can be
-                                                                addressed</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Implications on other SDGs</span>
-                                                            <a style="display: none"
-                                                               href="#leap_implications_sdgs">
-                                                                Implications on other SDGs</a>
-                                                        </li>
-
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <li class="list-group-item">
-                                            <span>Recent publications using the LEAP model</span>
-                                            <a style="display: none"
-                                               href="#leap_recent_publications">
-                                                Implications on other Recent publications using the
-                                                LEAP model</a>
-                                        </li>
-
-                                    </div>
-                                </div>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-{#                                                                    JET#}
-{##}
-{##}
-                        <div class="panel-group jet">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" style="padding:0px">
-                                    <h4 class="panel-title"
-                                        style="background-color:#343a40; padding: 5px">
-                                        <a data-toggle="collapse"
-                                           href="#collapse_jet"><i
-                                                class="fa fa-caret-right rotate"
-                                                style="margin-right: 10px;"></i>JET-JRC-EU-TIMES
-
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse_jet"
-                                     class="panel-collapse collapse">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <span>Short overview</span>
-                                            <a style="display: none"
-                                               href="#jet_short_overview">Short Overview</a>
-                                        </li>
-                                        <div class="panel-group jet_key_feauters">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading" style="padding:0px">
-                                                    <h5 class="panel-title"
-                                                        style="background-color:#343a40; padding: 5px">
-                                                        <a data-toggle="collapse"
-                                                           href="#collapse_jet_key_feauters"><i
-                                                                class="fa fa-caret-right rotate"
-                                                                style="margin-right: 10px;"></i>Key
-                                                            features of the JET model
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapse_jet_key_feauters"
-                                                     class="panel-collapse collapse">
-                                                    <ul class="list-group">
-                                                        <li class="list-group-item">
-                                      <span>Energy sectoral detail
-
-</span>
-                                                            <a style="display: none"
-                                                               href="#jet_energy_sectoral">
-                                                                Energy sectoral detail
-
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                      <span>Geographic coverage
-</span>
-                                                            <a style="display: none"
-                                                               href="#jet_geographic_coverage">
-                                                                Geographic coverage
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Multi-year time periods</span>
-                                                            <a style="display: none"
-                                                               href="#jet_multi_year_time_periods">
-                                                                Multi-year time periods</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Intra-year time periods (time slices)</span>
-                                                            <a style="display: none"
-                                                               href="#jet_intra_year_time_periods">
-                                                                Intra-year time periods (time
-                                                                slices)</a>
-                                                        </li>
-
-
-                                                    </ul>
-                                                </div>
-                                                <li class="list-group-item">
-                                                    <span>Emissions granularity</span>
-                                                    <a style="display: none"
-                                                       href="#jet_emissions_granularity">
-                                                        Emissions granularity</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Socioeconomic dimensions</span>
-                                                    <a style="display: none"
-                                                       href="#jet_socioeconomic_dimensions">
-                                                        Socioeconomic dimensions</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Energy demand drivers and demand elasticities</span>
-                                                    <a style="display: none"
-                                                       href="#jet_energy_demand_drivers_elasticities">
-                                                        Energy demand drivers and demand
-                                                        elasticities</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Calibration of the model</span>
-                                                    <a style="display: none"
-                                                       href="#jet_calibration">
-                                                        Calibration of the model</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Mitigation/adaptation measures and technologies</span>
-                                                    <a style="display: none"
-                                                       href="#jet_mitigation_adaptation">
-                                                        Mitigation/adaptation measures and
-                                                        technologies</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Economic rationale and model solution</span>
-                                                    <a style="display: none"
-                                                       href="#jet_economic_rationale">
-                                                        Economic rationale and model solution</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Value of key parameters</span>
-                                                    <a style="display: none"
-                                                       href="#jet_value_key_param">
-                                                        Value of key parameters</a>
-                                                </li>
-
-                                                <div class="panel-group jet_policies_sdgs">
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading"
-                                                             style="padding:0px">
-                                                            <h5 class="panel-title"
-                                                                style="background-color:#343a40; padding: 5px">
-                                                                <a data-toggle="collapse"
-                                                                   href="#collapse_jet_policies_sdgs"><i
-                                                                        class="fa fa-caret-right rotate"
-                                                                        style="margin-right: 10px;"></i>Methodology
-
-
-                                                                </a>
-                                                            </h5>
-                                                        </div>
-                                                        <div id="collapse_jet_policies_sdgs"
-                                                             class="panel-collapse collapse">
-                                                            <ul class="list-group">
-                                                                <li class="list-group-item">
-                                                                    <span>Key policies that can be addressed</span>
-                                                                    <a style="display: none"
-                                                                       href="#jet_key_policies">
-                                                                        Key policies that can be
-                                                                        addressed</a>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <span>Implications for other SDGs</span>
-                                                                    <a style="display: none"
-                                                                       href="#jet_implications_sdgs">
-                                                                        Implications on other
-                                                                        SDGs</a>
-                                                                </li>
-
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <li class="list-group-item">
-                                      <span>Recent publications using the JRC-EU-TIMES model
-</span>
-                                                    <a style="display: none"
-                                                       href="#jet_recent_puplications">
-                                                        Recent publications using the JRC-EU-TIMES
-                                                        model
-                                                    </a>
-                                                </li>
-
-                                            </div>
-                                        </div>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-{##}
-                                {#Begin NEMESIS#}
-{##}
-                                <div class="panel-group nemesis">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" style="padding:0px">
-                                            <h4 class="panel-title"
-                                                style="background-color:#343a40; padding: 5px">
-                                                <a data-toggle="collapse"
-                                                   href="#collapse_nemesis"><i
-                                                        class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>NEMESIS
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapse_nemesis"
-                                             class="panel-collapse collapse">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <span>Short overview</span>
-                                                    <a style="display: none"
-                                                       href="#nemesis_short_overview">Short
-                                                        Overview</a>
-                                                </li>
-                                                <div class="panel-group nemesis_key_feauters">
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading"
-                                                             style="padding:0px">
-                                                            <h5 class="panel-title"
-                                                                style="background-color:#343a40; padding: 5px">
-                                                                <a data-toggle="collapse"
-                                                                   href="#collapse_nemesis_key_feauters"><i
-                                                                        class="fa fa-caret-right rotate"
-                                                                        style="margin-right: 10px;"></i>Key
-                                                                    features of the NEMESIS model
-
-
-                                                                </a>
-                                                            </h5>
-                                                        </div>
-                                                        <div id="collapse_nemesis_key_feauters"
-                                                             class="panel-collapse collapse">
-                                                            <ul class="list-group">
-                                                                <li class="list-group-item">
-                                                                    <span>Geographical coverage</span>
-                                                                    <a style="display: none"
-                                                                       href="#nemesis_geographical_coverage">
-                                                                        Geographical coverage</a>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <span>Economic activities coverage</span>
-                                                                    <a style="display: none"
-                                                                       href="#nemesis_economic_act_cov">
-                                                                        Economic activities
-                                                                        coverage</a>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <span>Multi-year time periods</span>
-                                                                    <a style="display: none"
-                                                                       href="#leap_multi_year_time_periods">
-                                                                        Multi-year time periods</a>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <span>Databases</span>
-                                                                    <a style="display: none"
-                                                                       href="#nemesis_databases">
-                                                                        Databases</a>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <span>The economic core</span>
-                                                                    <a style="display: none"
-                                                                       href="#nemesis_econ_core">
-                                                                        The economic core</a>
-                                                                </li>
-
-
-                                                            </ul>
-                                                        </div>
-                                                        <li class="list-group-item">
-                                      <span>Energy module & emissions granularity
-</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_energy_module_emiss_gran">
-                                                                Energy module & emissions
-                                                                granularity
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Socioeconomic dimensions</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_socioecon_dimesion">
-                                                                Socioeconomic dimensions</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                      <span>EU demography
-</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_eu_demography">
-                                                                EU demography
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                      <span>Financial exogenous variables
-</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_finac_exo_var">
-                                                                Financial exogenous variables
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>World demand indicators and price</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_world_demand_indicator_price">
-                                                                World demand indicators and
-                                                                price</a>
-                                                        </li>
-
-                                                        <li class="list-group-item">
-                                                            <span>Socioeconomic indicators</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_socioeconomic_indicators">
-                                                                Socioeconomic indicators</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Some key parameters for climate change mitigation assessment</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_key_param_climate_mitigation">
-                                                                Some key parameters for climate
-                                                                change mitigation assessment</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Substitution elasticity between production factors</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_substitution_elasticity">
-                                                                Substitution elasticity between
-                                                                production factors</a>
-                                                        </li>
-
-
-                                                        <div class="panel-group nemesis_mitigation_adaptation">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading"
-                                                                     style="padding:0px">
-                                                                    <h5 class="panel-title"
-                                                                        style="background-color:#343a40; padding: 5px">
-                                                                        <a data-toggle="collapse"
-                                                                           href="#collapse_nemesis_mitigation_adaptation"><i
-                                                                                class="fa fa-caret-right rotate"
-                                                                                style="margin-right: 10px;"></i>Mitigation/adaptation
-                                                                            measures and
-                                                                            technologies
-
-
-                                                                        </a>
-                                                                    </h5>
-                                                                </div>
-                                                                <div id="collapse_nemesis_mitigation_adaptation"
-                                                                     class="panel-collapse collapse">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item">
-                                                                            <span>Substitution elasticity between energy sources</span>
-                                                                            <a style="display: none"
-                                                                               href="#nemesis_substitution_elasticity_between_energy_sources">
-                                                                                Substitution
-                                                                                elasticity between
-                                                                                energy sources</a>
-                                                                        </li>
-
-
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="panel-group nemesis_mitigation_adaptation_m">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading"
-                                                                     style="padding:0px">
-                                                                    <h5 class="panel-title"
-                                                                        style="background-color:#343a40; padding: 5px">
-                                                                        <a data-toggle="collapse"
-                                                                           href="#collapse_nemesis_mitigation_adaptation_m"><i
-                                                                                class="fa fa-caret-right rotate"
-                                                                                style="margin-right: 10px;"></i>Mitigation/adaptation
-                                                                            measures
-
-
-                                                                        </a>
-                                                                    </h5>
-                                                                </div>
-                                                                <div id="collapse_nemesis_mitigation_adaptation_m"
-                                                                     class="panel-collapse collapse">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item">
-                                                                            <span>Alone or linked</span>
-                                                                            <a style="display: none"
-                                                                               href="#nemesis_alone_or_linked">
-                                                                                Alone or linked</a>
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <span>Climate change mitigation policies: a set of assumptions to define</span>
-                                                                            <a style="display: none"
-                                                                               href="#nemesis_climate_change_mitigation_policies">
-                                                                                Climate change
-                                                                                mitigation policies:
-                                                                                a set of assumptions
-                                                                                to define</a>
-                                                                        </li>
-
-
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <li class="list-group-item">
-                                      <span>Recent publications using the NEMESIS model
-</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_recent_puplications">
-                                                                Recent publications using the
-                                                                NEMESIS model
-                                                            </a>
-                                                        </li>
-
-
-                                                    </div>
-                                                </div>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                        {#End NEMESIS#}
-{##}
-{##}
-                                        {#    Begin                                          References for D5.1#}
-
-                                            <div class="panel-group references">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" style="padding:0px">
-                                                        <h4
-                                                                class="panel-title"
-                                                                style="background-color:#343a40; padding: 5px">
-                                                            <a
-                                                                    href="#d5_1_references"><i
-                                                                    class="fa fa-caret-right rotate"
-                                                                    style="margin-right: 10px;"></i>References
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-{##}
-                                            {# End                                              References for D5.1#}
-{##}
-                                            {#                                                    Begin CONTO#}
-                                            <div class="panel-group conto">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" style="padding:0px">
-                                                        <h4 class="panel-title"
-                                                            style="background-color:#343a40; padding: 5px">
-                                                            <a data-toggle="collapse"
-                                                               href="#collapse_conto"><i
-                                                                    class="fa fa-caret-right rotate"
-                                                                    style="margin-right: 10px;"></i>CONTO
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapse_conto"
-                                                         class="panel-collapse collapse">
-                                                        <ul class="list-group">
-                                                            <li class="list-group-item">
-                                                                <span>Overview</span>
-                                                                <a style="display: none"
-                                                                   href="#conto_overview">Overview</a>
-                                                            </li>
-                                                            <div class="panel-group conto_key_feauters">
-                                                                <div class="panel panel-default">
-                                                                    <div class="panel-heading"
-                                                                         style="padding:0px">
-                                                                        <h5 class="panel-title"
-                                                                            style="background-color:#343a40; padding: 5px">
-                                                                            <a data-toggle="collapse"
-                                                                               href="#collapse_conto_key_feauters"><i
-                                                                                    class="fa fa-caret-right rotate"
-                                                                                    style="margin-right: 10px;"></i>Key
-                                                                                features of the
-                                                                                CONTO model
-
-
-                                                                            </a>
-                                                                        </h5>
-                                                                    </div>
-                                                                    <div id="collapse_conto_key_feauters"
-                                                                         class="panel-collapse collapse">
-                                                                        <ul class="list-group">
-                                                                            <li class="list-group-item">
-                                                                                <span>Economic activities coverage</span>
-                                                                                <a style="display: none"
-                                                                                   href="#conto_economics_activities_coverage">
-                                                                                    Economic
-                                                                                    activities
-                                                                                    coverage</a>
-                                                                            </li>
-                                                                            <li class="list-group-item">
-                                                                                <span>Energy sectoral detail</span>
-                                                                                <a style="display: none"
-                                                                                   href="#conto_energy_sectoral">
-                                                                                    Energy sectoral
-                                                                                    detail</a>
-                                                                            </li>
-                                                                            <li class="list-group-item">
-                                                                                <span>Time periods</span>
-                                                                                <a style="display: none"
-                                                                                   href="#conto_time_periods">
-                                                                                    Time periods</a>
-                                                                            </li>
-
-
-                                                                        </ul>
-                                                                    </div>
-                                                                    <li class="list-group-item">
-                                                                        <span>Climate module & emissions granularity</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_climate_emissions">
-                                                                            Climate module &
-                                                                            emissions
-                                                                            granularity</a>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                      <span>Drivers of energy and other GHG-emitting service demands
-</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_drivers_of_energy">
-                                                                            Drivers of energy and
-                                                                            other GHG-emitting
-                                                                            service demands
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                                                        <span>Calibration of the model</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_calibration">
-                                                                            Calibration of the
-                                                                            model</a>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                                                        <span>Mitigation/adaptation measures and technologies</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_mitigation_adaptation">
-                                                                            Mitigation/adaptation
-                                                                            measures and
-                                                                            technologies</a>
-                                                                    </li>
-
-
-                                                                                                                  start
-
-                                                                    <div class="panel-group conto_eco_rat">
-                                                                        <div class="panel panel-default">
-                                                                            <div class="panel-heading"
-                                                                                 style="padding:0px">
-                                                                                <h5 class="panel-title"
-                                                                                    style="background-color:#343a40; padding: 5px">
-                                                                                    <a data-toggle="collapse"
-                                                                                       href="#collapse_conto_eco_rat"><i
-                                                                                            class="fa fa-caret-right rotate"
-                                                                                            style="margin-right: 10px;"></i>Economic
-                                                                                        rationale
-                                                                                        and model
-                                                                                        solution
-
-
-                                                                                    </a>
-                                                                                </h5>
-                                                                            </div>
-                                                                            <div id="collapse_conto_eco_rat"
-                                                                                 class="panel-collapse collapse">
-                                                                                <ul class="list-group">
-                                                                                    <li class="list-group-item">
-                                                                                        <span>Input-output unit</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_input_output_unit">
-                                                                                            Input-output
-                                                                                            unit</a>
-                                                                                    </li>
-                                                                                    <li class="list-group-item">
-                                                                                        <span>Interaction of input-output and energy units</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_interaction_input_output">
-                                                                                            Interaction
-                                                                                            of
-                                                                                            input-output
-                                                                                            and
-                                                                                            energy
-                                                                                            units</a>
-                                                                                    </li>
-                                                                                    <li class="list-group-item">
-                                                                                        <span>Exogenous parameters of energy efficiency</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_energy_params">
-                                                                                            Exogenous
-                                                                                            parameters
-                                                                                            of
-                                                                                            energy
-                                                                                            efficiency</a>
-                                                                                    </li>
-                                                                                    <li class="list-group-item">
-                                                                                        <span>New technologies unit</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_new_techologies_unit">
-                                                                                            New
-                                                                                            technologies
-                                                                                            unit</a>
-                                                                                    </li>
-                                                                                    <li class="list-group-item">
-                                                                                        <span>CO2 emissions unit</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_co2_emissions">
-                                                                                            CO2
-                                                                                            emissions
-                                                                                            unit</a>
-                                                                                    </li>
-
-
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                                                                  end
-
-                                                                    <li class="list-group-item">
-                                                                        <span>Key parameters</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_key_parameters">
-                                                                            Key parameters</a>
-                                                                    </li>
-
-
-                                                                    <div class="panel-group conto_policiy_sdg">
-                                                                        <div class="panel panel-default">
-                                                                            <div class="panel-heading"
-                                                                                 style="padding:0px">
-                                                                                <h5 class="panel-title"
-                                                                                    style="background-color:#343a40; padding: 5px">
-                                                                                    <a data-toggle="collapse"
-                                                                                       href="#collapse_conto_policiy_sdg"><i
-                                                                                            class="fa fa-caret-right rotate"
-                                                                                            style="margin-right: 10px;"></i>Policy
-                                                                                        questions
-                                                                                        and SDGs
-
-
-                                                                                    </a>
-                                                                                </h5>
-                                                                            </div>
-                                                                            <div id="collapse_conto_policiy_sdg"
-                                                                                 class="panel-collapse collapse">
-                                                                                <ul class="list-group">
-                                                                                    <li class="list-group-item">
-                                                                                        <span>Key policies that can be addressed</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_key_policies_sdgs">
-                                                                                            Key
-                                                                                            policies
-                                                                                            that can
-                                                                                            be
-                                                                                            addressed</a>
-                                                                                    </li>
-                                                                                    <li class="list-group-item">
-                                                                                        <span>Implications for other SDGs</span>
-                                                                                        <a style="display: none"
-                                                                                           href="#conto_implications_sdgs">
-                                                                                            Implications
-                                                                                            for
-                                                                                            other
-                                                                                            SDGs</a>
-                                                                                    </li>
-
-
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                    <li class="list-group-item">
-                                                                        <span>Recent publications using the CONTO model</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_recent_publications">
-                                                                            Recent publications
-                                                                            using the CONTO
-                                                                            model</a>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                                                        <span>References</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_references">
-                                                                            References</a>
-                                                                    </li>
-
-                                                                </div>
-                                                            </div>
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                                    {#                                                    End CONTO#}
-                                                    {#                                              Begin MARKAL#}
-                                                    <div class="panel-group references">
-                                                        <div class="panel panel-default">
-                                                        <div class="panel-heading"
-                                                             style="padding:0px">
-                                                            <h4
-                                                                                                                              class="panel-title"
-                                                                    style="background-color:#343a40; padding: 5px">
-                                                                <a
-                                                                        href="#markal_india"><i
-                                                                                                                                      class="fa fa-caret-right rotate"
-                                                                        style="margin-right: 10px;"></i>MARKAL-India
-
-                                                                </a>
-                                                            </h4>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-{#                                                                                                      End MARKAL#}
-{##}
-{#                                                                                                               Begin MAPLE#}
-
-                                                        <div class="panel-group maple">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading"
-                                                                     style="padding:0px">
-                                                                    <h4 class="panel-title"
-                                                                        style="background-color:#343a40; padding: 5px">
-                                                                        <a data-toggle="collapse"
-                                                                           href="#collapse_maple"><i
-                                                                                class="fa fa-caret-right rotate"
-                                                                                style="margin-right: 10px;"></i>Maple
-                                                                        </a>
-                                                                    </h4>
-                                                                </div>
-                                                                <div id="collapse_maple"
-                                                                     class="panel-collapse collapse">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item">
-                                                                            <span>Overview</span>
-                                                                            <a style="display: none"
-                                                                               href="#maple_overview">Overview</a>
-                                                                        </li>
-                                                                        <div class="panel-group maple_key_feauters">
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading"
-                                                                                     style="padding:0px">
-                                                                                    <h5 class="panel-title"
-                                                                                        style="background-color:#343a40; padding: 5px">
-                                                                                        <a data-toggle="collapse"
-                                                                                           href="#collapse_maple_key_feauters"><i
-                                                                                                class="fa fa-caret-right rotate"
-                                                                                                style="margin-right: 10px;"></i>Key
-                                                                                            features
-                                                                                            of the
-                                                                                            model
-
-
-                                                                                        </a>
-                                                                                    </h5>
-                                                                                </div>
-                                                                                <div id="collapse_maple_key_feauters"
-                                                                                     class="panel-collapse collapse">
-                                                                                    <ul class="list-group">
-                                                                                        <li class="list-group-item">
-                                                                                            <span>Energy sectoral detail</span>
-                                                                                            <a style="display: none"
-                                                                                               href="#maple_energy_sectoral">
-                                                                                                Energy
-                                                                                                sectoral
-                                                                                                detail</a>
-                                                                                        </li>
-                                                                                        <li class="list-group-item">
-                                                                                            <span>Geographic coverage</span>
-                                                                                            <a style="display: none"
-                                                                                               href="#maple_geographic_coverage">
-                                                                                                Geographic
-                                                                                                coverage</a>
-                                                                                        </li>
-                                                                                        <li class="list-group-item">
-                                                                                            <span>Multi-year time periods</span>
-                                                                                            <a style="display: none"
-                                                                                               href="#maple_multi_year_time_periods">
-                                                                                                Multi-year
-                                                                                                time
-                                                                                                periods</a>
-                                                                                        </li>
-                                                                                        <li class="list-group-item">
-                                                                                            <span>Intra-year time periods (time slices)</span>
-                                                                                            <a style="display: none"
-                                                                                               href="#maple_intra_year_time_periods">
-                                                                                                Intra-year
-                                                                                                time
-                                                                                                periods
-                                                                                                (time
-                                                                                                slices)</a>
-                                                                                        </li>
-
-
-                                                                                    </ul>
-                                                                                </div>
-                                                                                <li class="list-group-item">
-                                                                                    <span>GHG Emission and local pollutant emissions</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_ghg_emission">
-                                                                                        GHG Emission
-                                                                                        and local
-                                                                                        pollutant
-                                                                                        emissions</a>
-                                                                                </li>
-
-                                                                                <div class="panel-group maple_energy_ghg">
-                                                                                    <div class="panel panel-default">
-                                                                                        <div class="panel-heading"
-                                                                                             style="padding:0px">
-                                                                                            <h5 class="panel-title"
-                                                                                                style="background-color:#343a40; padding: 5px">
-                                                                                                <a data-toggle="collapse"
-                                                                                                   href="#collapse_maple_energy_ghg"><i
-                                                                                                        class="fa fa-caret-right rotate"
-                                                                                                        style="margin-right: 10px;"></i>Drivers
-                                                                                                    of
-                                                                                                    energy
-                                                                                                    and
-                                                                                                    other
-                                                                                                    GHG-emitting
-                                                                                                    service
-                                                                                                    demands
-
-
-                                                                                                </a>
-                                                                                            </h5>
-                                                                                        </div>
-                                                                                        <div id="collapse_maple_energy_ghg"
-                                                                                             class="panel-collapse collapse">
-                                                                                            <ul class="list-group">
-                                                                                                <li class="list-group-item">
-                                                                                                    <span>GDP, population and urbanisation</span>
-                                                                                                    <a style="display: none"
-                                                                                                       href="#maple_gdp_population">
-                                                                                                        GDP,
-                                                                                                        population
-                                                                                                        and
-                                                                                                        urbanisation</a>
-                                                                                                </li>
-                                                                                                <li class="list-group-item">
-                                                                                                    <span>Energy demand drivers</span>
-                                                                                                    <a style="display: none"
-                                                                                                       href="#maple_energy_demand_drivers"></a>
-                                                                                                    Energy
-                                                                                                    demand
-                                                                                                    drivers/a>
-                                                                                                </li>
-
-
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <li class="list-group-item">
-                                                                                    <span>Calibration of the model</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_calibration">
-                                                                                        Calibration
-                                                                                        of the
-                                                                                        model</a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <span>Mitigation/adaptation measures and technologies</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_mitigation_adaptation">
-                                                                                        Mitigation/adaptation
-                                                                                        measures and
-                                                                                        technologies</a>
-                                                                                <li class="list-group-item">
-                                                                                    <span>Economic rationale and model solution</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_economic_rationale">
-                                                                                        Economic
-                                                                                        rationale
-                                                                                        and model
-                                                                                        solution</a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <span>Key Parameters</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_key_params">
-                                                                                        Key
-                                                                                        Parameters</a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <span>Policy questions and SDGs</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_policy_sdgs">
-                                                                                        Policy
-                                                                                        questions
-                                                                                        and SDGs</a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <span>Recent publications</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_recent_publications">
-                                                                                        Recent
-                                                                                        publications</a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <span>References</span>
-                                                                                    <a style="display: none"
-                                                                                       href="#maple_references">
-                                                                                        References</a>
-                                                                                </li>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                                {#                                                       End MAPLE#}
 {##}
 {##}
 {#                        </div>#}
@@ -1723,7 +268,23 @@
                               <span id="42_short_overview" class="anchor"></span>
                               <h2 class="mb-0 heading-new">Short overview</h2>
                               <p>
-                                  42 is a simulation model for estimating CO2 emissions associated with energy consumption in a wide range of countries, dividing the world into 50 countries and regions. The key goal of the model is to describe the target characteristics of the perspective energy sector in different countries for their effective integration into the global process of regulating emissions. The model is used to calculate the impacts of possible structural changes, as well as of improvements in the efficiency of energy use. The energy sector of all countries is described in detail in the form of energy balances, synchronised with the methodology of the International Energy Agency (IEA). Modelling is based on a bottom-up approach: first, the final consumption of energy resources is estimated for the industrial, transport, residential, and services sectors; and then model calculates the necessary amount of primary energy resources needed to produce petroleum products, electricity and heat. Key influencing factors include changes in the fuel structure of electricity and heat production; changes in the efficiency of electricity and heat production based on different types of fuel; changes in the structure of vehicle fleet (for cars and trucks); changes in energy consumption per capita; and changes in energy efficiency in manufacturing sectors of the economy.
+                                  42 is a simulation model for estimating CO2 emissions associated with energy
+                                  consumption in a wide range of countries, dividing the world into 50 countries and
+                                  regions. The key goal of the model is to describe the target characteristics of the
+                                  perspective energy sector in different countries for their effective integration
+                                  into the global process of regulating emissions. The model is used to calculate
+                                  the impacts of possible structural changes, as well as of improvements in the
+                                  efficiency of energy use. The energy sector of all countries is described in
+                                  detail in the form of energy balances, synchronised with the methodology of the
+                                  International Energy Agency (IEA). Modelling is based on a bottom-up approach:
+                                  first, the final consumption of energy resources is estimated for the industrial,
+                                  transport, residential, and services sectors; and then model calculates the necessary
+                                  amount of primary energy resources needed to produce petroleum products, electricity
+                                  and heat. Key influencing factors include changes in the fuel structure of electricity
+                                  and heat production; changes in the efficiency of electricity and heat production
+                                  based on different types of fuel; changes in the structure of vehicle fleet (for cars
+                                  and trucks); changes in energy consumption per capita; and changes in energy
+                                  efficiency in manufacturing sectors of the economy.
                               </p>
                           </section>
                      </div>
@@ -1735,7 +296,8 @@
                                 <span id="42_groegraphic_coverage" class="anchor"></span>
                               <h4 class="mb-0 heading-new">Geographic coverage</h4>
                               <p>
-                                  In the 42 model, the world is divided into 50 countries and regions, as shown in Table 22:
+                                  In the 42 model, the world is divided into 50 countries and regions, as shown in
+                                  Table 22:
                               </p>
 
                                <div class="my_table table-responsive">
@@ -1755,7 +317,8 @@
                                       </tr>
                                       <tr>
                                           <td>Central and South America</td>
-                                          <td>Argentina, Brazil, Columbia, Ecuador, Venezuela, Other Central and South America</td>
+                                          <td>Argentina, Brazil, Columbia, Ecuador, Venezuela, Other Central and
+                                              South America</td>
                                       </tr>
                                       <tr>
                                           <td>Europe</td>
@@ -1763,13 +326,15 @@
                                       </tr>
                                       <tr>
                                           <td>Commonwealth of Independent States</td>
-                                          <td>Russia, Azerbaijan, Belarus, Kazakhstan, Turkmenistan, Ukraine, Uzbekistan, Other countries</td>
+                                          <td>Russia, Azerbaijan, Belarus, Kazakhstan, Turkmenistan, Ukraine,
+                                              Uzbekistan, Other countries</td>
                                       </tr>
                                       <tr>
                                           <td>
                                               Africa
                                           </td>
-                                          <td>Angola, Algeria, Egypt, Gabon, Libya, Mozambique, Nigeria, South Africa, Other Africa</td>
+                                          <td>Angola, Algeria, Egypt, Gabon, Libya, Mozambique, Nigeria, South Africa,
+                                              Other Africa</td>
                                       </tr>
                                       <tr>
                                           <td>Middle East</td>
@@ -1777,7 +342,8 @@
                                       </tr>
                                       <tr>
                                           <td>Asia</td>
-                                          <td>Australia, China, India, Indonesia, Japan, South Korea, Malaysia, New Zeeland, Thailand, Vietnam, Other Asia</td>
+                                          <td>Australia, China, India, Indonesia, Japan, South Korea, Malaysia,
+                                              New Zeeland, Thailand, Vietnam, Other Asia</td>
                                       </tr>
 
                                       </tbody>
@@ -1794,13 +360,20 @@
                               <span id="42_energy_sectoral_detail" class="anchor"></span>
                               <h4 class="mb-0 heading-new">Energy sectoral detail</h4>
                               <p>
-                                  The description of the energy sector is performed through energy balances synchronised with the methodology of the International Energy Agency and built on the basis of its data.
+                                  The description of the energy sector is performed through energy balances synchronised
+                                  with the methodology of the International Energy Agency and built on the basis of its
+                                  data.
                               </p>
                               <p>
-                                  Primary energy resources include coal, natural gas, oil, nuclear, hydro, solar, wind, biofuels, and other renewables; while secondary energy resources include electricity, heat, oil products (gasoline, diesel, fuel oil, jet fuel, naphtha and LPG, and others).
+                                  Primary energy resources include coal, natural gas, oil, nuclear, hydro, solar, wind,
+                                  biofuels, and other renewables; while secondary energy resources include electricity,
+                                  heat, oil products (gasoline, diesel, fuel oil, jet fuel, naphtha and LPG, and
+                                  others).
                               </p>
                               <p>
-                                  The structure of the energy consumption balance is quite typical, although there is particular aggregation in the final consumption unit. The model also distinguishes energy consumption for bunkering. Road transport is divided into cars and trucks.
+                                  The structure of the energy consumption balance is quite typical, although there
+                                  is particular aggregation in the final consumption unit. The model also distinguishes
+                                  energy consumption for bunkering. Road transport is divided into cars and trucks.
                               </p>
 
                                <div class="my_table table-responsive">
@@ -1875,7 +448,8 @@
                               <span id="42_time_coverage" class="anchor"></span>
                               <h4 class="mb-0 heading-new">Time coverage</h4>
                               <p>
-                                  The forecast period is until 2045, while energy balances of all countries are built for each year (i.e. one-year time steps).
+                                  The forecast period is until 2045, while energy balances of all countries are
+                                  built for each year (i.e. one-year time steps).
                               </p>
                           </section>
                     </div>
@@ -1885,7 +459,11 @@
                               <span id="42_emissions_granularity" class="anchor"></span>
                               <h2 class="mb-0 heading-new">Emissions granularity</h2>
                               <p>
-                                  42 does not have a climate module and does not calculate the impact of anthropogenic emissions on climate change. The current version of the model tracks only carbon dioxide (CO2) emissions. It may be expanded during the implementation of the PARIS REINFORCE project, in order to provide a more complete description of anthropogenic emissions.
+                                  42 does not have a climate module and does not calculate the impact of
+                                  anthropogenic emissions on climate change. The current version of the model tracks
+                                  only carbon dioxide (CO2) emissions. It may be expanded during the implementation of
+                                  the PARIS REINFORCE project, in order to provide a more complete description of
+                                  anthropogenic emissions.
                               </p>
                           </section>
                     </div>
@@ -1910,7 +488,11 @@
                               <span id="42_population_growth" class="anchor"></span>
                               <h4 class="mb-0 heading-new">Population growth</h4>
                               <p>
-                                  Population growth is one of the primary causes of world energy consumption increase. The UN demographic forecast is usually employed as a basis for population scenarios. The reference (medium) scenario assumes an increase in the global population to 9.5 billion by 2045 (average annual growth rate of 0.7%). 42 does not consider population structure (e.g. by age group, urbanisation status, etc.).
+                                  Population growth is one of the primary causes of world energy consumption increase.
+                                  The UN demographic forecast is usually employed as a basis for population scenarios.
+                                  The reference (medium) scenario assumes an increase in the global population to 9.5
+                                  billion by 2045 (average annual growth rate of 0.7%). 42 does not consider population
+                                  structure (e.g. by age group, urbanisation status, etc.).
                               </p>
                           </section>
                      </div>
@@ -1919,10 +501,20 @@
                               <span id="42_econ_growth" class="anchor"></span>
                               <h4 class="mb-0 heading-new">Economic growth</h4>
                               <p>
-                                  Another driver for increasing energy consumption is economic growth. Currently, scenario hypotheses on the GDP growth rates for all the countries and regions under consideration are set in accordance with calculations on economic forecasting models performed by the team of the Institute of Economic Forecasting of the Russian Academy of Sciences. According to these estimates, global GDP will increase 2.45 times, from 110 (currently) to 270 trillion dollars (2011 PPP) by 2045. However, 42 can use any hypotheses on GDP growth as inputs.
+                                  Another driver for increasing energy consumption is economic growth. Currently,
+                                  scenario hypotheses on the GDP growth rates for all the countries and regions under
+                                  consideration are set in accordance with calculations on economic forecasting models
+                                  performed by the team of the Institute of Economic Forecasting of the Russian Academy
+                                  of Sciences. According to these estimates, global GDP will increase 2.45 times, from
+                                  110 (currently) to 270 trillion dollars (2011 PPP) by 2045. However, 42 can use any
+                                  hypotheses on GDP growth as inputs.
                               </p>
                               <p>
-                                  The structure of GDP is also an important metric, since different sectors are characterised by various levels of energy intensity. The 42 model distinguishes the following components of the total value added in the economy of all countries/regions: material production, transport, and services. The ratio of these segments is analysed basing on an econometric approach.
+                                  The structure of GDP is also an important metric, since different sectors are
+                                  characterised by various levels of energy intensity. The 42 model distinguishes the
+                                  following components of the total value added in the economy of all countries/regions:
+                                  material production, transport, and services. The ratio of these segments is analysed
+                                  basing on an econometric approach.
                               </p>
 
                           </section>
@@ -1935,10 +527,27 @@
                               <span id="42_vehicle_fleet" class="anchor"></span>
                               <h4 class="mb-0 heading-new">Vehicle fleet</h4>
                               <p>
-                                  Road transport is an important energy consumer, providing about 40% of global oil demand. The vehicle fleet size reflects the economic situation: the growth of household income stimulates the purchase of a private vehicle, and economic development creates a cargo flow for transportation. Further development of the world economy is associated with an increase of the fleet size. The reference scenario for the car fleet in Russia is defined as population times the automobilisation rate. At the same time, the automobilisation rate depends on GDP per capita (the relationship between these parameters is described by an S-shaped curve, which is similar to consumer demand saturation). However, its future dynamics can be significantly transformed. The modern generation of young people is less interested in buying a personal car, and new technologies make a sharing-based model of transportation affordable and convenient. The development of online services and remote work can also reduce the demand for mobility. Given these factors, transportation and fleet forecasts vary widely.
+                                  Road transport is an important energy consumer, providing about 40% of global oil
+                                  demand. The vehicle fleet size reflects the economic situation: the growth of
+                                  household income stimulates the purchase of a private vehicle, and economic
+                                  development creates a cargo flow for transportation. Further development of the
+                                  world economy is associated with an increase of the fleet size. The reference scenario
+                                  for the car fleet in Russia is defined as population times the automobilisation rate.
+                                  At the same time, the automobilisation rate depends on GDP per capita (the
+                                  relationship between these parameters is described by an S-shaped curve, which is
+                                  similar to consumer demand saturation). However, its future dynamics can be
+                                  significantly transformed. The modern generation of young people is less interested
+                                  in buying a personal car, and new technologies make a sharing-based model of
+                                  transportation affordable and convenient. The development of online services and
+                                  remote work can also reduce the demand for mobility. Given these factors,
+                                  transportation and fleet forecasts vary widely.
                               </p>
                               <p>
-                                  Nowadays, the most crucial trend is government incentives to change the structure of the automotive market in the direction of low-carbon solutions (electric vehicles). Therefore, structural shifts in the fleet constitute another key socioeconomic metric for future energy consumption. Simulating the growth of the share of low-carbon transport is a way of modelling climate change mitigation.
+                                  Nowadays, the most crucial trend is government incentives to change the structure of
+                                  the automotive market in the direction of low-carbon solutions (electric vehicles).
+                                  Therefore, structural shifts in the fleet constitute another key socioeconomic
+                                  metric for future energy consumption. Simulating the growth of the share of
+                                  low-carbon transport is a way of modelling climate change mitigation.
                               </p>
                           </section>
                      </div>
