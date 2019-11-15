@@ -81,399 +81,120 @@
                 <div>
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                 </div>
-                <div class="panel-group gcam">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title" style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse" href="#collapse_gcam"><i
-                                        class="fa fa-caret-right rotate" style="margin-right: 10px;"></i>GCAM</a>
-                            </h4>
-                        </div>
-                        <div id="collapse_gcam" class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <span>Short overview </span>
-                                    <a style="display: none" href="#gcam_overview">Short overview </a>
-                                </li>
-                                <li class="list-group-item" style="padding: 0">
-                                    <div class="panel-group gcam_key_feat">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse" href="#collapse_gcam_key_feat"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>Key features of the GCAM
-                                                        model</a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_key_feat" class="panel-collapse collapse">
-                                                {#                                      MENU BAR#}
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Introduction</span>
-                                                        <a style="display: none" href="#gcam_key_feat_intro">Introduction</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Geographic coverage</span>
-                                                        <a style="display: none" href="#gcam_geo">Geographic
-                                                            coverage</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Energy system detail</span>
-                                                        <a style="display: none" href="#gcam_energy_system">Energy
-                                                            system detail</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Land and agricultural system detail</span>
-                                                        <a style="display: none" href="#gcam_land_agr">Land and
-                                                            agricultural system detail</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item"><span>Climate module & emissions granularity</span>
-                                    <a style="display: none" href="#gcam_emissions">
-                                        Climate module & emissions granularity</a></li>
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_socecon">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse" href="#collapse_gcam_socecon"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>Socioeconomic dimensions
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_socecon" class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Economic growth</span>
-                                                        <a style="display: none" href="#gcam_econ_growth">Economic
-                                                            growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Industrial sector growth</span>
-                                                        <a style="display: none" href="#gcam_industrial">Industrial
-                                                            sector growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Transport sector growth</span>
-                                                        <a style="display: none" href="#gcam_transport">Transport
-                                                            sector growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Building sector growth</span>
-                                                        <a style="display: none" href="#gcam_building">Building
-                                                            sector growth</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Demand for agricultural commodities</span>
-                                                        <a style="display: none" href="#gcam_demand_agr">Demand for
-                                                            agricultural commodities</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item"><span>Mitigation/adaptation measures and technologies</span>
-                                    <a style="display: none" href="#gcam_mitigation">
-                                        Mitigation/adaptation measures and technologies</a></li>
-                                <li class="list-group-item">
-                                    <span>Economic rationale and model solution</span>
-                                    <a style="display: none" href="#gcam_econ_rationale">
-                                        Economic rationale and model solution</a></li>
-                                <li class="list-group-item">
-                                    <span>Key parameters </span>
-                                    <a style="display: none" href="#gcam_key_parameters">
-                                        Key parameters </a></li>
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_policy">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_policy"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>Policy
-                                                        questions and SDGs
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_policy"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Key policies that can be addressed</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_addressed_pol">Key policies
-                                                            that can be addressed</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Implications for other SDGs</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sdg_implications">Implications
-                                                            for other SDGs</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>Recent use cases</span>
-                                    <a style="display: none" href="#gcam_recent_use_cases">Recent use
-                                        cases</a>
-                                </li>
-                                {#                                                      gcam_china#}
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_china">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_china"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>GCAM-China
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_china"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Overview</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_overview">Overview</a></li>
-                                                    <li class="list-group-item">
-                                                        <span>Key features of the GCAM-China model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_key_feat">Key
-                                                            features of the GCAM-China model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Calibration of the model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_calibration">Calibration
-                                                            of the model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key parameters</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_key_param">Key
-                                                            parameters</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Recent publications using GCAM-China</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_publications">Recent
-                                                            publications using GCAM-China</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>References </span>
-                                                        <a style="display: none"
-                                                           href="#gcam_china_references">References </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {#                                                      gcam_sousei#}
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_sousei">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_sousei"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>GCAM-SOUSEI
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_sousei"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Overview</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei_overview">Overview</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key features of the GCAM-SOUSEI model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei__key_feat">Key
-                                                            features of the GCAM-China model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Recent publications using GCAM-SOUSEI</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei__publications">Recent
-                                                            publications using GCAM-SOUSEI</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>References </span>
-                                                        <a style="display: none"
-                                                           href="#gcam_sousei__references">References </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {#                                                      gcam_usa#}
-                                <li class="list-group-item">
-                                    <div class="panel-group gcam_usa">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" style="padding:0px">
-                                                <h5 class="panel-title"
-                                                    style="background-color:#343a40; padding: 5px">
-                                                    <a data-toggle="collapse"
-                                                       href="#collapse_gcam_usa"><i
-                                                            class="fa fa-caret-right rotate"
-                                                            style="margin-right: 10px;"></i>GCAM-USA
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapse_gcam_usa"
-                                                 class="panel-collapse collapse">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <span>Overview</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_overview">Overview</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key features of the GCAM-USA model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_key_feat">Key
-                                                            features of the GCAM-USA model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Calibration of the model</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_calibration">Calibration
-                                                            of the model</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Key parameters</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_key_parameters">Key
-                                                            parameters</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>Recent publications using GCAM-USA</span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_publications">Recent
-                                                            publications using GCAM-USA</a>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <span>References </span>
-                                                        <a style="display: none"
-                                                           href="#gcam_usa_references">References </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
 
-                {#                                  ALADIN#}
-                <div class="panel-group aladin">
+
+                {#                                  ICES#}
+                <div class="panel-group ices">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="padding:0px">
                             <h4 class="panel-title"
                                 style="background-color:#343a40; padding: 5px">
                                 <a data-toggle="collapse"
-                                   href="#collapse_aladin"><i
+                                   href="#collapse_ices"><i
                                         class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>ALADIN
+                                        style="margin-right: 10px;"></i>ICES
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapse_aladin"
+                        <div id="collapse_ices"
                              class="panel-collapse collapse">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Short overview</span>
                                     <a style="display: none"
-                                       href="#aladin_short_overview">Short Overview</a>
+                                       href="#ices_short_overview">Short Overview</a>
                                 </li>
-                                <div class="panel-group aladin_methology">
+                                <div class="panel-group ices_key_features">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
                                             <h5 class="panel-title"
                                                 style="background-color:#343a40; padding: 5px">
                                                 <a data-toggle="collapse"
-                                                   href="#collapse_aladin_methology"><i
+                                                   href="#collapse_ices_key_features"><i
                                                         class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Methology
+                                                        style="margin-right: 10px;"></i>Key features of the ICES model
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="collapse_aladin_methology"
+                                        <div id="collapse_ices_key_features"
                                              class="panel-collapse collapse">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <span>Model core for Germany</span>
+                                                    <span>Geographic coverage</span>
                                                     <a style="display: none"
-                                                       href="#aladin_model_core_germany">
-                                                        Model core for Germany</a>
+                                                       href="#ices_geographic_coverage">
+                                                        Geographic coverage</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <span>Passenger Cars outside of Germany</span>
+                                                    <span>Sectoral coverage</span>
                                                     <a style="display: none"
-                                                       href="#aladin_passenger_cars_outside_germany">
-                                                        Passenger Cars outside of Germany</a>
+                                                       href="#ices_sectoral_cover">
+                                                       Sectoral coverage</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <span>Heavy-duty vehicles</span>
+                                                    <span>Database</span>
                                                     <a style="display: none"
-                                                       href="#aladin_heavy_duty_vehicles">
-                                                        Heavy-duty vehicles</a>
+                                                       href="#ices_database">
+                                                        Database</a>
                                                 </li>
-                                                <li class="list-group-item">
-                                                    <span>Input Data</span>
-                                                    <a style="display: none"
-                                                       href="#aladin_input_data">
-                                                        Input Data</a>
-                                                </li>
+
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="panel-group aladin_model_coverage">
+                                 <li class="list-group-item">
+                                    <span>Emissions granularity</span>
+                                    <a style="display: none"
+                                       href="#ices_emissions_granularity">Emissions granularity</a>
+                                 </li>
+                                     <li class="list-group-item">
+                                    <span>Socioeconomic dimensions</span>
+                                    <a style="display: none"
+                                       href="#ices_siocioecon_dim">Socioeconomic dimensions</a>
+                                     </li>
+                                <li class="list-group-item">
+                                    <span>Calibration of the model</span>
+                                    <a style="display: none"
+                                       href="#ices_calibration">Calibration of the model</a>
+                                     </li>
+                                <li class="list-group-item">
+                                    <span>Mitigation/adaptation measures</span>
+                                    <a style="display: none"
+                                       href="#ices_calibration">Mitigation/adaptation measures</a>
+                                     </li>
+                                <li class="list-group-item">
+                                    <span>Economic rationale and model solution</span>
+                                    <a style="display: none"
+                                       href="#ices_econ_rationale">Economic rationale and model solution</a>
+                                     </li>
+
+                                <div class="panel-group ices_policy_sdgs">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
                                             <h5 class="panel-title"
                                                 style="background-color:#343a40; padding: 5px">
                                                 <a data-toggle="collapse"
-                                                   href="#collapse_aladin_model_coverage"><i
+                                                   href="#collapse_ices_policy_sdgs"><i
                                                         class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>Model
-                                                    coverage
+                                                        style="margin-right: 10px;"></i>Policy questions and SDGs
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="collapse_aladin_model_coverage"
+                                        <div id="collapse_ices_policy_sdgs"
                                              class="panel-collapse collapse">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <span>Geographical, temporal, and segment coverage</span>
+                                                    <span>Key policies that can be addressed</span>
                                                     <a style="display: none"
-                                                       href="#aladin_gegraphical_temporal_segment">
-                                                        Geographical, temporal, and segment
-                                                        coverage</a>
+                                                       href="#ices_key_policies">
+                                                        Key policies that can be addressed</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <span>Mitigation options</span>
+                                                    <span>Implications for other SDGs</span>
                                                     <a style="display: none"
-                                                       href="#aladin_mitigation_options">
-                                                        Mitigation options</a>
+                                                       href="#ices_implications_sdgs">
+                                                       Implications for other SDGs</a>
                                                 </li>
 
 
@@ -484,18 +205,11 @@
                                     </div>
                                 </div>
                                 <li class="list-group-item">
-                                    <span>Specific modelling for PARIS REINFORCE</span>
+                                    <span>Recent use cases</span>
                                     <a style="display: none"
-                                       href="#aladin_paris_reinforce">Specific modelling for PARIS
-                                        REINFORCE</a>
+                                       href="ices_recent_use_cases">Recent use cases</a>
                                 </li>
-                                <li class="list-group-item">
-                                    <span>Recent publications using the ALADIN model</span>
-                                    <a style="display: none"
-                                       href="#aladin_recent_publications">
-                                        Recent publications using the ALADIN model
-                                    </a>
-                                </li>
+
 
                             </ul>
                         </div>
@@ -2038,7 +1752,7 @@
                                                                 <table class="table ">
                                       <thead>
                                       <tr>
-                                          <th style="width:100%">Sectors</th>
+                                          <th colspan="4" style="width:100%">Sectors</th>
 
                                       </tr>
                                       </thead>
@@ -2827,8 +2541,7 @@
                                       </tbody>
                                       <caption>Table 32: List of recent publications using the ICES model</caption>
                                   </table>
-</div>
-
+                                    </div>
                           </section>
                     </div>
 
