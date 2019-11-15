@@ -27,6 +27,7 @@ class ModelsInfo(models.Model):
     long_description = models.TextField()
     short_description = models.TextField(default="")
     icon = models.TextField(default="")
+    ordering = models.IntegerField(default=0)
 
 
     def __str__(self):

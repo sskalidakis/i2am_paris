@@ -273,7 +273,7 @@ class RetriveDB:
         emission_html = {}
         for category in categories:
             category_emissions = (Emissions.objects.filter(categories=category, model_name=
-            self.model_id).distinct())
+            self.model_id).order_by('name').distinct())
             for emission in category_emissions:
                 if emission.state != 'Not represented':
                     is_enabled = 'green'
@@ -593,7 +593,7 @@ class RetriveDB:
         # models_names = list(map(lambda x: x.model_name, ModelsInfo.objects.all()))
         # models_descriptions = list(map(lambda x: x.model_descr, ModelsInfo.objects.all()))
         # Get all table of models
-        models_data = ModelsInfo.objects.all()
+        models_data = ModelsInfo.objects.all().order_by('ordering')
         # Get the titles of each model
         model_dict = {}
         for el in models_data:
