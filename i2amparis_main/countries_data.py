@@ -18,7 +18,7 @@ class RetriveDB:
         if self.model_name in models_lst:
             self.model_id = ModelsInfo.objects.get(model_name=self.model_name).id
         else:
-            self.model_id = ModelsInfo.objects.all()[0].id
+            self.model_id = ModelsInfo.objects.all().order_by('ordering')[0].id
         self.retrieve_granularity = {
             'Sectors': self.retrieve_sectors(),
             'Policy': self.retrieve_policy(),
@@ -171,6 +171,10 @@ class RetriveDB:
             True: green_color,
             False: 'grey'
         }
+        bool_dict_decor = {
+            True: 'none',
+            False: 'line-through'
+        }
         sectors_dict_html = {}
         # Because the sector_cat_dict and sector_sub_dict haven't sub categories we treat them the same
         sectors_cat_dict.update(sectors_sub_dict)
@@ -178,7 +182,7 @@ class RetriveDB:
             temp_lst = []
             for j in sectors_cat_dict[i]:
                 [[k, v]] = j.items()
-                temp_lst.append(' <li> <font color = "{}" >{} </font> </li> '.format(color_dict[v], k))
+                temp_lst.append(' <li style="color:{};text-decoration:{}">{} </li> '.format(color_dict[v],bool_dict_decor[v], k))
             # sectors_dict_html[i] = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)), cat=i)
             temp_dict = self.is_enable_category('<ul> {} </ul>'.format(''.join(temp_lst)), cat=i)
             temp_html = temp_dict['html']
@@ -232,6 +236,11 @@ class RetriveDB:
             'Exogenous': green_color,
             'Not represented': 'grey'
         }
+        bool_dict_decor = {
+            'Endogenous': 'none',
+            'Exogenous': 'none',
+            'Not represented': 'line-through'
+        }
 
         category = ['Demography']
         category2 = list(Socioecons.objects.values_list('subcategory', flat=True).distinct())
@@ -249,8 +258,7 @@ class RetriveDB:
         socioecons_dict.update(category2_dict)
         socioecons_html = {}
         for i in socioecons_dict:
-            temp = list(map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(bool_dict[x[0]], x[1])
-                            , socioecons_dict[i]))
+            temp = list(map(lambda x: '<li style="color:{};text-decoration:{}"> {} </li> '.format(bool_dict[x[0]],bool_dict_decor[x[0]], x[1]), socioecons_dict[i]))
             temp = '<ul> {} </ul>'.format(''.join(temp))
             # socioecons_html.update({
             #     i: self.is_enable_category(temp, cat=i)
@@ -318,13 +326,18 @@ class RetriveDB:
             'Feasible with modifications': green_color,
             'Not feasible': 'grey'
         }
+        bool_dict_decor = {
+            'Feasible': 'none',
+            'Feasible with modifications': 'none',
+            'Not feasible': 'line-through'
+        }
         categories = list(Policies.objects.values_list('category', flat=True).distinct())
         policies_html = {}
         for i in categories:
             temp = list(Policies.objects.filter(category=i, model_name=self.model_id).
                         values_list('name', 'state').distinct())
             temp = list(
-                map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(bool_dict[x[1]], x[0]), temp))
+                map(lambda x: '<li style="color:{};text-decoration:{}">{} </li> '.format(bool_dict[x[1]],bool_dict_decor[x[1]], x[0]), temp))
             temp = '<ul> {} </ul>'.format(''.join(temp))
 
             bool_dict2 = {
@@ -579,8 +592,12 @@ class RetriveDB:
             True: green_color,
             False: 'grey'
         }
-        temp = list(map(lambda x: '<li> <font color = "{}" >{} </font> </li> '.format(
-            bool_dict[x[1]], x[0]), data_tuple))
+        bool_dict_decor = {
+            True: 'none',
+            False: 'line-through'
+        }
+        temp = list(map(lambda x: '<li style="color:{}; text-decoration:{}"> {} </li> '.format(
+            bool_dict[x[1]],bool_dict_decor[x[1]], x[0]), data_tuple))
         temp = '<ul> {} </ul>'.format(''.join(temp))
         return temp
 
