@@ -203,7 +203,7 @@ class RetriveDB:
             temp = []
             for j in sectors_cat_dict2[i]:
                 [[k, v]] = j.items()
-                temp.append('<li style="color:{};text-decoration:{}">{}></li>'.format(color_dict[v],
+                temp.append('<li style="color:{};text-decoration:{}">{}</li>'.format(color_dict[v],
                                                                                         bool_dict_decor[v], k))
             temp = '<li> {} <ul> {} </ul></li>'.format(i, ''.join(temp))
             transportations.append(temp)
@@ -364,8 +364,7 @@ class RetriveDB:
         # TODO make a method which will take as arument a dictionary and another param if list is netsed or not,
         #  will generate html list
         categories_mitgation = list(Mitigations.objects.values_list('category', flat=True).distinct())
-        behavior_lst = list(filter(lambda x: 'BEHAVIOUR' in x.upper(),
-                                   list(Mitigations.objects.values_list('subcategory', flat=True).distinct())))
+        behavior_lst = list(Mitigations.objects.filter(category='Behavioural Changes').values_list('subcategory', flat=True).distinct())
         mitigation_adaption_dict = {}
         # Manipulate the first 3 categories, where we use the subcategories
         for i in categories_mitgation[:3]:
