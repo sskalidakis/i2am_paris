@@ -9,7 +9,22 @@ def landing_page(request):
 
 def overview_comparative_assessment_doc(request):
     print('Overview Comparative Assessment')
-    return render(request, 'i2amparis_main/overview_comparative_assessment_doc.html')
+    return render(request, 'i2amparis_main/overview_comparative_assessment_landing_page.html')
+
+
+def overview_comparative_assessment_doc_global(request):
+    print('Overview Comparative Assessment Global')
+    return render(request, 'i2amparis_main/overview_comparative_assessment_global.html')
+
+
+def overview_comparative_assessment_doc_national_eu(request):
+    print('Overview Comparative Assessment National EU')
+    return render(request, 'i2amparis_main/overview_comparative_assessment_eu.html')
+
+
+def overview_comparative_assessment_doc_national_oeu(request):
+    print('Overview Comparative Assessment National O_EU')
+    return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
 
 def detailed_model_doc(request):
