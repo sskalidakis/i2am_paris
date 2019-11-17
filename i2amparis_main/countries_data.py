@@ -203,7 +203,8 @@ class RetriveDB:
             temp = []
             for j in sectors_cat_dict2[i]:
                 [[k, v]] = j.items()
-                temp.append(' <li> <font color = "{}" >{} </font> </li> '.format(color_dict[v], k))
+                temp.append('<li style="color:{};text-decoration:{}">{}></li>'.format(color_dict[v],
+                                                                                        bool_dict_decor[v], k))
             temp = '<li> {} <ul> {} </ul></li>'.format(i, ''.join(temp))
             transportations.append(temp)
         transportations = '<ul> {} </ul>'.format(''.join(transportations))
