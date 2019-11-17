@@ -11,7 +11,7 @@
     <!-- BASICS -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>I2AMPARIS - Overview and Comparative Assessment</title>
+    <title>I2AMPARIS - Detailed Model Documentation</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href={% static "main_theme/css/isotope.css " %} media="screen"/>
@@ -29,16 +29,24 @@
     <link rel="stylesheet" href={% static "doc_css.css" %}>
     <style>
         #section-main-content {
-{#            min-height: 3380px;#}
+        {#            min-height: 3380px;#}
         }
 
         html {
             scroll-behavior: smooth;
         }
 
-        .heading-list li{
+        .heading-list li {
             margin-bottom: 6em;
         }
+
+        .model-list a:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+
+
 
     </style>
     <!-- =======================================================
@@ -61,8 +69,9 @@
 
                 <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
                     {#                  data-0="width:100%;height:100%" data-300="width:40%;height:40%;">#}
-                    <a style="padding-left: 0" class="col-sm-2 col-md-2 col-xs-2" href="/main"><img src="/static/images/logo.png"
-                                                                            style="width: 65%;height:65%"></a>
+                    <a style="padding-left: 0" class="col-sm-2 col-md-2 col-xs-2" href="/main"><img
+                            src="/static/images/logo.png"
+                            style="width: 65%;height:65%"></a>
                     <a class="col-sm-9 col-md-9 col-xs-8"> </a>
                     <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2"
                             style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">
@@ -79,17 +88,59 @@
     </section>
 
 </div>
-<div class="main-page" style="margin-top: 150px">
+<div class="main-page" style="margin-top: 110px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
         <div class="main-content">
-            <h3 style="margin-bottom: 2.5em">The overview and comparative assessment section includes:</h3>
-            <ul class="heading-list">
-                <li><a href="overview_comparative_assessment_doc/global"><h2>Global Models</h2></a></li>
-                <li><a href="overview_comparative_assessment_doc/national_eu"><h2>National / Regional Models for Europe</h2></a></li>
-                <li><a href="overview_comparative_assessment_doc/national_oeu"><h2>National / Regional Models for Countries Outside Europe</h2></a></li>
-            </ul>
-
+            <h3 style="margin-bottom: 0">The detailed model documentation section includes:</h3>
+            <h2 style="text-align: center">Global Models</h2>
+            <div class="model-list"
+                 style="overflow: auto;  text-align: center">
+                {% for model in model_list %}
+                    {% if model.coverage == 'global' %}
+                        <a class="col" data-link="{{ model.model_name }}"
+                           style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
+                        <img style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                             src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
+                        >
+                <div class="long_title"
+                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Europe</h2>
+            <div class="model-list"
+                 style="overflow: auto;  text-align: center">
+                {% for model in model_list%}
+                    {% if model.coverage == 'national_eu' %}
+                        <a class="col" data-link="{{ model.model_name }}"
+                           style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
+                        <img style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                             src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
+                        >
+                <div class="long_title"
+                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Countries Outside Europe</h2>
+            <div class="model-list"
+                 style="overflow: auto;  text-align: center">
+                {% for model in model_list %}
+                    {% if model.coverage == 'national_oeu' %}
+                        <a class="col" data-link="{{ model.model_name }}"
+                           style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
+                        <img style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                             src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
+                        >
+                <div class="long_title"
+                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
     </section>
@@ -142,59 +193,14 @@
 
 <script>
     $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-
-        });
-        $('#accordion_introduction').find('button').click();
-        {#        $('li a').on('click', function () {#}
-        {#            $('#main_bar .collapse.in').collapse('hide');#}
-        {#            var x = this.href.split('#')[1];#}
-        {#            $('#collapse_' + x).collapse('show');#}
-        {#        });#}
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-            {#            $('#main_bar .collapse.in').on('hidden.bs.collapse', function () {#}
-            {#                if(y!==null){#}
-            {#                    y.click();}#}
-            {#                y= null;#}
-            {#            });#}
-            {#            $('#main_bar .collapse.in').not('#collapse_' + x).collapse('hide');#}
-            {#            $('#collapse_' + x ).collapse('show');#}
-
-
+        $(".model-list a").click(function (event) {
+            console.log('pressed link');
+            window.location.href = "/detailed_doc/" + $(this).data('link');
+            // Do something
         });
 
 
         $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
 
 
     });

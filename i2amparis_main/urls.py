@@ -13,6 +13,8 @@ urlpatterns = [
          name='overview_comparative_assessment_doc_national_oeu'),
     path('detailed_model_doc', views.detailed_model_doc,
          name='detailed_model_doc'),
+    path('detailed_model_doc/<model>', views.detailed_model_doc,
+         name='detailed_model_doc_sel_model'),
     path('dynamic_doc/', views.dynamic_doc, name='dynamic_doc'),
     path('dynamic_doc/<str:model>/', views.dynamic_doc, name='dynamic_doc_model')
     # path('<str:model>', views.dynamic_doc, name='dynamic_doc'),

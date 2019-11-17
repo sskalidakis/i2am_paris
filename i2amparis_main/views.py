@@ -27,9 +27,19 @@ def overview_comparative_assessment_doc_national_oeu(request):
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
 
-def detailed_model_doc(request):
-    print('Detailed Model Documentation')
-    return render(request, 'i2amparis_main/detailed_model_documentation.html')
+def detailed_model_doc(request,model=''):
+    if model == '':
+        print('Detailed Model Documentation')
+        list_of_models = ModelsInfo.objects.all()
+        sel_icons = 'rev_icons'
+
+        context = {
+            'model_list': list_of_models,
+            'sel_icons': sel_icons
+        }
+        return render(request, 'i2amparis_main/detailed_model_documentation_landing_page.html',context)
+    else:
+        return render(request, 'i2amparis_main/detailed_model_documentation_'+model+'.html')
 
 def dynamic_doc(request, model=''):
 
