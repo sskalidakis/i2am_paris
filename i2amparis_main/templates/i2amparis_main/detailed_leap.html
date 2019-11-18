@@ -40,6 +40,7 @@
             color: #97ae21E6
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -51,28 +52,7 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -84,26 +64,14 @@
 
 
 {#                                                  LEAP#}
-                <div class="panel-group leap">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_leap"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>LEAP
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_leap"
-                             class="panel-collapse collapse">
+                        <div id="collapse_leap">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Short overview</span>
                                     <a style="display: none"
                                        href="#leap_short_overview">Short Overview</a>
                                 </li>
+                                <li>
                                 <div class="panel-group leap_key_feauters">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -123,9 +91,7 @@
                                              class="panel-collapse collapse">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                      <span>Energy sectoral detail
-
-</span>
+                                                    <span>Energy sectoral detail</span>
                                                     <a style="display: none"
                                                        href="#leap_energy_sectoral">
                                                         Energy sectoral detail
@@ -133,8 +99,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="list-group-item">
-                                      <span>Geographic coverage
-</span>
+                                                    <span>Geographic coverage</span>
                                                     <a style="display: none"
                                                        href="#leap_geographic_coverage">
                                                         Geographic coverage
@@ -156,102 +121,89 @@
 
                                             </ul>
                                         </div>
-                                        <li class="list-group-item">
-                                            <span>Climate module & emissions granularity</span>
-                                            <a style="display: none"
-                                               href="#leap_climate_module_emissions_granularity">
-                                                Climate module & emissions granularity</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Socioeconomic dimensions</span>
-                                            <a style="display: none"
-                                               href="#leap_socioecon_dimension">
-                                                Socioeconomic dimensions</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Calibration of the model</span>
-                                            <a style="display: none" href="#leap_calibration">
-                                                Calibration of the model</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Mitigation/adaptation measures and technologies</span>
-                                            <a style="display: none"
-                                               href="#leap_mitigation_adaptation">
-                                                Mitigation/adaptation measures and technologies</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Economic rationale and model solution</span>
-                                            <a style="display: none"
-                                               href="#leap_economic_rationale">
-                                                Economic rationale and model solution</a>
-                                        </li>
-
-                                        <div class="panel-group leap_policies_sdgs">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading" style="padding:0px">
-                                                    <h5 class="panel-title"
-                                                        style="background-color:#343a40; padding: 5px">
-                                                        <a data-toggle="collapse"
-                                                           href="#collapse_leap_policies_sdgs"><i
-                                                                class="fa fa-caret-right rotate"
-                                                                style="margin-right: 10px;"></i>Methodology
-
-
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapse_leap_policies_sdgs"
-                                                     class="panel-collapse collapse">
-                                                    <ul class="list-group">
-                                                        <li class="list-group-item">
-                                                            <span>Key policies that can be addressed</span>
-                                                            <a style="display: none"
-                                                               href="#leap_key_policies">
-                                                                Key policies that can be
-                                                                addressed</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Implications on other SDGs</span>
-                                                            <a style="display: none"
-                                                               href="#leap_implications_sdgs">
-                                                                Implications on other SDGs</a>
-                                                        </li>
-
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <li class="list-group-item">
-                                            <span>Recent publications using the LEAP model</span>
-                                            <a style="display: none"
-                                               href="#leap_recent_publications">
-                                                Implications on other Recent publications using the
-                                                LEAP model</a>
-                                        </li>
-
                                     </div>
                                 </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Climate module & emissions granularity</span>
+                                    <a style="display: none"
+                                       href="#leap_climate_module_emissions_granularity">
+                                        Climate module & emissions granularity</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Socioeconomic dimensions</span>
+                                    <a style="display: none"
+                                       href="#leap_socioecon_dimension">
+                                        Socioeconomic dimensions</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Calibration of the model</span>
+                                    <a style="display: none" href="#leap_calibration">
+                                        Calibration of the model</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Mitigation/adaptation measures and technologies</span>
+                                    <a style="display: none"
+                                       href="#leap_mitigation_adaptation">
+                                        Mitigation/adaptation measures and technologies</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>Economic rationale and model solution</span>
+                                    <a style="display: none"
+                                       href="#leap_economic_rationale">
+                                        Economic rationale and model solution</a>
+                                </li>
+                                <li>
+                                    <div class="panel-group leap_policies_sdgs">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" style="padding:0px">
+                                                <h5 class="panel-title"
+                                                    style="background-color:#343a40; padding: 5px">
+                                                    <a data-toggle="collapse"
+                                                       href="#collapse_leap_policies_sdgs"><i
+                                                            class="fa fa-caret-right rotate"
+                                                            style="margin-right: 10px;"></i>Methodology
 
+
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapse_leap_policies_sdgs"
+                                                 class="panel-collapse collapse">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">
+                                                        <span>Key policies that can be addressed</span>
+                                                        <a style="display: none"
+                                                           href="#leap_key_policies">
+                                                            Key policies that can be
+                                                            addressed</a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <span>Implications on other SDGs</span>
+                                                        <a style="display: none"
+                                                           href="#leap_implications_sdgs">
+                                                            Implications on other SDGs</a>
+                                                    </li>
+
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <span>Recent publications using the LEAP model</span>
+                                    <a style="display: none"
+                                       href="#leap_recent_publications">
+                                        Implications on other Recent publications using the
+                                        LEAP model</a>
+                                </li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-
-
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
             </div>
 
-
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
 
 
@@ -1175,14 +1127,11 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </div>
-</div>
-</div>
-</div>
-</div>
-</section>
+
+
+
 <section id="footer" class="section footer" style="padding-bottom: 40px">
     <div class="container">
         <div class="row animated opacity mar-bot0" data-andown="fadeIn" data-animation="animation">
@@ -1197,26 +1146,11 @@
             </div>
         </div>
 
-        {#      <div class="row align-center copyright">#}
-        {#        <div class="col-12">#}
-        {#          <p>&copy; GREEN Theme</p>#}
-        {#          <div class="credits">#}
-        {#            <!--#}
-        {#              All the links in the footer should remain intact.#}
-        {#              You can delete the links only if you purchased the pro version.#}
-        {#              Licensing information: https://bootstrapmade.com/license/#}
-        {#              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Green#}
-        {#            -->#}
-        {#            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>#}
-        {#          </div>#}
-        {#        </div>#}
-        {#      </div>#}
     </div>
 
 </section>
 
 
-</div>
 
 
 <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
@@ -1241,65 +1175,11 @@
     wow = new WOW({}).init();
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
-
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "27rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 
 
-    });
-
-
-</script>
 </body>
 
 </html>

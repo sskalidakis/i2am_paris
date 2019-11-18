@@ -40,6 +40,7 @@
             color: #97ae21E6
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -51,28 +52,7 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -85,26 +65,14 @@
 
 
                 {#                                  NATEM#}
-                <div class="panel-group natem">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_natem"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>NATEM
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_natem"
-                             class="panel-collapse collapse">
+                        <div id="collapse_natem">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Overview</span>
                                     <a style="display: none"
                                        href="#natem_overview">Overview</a>
                                 </li>
+                                <li>
                                 <div class="panel-group natem_key_feauters">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -148,7 +116,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                  <li class="list-group-item">
+                                </li>
+                                <li class="list-group-item">
                                     <span>Climate module & emissions granularity</span>
                                     <a style="display: none"
                                        href="#natem_climate_modulue_emissions_granularity">Climate module &
@@ -200,6 +169,7 @@
                                     <a style="display: none"
                                        href="#natem_key_params">Key parameters</a>
                                 </li>
+                                <li>
 
                                 <div class="panel-group natem_policy_sdg">
                                     <div class="panel panel-default">
@@ -236,6 +206,7 @@
 
                                     </div>
                                 </div>
+                                </li>
                                 <li class="list-group-item">
                                     <span>Recent publications</span>
                                     <a style="display: none"
@@ -246,22 +217,10 @@
                             </ul>
                         </div>
                     </div>
-                </div>
 
-
-
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-            </div>
 
 
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
 
 
@@ -325,7 +284,7 @@
 
 
                             <div style="text-align: center">
-                                <img style="width:80%;height:80%; margin-bottom: 2em"
+                                <img style="width:70%;height:70%; margin-bottom: 2em"
                                      src="{% static "images/natem_energy_system_per_region.png" %}">
                                 <div style="text-align: center">
                                     <p style="text-align: center">Figure 3.9: Representation of the NATEM energy
@@ -370,7 +329,7 @@
                                 given time period applies identically to each of the years in that period.</p>
 
                             <div style="text-align: center">
-                                <img style="width:80%;height:80%; margin-bottom: 2em"
+                                <img style="width:50%;height:50%; margin-bottom: 2em"
                                      src="{% static "images/natem_regional_representation.png" %}">
                                 <div style="text-align: center">
                                     <p style="text-align: center">Figure 3.9: Regional representation in NATEM
@@ -552,7 +511,7 @@
                     </div>
                     <div class="row">
                         <section class="section">
-                            <span id="#natem_calibration" class="anchor"></span>
+                            <span id="natem_calibration" class="anchor"></span>
                             <h2 class="mb-0 heading-new">Calibration of the model</h2>
                             <p>
                                 The NATEM model is calibrated to the 2011 base year using mainly country-specific
@@ -895,7 +854,7 @@
                     </div>
                     <div class="row">
                         <section class="section">
-                            <span id="#natem_key_params" class="anchor"></span>
+                            <span id="natem_key_params" class="anchor"></span>
                             <h2 class="mb-0 heading-new">Key parameters </h2>
                             <p>
                                 NATEM relies on a technology-rich database that has been developed and continuously
@@ -1345,14 +1304,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </div>
-</div>
-</div>
-</div>
-</div>
-</section>
 <section id="footer" class="section footer" style="padding-bottom: 40px">
     <div class="container">
         <div class="row animated opacity mar-bot0" data-andown="fadeIn" data-animation="animation">
@@ -1366,27 +1319,10 @@
                 </ul>
             </div>
         </div>
-
-        {#      <div class="row align-center copyright">#}
-        {#        <div class="col-12">#}
-        {#          <p>&copy; GREEN Theme</p>#}
-        {#          <div class="credits">#}
-        {#            <!--#}
-        {#              All the links in the footer should remain intact.#}
-        {#              You can delete the links only if you purchased the pro version.#}
-        {#              Licensing information: https://bootstrapmade.com/license/#}
-        {#              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Green#}
-        {#            -->#}
-        {#            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>#}
-        {#          </div>#}
-        {#        </div>#}
-        {#      </div>#}
     </div>
 
 </section>
 
-
-</div>
 
 
 <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
@@ -1411,65 +1347,9 @@
     wow = new WOW({}).init();
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
-
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "27rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
-</script>
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 </body>
 
 </html>

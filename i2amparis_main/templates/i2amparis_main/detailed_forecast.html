@@ -40,6 +40,7 @@
             color: #97ae21E6
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -49,30 +50,9 @@
 </head>
 
 <body>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -85,26 +65,14 @@
 
 
 {#                                                  FORECAST#}
-                <div class="panel-group forecast">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_forecast"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>FORECAST
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_forecast"
-                             class="panel-collapse collapse">
+                        <div id="collapse_forecast">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Short overview</span>
                                     <a style="display: none"
                                        href="#forecast_short_overview">Short Overview</a>
                                 </li>
+                                <li>
                                 <div class="panel-group forecast_key_feauters">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -147,6 +115,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </li>
+                                <li>
                                 <div class="panel-group forecast_methodology">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -199,6 +169,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                </li>
                                 <li class="list-group-item">
                                     <span>Key data sets</span>
                                     <a style="display: none"
@@ -215,21 +186,10 @@
                             </ul>
                         </div>
                     </div>
-                </div>
 
-
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-            </div>
 
 
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
 
 
@@ -1047,14 +1007,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+    </section>
+
 <section id="footer" class="section footer" style="padding-bottom: 40px">
     <div class="container">
         <div class="row animated opacity mar-bot0" data-andown="fadeIn" data-animation="animation">
@@ -1088,8 +1042,6 @@
 </section>
 
 
-</div>
-
 
 <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
 
@@ -1114,64 +1066,9 @@
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
 
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "27rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
-</script>
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 </body>
 
 </html>

@@ -40,6 +40,7 @@
             color: #97ae21E6
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -51,28 +52,8 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -84,26 +65,14 @@
 
 {##}
                                             {#                                                    Begin CONTO#}
-                                            <div class="panel-group conto">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" style="padding:0px">
-                                                        <h4 class="panel-title"
-                                                            style="background-color:#343a40; padding: 5px">
-                                                            <a data-toggle="collapse"
-                                                               href="#collapse_conto"><i
-                                                                    class="fa fa-caret-right rotate"
-                                                                    style="margin-right: 10px;"></i>CONTO
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapse_conto"
-                                                         class="panel-collapse collapse">
+                                                    <div id="collapse_conto">
                                                         <ul class="list-group">
                                                             <li class="list-group-item">
                                                                 <span>Overview</span>
                                                                 <a style="display: none"
                                                                    href="#conto_overview">Overview</a>
                                                             </li>
+                                                            <li>
                                                             <div class="panel-group conto_key_feauters">
                                                                 <div class="panel panel-default">
                                                                     <div class="panel-heading"
@@ -149,17 +118,19 @@
 
                                                                         </ul>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <span>Climate module & emissions granularity</span>
+                                                                <a style="display: none"
+                                                                   href="#conto_climate_emissions">
+                                                                    Climate module &
+                                                                    emissions
+                                                                    granularity</a>
+                                                            </li>
                                                                     <li class="list-group-item">
-                                                                        <span>Climate module & emissions granularity</span>
-                                                                        <a style="display: none"
-                                                                           href="#conto_climate_emissions">
-                                                                            Climate module &
-                                                                            emissions
-                                                                            granularity</a>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                      <span>Drivers of energy and other GHG-emitting service demands
-</span>
+                                                                        <span>Drivers of energy and other GHG-emitting service demands</span>
                                                                         <a style="display: none"
                                                                            href="#conto_drivers_of_energy">
                                                                             Drivers of energy and
@@ -184,8 +155,8 @@
                                                                     </li>
 
 
-{#                                                                                                                  start#}
-
+{#                                                                                                               start#}
+                                                                    <li>
                                                                     <div class="panel-group conto_eco_rat">
                                                                         <div class="panel panel-default">
                                                                             <div class="panel-heading"
@@ -257,6 +228,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    </li>
 
 {#                                                                                                                  end#}
 
@@ -267,7 +239,7 @@
                                                                             Key parameters</a>
                                                                     </li>
 
-
+                                                                    <li>
                                                                     <div class="panel-group conto_policiy_sdg">
                                                                         <div class="panel panel-default">
                                                                             <div class="panel-heading"
@@ -313,6 +285,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    </li>
 
 
                                                                     <li class="list-group-item">
@@ -330,27 +303,14 @@
                                                                             References</a>
                                                                     </li>
 
-                                                                </div>
-                                                            </div>
-
                                                         </ul>
                                                     </div>
-                                                </div>
-                                            </div>
+            </div>
                                                     {#                                                    End CONTO#}
 
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-            </div>
 
 
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
 
 
@@ -1250,26 +1210,11 @@
             </div>
         </div>
 
-        {#      <div class="row align-center copyright">#}
-        {#        <div class="col-12">#}
-        {#          <p>&copy; GREEN Theme</p>#}
-        {#          <div class="credits">#}
-        {#            <!--#}
-        {#              All the links in the footer should remain intact.#}
-        {#              You can delete the links only if you purchased the pro version.#}
-        {#              Licensing information: https://bootstrapmade.com/license/#}
-        {#              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Green#}
-        {#            -->#}
-        {#            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>#}
-        {#          </div>#}
-        {#        </div>#}
-        {#      </div>#}
+
     </div>
 
 </section>
 
-
-</div>
 
 
 <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
@@ -1295,64 +1240,9 @@
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
 
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "27rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
-</script>
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 </body>
 
 </html>

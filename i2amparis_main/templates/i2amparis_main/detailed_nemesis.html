@@ -40,6 +40,7 @@
             color: #97ae21E6
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -51,28 +52,7 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -84,20 +64,7 @@
 
                                 {#Begin NEMESIS#}
 {##}
-                                <div class="panel-group nemesis">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" style="padding:0px">
-                                            <h4 class="panel-title"
-                                                style="background-color:#343a40; padding: 5px">
-                                                <a data-toggle="collapse"
-                                                   href="#collapse_nemesis"><i
-                                                        class="fa fa-caret-right rotate"
-                                                        style="margin-right: 10px;"></i>NEMESIS
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapse_nemesis"
-                                             class="panel-collapse collapse">
+                                        <div id="collapse_nemesis">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
                                                     <span>Short overview</span>
@@ -105,6 +72,7 @@
                                                        href="#nemesis_short_overview">Short
                                                         Overview</a>
                                                 </li>
+                                                <li>
                                                 <div class="panel-group nemesis_key_feauters">
                                                     <div class="panel panel-default">
                                                         <div class="panel-heading"
@@ -159,181 +127,162 @@
 
                                                             </ul>
                                                         </div>
-                                                        <li class="list-group-item">
-                                      <span>Energy module & emissions granularity
-</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_energy_module_emiss_gran">
+                                                    </div>
+                                                </div>
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                <span>Energy module & emissions granularity</span>
+                                                    <a style="display: none" href="#nemesis_energy_module_emiss_gran">
                                                                 Energy module & emissions
                                                                 granularity
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Socioeconomic dimensions</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_socioecon_dimesion">
-                                                                Socioeconomic dimensions</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                      <span>EU demography
-</span>
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>Socioeconomic dimensions</span>
+                                                    <a style="display: none"
+                                                       href="#nemesis_socioecon_dimesion">
+                                                        Socioeconomic dimensions</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>EU demography</span>
                                                             <a style="display: none"
                                                                href="#nemesis_eu_demography">
                                                                 EU demography
                                                             </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                      <span>Financial exogenous variables
-</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>Financial exogenous variables</span>
                                                             <a style="display: none"
                                                                href="#nemesis_finac_exo_var">
                                                                 Financial exogenous variables
                                                             </a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>World demand indicators and price</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_world_demand_indicator_price">
-                                                                World demand indicators and
-                                                                price</a>
-                                                        </li>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>World demand indicators and price</span>
+                                                    <a style="display: none"
+                                                       href="#nemesis_world_demand_indicator_price">
+                                                        World demand indicators and
+                                                        price</a>
+                                                </li>
 
-                                                        <li class="list-group-item">
-                                                            <span>Socioeconomic indicators</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_socioeconomic_indicators">
-                                                                Socioeconomic indicators</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Some key parameters for climate change mitigation assessment</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_key_param_climate_mitigation">
-                                                                Some key parameters for climate
-                                                                change mitigation assessment</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <span>Substitution elasticity between production factors</span>
-                                                            <a style="display: none"
-                                                               href="#nemesis_substitution_elasticity">
-                                                                Substitution elasticity between
-                                                                production factors</a>
-                                                        </li>
-
-
-                                                        <div class="panel-group nemesis_mitigation_adaptation">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading"
+                                                <li class="list-group-item">
+                                                    <span>Socioeconomic indicators</span>
+                                                    <a style="display: none"
+                                                       href="#nemesis_socioeconomic_indicators">
+                                                        Socioeconomic indicators</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>Some key parameters for climate change mitigation assessment</span>
+                                                    <a style="display: none"
+                                                       href="#nemesis_key_param_climate_mitigation">
+                                                        Some key parameters for climate
+                                                        change mitigation assessment</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>Substitution elasticity between production factors</span>
+                                                    <a style="display: none"
+                                                       href="#nemesis_substitution_elasticity">
+                                                        Substitution elasticity between
+                                                        production factors</a>
+                                                </li>
+                                                <li>
+                                                    <div class="panel-group nemesis_mitigation_adaptation">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading"
                                                                      style="padding:0px">
-                                                                    <h5 class="panel-title"
+                                                                <h5 class="panel-title"
                                                                         style="background-color:#343a40; padding: 5px">
-                                                                        <a data-toggle="collapse"
+                                                                    <a data-toggle="collapse"
                                                                            href="#collapse_nemesis_mitigation_adaptation"><i
                                                                                 class="fa fa-caret-right rotate"
-                                                                                style="margin-right: 10px;"></i>Mitigation/adaptation
+                                                                                style="margin-right: 10px;"></i>Mitigation/ adaptation
                                                                             measures and
                                                                             technologies
 
 
-                                                                        </a>
-                                                                    </h5>
-                                                                </div>
-                                                                <div id="collapse_nemesis_mitigation_adaptation"
-                                                                     class="panel-collapse collapse">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item">
-                                                                            <span>Substitution elasticity between energy sources</span>
-                                                                            <a style="display: none"
-                                                                               href="#nemesis_substitution_elasticity_between_energy_sources">
-                                                                                Substitution
-                                                                                elasticity between
-                                                                                energy sources</a>
-                                                                        </li>
+                                                                    </a>
+                                                                </h5>
+                                                            </div>
+                                                            <div id="collapse_nemesis_mitigation_adaptation"
+                                                                 class="panel-collapse collapse">
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item">
+                                                                        <span>Substitution elasticity between energy sources</span>
+                                                                        <a style="display: none"
+                                                                           href="#nemesis_substitution_elasticity_between_energy_sources">
+                                                                            Substitution
+                                                                            elasticity between
+                                                                            energy sources</a>
+                                                                    </li>
 
 
-                                                                    </ul>
-                                                                </div>
+                                                                </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="panel-group nemesis_mitigation_adaptation_m">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading"
-                                                                     style="padding:0px">
-                                                                    <h5 class="panel-title"
-                                                                        style="background-color:#343a40; padding: 5px">
-                                                                        <a data-toggle="collapse"
-                                                                           href="#collapse_nemesis_mitigation_adaptation_m"><i
-                                                                                class="fa fa-caret-right rotate"
-                                                                                style="margin-right: 10px;"></i>Mitigation/adaptation
-                                                                            measures
+                                                    </div>
+                                                    <div class="panel-group nemesis_mitigation_adaptation_m">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading"
+                                                                 style="padding:0px">
+                                                                <h5 class="panel-title"
+                                                                    style="background-color:#343a40; padding: 5px">
+                                                                    <a data-toggle="collapse"
+                                                                       href="#collapse_nemesis_mitigation_adaptation_m"><i
+                                                                            class="fa fa-caret-right rotate"
+                                                                            style="margin-right: 10px;"></i>Mitigation/ adaptation
+                                                                        measures
 
 
-                                                                        </a>
-                                                                    </h5>
-                                                                </div>
-                                                                <div id="collapse_nemesis_mitigation_adaptation_m"
-                                                                     class="panel-collapse collapse">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item">
-                                                                            <span>Alone or linked</span>
-                                                                            <a style="display: none"
-                                                                               href="#nemesis_alone_or_linked">
-                                                                                Alone or linked</a>
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <span>Climate change mitigation policies: a set of assumptions to define</span>
-                                                                            <a style="display: none"
-                                                                               href="#nemesis_climate_change_mitigation_policies">
-                                                                                Climate change
-                                                                                mitigation policies:
-                                                                                a set of assumptions
-                                                                                to define</a>
-                                                                        </li>
+                                                                    </a>
+                                                                </h5>
+                                                            </div>
+                                                            <div id="collapse_nemesis_mitigation_adaptation_m"
+                                                                 class="panel-collapse collapse">
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item">
+                                                                        <span>Alone or linked</span>
+                                                                        <a style="display: none"
+                                                                           href="#nemesis_alone_or_linked">
+                                                                            Alone or linked</a>
+                                                                    </li>
+                                                                    <li class="list-group-item">
+                                                                        <span>Climate change mitigation policies: a set of assumptions to define</span>
+                                                                        <a style="display: none"
+                                                                           href="#nemesis_climate_change_mitigation_policies">
+                                                                            Climate change
+                                                                            mitigation policies:
+                                                                            a set of assumptions
+                                                                            to define</a>
+                                                                    </li>
 
 
-                                                                    </ul>
-                                                                </div>
+                                                                </ul>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </li>
 
-                                                        <li class="list-group-item">
-                                      <span>Recent publications using the NEMESIS model
-</span>
+                                                <li class="list-group-item">
+                                                    <span>Recent publications using the NEMESIS model</span>
                                                             <a style="display: none"
                                                                href="#nemesis_recent_puplications">
                                                                 Recent publications using the
                                                                 NEMESIS model
                                                             </a>
-                                                        </li>
-
-
-                                                    </div>
-                                                </div>
-
+                                                </li>
                                             </ul>
                                         </div>
-                                    </div>
-                                </div>
-                                        {#End NEMESIS#}
-{##}
-{##}
-
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
             </div>
+
+                                        {#End NEMESIS#}
+
 
 
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
 
-
-
-                          <div class="row">
+                    <div class="row">
                         <h1 id="nemesis" style="padding-bottom: 1em; padding-top: 1em">NEMESIS - New Econometric Model of Evaluation
                             by Sectoral Interdependency
                             and Supply</h1>
@@ -426,25 +375,25 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><font color="aqua">01</font></td>
-                                        <td><font color="aqua">Agriculture</font></td>
-                                        <td><font color="aqua">16</font></td>
-                                        <td><font color="aqua">Manufacture of food products; beverages and tobacco
+                                        <td><font color="green">01</font></td>
+                                        <td><font color="green">Agriculture</font></td>
+                                        <td><font color="#1e90ff">16</font></td>
+                                        <td><font color="#1e90ff">Manufacture of food products; beverages and tobacco
                                             products</font></td>
                                     </tr>
                                     <tr>
                                         <td><font color="red">02</font></td>
                                         <td><font color="red">Mining and quarrying expect oil and gas</font></td>
-                                        <td><font color="aqua">17</font></td>
-                                        <td><font color="aqua">Manufacture of textiles, wearing apparel, leather and
+                                        <td><font color="#1e90ff">17</font></td>
+                                        <td><font color="#1e90ff">Manufacture of textiles, wearing apparel, leather and
                                             related products</font></td>
 
                                     </tr>
                                     <tr>
                                         <td><font color="red">03</font></td>
                                         <td><font color="red">Oil and gas extraction</font></td>
-                                        <td><font color="aqua">18</font></td>
-                                        <td><font color="aqua">Manufacture of paper and paper products; Printing and
+                                        <td><font color="#1e90ff">18</font></td>
+                                        <td><font color="#1e90ff">Manufacture of paper and paper products; Printing and
                                             reproduction of recorded media</font></td>
 
                                     </tr>
@@ -452,15 +401,15 @@
                                         <td><font color="red">04</font></td>
                                         <td><font color="red">Manufacture of paper and paper products; Printing and
                                             reproduction of recorded media</font></td>
-                                        <td><font color="aqua">19</font></td>
-                                        <td><font color="aqua">Manufacture of rubber and plastic products</font></td>
+                                        <td><font color="#1e90ff">19</font></td>
+                                        <td><font color="#1e90ff">Manufacture of rubber and plastic products</font></td>
                                     </tr>
                                     <tr>
                                         <td><font color="red">05</font></td>
                                         <td><font color="red">Manufacture of coke and refined petroleum
                                             products</font></td>
-                                        <td><font color="aqua">20</font></td>
-                                        <td><font color="aqua">Other manufactures</font></td>
+                                        <td><font color="#1e90ff">20</font></td>
+                                        <td><font color="#1e90ff">Other manufactures</font></td>
                                     </tr>
                                     <tr>
                                         <td><font color="red">06</font></td>
@@ -475,15 +424,15 @@
                                         <td><font color="orange">Wholesale and retail trade</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">08</font></td>
-                                        <td><font color="aqua">Manufacture of basic metals</font></td>
+                                        <td><font color="#1e90ff">08</font></td>
+                                        <td><font color="#1e90ff">Manufacture of basic metals</font></td>
                                         <td><font color="orange">23</font></td>
                                         <td><font color="orange">Accommodation and food service
                                             activities</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">09</font></td>
-                                        <td><font color="aqua">Manufacture of other non-metallic mineral
+                                        <td><font color="#1e90ff">09</font></td>
+                                        <td><font color="#1e90ff">Manufacture of other non-metallic mineral
                                             products</font></td>
                                         <td><font color="#663399">24</font></td>
                                         <td><font color="#663399">Land transport and transport via
@@ -492,42 +441,42 @@
 
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">10</font></td>
-                                        <td><font color="aqua">Manufactures of chemicals & pharmaceutical  products</font>
+                                        <td><font color="#1e90ff">10</font></td>
+                                        <td><font color="#1e90ff">Manufactures of chemicals & pharmaceutical  products</font>
                                         </td>
                                         <td><font color="#663399">25</font></td>
                                         <td><font color="#663399">Air and water transport</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">11</font></td>
-                                        <td><font color="aqua">Manufacture of fabricated metal products, except
+                                        <td><font color="#1e90ff">11</font></td>
+                                        <td><font color="#1e90ff">Manufacture of fabricated metal products, except
                                             machinery and equipment</font></td>
                                         <td><font color="#663399">26</font></td>
                                         <td><font color="#663399">Other transport activities</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">12</font></td>
-                                        <td><font color="aqua">Manufacture of machinery and equipment n.e.c.</font>
+                                        <td><font color="#1e90ff">12</font></td>
+                                        <td><font color="#1e90ff">Manufacture of machinery and equipment n.e.c.</font>
                                         </td>
                                         <td><font color="orange">27</font></td>
                                         <td><font color="orange">Information and communication</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">13</font></td>
-                                        <td><font color="aqua">Manufacture of computer, electronic and optical
+                                        <td><font color="#1e90ff">13</font></td>
+                                        <td><font color="#1e90ff">Manufacture of computer, electronic and optical
                                             products</font></td>
                                         <td><font color="orange">28</font></td>
                                         <td><font color="orange">Bank, finance, insurance & real estate</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">14</font></td>
-                                        <td><font color="aqua">Manufacture of electrical equipment</font></td>
+                                        <td><font color="#1e90ff">14</font></td>
+                                        <td><font color="#1e90ff">Manufacture of electrical equipment</font></td>
                                         <td><font color="orange">29</font></td>
                                         <td><font color="orange">Other market services</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">15</font></td>
-                                        <td><font color="aqua">Manufacture of transport equipment</font></td>
+                                        <td><font color="#1e90ff">15</font></td>
+                                        <td><font color="#1e90ff">Manufacture of transport equipment</font></td>
                                         <td><font color="orange">30</font></td>
                                         <td><font color="orange">Non-market services</font></td>
                                     </tr>
@@ -684,7 +633,7 @@
                                         <td><font color="#8b0000">Coal</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">Electricity</font></td>
+                                        <td><font color="#1e90ff">Electricity</font></td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -712,7 +661,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><font color="aqua">Industrial and urban wastes</font></td>
+                                        <td colspan="2"><font color="#1e90ff">Industrial and urban wastes</font></td>
                                     </tr>
 
 
@@ -748,7 +697,7 @@
                                         <td><font color="#8b0000">Gas</font></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">Nuclear*</font></td>
+                                        <td><font color="#1e90ff">Nuclear*</font></td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -804,7 +753,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td><font color="aqua">Industrial wastes</font></td>
+                                        <td><font color="#1e90ff">Industrial wastes</font></td>
                                         <td></td>
                                     </tr>
 
@@ -1325,65 +1274,11 @@
     wow = new WOW({}).init();
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
-
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "27rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 
 
-    });
-
-
-</script>
 </body>
 
 </html>
