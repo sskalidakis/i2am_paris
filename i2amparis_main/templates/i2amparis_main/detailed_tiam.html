@@ -39,7 +39,9 @@
         .heading-new {
             color: #97ae21E6
         }
+
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -51,28 +53,7 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -84,26 +65,14 @@
 
 
                 {#                                  TIAM#}
-                <div class="panel-group tiam">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_tiam"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>TIAM
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_tiam"
-                             class="panel-collapse collapse">
+                        <div id="collapse_tiam">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Short overview</span>
                                     <a style="display: none"
                                        href="#tiam_short_overview">Short Overview</a>
                                 </li>
+                                <li>
                                 <div class="panel-group tiam_key_features">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -149,6 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                </li>
 
                                  <li class="list-group-item">
                                     <span>Climate module & emissions granularity</span>
@@ -206,6 +176,7 @@
                                     <a style="display: none"
                                        href="#tiam_key_parameters">Key parameters</a>
                                 </li>
+                                <li>
                                 <div class="panel-group tiam_policy_sdg">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -234,6 +205,7 @@
 
                                     </div>
                                 </div>
+                                </li>
                                 <li class="list-group-item">
                                     <span>Recent use cases</span>
                                     <a style="display: none"
@@ -244,26 +216,11 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-
-
-
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-            </div>
 
 
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
-
-
-              <div class="row">
+                    <div class="row">
                         <h1 style="padding-bottom: 1em; padding-top: 1em">The TIMES Integrated Assessment Model
                             (TIAM)</h1>
                     </div>
@@ -564,7 +521,7 @@
                                 paths in SSP2.
                             </p>
                             <div style="text-align: center">
-                                <img style="width:80%;height:80%; margin-bottom: 2em"
+                                <img style="width:60%;height:60%; margin-bottom: 2em"
                                      src="{% static "images/gcam_core_func.png" %}">
                                 <div style="text-align: center">
                                     <p style="text-align: center">Figure 9: Population and GSP projections for SSP2
@@ -708,8 +665,8 @@
                                     <tr>
                                         <td>
                                             <ul style="list-style-type:none;">
-                                                <li style="background-color: yellow">Gas to liquids with CCS</li>
-                                                <li style="background-color: yellow">Biomass to liquids (with and
+                                                <li >Gas to liquids with CCS</li>
+                                                <li >Biomass to liquids (with and
                                                     without CCS)
                                                 </li>
                                             </ul>
@@ -745,7 +702,7 @@
                                                 <li>Marine</li>
                                             </ul>
                                         </td>
-                                        <td><p style="background-color: yellow">Biomass </p></td>
+                                        <td><p >Biomass </p></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><p align="left"><b>Transport</b></p></td>
@@ -1330,64 +1287,9 @@
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
 
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "27rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
-</script>
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 </body>
 
 </html>

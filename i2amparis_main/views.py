@@ -39,7 +39,7 @@ def detailed_model_doc(request,model=''):
         }
         return render(request, 'i2amparis_main/detailed_model_documentation_landing_page.html',context)
     else:
-        return render(request, 'i2amparis_main/detailed_model_documentation_'+model+'.html')
+        return render(request, 'i2amparis_main/detailed_'+model+'.html')
 
 def dynamic_doc(request, model=''):
 

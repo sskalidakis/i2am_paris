@@ -242,9 +242,14 @@ body {
 }
 
 .content_btn{
-    position: absolute;
-    top: 10.3rem;
-    left: 1rem;}
+    top:1em;
+    background-color: rgba(121, 126, 123, 0.8);
+    font-size: 1em;
+    right: 1.5em;
+}
+    /*position: absolute;*/
+    /*top: 10.3rem;*/
+    /*left: 1rem;}*/
 
 .card-header button{
     font-size: 1em;

@@ -40,6 +40,7 @@
             color: #97ae21E6
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -51,28 +52,7 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="fa fa-bars color-white"></span>
-                </button>
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a href="main"><img src="static/images/logo.png" style="width: 15%;height:15%"></a>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -84,26 +64,14 @@
 
 
                 {#                                  MUSE#}
-                <div class="panel-group muse">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="padding:0px">
-                            <h4 class="panel-title"
-                                style="background-color:#343a40; padding: 5px">
-                                <a data-toggle="collapse"
-                                   href="#collapse_muse"><i
-                                        class="fa fa-caret-right rotate"
-                                        style="margin-right: 10px;"></i>MUSE
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_muse"
-                             class="panel-collapse collapse">
+                        <div id="collapse_muse">
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <span>Short overview</span>
                                     <a style="display: none"
                                        href="#muse_short_overview">Short Overview</a>
                                 </li>
+                                <li>
                                 <div class="panel-group muse_key_features">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -128,7 +96,7 @@
                                                 <li class="list-group-item">
                                                     <span>Energy sectoral detail</span>
                                                     <a style="display: none"
-                                                       href="muse_energy_sectoral_detail">
+                                                       href="#muse_energy_sectoral_detail">
                                                        Energy sectoral detail</a>
                                                 </li>
                                                 <li class="list-group-item">
@@ -140,19 +108,20 @@
                                                 <li class="list-group-item">
                                                     <span>Intra-year time periods (time slices)</span>
                                                     <a style="display: none"
-                                                       href="muse_intra_year">
+                                                       href="#muse_intra_year">
                                                         Intra-year time periods (time slices)</a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
+                                </li>
                                   <li class="list-group-item">
                                     <span>Emissions granularity</span>
                                     <a style="display: none"
                                        href="#muse_emissions_granularity">Emissions granularity</a>
                                 </li>
-
+                                <li>
                                 <div class="panel-group muse_socio_econ_dim">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -212,6 +181,7 @@
 
                                     </div>
                                 </div>
+                                </li>
                                 <li class="list-group-item">
                                     <span>Calibration of the model</span>
                                     <a style="display: none"
@@ -227,17 +197,18 @@
                                 <li class="list-group-item">
                                     <span>Economic rationale and model solution</span>
                                     <a style="display: none"
-                                       href="muse_econ_rationale">
+                                       href="#muse_econ_rationale">
                                        Economic rationale and model solution
                                     </a>
                                 </li>
                                 <li class="list-group-item">
                                     <span>Key parameters</span>
                                     <a style="display: none"
-                                       href="muse_key_params">
+                                       href="#muse_key_params">
                                       Key parameters
                                     </a>
                                 </li>
+                                <li>
                                   <div class="panel-group muse_policy_sdg">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding:0px">
@@ -272,33 +243,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                </li>
                                  <li class="list-group-item">
                                     <span>Recent use cases</span>
                                     <a style="display: none"
-                                       href="#muse_recent_use_cases">
-Recent use cases                                    </a>
+                                       href="#muse_recent_use_cases">Recent use cases </a>
                                 </li>
 
 
                             </ul>
                         </div>
                     </div>
-                </div>
-
-
-
-{##}
-{##}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-            </div>
 
 
             <div id="main_bar">
-                <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
                 <div class="container">
 
 
@@ -525,7 +483,7 @@ Recent use cases                                    </a>
                                   each sector of the economy. The sector breakdown is shown in Figure 11:
                               </p>
                               <div style="text-align: center">
-                                  <img style="width:80%;height:80%; margin-bottom: 2em"
+                                  <img style="width:60%;height:60%; margin-bottom: 2em"
                                        src="{% static "images/muse_energy_sectors_clearing_func.png" %}">
                                   <div style="text-align: center">
                                       <p style="text-align: center">Figure 11: Representation of the MUSE energy
@@ -603,7 +561,7 @@ Recent use cases                                    </a>
                                   2017) (Figure 12).
                               </p>
                               <div style="text-align: center">
-                                  <img style="width:80%;height:80%; margin-bottom: 2em"
+                                  <img style="width:70%;height:70%; margin-bottom: 2em"
                                        src="{% static "images/muse_gdp.png" %}">
                                   <div style="text-align: center">
                                       <p style="text-align: center">Figure 12: GDP projections in MUSE
@@ -625,7 +583,7 @@ Recent use cases                                    </a>
                               </p>
 
 <div style="text-align: center">
-                                  <img style="width:80%;height:80%; margin-bottom: 2em"
+                                  <img style="width:70%;height:70%; margin-bottom: 2em"
                                        src="{% static "images/muse_population.png" %}">
                                   <div style="text-align: center">
                                       <p style="text-align: center">Figure 13: Population projections in MUSE
@@ -652,7 +610,7 @@ Recent use cases                                    </a>
                               </p>
 
 <div style="text-align: center">
-                                  <img style="width:80%;height:80%; margin-bottom: 2em"
+                                  <img style="width:60%;height:60%; margin-bottom: 2em"
                                        src="{% static "images/muse_historical_macroeconomic_drivers.png" %}">
                                   <div style="text-align: center">
                                       <p style="text-align: center">Figure 14: Example of service demand
@@ -1273,52 +1231,10 @@ Recent use cases                                    </a>
     }
 </script>
 
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
+<script src={% static "navigate_menu_js.js" %}></script>
 
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
-</script>
 </body>
 
 </html>
