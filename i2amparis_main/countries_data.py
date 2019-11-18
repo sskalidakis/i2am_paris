@@ -632,7 +632,7 @@ class RetriveDB:
         color_list = ['#8a941f',  '#e68200', '#066c7a',
                       '#c7c78a','#91bec4','#ffb049','#0aaec5'
                       ,'#454a0f','#ab6100', '#033a42','#758000','#434747', '#26909e', '#a89172', '#8fbec4', '#a89fc9',
-                      '#5a5275'
+                      '#5a5275', '#e68200', '#066c7a'
                       ]
         # shuffle(color_list)
         color_list = color_list
