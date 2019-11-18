@@ -36,6 +36,7 @@
             scroll-behavior: smooth;
         }
     </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
     <!-- =======================================================
     Theme Name: Green
     Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
@@ -47,33 +48,7 @@
 <body>
 
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-            <div class="navbar-header">
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    {#                  data-0="width:100%;height:100%" data-300="width:40%;height:40%;">#}
-                    <a style="padding-left: 0" class="col-sm-2 col-md-2 col-xs-2" href="/main"><img
-                            src="/static/images/logo.png"
-                            style="width: 65%;height:65%"></a>
-                    <a class="col-sm-9 col-md-9 col-xs-8"> </a>
-                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2"
-                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">
-                        Back
-                    </button>
-                </div>
-
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/upper_bar_documentation.html" %}
 <div class="main-page" style="margin-top: 100px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
@@ -120,7 +95,6 @@
         </div>
 
         <div id="main_bar">
-            <button class="openbtn content_btn" onclick="openNav()">☰ Contents</button>
             <div class="container">
                 <div class="row">
                     <h1 style="padding-bottom: 60px; padding-top: 40px">National / Regional Models for Countries Outside
@@ -2124,25 +2098,12 @@
 </script>
 
 
-<script>
-    function goback() {
-        window.history.back();
-    }
-</script>
+<script src={% static "content_button_js.js" %}></script>
+<script src={% static "goback_button_js.js" %}></script>
 
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
 
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "18rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
 
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
 
 <script>
     $(document).ready(function () {

@@ -64,7 +64,7 @@
                     <a style="padding-left: 0" class="col-sm-2 col-md-2 col-xs-2" href="/main"><img src="/static/images/logo.png"
                                                                             style="width: 65%;height:65%"></a>
                     <a class="col-sm-9 col-md-9 col-xs-8"> </a>
-                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2"
+                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"
                             style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">
                         Back
                     </button>
@@ -117,90 +117,14 @@
 <script src={% static "main_theme/js/main.js" %}></script>
 <script src={% static "main_theme/js/wow.min.js" %}></script>
 
-<script>
-    function goback() {
-        window.history.back();
-    }
-</script>
+<script src={% static "goback_button_js.js" %}></script>
 
 <script>
     wow = new WOW({}).init();
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
 
-<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "20rem";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "250px";#}
-    }
 
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        {#          document.getElementsByClassName("main-page")[0].style.marginLeft = "0";#}
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-
-        });
-        $('#accordion_introduction').find('button').click();
-        {#        $('li a').on('click', function () {#}
-        {#            $('#main_bar .collapse.in').collapse('hide');#}
-        {#            var x = this.href.split('#')[1];#}
-        {#            $('#collapse_' + x).collapse('show');#}
-        {#        });#}
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-            {#            $('#main_bar .collapse.in').on('hidden.bs.collapse', function () {#}
-            {#                if(y!==null){#}
-            {#                    y.click();}#}
-            {#                y= null;#}
-            {#            });#}
-            {#            $('#main_bar .collapse.in').not('#collapse_' + x).collapse('hide');#}
-            {#            $('#collapse_' + x ).collapse('show');#}
-
-
-        });
-
-
-        $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
-
-    });
-
-
-</script>
 </body>
 
 </html>
