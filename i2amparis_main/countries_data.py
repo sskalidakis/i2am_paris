@@ -116,7 +116,7 @@ class RetriveDB:
         categories = {
             "Industry": "Industry (energy demand/economic output)",
             "Buildings": "Buildings",
-            "Agriculture, Forestry, Land Use(AFOLU)": "AFOLU"
+            "Agriculture, Forestry, Land Use (AFOLU)": "AFOLU"
         }
         categories2 = {
             "Transportation": "Transportation"
@@ -421,8 +421,8 @@ class RetriveDB:
             # mitigation_adaption_dict.update({
             #     i: self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=i)
             # })
-        temp_all = list(Mitigations.objects.filter(category='LULUCF').values_list('name', flat=True).distinct())
-        temp_true = list(Mitigations.objects.filter(category='LULUCF', model_name=self.model_id)
+        temp_all = list(Mitigations.objects.filter(category='Land Use, Land-Use Change and Forestry (LULUCF)').values_list('name', flat=True).distinct())
+        temp_true = list(Mitigations.objects.filter(category='Land Use, Land-Use Change and Forestry (LULUCF)', model_name=self.model_id)
                          .values_list('name', flat=True).distinct())
         # mitigation_adaption_dict.update({
         #     'LULUCF': self.is_enable_category(
@@ -430,10 +430,10 @@ class RetriveDB:
         #         cat='LULUCF')
         # })
         temp_dict = self.is_enable_category(self.create_html_lists(
-            list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat='LULUCF')
+            list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat='Land Use, Land-Use Change and Forestry (LULUCF)')
         temp_is_enable = temp_dict['is_enable']
         temp_html = temp_dict['html']
-        icon = Mitigations.objects.filter(category='LULUCF')[0].icon
+        icon = Mitigations.objects.filter(category='Land Use, Land-Use Change and Forestry (LULUCF)')[0].icon
         mitigation_adaption_dict.update({
             'LULUCF': {
                 'html': temp_html,
