@@ -6,6 +6,14 @@ from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
 
+import json
+import urllib
+
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.contrib import messages
+
+
 def landing_page(request):
     print ('Landing page')
     return render(request, 'i2amparis_main/landing_page.html')
@@ -74,7 +82,6 @@ def contact_form(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
         if form.is_valid():
-            form.save()
             # This can be used to send an email to inform us about the newly submitted feedback.
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
@@ -82,12 +89,34 @@ def contact_form(request):
             message = form.cleaned_data['message']
             email_text = str(username) + ' submitted his/her feedback on I2AM Paris Platform:' + \
                          '\nSubject: "' + str(subject) + '"\nMessage: ' + str(message) + '"\n\n Contact e-mail: ' + str(email)
-            send_mail(str(username) + "'s Feedback on I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
-                      ['iam@paris-reinforce.eu'],
-                      fail_silently=False)
-            print (email_text)
 
-    return JsonResponse({'status':'OK'})
+            ''' Begin reCAPTCHA validation '''
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            url = 'https://www.google.com/recaptcha/api/siteverify'
+
+            values = {
+                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'response': recaptcha_response
+            }
+            data = urllib.parse.urlencode(values).encode()
+            req = urllib.request.Request(url, data=data)
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
+            ''' End reCAPTCHA validation '''
+
+            if result['success']:
+                form.save()
+                messages.success(request, 'New comment added with success!')
+                send_mail(str(username) + "'s Feedback on I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
+                          ['iam@paris-reinforce.eu'],
+                          fail_silently=False)
+                return JsonResponse({'status': 'OK'})
+            else:
+                messages.error(request, 'Invalid reCAPTCHA. Please try again.')
+                return JsonResponse({'status': 'NOT_OK'})
+
+
+
 
 
 

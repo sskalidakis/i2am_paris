@@ -429,6 +429,10 @@
                 placeholder="Message"></textarea>
               <div class="validation"></div>
             </div>
+              <div class="form-group">
+                  <div class="g-recaptcha" data-sitekey="6LdK8MQUAAAAAEKv0uhyyCh8XEk0EoAwLudZGQyf"></div>
+              </div>
+
 
             <div class="text-center"><button type="submit" class="line-btn green">Send Message</button></div>
           </form>
@@ -492,6 +496,7 @@
   <script src={% static "main_theme/js/grid.js"%}></script>
   <script src={% static "main_theme/js/main.js"%}></script>
   <script src={% static "main_theme/js/wow.min.js"%}></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
   <script>
     wow = new WOW({}).init();
   </script>
