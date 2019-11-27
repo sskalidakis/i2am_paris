@@ -2,6 +2,9 @@ from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo
+from django.core.mail import send_mail
+from .forms import FeedbackForm
+from django.http import JsonResponse
 
 def landing_page(request):
     print ('Landing page')
@@ -65,3 +68,27 @@ def dynamic_doc(request, model=''):
     else:
         template = 'i2amparis_main/dynamic_documentation_final.html'
     return render(request, template, context)
+
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # This can be used to send an email to inform us about the newly submitted feedback.
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            email_text = str(username) + ' submitted his/her feedback on I2AM Paris Platform:' + \
+                         '\nSubject: "' + str(subject) + '"\nMessage: ' + str(message) + '"\n\n Contact e-mail: ' + str(email)
+            send_mail(str(username) + "'s Feedback on I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
+                      ['iam@paris-reinforce.eu'],
+                      fail_silently=False)
+            print (email_text)
+
+    return JsonResponse({'status':'OK'})
+
+
+
+

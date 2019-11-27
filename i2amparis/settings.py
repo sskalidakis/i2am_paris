@@ -129,3 +129,14 @@ STATICFILES_DIRS = [
 ]
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_PROTOCOL = 'smtp'
+EMAIL_HOST_USER = 'noreply@epu.ntua.gr'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'noreply@epu.ntua.gr'
+EMAIL_HOST_PASSWORD = 'IA8|X9Rkz*W$W+59YdWm'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+EMAIL_FROM = 'noreply@epu.ntua.gr'

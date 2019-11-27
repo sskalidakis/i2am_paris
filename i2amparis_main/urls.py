@@ -16,6 +16,7 @@ urlpatterns = [
     path('detailed_model_doc/<model>', views.detailed_model_doc,
          name='detailed_model_doc_sel_model'),
     path('dynamic_doc/', views.dynamic_doc, name='dynamic_doc'),
-    path('dynamic_doc/<str:model>/', views.dynamic_doc, name='dynamic_doc_model')
+    path('dynamic_doc/<str:model>/', views.dynamic_doc, name='dynamic_doc_model'),
+    path('contact_form', views.contact_form, name='contact_form'),
     # path('<str:model>', views.dynamic_doc, name='dynamic_doc'),
 ]
