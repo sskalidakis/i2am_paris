@@ -125,10 +125,10 @@ class RetriveDB:
         for i in subcategories:
             temp = subcategories[i]
             temp_lst = list(Sectors.objects.filter(subcategory=temp).values_list('name', flat=True).distinct())
-            if self.model_name == '':
-                temp_lst = list(map(lambda x: {x: False}, temp_lst))
-            else:
-                temp_lst = list(map(lambda x: {
+            # if self.model_name == '':
+            #     temp_lst = list(map(lambda x: {x: False}, temp_lst))
+            # else:
+            temp_lst = list(map(lambda x: {
                     x: Sectors.objects.filter(name=x, subcategory=temp, model_name=self.model_id).count() > 0},
                                     temp_lst))
             sectors_sub_dict.update({
@@ -139,10 +139,10 @@ class RetriveDB:
         for i in categories:
             temp = categories[i]
             temp_lst = list(Sectors.objects.filter(category=temp).values_list('name', flat=True).distinct())
-            if self.model_name == '':
-                temp_lst = list(map(lambda x: {x: False}, temp_lst))
-            else:
-                temp_lst = list(map(
+            # if self.model_name == '':
+            #     temp_lst = list(map(lambda x: {x: False}, temp_lst))
+            # else:
+            temp_lst = list(map(
                     lambda x: {x: Sectors.objects.filter(name=x, category=temp, model_name=self.model_id).count() > 0},
                     temp_lst))
 
@@ -157,10 +157,10 @@ class RetriveDB:
                                  filter(category=temp).values_list('subcategory', flat=True).distinct())
             for j in subcategories2:
                 temp_lst = list(Sectors.objects.filter(subcategory=j).values_list('name', flat=True).distinct())
-                if self.model_name == '':
-                    temp_lst = list(map(lambda x: {x: False}, temp_lst))
-                else:
-                    temp_lst = list(map(lambda x: {
+                # if self.model_name == '':
+                #     temp_lst = list(map(lambda x: {x: False}, temp_lst))
+                # else:
+                temp_lst = list(map(lambda x: {
                         x: Sectors.objects.filter(subcategory=j, name=x, model_name=self.model_id).count() > 0},
                                         temp_lst))
                 sectors_cat_dict2.update({
