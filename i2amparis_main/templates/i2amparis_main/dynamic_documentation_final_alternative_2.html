@@ -673,6 +673,95 @@
         worldSeries.hiddenInLegend = true;
         worldSeries.mapPolygons.template.nonScalingStroke = true;
 
+        let linkContainer = chart.createChild(am4core.Container);
+        linkContainer.isMeasured = false;
+        linkContainer.layout = "horizontal";
+        linkContainer.x = am4core.percent(50);
+        linkContainer.y = am4core.percent(90);
+        linkContainer.horizontalCenter = "middle";
+
+        let equirectangular = linkContainer.createChild(am4core.TextLink);
+        equirectangular.margin(10, 10, 10, 10);
+        equirectangular.text = "Equirectangular";
+        equirectangular.background.fill = am4core.color("#777");
+        equirectangular.background.fillOpacity = 0.8;
+        equirectangular.fill = am4core.color("#FFF");
+        var hs1 = equirectangular.states.create("hover");
+        hs1.properties.fill = chart.colors.getIndex(0).brighten(-1);
+        equirectangular.events.on("hit", function () {
+            chart.projection = new am4maps.projections.Projection();
+            chart.panBehavior = "rotateLong";
+            chart.homeZoomLevel = 1.5;
+            chart.homeGeoPoint = {longitude: 10, latitude: 52};
+        })
+
+        let mercator = linkContainer.createChild(am4core.TextLink);
+        mercator.text = "Mercator";
+        mercator.background.fill = am4core.color("#777");
+        mercator.background.fillOpacity = 0.8;
+        mercator.fill = am4core.color("#FFF");
+        mercator.margin(10, 10, 10, 10);
+        var hs2 = mercator.states.create("hover");
+        hs2.properties.fill = chart.colors.getIndex(0).brighten(-1);
+        mercator.events.on("hit", function () {
+            chart.projection = new am4maps.projections.Mercator();
+            chart.panBehavior = "rotateLong";
+            chart.homeZoomLevel = 1.5;
+            chart.homeGeoPoint = {longitude: 10, latitude: 52};
+        })
+
+        let miller = linkContainer.createChild(am4core.TextLink);
+        miller.margin(10, 10, 10, 10);
+        miller.text = "Miller";
+        miller.background.fill = am4core.color("#777");
+        miller.background.fillOpacity = 0.8;
+        miller.fill = am4core.color("#FFF");
+        var hs3 = miller.states.create("hover");
+        hs3.properties.fill = chart.colors.getIndex(0).brighten(-1);
+        miller.events.on("hit", function () {
+            chart.projection = new am4maps.projections.Miller();
+            chart.panBehavior = "rotateLong";
+            chart.homeZoomLevel = 1.5;
+            chart.homeGeoPoint = {longitude: 10, latitude: 52};
+        })
+
+        let eckert = linkContainer.createChild(am4core.TextLink);
+        eckert.margin(10, 10, 10, 10);
+        eckert.text = "Eckert 6";
+        eckert.background.fill = am4core.color("#777");
+        eckert.background.fillOpacity = 0.8;
+        eckert.fill = am4core.color("#FFF");
+        var hs4 = eckert.states.create("hover");
+        hs4.properties.fill = chart.colors.getIndex(0).brighten(-1);
+        eckert.events.on("hit", function () {
+            chart.projection = new am4maps.projections.Eckert6();
+            chart.panBehavior = "rotateLong";
+            chart.homeZoomLevel = 1.5;
+            chart.homeGeoPoint = {longitude: 10, latitude: 52};
+        })
+
+        let orthographic = linkContainer.createChild(am4core.TextLink);
+        orthographic.margin(10, 10, 10, 10);
+        orthographic.text = "Orthographic";
+        orthographic.background.fill = am4core.color("#777");
+        orthographic.background.fillOpacity = 0.8;
+        orthographic.fill = am4core.color("#FFF");
+        var hs5 = orthographic.states.create("hover");
+        hs5.properties.fill = chart.colors.getIndex(0).brighten(-1);
+        orthographic.events.on("hit", function () {
+            chart.projection = new am4maps.projections.Orthographic();
+{#            chart.panBehavior = "rotateLongLat";#}
+            chart.panBehavior = "rotateLong";
+            chart.homeZoomLevel = 1;
+            chart.homeGeoPoint = {longitude: 0, latitude: 0};
+
+        })
+        // Set projection
+        chart.projection = new am4maps.projections.Miller();
+        chart.panBehavior = "rotateLong";
+
+        var grid = chart.series.push(new am4maps.GraticuleSeries());
+        grid.toBack();
 
     }); // end am4core.ready()
 </script>
