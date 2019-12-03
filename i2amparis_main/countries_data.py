@@ -392,7 +392,7 @@ class RetriveDB:
                 #     j: self.is_enable_category(self.create_html_lists(
                 #         list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
                 # })
-        for i in categories_mitgation[3:-1]:
+        for i in categories_mitgation[4:-1]:
             sub_categories = list(
                 Mitigations.objects.filter(category=i).values_list('subcategory', flat=True).distinct())
             sub_categories = list(set(sub_categories) - set(behavior_lst))
@@ -479,6 +479,7 @@ class RetriveDB:
                 'icon': icon
             }
         })
+
         # mitigation_adaption_dict.update({
         #     'Behavioural changes': self.is_enable_category(self.create_html_lists(temp), cat='Behavioural changes')
         # })
@@ -515,9 +516,6 @@ class RetriveDB:
                 sdgs_html[sdgs_all_dict[sdg_key]] = {
                     'html': '', 'is_enable': is_enabled,
                     'icon': Sdgs.objects.filter(name=sdgs_all_dict[sdg_key])[0].icon}
-
-
-
 
         # # Get all names of sdgs
         # data_all = list(Sdgs.objects.all().values_list('name', flat=True).distinct())
