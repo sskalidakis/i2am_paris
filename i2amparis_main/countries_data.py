@@ -492,11 +492,18 @@ class RetriveDB:
         description
         """
 
-        sdgs_all = Sdgs.objects.values_list('name',flat=True).distinct()
+        import re
+        # sdgs_all = Sdgs.objects.values_list('name',flat=True).distinct()
+        sdgs_all = Sdgs.objects.values_list('title', flat=True).distinct()
+        sdgs_all_dict = {}
+        for i in sdgs_all:
+            sdgs_all_dict.update({
+                int(re.findall('\d+', i)[0]): Sdgs.objects.filter(title=i).values_list('name',flat=True)[0]
+            })
         sdgs_valid = Sdgs.objects.filter(model_name=self.model_id)
         sdgs_html = {}
-        for sdg in sdgs_all:
-            element = sdgs_valid.filter(name=sdg)
+        for sdg_key in sorted(sdgs_all_dict.keys()):
+            element = sdgs_valid.filter(name=sdgs_all_dict[sdg_key])
             if len(element)>0:
                 is_enabled = 'green'
                 sdgs_html[element[0].name] = {
@@ -505,9 +512,9 @@ class RetriveDB:
                                                 'icon': element[0].icon}
             else:
                 is_enabled = 'grey'
-                sdgs_html[sdg] = {
+                sdgs_html[sdgs_all_dict[sdg_key]] = {
                     'html': '', 'is_enable': is_enabled,
-                    'icon': Sdgs.objects.filter(name=sdg)[0].icon}
+                    'icon': Sdgs.objects.filter(name=sdgs_all_dict[sdg_key])[0].icon}
 
 
 
