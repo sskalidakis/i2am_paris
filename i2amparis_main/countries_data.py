@@ -405,9 +405,9 @@ class RetriveDB:
                 temp_dict.update({
                     j: list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))
                 })
-
-            temp_dict = self.is_enable_category(self.create_html_lists(
-                list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+            # temp_dict = self.is_enable_category(self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+            # Fixed. Now we can view a nested list of categories Buildings, Industry and Agriculture
+            temp_dict = self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=j)
             temp_is_enable = temp_dict['is_enable']
             temp_html = temp_dict['html']
             icon = Mitigations.objects.filter(category=i)[0].icon
