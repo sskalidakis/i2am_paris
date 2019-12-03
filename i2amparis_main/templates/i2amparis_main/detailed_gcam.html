@@ -428,7 +428,7 @@
                                 to create a full scenario of prices, energy and other transformations,
                                 and commodity and other flows across regions and into the future. The
                                 energy, agriculture and land use, economy and climate systems are
-                                interconnected and interact with each other (Figure 1). The
+                                interconnected and interact with each other (see the figure below). The
                                 interactions between these different systems are modelled as one
                                 integrated whole.
                             </p>
@@ -436,7 +436,7 @@
                                 <img style="width:70%;height:70%; margin-bottom: 2em"
                                      src="{% static "images/gcam_core_func.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 1: Representation of GCAM Core functioning
+                                    <p style="text-align: center">Representation of GCAM Core functioning
                                     </p>
                                     <p>Source:<a href="https://jgcri.github.io/gcam-doc/overview.html">
                                         https://jgcri.github.io/gcam-doc/overview.html</a></p>
@@ -450,20 +450,19 @@
                                     it is constructed with different levels of
                                     resolution for each of these different
                                     systems. The energy-economy system operates at
-                                    32 geopolitical regions globally (Table 10),
+                                    32 geopolitical regions globally ,
                                     water withdrawals are tracked for 235
                                     hydrologic basins worldwide, and to avoid
                                     overlap between geopolitical regions and
                                     hydrologic basins, agriculture and land use is
-                                    calibrated for 384 regions worldwide (Figure
-                                    2).
+                                    calibrated for 384 regions worldwide.
                                 </p>
                                 <div style="text-align: center">
                                     <img style="width:80%;height:80%"
                                          src="{% static "images/gcam_regional_mapping.png" %}">
                                 </div>
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 2: GCAM
+                                    <p style="text-align: center">GCAM
                                         regional mapping
                                     </p>
                                     <p>Source:<a href="https://jgcri.github.io/gcam-doc/overview.html">
@@ -642,7 +641,7 @@
                                         </tr>
                                         </tbody>
                                         <caption>
-                                            Table 11: Countries included in each region in GCAM
+                                            Countries included in each region in GCAM
                                         </caption>
                                     </table>
                                     {#                                      <p class="table-notes">*: Aggregated parameters for GEMINI-E3 model </p>#}
@@ -657,7 +656,7 @@
                             <span id="gcam_energy_system" class="anchor"></span>
                             <h4 class="mb-0 heading-new">Energy system detail</h4>
                             <p>The structure of the energy system consists of four main elements: resource production,
-                                energy transformation, final energy carriers and end-use (Figure 3). It also tracks
+                                energy transformation, final energy carriers and end-use (see the figure below). It also tracks
                                 international trade in energy commodities. All the different elements of GCAM interact
                                 through market prices and physical flows of, for example, electricity.
                             </p>
@@ -665,7 +664,7 @@
                                 <img style="width:80%;height:80%; margin-bottom: 2em"
                                      src="{% static "images/gcam_energy_system.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 3: Structure of Energy system in GCAM
+                                    <p style="text-align: center">Structure of Energy system in GCAM
                                     </p>
                                     <p>Source:<a href="https://jgcri.github.io/gcam-doc/overview.html">
                                         https://jgcri.github.io/gcam-doc/energy.html</a></p>
@@ -679,7 +678,7 @@
                         <section class="section">
                             <span id="gcam_land_agr" class="anchor"></span>
                             <h4 class="mb-0 heading-new">Land and agricultural system detail</h4>
-                            <p>Within each of the land regions shown in Figure 2, land is categorised into
+                            <p>Within each of the land regions shown in the second figure, land is categorised into
                                 approximately a dozen types based on cover and use. In GCAM, competing uses of land
                                 are nested within land nodes. Within each land node, it is generally assumed to be
                                 easier to substitute products. Among arable land types, further divisions are made for
@@ -699,7 +698,7 @@
                             <p>GCAM uses a global climate carbon-cycle climate module, Hector (Calvin et al., 2019),
                                 an open-source, object-oriented, reduced-form global climate carbon-cycle model that
                                 represents the most critical global-scale earth system processes. At every time step,
-                                emissions from GCAM (Table 11) are passed to Hector. Hector converts these emissions
+                                emissions from GCAM are passed to Hector. Hector converts these emissions
                                 to concentrations and calculates the associated radiative forcing and the response of
                                 the climate system (e.g., temperature, carbon-fluxes, etc.).
                             </p>
@@ -772,7 +771,7 @@
                                     </tr>
                                     </tbody>
                                     <caption>
-                                        Table 12: List of gases and corresponding sectors included in the GCAM model
+                                        List of gases and corresponding sectors included in the GCAM model
                                         and passed to HECTOR.
                                     </caption>
                                 </table>
@@ -789,7 +788,7 @@
                                 </p>
                             </div>
                             <p>Hector has a three-part main carbon cycle: a one-pool atmosphere, three-pool land, and
-                                four-pool ocean (Figure 4). The atmosphere consists of one well-mixed box. The ocean
+                                four-pool ocean (see the figure below). The atmosphere consists of one well-mixed box. The ocean
                                 consists of four boxes, with advection and water mass exchange simulating circulation.
                                 The high-latitude surface ocean takes up carbon from the atmosphere, while the
                                 low-latitude surface ocean off-gases carbon to the atmosphere. The land consists of a
@@ -804,7 +803,7 @@
                                 <img style="width:80%;height:80%; margin-bottom: 2em"
                                      src="{% static "images/gcam_hector.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 4: Representation of Hector’s carbon cycle,
+                                    <p style="text-align: center">Representation of Hector’s carbon cycle,
                                         land, atmosphere, and ocean used in GCAM
                                     </p>
                                     <p>Source:<a href="https://jgcri.github.io/gcam-doc/hector.html">
@@ -1127,7 +1126,7 @@
                                     </tr>
                                     </tbody>
                                     <caption>
-                                        Table 13: Main mitigation options in GCAM
+                                        Main mitigation options in GCAM
                                     </caption>
                                 </table>
                                 {#                                      <p class="table-notes">*: Aggregated parameters for GEMINI-E3 model </p>#}
@@ -1151,7 +1150,7 @@
                                 means by which these representative agents interact with one another. Agents indicate
                                 their intended supply and/or demand for goods and services in the markets. GCAM solves
                                 for a set of market prices so that supplies and demands are balanced in all these
-                                markets across the model (Figure 5); in other words, market equilibrium is assumed to
+                                markets across the model (see the figure below); in other words, market equilibrium is assumed to
                                 take place in each one of these markets (partial equilibrium), and not in the entire
                                 economy across all markets (general equilibrium). The GCAM solution process is the
                                 process of iterating on market prices until this equilibrium is reached. Markets exist
@@ -1173,7 +1172,7 @@
                                 <img style="width:80%;height:80%; margin-bottom: 2em"
                                      src="{% static "images/gcam_core.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 5: Conceptual Schematic of the Operation of
+                                    <p style="text-align: center">Conceptual Schematic of the Operation of
                                         the GCAM Core
                                     </p>
                                     <p>Source:<a href="https://jgcri.github.io/gcam-doc/overview.html">
@@ -1226,7 +1225,7 @@
                                 <img style="width:60%;height:60%; margin-bottom: 2em"
                                      src="{% static "images/gcam_scenario_assumptions.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 6: GCAM scenario assumptions and modelling
+                                    <p style="text-align: center">GCAM scenario assumptions and modelling
                                         outputs
                                     </p>
                                     <p>Source:<a href="https://jgcri.github.io/gcam-doc/overview.html">
@@ -1370,7 +1369,7 @@
                                     </tr>
                                     </tbody>
                                     <caption>
-                                        Table 14: Capacity of the GCAM model to address non-climate SDGs
+                                        Capacity of the GCAM model to address non-climate SDGs
                                     </caption>
                                 </table>
                                 {#                                      <p class="table-notes">*: Aggregated parameters for GEMINI-E3 model </p>#}
@@ -1445,7 +1444,7 @@
 
                                     </tbody>
                                     <caption>
-                                        Table 15: List of recent publications using the GCAM model
+                                         List of recent publications using the GCAM model
                                     </caption>
                                 </table>
                                 {#                                      <p class="table-notes">*: Aggregated parameters for GEMINI-E3 model </p>#}
@@ -1474,13 +1473,13 @@
                             <span id="gcam_china_key_feat" class="anchor"></span>
                             <h4 class="mb-0 heading-new">Key features of the GCAM-China model</h4>
                             <p>In GCAM-China, the 31 Chinese provinces are included as explicit regions that operate
-                                within the global GCAM model (Figure 3.4). Energy transformation (electricity
+                                within the global GCAM model. Energy transformation (electricity
                                 generation and refined liquids production) and end-use demands (buildings,
                                 transportation, and industry) are modelled at the individual province level, and
                                 inter-province trade of all energy goods is considered. For electricity trade between
-                                provinces, provinces are grouped into 6 grid regions (Figure 3.4). Whereby provinces
+                                provinces, provinces are grouped into 6 grid regions. Whereby provinces
                                 within the same sub-region can trade freely within that sub-region, trade between
-                                regions may be limited. Table 3.4 shows an overview of features calibrated at the
+                                regions may be limited. The following table shows an overview of features calibrated at the
                                 country, grid and province level. The model can generate pathways through to 2100 with
                                 5 year time periods.
                             </p>
@@ -1532,7 +1531,7 @@
 
                                     </tbody>
                                     <caption>
-                                        Table 3.6: Geographical detail of GCAM-China parameters
+                                        Geographical detail of GCAM-China parameters
                                     </caption>
                                 </table>
                             </div>
@@ -1542,7 +1541,7 @@
                                 <img style="width:45%;height:45%; margin-bottom: 2em"
                                      src="{% static "images/geographical_gcam_china.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 3.7: Geographical coverage of GCAM-China
+                                    <p style="text-align: center">Geographical coverage of GCAM-China
                                     </p>
 
                                 </div>
@@ -1559,7 +1558,7 @@
                                 data, the same data sources are used for calibration as for the global model, which
                                 are predominantly IEA energy balances for energy production and consumption, and
                                 FAOSTAT balances for food demand and agriculture. For province- and grid-level data in
-                                China (see Table 3.4), national Chinese data sources have been used for calibration.
+                                China, national Chinese data sources have been used for calibration.
                             </p>
                         </section>
                     </div>
@@ -1662,7 +1661,7 @@
 
                                     </tbody>
                                     <caption>
-                                        Table 3.6: Geographical detail of GCAM-China parameters
+                                        Geographical detail of GCAM-China parameters
                                     </caption>
                                 </table>
                             </div>
@@ -1740,7 +1739,7 @@
                                 <img style="width:70%;height:70%; margin-bottom: 2em"
                                      src="{% static "images/gcam-sousei-dataflows.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 3.8: Modelling framework illustrating the main
+                                    <p style="text-align: center">Modelling framework illustrating the main
                                         components and data flows in the EMIC climate model and GCAM-SOUSEI.</p>
 
                                 </div>
@@ -1824,16 +1823,15 @@
                             </p>
                             <p>
                                 In GCAM-USA, the 50 U.S. states plus the District of Columbia (hereafter, the 51
-                                states) are included as explicit regions that operate within the global GCAM model
-                                (Figure 3.6). Energy transformation (electricity generation and refined
+                                states) are included as explicit regions that operate within the global GCAM model. Energy transformation (electricity generation and refined
                                 liquids production) and end-use demands (buildings, transportation, and industry) are
                                 modelled at the individual state level, and inter-state trade of all energy goods is
                                 considered. For electricity trade between states, states are grouped into the 13 NEMS
-                                Electricity Market Module Regions (EIA 2010), plus Alaska and Hawaii (Figure 3.6).
+                                Electricity Market Module Regions (EIA 2010), plus Alaska and Hawaii.
                                 Whereby states within the same sub-region can trade freely within that sub-region,
                                 trade between regions may be limited. Also, prices for final energy commodities
                                 (except for biomass products) are calibrated per grid region, reflecting regional
-                                differences in energy prices. Table 3.6 shows an overview of features calibrated at
+                                differences in energy prices. The following table shows an overview of features calibrated at
                                 the country, grid and state level.
                             </p>
                         </section>
@@ -1894,7 +1892,7 @@
 
                                     </tbody>
                                     <caption>
-                                        Table 3.7: Geographical detail of GCAM-USA parameters
+                                        Geographical detail of GCAM-USA parameters
                                     </caption>
                                 </table>
                             </div>
@@ -1909,7 +1907,7 @@
                                 <img style="width:50%;height:50%; margin-bottom: 2em"
                                      src="{% static "images/gcamusa.png" %}">
                                 <div style="text-align: center">
-                                    <p style="text-align: center">Figure 3.9: Geographical coverage of GCAM-USA</p>
+                                    <p style="text-align: center">Geographical coverage of GCAM-USA</p>
                                 </div>
                             </div>
                         </section>
@@ -1923,8 +1921,7 @@
                                 The GCAM model is calibrated for its base year, 2010. For international and USA-wide
                                 data, the same data sources are used for calibration as for the global model, which are
                                 predominantly IEA energy balances for energy production and consumption, and FAOSTAT
-                                balances for food demand and agriculture. For state- and grid-level data in the USA
-                                (see Table 3.5), the State Energy Data System from the EIA (2014) is used as the
+                                balances for food demand and agriculture. For state- and grid-level data in the USA, the State Energy Data System from the EIA (2014) is used as the
                                 primary dataset. Socioeconomic data are calibrated for 2015 at the state-level,
                                 reflecting data from the U.S. Census Bureau.
                             </p>
