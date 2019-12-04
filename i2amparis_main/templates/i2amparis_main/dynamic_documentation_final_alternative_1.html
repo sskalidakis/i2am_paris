@@ -180,6 +180,10 @@
         .model-list a:hover i.fa-info-circle {
             display: inline-block;
         }
+
+        .rounded-corners-el {
+            border-radius: 4px;
+        }
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/maps.js"></script>
@@ -244,7 +248,7 @@
                                                    class="fa fa-info-circle"></i>
                                                 {#                                    <i style="position: absolute;right: 0.6em;bottom:1.3em;font-size: 0.6em;color: #828f38"#}
                                                 {#                                       class="fa fa-check"></i>#}
-                                                <img class="selected"
+                                                <img class="selected rounded-corners-el"
                                                      style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                                                      src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
                                                      data-toggle="tooltip" data-placement="auto"
@@ -254,7 +258,7 @@
                                                    style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
                                                 <i style="position: absolute;left: 1em;top:1em;color:#cfd0d2;font-size: 0.9em;z-index: 1050"
                                                    class="fa fa-info-circle"></i>
-                                                <img class="not-selected"
+                                                <img class="not-selected rounded-corners-el"
                                                      style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                                                      src="/static/{{ sel_icons }}/grey/{{ json.icon }}"
                                                      data-toggle="tooltip" data-placement="auto"
@@ -306,7 +310,7 @@
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
-                                    class="muted"
+                                    class="muted rounded-corners-el"
                                     {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
                                     {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
                                     {% else %}
@@ -327,7 +331,7 @@
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
-                                    class="muted"
+                                    class="muted rounded-corners-el"
                                     {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
                                     {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
                                     {% else %}
@@ -366,7 +370,7 @@
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
-                                    class="muted"
+                                    class="muted rounded-corners-el"
                                     {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
                                     {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
                                     {% else %}
@@ -401,7 +405,7 @@
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
-                                    class="muted"
+                                    class="muted rounded-corners-el"
                                     {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
                                     {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
                                     {% else %}
@@ -440,7 +444,7 @@
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
-                                    class="muted"
+                                    class="muted rounded-corners-el"
                                     {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
                                     {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
                                     {% else %}
@@ -476,7 +480,7 @@
                                     {% else %}
                                     src="/static/icons/grey/{{ vv.icon }}"
                                     {% endif %}
-                                    class="muted"
+                                    class="muted rounded-corners-el"
                                     {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
                                     {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
                                     {% else %}
@@ -754,7 +758,11 @@
         hs1.properties.fill = chart.colors.getIndex(0).brighten(-1);
         equirectangular.events.on("hit", function () {
             chart.projection = new am4maps.projections.Projection();
-            chart.panBehavior = "rotateLong";
+            {#            chart.panBehavior = "rotateLong";#}
+            {#            chart.panBehavior = "rotateLongLat";#}
+            chart.deltaLatitude = 0;
+            chart.deltaLongitude = 0;
+            chart.panBehavior = "move";
             chart.homeZoomLevel = 1.5;
             chart.homeGeoPoint = {longitude: 10, latitude: 52};
         })
@@ -769,7 +777,11 @@
         hs2.properties.fill = chart.colors.getIndex(0).brighten(-1);
         mercator.events.on("hit", function () {
             chart.projection = new am4maps.projections.Mercator();
-            chart.panBehavior = "rotateLong";
+            {#            chart.panBehavior = "rotateLong";#}
+            {#            chart.panBehavior = "rotateLongLat";#}
+            chart.deltaLatitude = 0;
+            chart.deltaLongitude = 0;
+            chart.panBehavior = "move";
             chart.homeZoomLevel = 1.5;
             chart.homeGeoPoint = {longitude: 10, latitude: 52};
         })
@@ -784,7 +796,11 @@
         hs3.properties.fill = chart.colors.getIndex(0).brighten(-1);
         miller.events.on("hit", function () {
             chart.projection = new am4maps.projections.Miller();
-            chart.panBehavior = "rotateLong";
+            {#            chart.panBehavior = "rotateLong";#}
+            {#            chart.panBehavior = "rotateLongLat";#}
+            chart.deltaLatitude = 0;
+            chart.deltaLongitude = 0;
+            chart.panBehavior = "move";
             chart.homeZoomLevel = 1.5;
             chart.homeGeoPoint = {longitude: 10, latitude: 52};
         })
@@ -799,7 +815,11 @@
         hs4.properties.fill = chart.colors.getIndex(0).brighten(-1);
         eckert.events.on("hit", function () {
             chart.projection = new am4maps.projections.Eckert6();
-            chart.panBehavior = "rotateLong";
+            {#            chart.panBehavior = "rotateLong";#}
+            chart.panBehavior = "rotateLongLat";
+            chart.deltaLatitude = 0;
+            chart.deltaLongitude = 0;
+            {#            chart.panBehavior = "move";#}
             chart.homeZoomLevel = 1.5;
             chart.homeGeoPoint = {longitude: 10, latitude: 52};
         })
@@ -814,19 +834,20 @@
         hs5.properties.fill = chart.colors.getIndex(0).brighten(-1);
         orthographic.events.on("hit", function () {
             chart.projection = new am4maps.projections.Orthographic();
-{#            chart.panBehavior = "rotateLongLat";#}
-            chart.panBehavior = "rotateLong";
+            {#            chart.panBehavior = "rotateLong";#}
+            chart.deltaLatitude = 0;
+            chart.deltaLongitude = 0;
+            chart.panBehavior = "rotateLongLat";
             chart.homeZoomLevel = 1;
             chart.homeGeoPoint = {longitude: 0, latitude: 0};
 
         })
         // Set projection
-        chart.projection = new am4maps.projections.Miller();
-        chart.panBehavior = "rotateLong";
+        {#        chart.projection = new am4maps.projections.Miller();#}
+        {#        chart.panBehavior = "rotateLongLat";#}
 
         var grid = chart.series.push(new am4maps.GraticuleSeries());
         grid.toBack();
-
 
     }); // end am4core.ready()
 </script>
