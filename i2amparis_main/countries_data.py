@@ -392,7 +392,7 @@ class RetriveDB:
                 #     j: self.is_enable_category(self.create_html_lists(
                 #         list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
                 # })
-        for i in categories_mitgation[3:-1]:
+        for i in categories_mitgation[4:-1]:
             sub_categories = list(
                 Mitigations.objects.filter(category=i).values_list('subcategory', flat=True).distinct())
             sub_categories = list(set(sub_categories) - set(behavior_lst))
@@ -405,9 +405,9 @@ class RetriveDB:
                 temp_dict.update({
                     j: list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))
                 })
-
-            temp_dict = self.is_enable_category(self.create_html_lists(
-                list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+            # temp_dict = self.is_enable_category(self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
+            # Fixed. Now we can view a nested list of categories Buildings, Industry and Agriculture
+            temp_dict = self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=j)
             temp_is_enable = temp_dict['is_enable']
             temp_html = temp_dict['html']
             icon = Mitigations.objects.filter(category=i)[0].icon
@@ -479,6 +479,7 @@ class RetriveDB:
                 'icon': icon
             }
         })
+
         # mitigation_adaption_dict.update({
         #     'Behavioural changes': self.is_enable_category(self.create_html_lists(temp), cat='Behavioural changes')
         # })
@@ -492,11 +493,18 @@ class RetriveDB:
         description
         """
 
-        sdgs_all = Sdgs.objects.values_list('name',flat=True).distinct()
+        import re
+        # sdgs_all = Sdgs.objects.values_list('name',flat=True).distinct()
+        sdgs_all = Sdgs.objects.values_list('title', flat=True).distinct()
+        sdgs_all_dict = {}
+        for i in sdgs_all:
+            sdgs_all_dict.update({
+                int(re.findall('\d+', i)[0]): Sdgs.objects.filter(title=i).values_list('name',flat=True)[0]
+            })
         sdgs_valid = Sdgs.objects.filter(model_name=self.model_id)
         sdgs_html = {}
-        for sdg in sdgs_all:
-            element = sdgs_valid.filter(name=sdg)
+        for sdg_key in sorted(sdgs_all_dict.keys()):
+            element = sdgs_valid.filter(name=sdgs_all_dict[sdg_key])
             if len(element)>0:
                 is_enabled = 'green'
                 sdgs_html[element[0].name] = {
@@ -505,12 +513,9 @@ class RetriveDB:
                                                 'icon': element[0].icon}
             else:
                 is_enabled = 'grey'
-                sdgs_html[sdg] = {
+                sdgs_html[sdgs_all_dict[sdg_key]] = {
                     'html': '', 'is_enable': is_enabled,
-                    'icon': Sdgs.objects.filter(name=sdg)[0].icon}
-
-
-
+                    'icon': Sdgs.objects.filter(name=sdgs_all_dict[sdg_key])[0].icon}
 
         # # Get all names of sdgs
         # data_all = list(Sdgs.objects.all().values_list('name', flat=True).distinct())
