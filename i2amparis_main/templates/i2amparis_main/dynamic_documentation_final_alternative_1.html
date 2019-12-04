@@ -750,6 +750,7 @@
 
         let equirectangular = linkContainer.createChild(am4core.TextLink);
         equirectangular.margin(10, 10, 10, 10);
+        equirectangular.padding(3, 3, 3, 3);
         equirectangular.text = "Equirectangular";
         equirectangular.background.fill = am4core.color("#777");
         equirectangular.background.fillOpacity = 0.8;
@@ -773,6 +774,7 @@
         mercator.background.fillOpacity = 0.8;
         mercator.fill = am4core.color("#FFF");
         mercator.margin(10, 10, 10, 10);
+        mercator.padding(3, 3, 3, 3);
         var hs2 = mercator.states.create("hover");
         hs2.properties.fill = chart.colors.getIndex(0).brighten(-1);
         mercator.events.on("hit", function () {
@@ -788,6 +790,7 @@
 
         let miller = linkContainer.createChild(am4core.TextLink);
         miller.margin(10, 10, 10, 10);
+        miller.padding(3, 3, 3, 3);
         miller.text = "Miller";
         miller.background.fill = am4core.color("#777");
         miller.background.fillOpacity = 0.8;
@@ -807,6 +810,7 @@
 
         let eckert = linkContainer.createChild(am4core.TextLink);
         eckert.margin(10, 10, 10, 10);
+        eckert.padding(3, 3, 3, 3);
         eckert.text = "Eckert 6";
         eckert.background.fill = am4core.color("#777");
         eckert.background.fillOpacity = 0.8;
@@ -826,6 +830,7 @@
 
         let orthographic = linkContainer.createChild(am4core.TextLink);
         orthographic.margin(10, 10, 10, 10);
+        orthographic.padding(3, 3, 3, 3);
         orthographic.text = "Orthographic";
         orthographic.background.fill = am4core.color("#777");
         orthographic.background.fillOpacity = 0.8;
