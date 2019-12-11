@@ -81,10 +81,13 @@
                             src="/static/images/logo.png"
                             style="width: 65%;height:65%"></a>
                     <a class="col-sm-9 col-md-9 col-xs-8"> </a>
-                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"
-                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">
-                        Back
-                    </button>
+{#                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"#}
+{#                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">#}
+{#                        Back#}
+{#                    </button>#}
+                    <a href="/main"
+                       class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"
+                       style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">Back</a>
                 </div>
 
             </div>
@@ -176,11 +179,11 @@
 <script src={% static "main_theme/js/main.js" %}></script>
 <script src={% static "main_theme/js/wow.min.js" %}></script>
 
-<script>
-    function goback() {
-        window.history.back();
-    }
-</script>
+{#<script>#}
+{#    function goback() {#}
+{#        window.history.back();#}
+{#    }#}
+{#</script>#}
 
 <script>
     wow = new WOW({}).init();
