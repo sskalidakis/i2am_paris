@@ -517,7 +517,7 @@
         </div>
     </section>
 </div>
-
+{% include "i2amparis_main/pages_footer.html" %}
 
 
 <script src={% static "main_theme/js/modernizr-2.6.2-respond-1.1.0.min.js" %}></script>
@@ -540,6 +540,11 @@
     wow = new WOW({}).init();
 </script>
 <script src={% static "main_theme/contactform/contactform.js" %}></script>
+<script>
+    $(document).ready(function () {
+              $('body').css('height', '100%');
+    });
+</script>
 <script>
     $(document).ready(function () {
         var stopClickSide = false;
