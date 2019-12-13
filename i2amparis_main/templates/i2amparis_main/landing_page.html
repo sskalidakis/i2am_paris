@@ -35,9 +35,12 @@
   <!-- skin -->
   <link rel="stylesheet" href={% static "main_theme/skin/default.css"%}>
     <style>
-        sup{
+
+        sup {
             vertical-align: super;
             font-size: smaller;
+            position: relative;
+            top: -0.1em;
         }
 
         .mylogo{
@@ -74,8 +77,7 @@
                      data-0="width:99%;height:90%" data-300="width:40%;height:40%;" ><a href="main"><img src="static/images/logo.png" style="width: 9%;height:10%;"></a>
                     <span class="hidden-sm hidden-xs" data-0="display:inline-block; opacity:90%" data-200="opacity:50%;display:none;" data-300="display:none; opacity:0%"
                           style="display: inline-block;float: right;font-size: 0.8em;color: white">PARIS REINFORCE is an EU-funded
-                        research and innovation
-                        project aimed at effectively supporting the design of climate policies.
+                        research project aimed at effectively supporting the design of climate policies.
                     </span>
                 </div>
             </div>
@@ -119,10 +121,10 @@
               </div>
               <div class="col-md-10 col-md-offset-1">
                 <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.6s">
-                  <p>An open-access, data exchange platform to host the detailed documentation, and analyses carried out
+                  <p style="margin-bottom: 0">An open-access, data exchange platform to host the detailed documentation, and analyses carried out
                       by means of the PARIS REINFORCE integrated assessment and energy system models</p>
                     <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.9s">
-                        <form class="form-inline">
+                        <form style="margin-top: 0" class="form-inline">
                             <div class="form-group">
                                 <p>Bridging the gap between scientists and stakeholders</p>
                             </div>
@@ -294,7 +296,7 @@
           <div class="align-center">
             <div class="testimonial pad-top40 pad-bot40 clearfix">
               <h3 style="color: white">
-                  I2AM PARIS seeks to enable modellers to communicate with one another and stakeholders to interact with
+                  I<sup>2</sup>AM PARIS seeks to enable modellers to communicate with one another and stakeholders to interact with
                   modelling assumptions, scenarios and results in an informative way and to understand which
                   decarbonisation pathways are the most relevant and realistic, ultimately enhancing the legitimacy of
                   the scientific processes and improving the transparency of the employed methods, models and tools.

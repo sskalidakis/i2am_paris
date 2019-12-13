@@ -8,7 +8,7 @@ sup {
     vertical-align: super;
     font-size: smaller;
     position: relative;
-    top: 0em;
+    top: -0.1em;
 }
 
 .mylogo {
@@ -36,7 +36,7 @@ sup {
 .sidebar a, .sidebar span {
     padding: 4px 4px 4px 4px;
     text-decoration: none;
-    color: #818181;
+    color: #b1b1b1;
     display: block;
     transition: 0.3s;
     cursor: pointer;
@@ -108,7 +108,7 @@ sup {
 }
 
 .list-group-item {
-    background-color: #434d53;
+    background-color: #343a40;
     color: white;
     border-color: transparent;
 }
