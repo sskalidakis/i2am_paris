@@ -6,12 +6,12 @@ class RetrieveGranularities:
         # self.model_id = ModelsInfo.objects.get(model_name=model_name).id
         self.model_id = model_id
         self.data = {
-            'mitigationadaptation': self.mitigationadaptation(),
-            'sectors': self.sectors(),
-            'sdgs': self.sdgs(),
-            'emissions': self.emissions(),
-            'policies': self.policies(),
-            'socioecons': self.socioecons()
+            'MitigationAdaptationMeasures': self.mitigationadaptation(),
+            'Sectors': self.sectors(),
+            'SDGs': self.sdgs(),
+            'Emissions': self.emissions(),
+            'Policy': self.policies(),
+            'SocioEconomics': self.socioecons()
         }
 
     def create_name_list(self, names, names_enable):
@@ -178,9 +178,10 @@ class RetrieveGranularities:
             cat_id = SdgsCat.objects.get(sdgs_cat=cat).id
             cat_title = SdgsCat.objects.get(sdgs_cat=cat).sdgs_title
             cat_icon = SdgsIcon.objects.get(sdgs_cat_id=cat_id).sdgs_icon
-            name = SdgsName.objects.filter(sdgs_cat_id=cat_id, model_id=self.model_id).values_list('sdgs_name', flat=True)
+            name = list(SdgsName.objects.filter(sdgs_cat_id=cat_id, model_id=self.model_id).values_list('sdgs_name', flat=True))
             if len(name) > 0:
-                html = '<h4 style="padding:5px;margin-bottom:5px"> {}</h4>  <p style="margin-left:1em">{}</p> '.format(cat_title, name)
+                # We suppose the sdgs all the time have only one name, so if len is >0 will be 1 and we get the name[0]
+                html = '<h4 style="padding:5px;margin-bottom:5px"> {}</h4>  <p style="margin-left:1em">{}</p> '.format(cat_title, name[0])
                 enable = True
             else:
                 html = '<h4 style="padding:5px;margin-bottom:5px"> {}</h4>'.format(cat)
@@ -190,7 +191,8 @@ class RetrieveGranularities:
                     'name': name,
                     'icon': cat_icon,
                     'title': cat_title,
-                    'enable': enable
+                    'is_enable': 'green' if enable else 'grey',
+                    'html': html
                 }
             })
         # TODO order the elements of dict base to number in title
