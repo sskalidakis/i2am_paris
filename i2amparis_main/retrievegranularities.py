@@ -87,7 +87,7 @@ class RetrieveGranularities:
                 cat: {
                     'names': names_list_dict,
                     'icon': cat_icon,
-                    'enable': enable_adaptation,
+                    'is_enable': 'green' if enable_adaptation else 'grey',
                     'html': html
                 }
             })
@@ -119,14 +119,17 @@ class RetrieveGranularities:
                 cat: {
                     'subs': subcat,
                     'icon': cat_icon,
-                    'enable': enable,
+                    'is_enable': 'green' if enable else 'grey',
                     'html': html
                 }
             })
-        mitigationadaptation_dict = {
-            'adaptation': adataptation_dict,
-            'mitigation': mitigation_dict
-        }
+        # mitigationadaptation_dict = {
+        #     'adaptation': adataptation_dict,
+        #     'mitigation': mitigation_dict
+        # }
+        mitigationadaptation_dict = {}
+        mitigationadaptation_dict.update(adataptation_dict)
+        mitigationadaptation_dict.update(mitigation_dict)
         return mitigationadaptation_dict
 
 
