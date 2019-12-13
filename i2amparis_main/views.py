@@ -50,7 +50,25 @@ def detailed_model_doc(request,model=''):
         }
         return render(request, 'i2amparis_main/detailed_model_documentation_landing_page.html',context)
     else:
-        return render(request, 'i2amparis_main/detailed_'+model+'.html')
+        category = ModelsInfo.objects.get(model_name=model).coverage
+        list_of_cat_models = ModelsInfo.objects.filter(coverage=category)
+        print (category)
+        print (list_of_cat_models)
+        model_dict = []
+        for el in list_of_cat_models:
+            model_obj = {}
+            model_obj['name'] = el.model_name
+            model_obj['title'] = el.model_title
+            model_dict.append(model_obj)
+        print (model_dict)
+        if category == 'global':
+            menu_cat = 'Other Global Models'
+        elif category == 'national_eu':
+            menu_cat = 'Other National / Regional Models for Europe'
+        else:
+            menu_cat = 'Other National / Regional Models for countries outside Europe'
+
+        return render(request, 'i2amparis_main/detailed_'+model+'.html',context={'menu_models':model_dict,'coverage':menu_cat})
 
 def dynamic_doc(request, model=''):
 
