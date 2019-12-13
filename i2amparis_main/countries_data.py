@@ -2,6 +2,7 @@ from i2amparis_main.models import *
 import random
 from random import shuffle
 
+from .retrievegranularities import  RetrieveGranularities
 
 
 
@@ -19,14 +20,17 @@ class RetriveDB:
             self.model_id = ModelsInfo.objects.get(model_name=self.model_name).id
         else:
             self.model_id = ModelsInfo.objects.all().order_by('ordering')[0].id
-        self.retrieve_granularity = {
-            'Sectors': self.retrieve_sectors(),
-            'Policy': self.retrieve_policy(),
-            'SDGs': self.retrieve_sdgs(),
-            'SocioEconomics': self.retrieve_socioecon(),
-            'Emissions': self.retrieve_emission(),
-            'MitigationAdaptationMeasures': self.retrieve_mitigation_adaption(),
-        }
+        self.retrieve_granularity = RetrieveGranularities(self.model_id).data
+        # self.newdata = RetrieveGranularities(self.model_id).data
+        # self.retrieve_granularity = {
+        #     'Sectors': self.retrieve_sectors(),
+        #     'Policy': self.newdata['Policy'],#self.retrieve_policy(),
+        #     'SDGs': self.newdata['SDGs'],#self.retrieve_sdgs(),
+        #     'SocioEconomics': self.newdata['SocioEconomics'], #self.retrieve_socioecon(),
+        #     'Emissions': self.newdata['Emissions'],#self.retrieve_emission(),
+        #     'MitigationAdaptationMeasures': self.newdata['MitigationAdaptationMeasures'] #self.retrieve_mitigation_adaption(),
+        # }
+
 
     def create_json(self):
         """
@@ -407,7 +411,7 @@ class RetriveDB:
                 })
             # temp_dict = self.is_enable_category(self.create_html_lists(list(map(lambda x: {x: True} if x in temp_true else {x: False}, temp_all))), cat=j)
             # Fixed. Now we can view a nested list of categories Buildings, Industry and Agriculture
-            temp_dict = self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=j)
+            temp_dict = self.is_enable_category(self.create_html_lists(temp_dict, is_nested=True), cat=i)
             temp_is_enable = temp_dict['is_enable']
             temp_html = temp_dict['html']
             icon = Mitigations.objects.filter(category=i)[0].icon
@@ -659,7 +663,6 @@ class RetriveDB:
         data = list(ModelsInfo.objects.all().values_list('model_name', 'model_descr'))
         data = list(map(lambda x: {x[0], {'descr': x[1], 'heading': ''}}, data))
         return dict(j for i in data for j in i.items())
-
 
 
 
