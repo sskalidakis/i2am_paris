@@ -232,6 +232,7 @@ class RetrieveGranularities:
             cat_id = PoliciesCat.objects.get(policies_cat=cat).id
             cat_icon = PoliciesIcon.objects.get(policies_cat=cat_id).policies_icon
             names_state = []
+            enable = False
             for name in PoliciesName.objects.filter(policies_cat_id=cat_id).values_list('policies_name', flat=True):
                 name_id = PoliciesName.objects.get(policies_name=name, policies_cat_id=cat_id).id
                 states = PoliciesStates.objects.filter(policies_name_id=name_id, model_id=self.model_id).values_list('state', flat=True)
@@ -243,6 +244,9 @@ class RetrieveGranularities:
                 else:
                     # If we have more than one states state will be true
                     state = True
+                if enable == False:
+                    if state:
+                        enable = True
                 names_state.append(
                     {name: state}
                 )
@@ -250,7 +254,8 @@ class RetrieveGranularities:
                 cat: {
                     'icon': cat_icon,
                     'names': names_state,
-                    'html': self.create_simple_list(names_state, cat)
+                    'html': self.create_simple_list(names_state, cat),
+                    'is_enable': 'green' if enable else 'grey'
                 }
             })
         return policies_dict
