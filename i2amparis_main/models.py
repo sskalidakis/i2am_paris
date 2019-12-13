@@ -177,3 +177,157 @@ class Feedback(models.Model):
 
     def __str__(self):
         return self.username
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# New models
+
+class SdgsCat(models.Model):
+    sdgs_cat = models.TextField()
+    sdgs_title = models.TextField()
+    ordering = models.IntegerField(default=0)
+    model_id = models.ManyToManyField(ModelsInfo,
+                                      through='SdgsName')
+
+
+class SdgsName(models.Model):
+    sdgs_cat_id = models.ForeignKey(SdgsCat,
+                                    on_delete=models.CASCADE)
+    model_id = models.ForeignKey(ModelsInfo,
+                                 on_delete=models.CASCADE)
+    sdgs_name = models.TextField()
+
+
+class SdgsIcon(models.Model):
+    sdgs_icon = models.TextField(default="")
+    sdgs_cat_id = models.ManyToManyField(SdgsCat)
+
+
+class AdaptationCat(models.Model):
+    adaptation_cat = models.TextField()
+
+
+class AdaptationName(models.Model):
+    adaptation_name = models.TextField()
+    adaptation_cat_id = models.ManyToManyField(AdaptationCat)
+    model_id = models.ManyToManyField(ModelsInfo)
+
+
+class AdaptationIcon(models.Model):
+    adaptation_icon = models.TextField()
+    adaptation_cat_id = models.ManyToManyField(AdaptationCat)
+
+
+class MitigationsCat(models.Model):
+    mitigations_cat = models.TextField()
+
+
+class MitigationsSubCat(models.Model):
+    mitigations_sub_cat = models.TextField(default="")
+    mitigations_cat_id = models.ManyToManyField(MitigationsCat)
+
+
+class MitigationsName(models.Model):
+    mitigations_name = models.TextField()
+    mitigations_sub_cat_id = models.ManyToManyField(MitigationsSubCat)
+    model_id = models.ManyToManyField(ModelsInfo)
+
+
+class MitigationsIcon(models.Model):
+    mitigation_icon = models.TextField()
+    mitigation_cat_id = models.ManyToManyField(MitigationsCat)
+
+class SectorCat(models.Model):
+    sector_cat = models.TextField()
+
+
+class SectorSubCat(models.Model):
+    sector_sub_cat = models.TextField(default="")
+    sector_cat_id = models.ManyToManyField(SectorCat)
+
+
+class SectorName(models.Model):
+    sector_name = models.TextField()
+    sector_sub_cat = models.ManyToManyField(SectorSubCat)
+    model_id = models.ManyToManyField(ModelsInfo)
+
+
+class SectorIcon(models.Model):
+    sector_icon = models.TextField()
+    sector_cat_id = models.ManyToManyField(SectorCat)
+
+
+class EmissionsName(models.Model):
+    emissions_name = models.TextField(default="")
+    model_id = models.ManyToManyField(ModelsInfo,
+                                      through='EmissionsStates')
+
+
+class EmissionsIcon(models.Model):
+    emissions_icon_name = models.TextField()
+    emission_name = models.ManyToManyField(EmissionsName)
+
+
+
+
+class EmissionsStates(models.Model):
+    emissions_name_id = models.ForeignKey(EmissionsName,
+                               on_delete=models.CASCADE)
+    model_id = models.ForeignKey(ModelsInfo,
+                              on_delete=models.CASCADE)
+    state = models.TextField()
+
+
+# class SocioeconsCat(models.Model):
+#     socioecons_cat = models.TextField()
+
+class SocioeconsCat(models.Model):
+    socioecons_cat = models.TextField(default="")
+    # socioecons_cat_id = models.ManyToManyField(SocioeconsCat)
+
+
+
+
+class SocioeconsIcon(models.Model):
+    socioecons_icons = models.TextField()
+    # socioecons_cat_id = models.ManyToManyField(SocioeconsCat)
+    socioecons_cat_id = models.ManyToManyField(SocioeconsCat)
+
+
+class SocioeconsName(models.Model):
+    socioecons_name = models.TextField()
+    socioecons_cat_id = models.ManyToManyField(SocioeconsCat)
+    model_id = models.ManyToManyField(ModelsInfo,
+                                      through='SocioeconsStates')
+
+
+class SocioeconsStates(models.Model):
+    socioecons_name_id = models.ForeignKey(SocioeconsName,
+                               on_delete=models.CASCADE)
+    model_id = models.ForeignKey(ModelsInfo,
+                              on_delete=models.CASCADE)
+    state = models.TextField()
+
+
+class PoliciesCat(models.Model):
+    policies_cat = models.TextField()
+
+
+class PoliciesIcon(models.Model):
+    policies_icon = models.TextField()
+    policies_cat = models.ManyToManyField(PoliciesCat)
+
+
+class PoliciesName(models.Model):
+    policies_name = models.TextField()
+    policies_cat_id = models.ManyToManyField(PoliciesCat)
+    model_id = models.ManyToManyField(ModelsInfo,
+                                      through='PoliciesStates')
+
+
+class PoliciesStates(models.Model):
+    policies_name_id = models.ForeignKey(PoliciesName,
+                               on_delete=models.CASCADE)
+    model_id = models.ForeignKey(ModelsInfo,
+                              on_delete=models.CASCADE)
+    state = models.TextField()
