@@ -221,7 +221,7 @@ class RetrieveGranularities:
                 name: {
                     'icon': name_icon,
                     'html': name_html,
-                    'enable': enable
+                    'is_enable': 'green' if enable else 'grey'
                 }
             })
         return emissions_dict
