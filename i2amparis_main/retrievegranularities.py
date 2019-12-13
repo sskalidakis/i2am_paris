@@ -269,6 +269,7 @@ class RetrieveGranularities:
             cat_id = SocioeconsCat.objects.get(socioecons_cat=cat).id
             cat_icon = SocioeconsIcon.objects.get(socioecons_cat_id=cat_id).socioecons_icons
             names_state = []
+            enable = False
             for name in SocioeconsName.objects.filter(socioecons_cat_id=cat_id).values_list('socioecons_name', flat=True):
                 name_id = SocioeconsName.objects.get(socioecons_name=name, socioecons_cat_id=cat_id).id
                 states = SocioeconsStates.objects.filter(
@@ -281,6 +282,9 @@ class RetrieveGranularities:
                 else:
                     # In case there is more than one state is true
                     state = True
+                if enable == False:
+                    if state:
+                        enable = True
                 names_state.append(
                     {name: state}
                 )
@@ -288,7 +292,8 @@ class RetrieveGranularities:
                 cat: {
                     'names': names_state,
                     'html': self.create_simple_list(names_state, cat),
-                    'icon': cat_icon
+                    'icon': cat_icon,
+                    'is_enable': 'green' if enable else 'grey'
                 }
             })
         return socioecons_dict
