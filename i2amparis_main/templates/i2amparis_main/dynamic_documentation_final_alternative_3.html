@@ -36,59 +36,59 @@
     <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
     <link rel="stylesheet" href={% static "doc_css.css" %}>
     <style>
-        .model-list svg {
-            margin-right: 0.6em;
-            margin-left: 0.6em;
-            margin-top: 0.2em;
-            margin-bottom: 0.2em;
+{#        .model-list svg {#}
+{#            margin-right: 0.6em;#}
+{#            margin-left: 0.6em;#}
+{#            margin-top: 0.2em;#}
+{#            margin-bottom: 0.2em;#}
+{##}
+{#        }#}
+{##}
+{#        .model-list svg {#}
+{#            cursor: pointer;#}
+{#        }#}
+{##}
+{#        .model-list svg text {#}
+{#            fill: #777#}
+{#        }#}
+{##}
+{#        .model-list rect {#}
+{#            fill: rgba(77, 77, 77, 0.31);#}
+{#            stroke: rgba(64, 64, 64, 0.75);#}
+{#            stroke-width: 1;#}
+{#        }#}
 
-        }
+{#        .model-list svg:hover rect {#}
+{#            fill: rgba(151, 174, 33, 0.8);#}
+{#            stroke: #5e6d13e6;#}
+{#            stroke-width: 2;#}
+{#        }#}
+{##}
+{#        .model-list svg:hover text {#}
+{#            fill: rgba(255, 255, 255, 0.91)#}
+{#        }#}
 
-        .model-list svg {
-            cursor: pointer;
-        }
-
-        .model-list svg text {
-            fill: #777
-        }
-
-        .model-list rect {
-            fill: rgba(77, 77, 77, 0.31);
-            stroke: rgba(64, 64, 64, 0.75);
-            stroke-width: 1;
-        }
-
-        .model-list svg:hover rect {
-            fill: rgba(151, 174, 33, 0.8);
-            stroke: #5e6d13e6;
-            stroke-width: 2;
-        }
-
-        .model-list svg:hover text {
-            fill: rgba(255, 255, 255, 0.91)
-        }
-
-        .model-list a.not-selected {
+        .model-list div.not-selected {
             opacity: 0.7;
         }
 
-        .model-list a:hover {
+        .model-list div:hover {
             opacity: 1;
             cursor: pointer;
         }
 
-        .model-list svg:hover {
-            -webkit-animation-name: wiggle;
-            -ms-animation-name: wiggle;
-            -ms-animation-duration: 200ms;
-            -webkit-animation-duration: 200ms;
-            -webkit-animation-iteration-count: 1;
-            -ms-animation-iteration-count: 1;
-            -webkit-animation-timing-function: ease-in-out;
-            -ms-animation-timing-function: ease-in-out;
-        }
+{#        .model-list svg:hover {#}
+{#            -webkit-animation-name: wiggle;#}
+{#            -ms-animation-name: wiggle;#}
+{#            -ms-animation-duration: 200ms;#}
+{#            -webkit-animation-duration: 200ms;#}
+{#            -webkit-animation-iteration-count: 1;#}
+{#            -ms-animation-iteration-count: 1;#}
+{#            -webkit-animation-timing-function: ease-in-out;#}
+{#            -ms-animation-timing-function: ease-in-out;#}
+{#        }#}
 
-        .model-list a:hover {
+        .model-list div:hover {
             -webkit-animation-name: wiggle;
             -ms-animation-name: wiggle;
             -ms-animation-duration: 200ms;
@@ -153,15 +153,15 @@
             }
         }
 
-        .model-list svg {
-            width: 8.6rem;
-            height: 4rem;
-        }
-
-        .model-list svg rect {
-            width: 8.6rem;
-            height: 4rem;
-        }
+{#        .model-list svg {#}
+{#            width: 8.6rem;#}
+{#            height: 4rem;#}
+{#        }#}
+{##}
+{#        .model-list svg rect {#}
+{#            width: 8.6rem;#}
+{#            height: 4rem;#}
+{#        }#}
 
         .granularities img {
             margin: 0.2rem;
@@ -180,7 +180,7 @@
             display: none;
         }
 
-        .model-list a:hover i.fa-info-circle {
+        .model-list div:hover i.fa-info-circle {
             display: inline-block;
         }
         .category-caption{
@@ -255,36 +255,40 @@
                          style="overflow: auto;  text-align: center">
                         {% for model,json in buttons.items %}
                             {% if model == selected_model_name %}
-                                <a class="col selected" data-link="{{ model }}"
+                                <div class="col selected" data-link="{{ model }}"
                                    style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top">
                                 <i style="position: absolute;left: 1em;top:1em;font-size: 0.9em;z-index: 1050;color:#f7f7f7;"
                                    class="fa fa-info-circle"></i>
                                 {#                                    <i style="position: absolute;right: 0.6em;bottom:1.3em;font-size: 0.6em;color: #828f38"#}
                                 {#                                       class="fa fa-check"></i>#}
-                                <img class="selected rounded-corners-el"
-                                     style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
-                                     src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
-                                     data-toggle="tooltip" data-placement="auto"
-                                     title='<p>{{ json.description }}</p>'>
+                                <a href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics">
+                                    <img class="selected rounded-corners-el"
+                                         style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                         src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
+                                         data-toggle="tooltip" data-placement="auto"
+                                         title='<p>{{ json.description }}</p>'>
+                                </a>
                             {% else %}
-                                <a class="col not-selected" data-link="{{ model }}"
+                                <div class="col not-selected" data-link="{{ model }}"
                                    style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
                                 <i style="position: absolute;left: 1em;top:1em;color:#cfd0d2;font-size: 0.9em;z-index: 1050"
                                    class="fa fa-info-circle"></i>
-                                <img class="not-selected rounded-corners-el"
-                                     style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
-                                     src="/static/{{ sel_icons }}/grey/{{ json.icon }}"
-                                     data-toggle="tooltip" data-placement="auto"
-                                     title='<p>{{ json.description }}</p>'>
+                                <a href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics">
+                                    <img class="not-selected rounded-corners-el"
+                                         style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                         src="/static/{{ sel_icons }}/grey/{{ json.icon }}"
+                                         data-toggle="tooltip" data-placement="auto"
+                                         title='<p>{{ json.description }}</p>'>
+                                </a>
                             {% endif %}
                         <div class="long_title"
                              style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ json.long_title }}</div>
-                        </a>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="row" style="margin: 0.1em;">
-                    <span style="position: relative;top:-5.5em" id="model-characteristics"></span>
+                    <span style="position: relative;top:-7em" id="model-characteristics"></span>
                     <h3 style="text-align: center; margin-bottom: 1.5em">Geographic Coverage
                         of {{ selected_model_title }}</h3>
                     <div class="col-md-2 col-sm-1"></div>
@@ -388,14 +392,14 @@
             selector: 'img[data-toggle=tooltip]',
             container: ".model-list"
         });
-        $(".model-list a img").click(function (event) {
-            console.log('pressed link');
-            window.location.href = "/dynamic_doc/" + $(this).parent().data('link') + "/?format={{ template_format }}#model-characteristics";
-            // Do something
-        });
+{#        $(".model-list a img").click(function (event) {#}
+{#            console.log('pressed link');#}
+{#            window.location.href = "/dynamic_doc/" + $(this).parent().data('link') + "/?format={{ template_format }}#model-characteristics";#}
+{#            // Do something#}
+{#        });#}
         $(".model-list i.fa-info-circle").click(function (event) {
             console.log('pressed icon');
-            window.location.href = "/detailed_model_doc/" + $(this).parent().data('link');
+            window.open("/detailed_model_doc/" + $(this).parent().data('link'));
             // Do something
         });
 
