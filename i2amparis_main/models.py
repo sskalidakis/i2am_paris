@@ -188,6 +188,7 @@ class SdgsCat(models.Model):
     ordering = models.IntegerField(default=0)
     model_id = models.ManyToManyField(ModelsInfo,
                                       through='SdgsName')
+    ordering = models.IntegerField(default=0)
 
 
 class SdgsName(models.Model):
@@ -196,6 +197,7 @@ class SdgsName(models.Model):
     model_id = models.ForeignKey(ModelsInfo,
                                  on_delete=models.CASCADE)
     sdgs_name = models.TextField()
+    ordering = models.IntegerField(default=0)
 
 
 class SdgsIcon(models.Model):
@@ -205,12 +207,14 @@ class SdgsIcon(models.Model):
 
 class AdaptationCat(models.Model):
     adaptation_cat = models.TextField()
+    ordering = models.IntegerField(default=0)
 
 
 class AdaptationName(models.Model):
     adaptation_name = models.TextField()
     adaptation_cat_id = models.ManyToManyField(AdaptationCat)
     model_id = models.ManyToManyField(ModelsInfo)
+    ordering = models.IntegerField(default=0)
 
 
 class AdaptationIcon(models.Model):
@@ -220,36 +224,43 @@ class AdaptationIcon(models.Model):
 
 class MitigationsCat(models.Model):
     mitigations_cat = models.TextField()
+    ordering = models.IntegerField(default=0)
 
 
 class MitigationsSubCat(models.Model):
     mitigations_sub_cat = models.TextField(default="")
     mitigations_cat_id = models.ManyToManyField(MitigationsCat)
+    ordering = models.IntegerField(default=0)
 
 
 class MitigationsName(models.Model):
     mitigations_name = models.TextField()
     mitigations_sub_cat_id = models.ManyToManyField(MitigationsSubCat)
     model_id = models.ManyToManyField(ModelsInfo)
+    ordering = models.IntegerField(default=0)
 
 
 class MitigationsIcon(models.Model):
     mitigation_icon = models.TextField()
     mitigation_cat_id = models.ManyToManyField(MitigationsCat)
 
+
 class SectorCat(models.Model):
     sector_cat = models.TextField()
+    ordering = models.IntegerField(default=0)
 
 
 class SectorSubCat(models.Model):
     sector_sub_cat = models.TextField(default="")
     sector_cat_id = models.ManyToManyField(SectorCat)
+    ordering = models.IntegerField(default=0)
 
 
 class SectorName(models.Model):
     sector_name = models.TextField()
     sector_sub_cat = models.ManyToManyField(SectorSubCat)
     model_id = models.ManyToManyField(ModelsInfo)
+    ordering = models.IntegerField(default=0)
 
 
 class SectorIcon(models.Model):
@@ -261,13 +272,12 @@ class EmissionsName(models.Model):
     emissions_name = models.TextField(default="")
     model_id = models.ManyToManyField(ModelsInfo,
                                       through='EmissionsStates')
+    ordering = models.IntegerField(default=0)
 
 
 class EmissionsIcon(models.Model):
     emissions_icon_name = models.TextField()
     emission_name = models.ManyToManyField(EmissionsName)
-
-
 
 
 class EmissionsStates(models.Model):
@@ -278,14 +288,9 @@ class EmissionsStates(models.Model):
     state = models.TextField()
 
 
-# class SocioeconsCat(models.Model):
-#     socioecons_cat = models.TextField()
-
 class SocioeconsCat(models.Model):
     socioecons_cat = models.TextField(default="")
-    # socioecons_cat_id = models.ManyToManyField(SocioeconsCat)
-
-
+    ordering = models.IntegerField(default=0)
 
 
 class SocioeconsIcon(models.Model):
@@ -299,6 +304,7 @@ class SocioeconsName(models.Model):
     socioecons_cat_id = models.ManyToManyField(SocioeconsCat)
     model_id = models.ManyToManyField(ModelsInfo,
                                       through='SocioeconsStates')
+    ordering = models.IntegerField(default=0)
 
 
 class SocioeconsStates(models.Model):
@@ -311,6 +317,7 @@ class SocioeconsStates(models.Model):
 
 class PoliciesCat(models.Model):
     policies_cat = models.TextField()
+    ordering = models.IntegerField(default=0)
 
 
 class PoliciesIcon(models.Model):
@@ -323,6 +330,7 @@ class PoliciesName(models.Model):
     policies_cat_id = models.ManyToManyField(PoliciesCat)
     model_id = models.ManyToManyField(ModelsInfo,
                                       through='PoliciesStates')
+    ordering = models.IntegerField(default=0)
 
 
 class PoliciesStates(models.Model):
