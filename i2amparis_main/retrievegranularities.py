@@ -92,7 +92,7 @@ class RetrieveGranularities:
                 }
             })
         mitigation_dict = {}
-        for cat in MitigationsCat.objects.all().values_list('mitigations_cat', flat=True):
+        for cat in MitigationsCat.objects.all().values_list('mitigations_cat', flat=True).order_by('ordering'):
             cat_id = MitigationsCat.objects.get(mitigations_cat=cat).id
             cat_icon = MitigationsIcon.objects.get(mitigation_cat_id=cat_id).mitigation_icon
             subscat_dict = {}
@@ -128,14 +128,14 @@ class RetrieveGranularities:
         #     'mitigation': mitigation_dict
         # }
         mitigationadaptation_dict = {}
-        mitigationadaptation_dict.update(adataptation_dict)
         mitigationadaptation_dict.update(mitigation_dict)
+        mitigationadaptation_dict.update(adataptation_dict)
         return mitigationadaptation_dict
 
 
     def sectors(self):
         sectors_dict = {}
-        for cat in SectorCat.objects.all().values_list('sector_cat', flat=True):
+        for cat in SectorCat.objects.all().values_list('sector_cat', flat=True).order_by('ordering'):
             cat_id = SectorCat.objects.get(sector_cat=cat).id
             cat_icon = SectorIcon.objects.get(sector_cat_id=cat_id).sector_icon
             subcat_dict = {}
@@ -143,7 +143,7 @@ class RetrieveGranularities:
             # Subcat in some cases is empty string
             for subcat in SectorSubCat.objects.filter(sector_cat_id=cat_id).values_list('sector_sub_cat', flat=True):
                 subcat_id = SectorSubCat.objects.get(sector_sub_cat=subcat).id
-                names = SectorName.objects.filter(sector_sub_cat=subcat_id).values_list('sector_name', flat=True)
+                names = SectorName.objects.filter(sector_sub_cat=subcat_id).values_list('sector_name', flat=True).order_by('ordering')
                 names_enable = SectorName.objects.filter(sector_sub_cat=subcat_id, model_id=self.model_id).values_list('sector_name', flat=True)
                 names_list_dict = self.create_name_list(names, names_enable)
                 # names_html = ''
@@ -168,7 +168,7 @@ class RetrieveGranularities:
                 cat: {
                     'subs': subcat_dict,  # There is the case of empty subcategory
                     'icon': cat_icon,
-                    'enable': enable,
+                    'is_enable': 'green' if enable else 'grey',
                     'html': html
                 }
             })
@@ -177,7 +177,7 @@ class RetrieveGranularities:
     def sdgs(self):
         # TODO check the final order of sdgs_dict
         sdgs_dict = {}
-        for cat in SdgsCat.objects.all().order_by('ordering').values_list('sdgs_cat', flat=True):
+        for cat in SdgsCat.objects.all().order_by('ordering').values_list('sdgs_cat', flat=True).order_by('ordering'):
             cat_id = SdgsCat.objects.get(sdgs_cat=cat).id
             cat_title = SdgsCat.objects.get(sdgs_cat=cat).sdgs_title
             cat_icon = SdgsIcon.objects.get(sdgs_cat_id=cat_id).sdgs_icon
@@ -203,7 +203,7 @@ class RetrieveGranularities:
 
     def emissions(self):
         emissions_dict = {}
-        for name in EmissionsName.objects.all().values_list('emissions_name', flat=True):
+        for name in EmissionsName.objects.all().values_list('emissions_name', flat=True).order_by('ordering'):
             enable = False
             name_id = EmissionsName.objects.get(emissions_name=name).id
             name_icon = EmissionsIcon.objects.get(emission_name=name_id).emissions_icon_name
@@ -231,7 +231,7 @@ class RetrieveGranularities:
 
     def policies(self):
         policies_dict = {}
-        for cat in PoliciesCat.objects.all().values_list('policies_cat', flat=True):
+        for cat in PoliciesCat.objects.all().values_list('policies_cat', flat=True).order_by('ordering'):
             cat_id = PoliciesCat.objects.get(policies_cat=cat).id
             cat_icon = PoliciesIcon.objects.get(policies_cat=cat_id).policies_icon
             names_state = []
@@ -268,7 +268,7 @@ class RetrieveGranularities:
 
         """
         socioecons_dict = {}
-        for cat in SocioeconsCat.objects.all().values_list('socioecons_cat', flat=True):
+        for cat in SocioeconsCat.objects.all().values_list('socioecons_cat', flat=True).order_by('ordering'):
             cat_id = SocioeconsCat.objects.get(socioecons_cat=cat).id
             cat_icon = SocioeconsIcon.objects.get(socioecons_cat_id=cat_id).socioecons_icons
             names_state = []
