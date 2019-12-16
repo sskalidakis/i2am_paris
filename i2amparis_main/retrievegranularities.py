@@ -240,7 +240,7 @@ class RetrieveGranularities:
                 name_id = PoliciesName.objects.get(policies_name=name, policies_cat_id=cat_id).id
                 states = PoliciesStates.objects.filter(policies_name_id=name_id, model_id=self.model_id).values_list('state', flat=True)
                 if len(states) == 1:
-                    if 'Not feasible' not in states:
+                    if states[0] in ['Feasible', 'Feasible with modifications']:
                         state = True
                     else:
                         state = False
@@ -278,7 +278,7 @@ class RetrieveGranularities:
                 states = SocioeconsStates.objects.filter(
                     model_id=self.model_id, socioecons_name_id=name_id).values_list('state', flat=True)
                 if len(states) == 1:
-                    if 'Not represented' not in states:
+                    if states[0] in ['Endogenous', 'Exogenous']:
                         state = True
                     else:
                         state = False
