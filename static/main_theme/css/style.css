@@ -2063,6 +2063,16 @@ a.scrollup:hover {
 
 }
 
+.social-network a.icoInstagram:hover {
+  background-color: #880f50;
+
+}
+
+.social-network a.icoYoutube:hover {
+  background-color: #BD3518;
+
+}
+
 .social-network a.icoGoogle:hover {
   background-color: #BD3518;
 
