@@ -35,66 +35,66 @@ class ModelsInfo(models.Model):
         return self.model_name
 
 
-class Sectors(models.Model):
-    """
-    Tab Sectoral Granularity
-
-    """
-    category = models.TextField()
-    subcategory = models.TextField(default="")
-    name = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-
-    def __str__(self):
-        return self.name
-
-
-class Emissions(models.Model):
-    """
-    Tab Emission Granularity
-
-    """
-    categories = models.TextField()  # TODO change the name to category
-    name = models.TextField()
-    state = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-    title = models.TextField(default="")
-
-    def __str__(self):
-        return self.name
-
-
-class Socioecons(models.Model):
-    """
-    Tab Socioecons Granularity
-
-    """
-    category = models.TextField()
-    subcategory = models.TextField(default="")
-    name = models.TextField()
-    state = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-
-    def __str__(self):
-        return self.name
-
-
-class Policies(models.Model):
-    """
-    Tab Policy Granularity
-
-    """
-    category = models.TextField()
-    name = models.TextField()
-    state = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-
-    def __str__(self):
-        return self.name
+# class Sectors(models.Model):
+#     """
+#     Tab Sectoral Granularity
+#
+#     """
+#     category = models.TextField()
+#     subcategory = models.TextField(default="")
+#     name = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Emissions(models.Model):
+#     """
+#     Tab Emission Granularity
+#
+#     """
+#     categories = models.TextField()  # TODO change the name to category
+#     name = models.TextField()
+#     state = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#     title = models.TextField(default="")
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Socioecons(models.Model):
+#     """
+#     Tab Socioecons Granularity
+#
+#     """
+#     category = models.TextField()
+#     subcategory = models.TextField(default="")
+#     name = models.TextField()
+#     state = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Policies(models.Model):
+#     """
+#     Tab Policy Granularity
+#
+#     """
+#     category = models.TextField()
+#     name = models.TextField()
+#     state = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Regions(models.Model):
@@ -125,48 +125,48 @@ class Countries(models.Model):
         return self.country_name
 
 
-class Mitigations(models.Model):
-    """
-    Tab Mitigation-Adaptation measures(1)
-
-    """
-    category = models.TextField()
-    subcategory = models.TextField(default="")
-    name = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-
-    def __str__(self):
-        return self.name
-
-
-class Adaptation(models.Model):
-    """
-    Tab Mitigation-Adaptation measures(2)
-
-    """
-    category = models.TextField()
-    name = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-
-    def __str__(self):
-        return self.name
-
-
-class Sdgs(models.Model):
-    """
-    Tab SDG Granularity
-
-    """
-    name = models.TextField()
-    title = models.TextField(default="")
-    description = models.TextField()
-    icon = models.TextField(default="")
-    model_name = models.ManyToManyField(ModelsInfo)
-
-    def __str__(self):
-        return self.name
+# class Mitigations(models.Model):
+#     """
+#     Tab Mitigation-Adaptation measures(1)
+#
+#     """
+#     category = models.TextField()
+#     subcategory = models.TextField(default="")
+#     name = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Adaptation(models.Model):
+#     """
+#     Tab Mitigation-Adaptation measures(2)
+#
+#     """
+#     category = models.TextField()
+#     name = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Sdgs(models.Model):
+#     """
+#     Tab SDG Granularity
+#
+#     """
+#     name = models.TextField()
+#     title = models.TextField(default="")
+#     description = models.TextField()
+#     icon = models.TextField(default="")
+#     model_name = models.ManyToManyField(ModelsInfo)
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Feedback(models.Model):
