@@ -200,36 +200,7 @@
 
 <body>
 
-<div class="header">
-    <section id="header" class="appear">
-
-        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
-             data-300="background-color:rgba(0,0,0,1);">
-
-            <div class="navbar-header">
-{#                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">#}
-{#                    <span class="fa fa-bars color-white"></span>#}
-{#                </button>#}
-                <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
-                    <a class="col-sm-2 col-md-2 col-xs-2" href="/main"><img src="/static/images/logo.png"
-                                                                            style="width: 90%;height:90%"></a>
-                    <a class="col-sm-9 col-md-9 col-xs-8"> </a>
-{#                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"#}
-{#                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">#}
-{#                        Back#}
-{#                    </button>#}
-                    <a href="/main" class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"
-                       style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">Back</a>
-                </div>
-            </div>
-
-
-            <!--/.navbar-collapse -->
-        </div>
-
-    </section>
-
-</div>
+{% include "i2amparis_main/dynamic_doc_navigation_bar.html" %}
 
 <div class="main-page" style="margin-top: 115px">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
@@ -641,6 +612,16 @@
             console.log('pressed icon');
             window.open("/detailed_model_doc/" + $(this).parent().data('link'));
             // Do something
+        });
+
+        $('.dynamic_doc_format_select').on('click', function () {
+            console.log($(this).data('value'));
+            if ($(this).data('value') === "") {
+                window.location.replace("/dynamic_doc/");
+            } else {
+                var str = 'dynamic_doc/' + '{{ selected_model_name }}' + '?format=' + $(this).data('value');
+                window.location.replace("/" + str);
+            }
         });
 
 
