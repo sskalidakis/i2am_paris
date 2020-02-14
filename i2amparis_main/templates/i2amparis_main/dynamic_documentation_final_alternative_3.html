@@ -376,7 +376,7 @@
         $('.dynamic_doc_format_select').on('click', function () {
             console.log($(this).data('value'));
             if ($(this).data('value') === "") {
-                window.location.replace("/dynamic_doc/");
+                window.location.replace("/dynamic_doc/" + '{{ selected_model_name }}');
             } else {
                 var str = 'dynamic_doc/' + '{{ selected_model_name }}' + '?format=' + $(this).data('value');
                 window.location.replace("/" + str);
