@@ -39,7 +39,20 @@ def show_column_chart(request):
     column_chart = XY_chart(request, 'time', 'Time', '', 'visits', 'Visits', 'v_unit', {}, 'column_chart')
     return column_chart.show_chart()
 
+def sankey_diagram(request):
+    return render(request, 'visualiser/sankey_diagram.html')
 
+def chord_diagram(request):
+    return render(request, 'visualiser/chord_diagram.html')
+
+def heat_map(request):
+    return render(request, 'visualiser/heat_map.html')
+
+def bar_heat_map(request):
+    return render(request, 'visualiser/bar_heat_map.html')
+
+def horizontal_dumbbell(request):
+    return render(request, 'visualiser/horizontal_dumbbell.html')
 
 
 # def show_line_chart2(request):
