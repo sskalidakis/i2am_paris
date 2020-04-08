@@ -11,4 +11,6 @@ urlpatterns = [
     path('heat_map', views.heat_map, name='heat_map'),
     path('bar_heat_map', views.bar_heat_map, name='bar_heat_map'),
     path('horizontal_dumbbell', views.horizontal_dumbbell, name='horizontal_dumbbell'),
+    path('multi_line_chart', views.multi_line_chart, name='multi_line_chart'),
+    path('line_chart_range', views.line_chart_range, name='line_chart_range'),
 ]
