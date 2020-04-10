@@ -67,6 +67,10 @@ def line_chart_range(request):
     return render(request, 'visualiser/line_chart_range.html')
 
 
+def line_chart_range2(request):
+    return render(request, 'visualiser/line_chart_range2.html')
+
+
 # def show_line_chart2(request):
 #     x_axis_name = 'time'
 #     x_axis_title = 'Time'

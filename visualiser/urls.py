@@ -13,4 +13,5 @@ urlpatterns = [
     path('horizontal_dumbbell', views.horizontal_dumbbell, name='horizontal_dumbbell'),
     path('multi_line_chart', views.multi_line_chart, name='multi_line_chart'),
     path('line_chart_range', views.line_chart_range, name='line_chart_range'),
+    path('line_chart_range2', views.line_chart_range2, name='line_chart_range2'),
 ]
