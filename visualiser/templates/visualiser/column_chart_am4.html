@@ -11,74 +11,39 @@
             am4core.useTheme(am4themes_animated);
 
 // Add data
-            chart.data = {{ chart_data }};
-            chart.data = [{
-                "country": "USA",
-                "year2017": 3.5,
-                "year2018": 4.2
-            }, {
-                "country": "UK",
-                "year2017": 1.7,
-                "year2018": 3.1
-            }, {
-                "country": "Canada",
-                "year2017": 2.8,
-                "year2018": 2.9
-            }, {
-                "country": "Japan",
-                "year2017": 2.6,
-                "year2018": 2.3
-            }, {
-                "country": "France",
-                "year2017": 1.4,
-                "year2018": 2.1
-            }, {
-                "country": "Brazil",
-                "year2017": 2.6,
-                "year2018": 4.9
-            }, {
-                "country": "Russia",
-                "year2017": 6.4,
-                "year2018": 7.2
-            }, {
-                "country": "India",
-                "year2017": 8,
-                "year2018": 7.1
-            }, {
-                "country": "China",
-                "year2017": 9.9,
-                "year2018": 10.1
-            }];
+            chart.data = {{ chart_data |safe}};
+            var x_axis_title = "{{x_axis_title}}";
+            var x_axis_name = "{{ x_axis_name }}";
+            var x_axis_unit = "{{ x_axis_unit }}";
+            var y_var_names = {{ y_var_names|safe}};
+            var y_var_titles = {{ y_var_titles|safe}};
+            var y_var_units = {{ y_var_units|safe }};
+            var y_axis_title = "{{ y_axis_title }}";
 
 // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "country";
+            categoryAxis.dataFields.category = x_axis_name;
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.minGridDistance = 30;
+            categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
+            categoryAxis.title.fontWeight = 600;
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-            valueAxis.title.text = "GDP growth rate";
+            valueAxis.title.fontWeight = 600 ;
             valueAxis.renderer.labels.template.adapter.add("text", function (text) {
                 return text + "%";
             });
+            valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
+            valueAxis.title.fontWeight = 600;
 
         // Create series
-            var series = chart.series.push(new am4charts.ColumnSeries3D());
-            series.dataFields.valueY = "year2017";
-            series.dataFields.categoryX = "country";
-            series.name = "Year 2017";
-            series.clustered = false;
-            series.columns.template.tooltipText = "GDP grow in {category} (2017): [bold]{valueY}[/]";
-            series.columns.template.fillOpacity = 0.9;
-            series.columns.template.width = am4core.percent(60);
 
-            var series2 = chart.series.push(new am4charts.ColumnSeries3D());
-            series2.dataFields.valueY = "year2018";
-            series2.dataFields.categoryX = "country";
-            series2.name = "Year 2018";
-            series2.clustered = false;
-            series2.columns.template.tooltipText = "GDP grow in {category} (2018): [bold]{valueY}[/]";
-            series2.columns.template.width = am4core.percent(60);
+            // Create series
+            var series = [];
+            for (var i = 0; i < y_var_names.length; i++) {
+                series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], i, y_var_titles[i],
+                    y_var_units[i], y_axis_title,x_axis_name);
+            }
 
             //Add Legend
             chart.legend = new am4charts.Legend();
@@ -95,9 +60,29 @@
 
             // Add scrollbar
             chart.scrollbarX = new am4charts.XYChartScrollbar();
-            chart.scrollbarX.series.push(series);
+            chart.scrollbarX.series.push(series[0]);
+
+            function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title, x_axis_name) {
+                <!-- Set the range  between open and close and set and the close-->
+
+                var series = chart.series.push(new am4charts.ColumnSeries3D());
+                series.dataFields.valueY = myVar;
+                series.dataFields.categoryX = x_axis_name;
+                series.name = myVarTitle;
+                series.clustered = false;
+                series.columns.template.tooltipText = y_axis_title+"- {categoryX}- "+myVarTitle+" : [bold]{valueY}[/]";
+                series.columns.template.fillOpacity = 0.5;
+                series.columns.template.width = am4core.percent(60);
+
+                {#series.yAxis = valueAxis;#}
+
+                //legend shows value dynamically
+                series.legendSettings.labelText = "{name}";
+                {#series.legendSettings.itemValueText = "[bold]{value}[/bold]";#}
+                return series
 
 
+            }
 
 
         }); // end am4core.ready()

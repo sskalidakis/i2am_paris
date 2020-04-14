@@ -1,0 +1,102 @@
+{% extends 'visualiser/main_visualiser_am4.html' %}
+{% block content %}
+    <div id="chartdiv"></div>
+    <script>
+        am4core.ready(function () {
+
+// Themes begin
+            am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+            var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+
+// Add data
+            chart.data = [{
+                "model": "GCAM",
+                "low": 2.5,
+                "medium": 2.5,
+                "high": 2.0
+            }, {
+                "model": "TIAM",
+                "low": 4.5,
+                "medium": 0.5,
+                "high": 2.0
+            }, {
+                "model": "JET",
+                "low": 3.5,
+                "medium": 3.5,
+                "high": 0.0
+            }];
+
+            {#            Cursor#}
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.lineX.stroke = am4core.color("#636861");
+            chart.cursor.lineX.strokeWidth = 2;
+            chart.cursor.lineX.strokeOpacity = 0.5;
+            chart.cursor.lineX.strokeDasharray = "";
+
+            chart.cursor.lineY.stroke = am4core.color("#636861");
+            chart.cursor.lineY.strokeWidth = 2;
+            chart.cursor.lineY.strokeOpacity = 0.5;
+            chart.cursor.lineY.strokeDasharray = "";
+
+            chart.cursor.numberFormatter.numberFormat = "#.00";
+
+            {#            chart.numberFormatter = {#}
+            {#                precision: -1, decimalSeparator: ",", thousandsSeparator: ""#}
+            {#            };#}
+
+
+// Create axes
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "model";
+            categoryAxis.renderer.grid.template.location = 0;
+
+
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.renderer.inside = true;
+            valueAxis.numberFormatter.numberFormat = "#0.00";
+            {#            valueAxis.maxPrecision = 2;#}
+            {#            valueAxis.renderer.labels.template.disabled = true;#}
+            valueAxis.min = 0;
+
+// Create series
+            function createSeries(field, name) {
+
+                // Set up series
+                var series = chart.series.push(new am4charts.ColumnSeries());
+                series.name = name;
+                series.dataFields.valueY = field;
+                series.dataFields.categoryX = "model";
+                series.sequencedInterpolation = true;
+
+                // Make it stacked
+                series.stacked = true;
+
+                // Configure columns
+                series.columns.template.width = am4core.percent(60);
+                {#                series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]";#}
+
+                // Add label
+                var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+                {#                labelBullet.label.text = "{valueY}";#}
+                labelBullet.locationY = 0.5;
+
+                return series;
+            }
+
+            createSeries("low", "Low");
+            createSeries("medium", "Medium");
+            createSeries("high", "High");
+
+
+// Legend
+            chart.legend = new am4charts.Legend();
+
+        }); // end am4core.ready()
+    </script>
+
+{% endblock %}
+

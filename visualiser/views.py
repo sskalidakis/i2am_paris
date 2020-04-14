@@ -2,41 +2,105 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
+from visualiser.fake_data.fake_data import FAKE_DATA,COLUMNCHART_DATA
+
+
 class XY_chart:
-    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title, y_axis_unit, chart_data, chart_type):
+    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                 x_axis_type, y_axis_title, chart_data, chart_type):
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
         self.x_axis_unit = x_axis_unit
-        self.y_axis_name = y_axis_name
-        self.y_axis_title = y_axis_title
-        self.y_axis_unit = y_axis_unit
+        self.y_var_names = y_var_names
+        self.y_var_titles = y_var_titles
+        self.y_var_units = y_var_units
+        self.x_var_type = x_axis_type
         self.chart_data = chart_data
         self.request = request
         self.chart_type = chart_type
+        self.x_axis_type = x_axis_type
+        self.y_axis_title = y_axis_title
+        self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
+                        'x_axis_name': self.x_axis_name, 'y_var_titles': self.y_var_titles,
+                        'y_var_units': self.y_var_units, 'y_var_names': self.y_var_names,
+                        'x_axis_type': self.x_axis_type, 'y_axis_title':self.y_axis_title,
+                        'chart_data': self.chart_data}
 
     def show_chart(self):
         if self.chart_type == 'line_chart':
             return render(self.request, 'visualiser/line_chart_am4.html',
-                          {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
-                           'x_axis_name': self.x_axis_name, 'y_axis_title': self.y_axis_title,
-                           'y_axis_unit': self.y_axis_unit, 'y_axis_name': self.y_axis_name,
-                           'chart_data': self.chart_data})
+                          self.content)
         elif self.chart_type == 'column_chart':
             return render(self.request, 'visualiser/column_chart_am4.html',
-                          {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
-                           'x_axis_name': self.x_axis_name, 'y_axis_title': self.y_axis_title,
-                           'y_axis_unit': self.y_axis_unit, 'y_axis_name': self.y_axis_name,
-                           'chart_data': self.chart_data})
+                          self.content)
+        elif self.chart_type == 'range_chart':
+            return render(self.request, 'visualiser/range_chart_am4.html',
+                          self.content)
+        elif self.chart_type == 'bar_range_chart':
+            return render(self.request, 'visualiser/bar_range_chart_am4.html',
+                          self.content)
+        elif self.chart_type == 'stacked_column_chart':
+            return render(self.request, 'visualiser/stacked_column_chart_am4.html',
+                          self.content)
 
 
 def show_line_chart(request):
-    line_chart = XY_chart(request, 'time', 'Time', '', 'visits', 'Visits', 'v_unit',{}, 'line_chart')
+    data = FAKE_DATA
+    print(data)
+    y_var_names = ["myVar1", "myVar2"]
+    y_var_titles = ["Var1", "Var2"]
+    y_var_units = ["v1_unit", "v2_unit"]
+    x_axis_type = "time"
+    x_axis_name = "time"
+    x_axis_title = "Time"
+    x_axis_unit = ""
+    y_axis_title = "Var"
+    line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                          x_axis_type, y_axis_title, data, 'line_chart')
     return line_chart.show_chart()
 
 
 def show_column_chart(request):
-    column_chart = XY_chart(request, 'time', 'Time', '', 'visits', 'Visits', 'v_unit', {}, 'column_chart')
+    data = COLUMNCHART_DATA
+    print(data)
+    y_var_names = ["year2017", "year2018"]
+    y_var_titles = ["Year 2017", "Year 2018"]
+    y_var_units = ["%", "%"]
+    x_axis_type = "text"
+    x_axis_name = "country"
+    x_axis_title = "Country"
+    x_axis_unit = ""
+    y_axis_title = "GDP Rates"
+    column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                            x_axis_type, y_axis_title, data, 'column_chart')
     return column_chart.show_chart()
+
+
+def show_range_chart(request):
+    data = FAKE_DATA
+    y_var_names = ["myVar1", "myVar2"]
+    y_var_titles = ["Var1", "Var2"]
+    y_var_units = ["v1_unit", "v2_unit"]
+    x_axis_type = "time"
+    x_axis_name = "time"
+    x_axis_title = "Time"
+    x_axis_unit = ""
+    y_axis_title = "Var"
+
+    range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                           x_axis_type, y_axis_title, data, 'range_chart')
+    return range_chart.show_chart()
+
+
+def show_bar_range_chart(request):
+    bar_range_chart = XY_chart(request, 'time', 'Time', '', 'visits', 'Visits', 'v_unit', {}, 'bar_range_chart')
+    return bar_range_chart.show_chart()
+
+
+def show_stacked_column_chart(request):
+    stacked_column_chart = XY_chart(request, 'time', 'Time', '', 'visits', 'Visits', 'v_unit', {},
+                                    'stacked_column_chart')
+    return stacked_column_chart.show_chart()
 
 
 def sankey_diagram(request):
