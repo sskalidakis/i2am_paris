@@ -70,6 +70,9 @@ def line_chart_range(request):
 def line_chart_range2(request):
     return render(request, 'visualiser/line_chart_range2.html')
 
+def parallel_coordinates_chart(request):
+    return render(request, 'visualiser/parallel_coordinates_chart.html')
+
 
 # def show_line_chart2(request):
 #     x_axis_name = 'time'
