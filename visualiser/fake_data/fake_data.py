@@ -107,3 +107,60 @@ COLUMNCHART_DATA = [{
  "year2017": 9.9,
  "year2018": 10.1
 }]
+
+BAR_RANGE_CHART_DATA = [
+ {
+  "name": "John",
+  "fromDate": "2018-01-01 08:00",
+  "toDate": "2018-01-01 10:00",
+ },
+ {
+  "name": "John",
+  "fromDate": "2018-01-01 12:00",
+  "toDate": "2018-01-01 15:00",
+ },
+ {
+  "name": "John",
+  "fromDate": "2018-01-01 15:30",
+  "toDate": "2018-01-01 21:30",
+ },
+
+ {
+  "name": "Jane",
+  "fromDate": "2018-01-01 09:00",
+  "toDate": "2018-01-01 12:00",
+ },
+ {
+  "name": "Jane",
+  "fromDate": "2018-01-01 13:00",
+  "toDate": "2018-01-01 17:00",
+ },
+
+ {
+  "name": "Peter",
+  "fromDate": "2018-01-01 11:00",
+  "toDate": "2018-01-01 16:00",
+ },
+ {
+  "name": "Peter",
+  "fromDate": "2018-01-01 16:00",
+  "toDate": "2018-01-01 19:00",
+ },
+
+ {
+  "name": "Melania",
+  "fromDate": "2018-01-01 16:00",
+  "toDate": "2018-01-01 20:00",
+ },
+ {
+  "name": "Melania",
+  "fromDate": "2018-01-01 20:30",
+  "toDate": "2018-01-01 24:00",
+ },
+
+ {
+  "name": "Donald",
+  "fromDate": "2018-01-01 13:00",
+  "toDate": "2018-01-01 24:00",
+ }
+];

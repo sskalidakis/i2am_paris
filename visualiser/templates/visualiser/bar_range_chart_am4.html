@@ -14,80 +14,41 @@
             chart.paddingRight = 30;
             chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
 
+            //Load data and fix colors
+
+            chart.data = {{ chart_data|safe }};
             var colorSet = new am4core.ColorSet();
             colorSet.saturation = 0.4;
-
-            chart.data = [
-                {
-                    name: "John",
-                    fromDate: "2018-01-01 08:00",
-                    toDate: "2018-01-01 10:00",
-                    color: colorSet.getIndex(0).brighten(0)
-                },
-                {
-                    name: "John",
-                    fromDate: "2018-01-01 12:00",
-                    toDate: "2018-01-01 15:00",
-                    color: colorSet.getIndex(0).brighten(0.4)
-                },
-                {
-                    name: "John",
-                    fromDate: "2018-01-01 15:30",
-                    toDate: "2018-01-01 21:30",
-                    color: colorSet.getIndex(0).brighten(0.8)
-                },
-
-                {
-                    name: "Jane",
-                    fromDate: "2018-01-01 09:00",
-                    toDate: "2018-01-01 12:00",
-                    color: colorSet.getIndex(2).brighten(0)
-                },
-                {
-                    name: "Jane",
-                    fromDate: "2018-01-01 13:00",
-                    toDate: "2018-01-01 17:00",
-                    color: colorSet.getIndex(2).brighten(0.4)
-                },
-
-                {
-                    name: "Peter",
-                    fromDate: "2018-01-01 11:00",
-                    toDate: "2018-01-01 16:00",
-                    color: colorSet.getIndex(4).brighten(0)
-                },
-                {
-                    name: "Peter",
-                    fromDate: "2018-01-01 16:00",
-                    toDate: "2018-01-01 19:00",
-                    color: colorSet.getIndex(4).brighten(0.4)
-                },
-
-                {
-                    name: "Melania",
-                    fromDate: "2018-01-01 16:00",
-                    toDate: "2018-01-01 20:00",
-                    color: colorSet.getIndex(6).brighten(0)
-                },
-                {
-                    name: "Melania",
-                    fromDate: "2018-01-01 20:30",
-                    toDate: "2018-01-01 24:00",
-                    color: colorSet.getIndex(6).brighten(0.4)
-                },
-
-                {
-                    name: "Donald",
-                    fromDate: "2018-01-01 13:00",
-                    toDate: "2018-01-01 24:00",
-                    color: colorSet.getIndex(8).brighten(0)
+            var color_counter = 0;
+            var brightness_counter = 0;
+            var previous_el = "";
+            for (var i = 0; i < chart.data.length; i++) {
+                if ((previous_el !== "") && (previous_el !== chart.data[i]['name'])) {
+                    brightness_counter = 0;
+                    color_counter = color_counter + 2;
                 }
-            ];
+                chart.data[i]["color"] = colorSet.getIndex(color_counter).brighten(brightness_counter);
+                brightness_counter = brightness_counter + 0.2;
+                previous_el = chart.data[i]['name'];
 
+            }
+            var x_axis_title = "{{x_axis_title}}";
+            var x_axis_name = "{{ x_axis_name }}";
+            var x_axis_unit = "{{ x_axis_unit }}";
+            var y_var_names = {{ y_var_names|safe}};
+            var y_var_titles = {{ y_var_titles|safe}};
+            var y_var_units = {{ y_var_units|safe }};
+            var y_axis_title = "{{ y_axis_title }}";
+            var xAxis;
+
+            //Create Axes
+            //yAxis is category Axis in this case
             var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "name";
+            categoryAxis.dataFields.category = y_var_names[0];
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.inversed = true;
+            categoryAxis.title.text = y_axis_title;
+            categoryAxis.title.fontWeight = 600;
 
             var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
             dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
@@ -96,19 +57,40 @@
             dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime();
             dateAxis.strictMinMax = true;
             dateAxis.renderer.tooltipLocation = 0;
+            dateAxis.title.text = x_axis_title;
+            dateAxis.title.fontWeight = 600;
 
             var series1 = chart.series.push(new am4charts.ColumnSeries());
-            series1.columns.template.width = am4core.percent(80);
+            series1.columns.template.height = am4core.percent(60);
+            series1.columns.template.column.cornerRadiusTopLeft = 10;
+            series1.columns.template.column.cornerRadiusTopRight = 10;
+            series1.columns.template.column.cornerRadiusBottomLeft = 10;
+            series1.columns.template.column.cornerRadiusBottomRight = 10;
             series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
-
+            series1.tooltip.pointerOrientation = "vertical";
+            series1.tooltip.background.cornerRadius = 20;
+            series1.tooltip.background.fillOpacity = 0.8;
+            series1.tooltip.label.padding(12, 12, 12, 12);
             series1.dataFields.openDateX = "fromDate";
             series1.dataFields.dateX = "toDate";
-            series1.dataFields.categoryY = "name";
+            series1.dataFields.categoryY = y_var_names[0];
             series1.columns.template.propertyFields.fill = "color"; // get color from data
             series1.columns.template.propertyFields.stroke = "color";
             series1.columns.template.strokeOpacity = 1;
+            series1.columns.template.fillOpacity = 0.7;
+
+
 
             chart.scrollbarX = new am4core.Scrollbar();
+
+            // Add scrollbar
+            {#chart.scrollbarX = new am4charts.XYChartScrollbar();#}
+            {#chart.scrollbarX.series.push(series1);#}
+
+
+            // Add cursor
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.xAxis = xAxis;
 
         }); // end am4core.ready()
     </script>

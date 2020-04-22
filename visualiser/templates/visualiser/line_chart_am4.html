@@ -21,7 +21,11 @@
             var y_var_titles = {{ y_var_titles|safe}};
             var y_var_units = {{ y_var_units|safe }};
             var y_axis_title = "{{ y_axis_title }}";
+            var color_list = {{ color_list|safe }};
+            var use_default_colors = {{ use_default_colors }};
             var xAxis;
+            console.log(use_default_colors);
+            console.log(color_list);
 
             // Create axes
             if (x_axis_type === "time") {
@@ -43,8 +47,13 @@
             // Create series
             var series=[];
             for (var i = 0; i < y_var_names.length; i++) {
-                series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], i, x_axis_type, y_var_titles[i],
-                    y_var_units[i], valueAxis);
+                if (use_default_colors) {
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], 2*i, x_axis_type, y_var_titles[i],
+                        y_var_units[i], valueAxis);
+                }else{
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
+                        y_var_units[i], valueAxis);
+                }
             }
 
             //Add Legend
@@ -72,7 +81,7 @@
 
             function create_series(setNameOfX, myVar, fillColor, xAxisType, myVarTitle, myVarUnit) {
                 <!-- Set the range  between open and close and set and the close-->
-
+                console.log(fillColor);
                 var series = chart.series.push(new am4charts.LineSeries());
 
                 series.name = myVarTitle;
@@ -87,7 +96,7 @@
                 series.yAxis = valueAxis;
                 series.strokeWidth = 2;
                 series.minBulletDistance = 10;
-                series.tooltipText = "{valueY}";
+                series.tooltipText = String(myVarTitle) + ": {valueY.value} " + myVarUnit;
                 series.tooltip.pointerOrientation = "vertical";
                 series.tooltip.background.cornerRadius = 20;
                 series.tooltip.background.fillOpacity = 0.5;
@@ -95,8 +104,18 @@
                 //legend shows value dynamically
                 series.legendSettings.labelText = "{name} (" + myVarUnit + "):";
                 series.legendSettings.itemValueText = "[bold]{valueY}[/bold]";
+                series.fill = chart.colors.getIndex(fillColor);
+                series.stroke = chart.colors.getIndex(fillColor);
                 //Smoothed Lines
                 series.tensionX = 0.9;
+
+                //Create Gradient
+                series.fillOpacity = 1;
+                let fillModifier = new am4core.LinearGradientModifier();
+                fillModifier.opacities = [0.3, 0];
+                fillModifier.offsets = [0, 0.5];
+                fillModifier.gradient.rotation = 90;
+                series.segments.template.fillModifier = fillModifier;
                 return series
 
 

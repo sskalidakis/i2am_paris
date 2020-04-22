@@ -4,8 +4,12 @@
     <script>
         am4core.ready(function () {
 
-
-            var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+            var chart_3d = {{ chart_3d }};
+            if (chart_3d) {
+                var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+            }else{
+                var chart = am4core.create("chartdiv", am4charts.XYChart);
+            }
 
             // Themes begin
             am4core.useTheme(am4themes_animated);
@@ -19,6 +23,8 @@
             var y_var_titles = {{ y_var_titles|safe}};
             var y_var_units = {{ y_var_units|safe }};
             var y_axis_title = "{{ y_axis_title }}";
+            var color_list = {{ color_list|safe }};
+            var use_default_colors = {{ use_default_colors }};
 
 // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -41,8 +47,14 @@
             // Create series
             var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
-                series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], i, y_var_titles[i],
-                    y_var_units[i], y_axis_title,x_axis_name);
+                if (use_default_colors) {
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], i, y_var_titles[i],
+                        y_var_units[i], y_axis_title, x_axis_name, chart_3d);
+                } else {
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], y_var_titles[i],
+                        y_var_units[i], y_axis_title, x_axis_name, chart_3d);
+                }
+
             }
 
             //Add Legend
@@ -62,17 +74,31 @@
             chart.scrollbarX = new am4charts.XYChartScrollbar();
             chart.scrollbarX.series.push(series[0]);
 
-            function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title, x_axis_name) {
+            function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title,
+                                   x_axis_name, chart_3d) {
                 <!-- Set the range  between open and close and set and the close-->
+                if (chart_3d) {
+                    var series = chart.series.push(new am4charts.ColumnSeries3D());
+                    series.clustered = false;
+                    series.columns.template.fillOpacity = 0.5;
+                    series.columns.template.width = am4core.percent(60);
+                }else{
+                    var series = chart.series.push(new am4charts.ColumnSeries());
+                    series.clustered = true;
+                    series.columns.template.fillOpacity = 0.9;
+                    series.columns.template.width = am4core.percent(80);
 
-                var series = chart.series.push(new am4charts.ColumnSeries3D());
+                }
+
+                series.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + myVarTitle + " : [bold]{valueY}[/]";
+
                 series.dataFields.valueY = myVar;
                 series.dataFields.categoryX = x_axis_name;
                 series.name = myVarTitle;
-                series.clustered = false;
-                series.columns.template.tooltipText = y_axis_title+"- {categoryX}- "+myVarTitle+" : [bold]{valueY}[/]";
-                series.columns.template.fillOpacity = 0.5;
-                series.columns.template.width = am4core.percent(60);
+                series.stroke = chart.colors.getIndex(fillColor);
+                series.fill = series.stroke;
+                series.columns.template.column.cornerRadiusTopLeft = 5;
+                series.columns.template.column.cornerRadiusTopRight = 5;
 
                 {#series.yAxis = valueAxis;#}
 

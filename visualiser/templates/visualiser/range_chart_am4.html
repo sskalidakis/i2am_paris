@@ -21,6 +21,8 @@
             var y_var_titles = {{ y_var_titles|safe}};
             var y_var_units = {{ y_var_units|safe }};
             var y_axis_title = "{{ y_axis_title }}";
+            var color_list = {{ color_list|safe }};
+            var use_default_colors = {{ use_default_colors }};
             var xAxis;
 
             // Create and format axes
@@ -42,8 +44,15 @@
           //Create series
             var series = [];
             for(var i=0; i<y_var_names.length; i++) {
-                series[i]= create_range(x_axis_name+"_"+String(i), "open_" + String(i), "close_" + String(i), y_var_names[i], i, x_axis_type,
-                    y_var_titles[i], y_var_units[i],valueAxis);}
+                if (use_default_colors){
+                    series[i]= create_range(x_axis_name+"_"+String(i), "open_" + String(i), "close_" + String(i),
+                        y_var_names[i],2*i, x_axis_type, y_var_titles[i], y_var_units[i],valueAxis);
+                }else{
+                    series[i] = create_range(x_axis_name + "_" + String(i), "open_" + String(i), "close_" + String(i),
+                        y_var_names[i], color_list[i], x_axis_type, y_var_titles[i], y_var_units[i], valueAxis);
+
+                }
+            }
 
 
             //Add Legend
@@ -87,9 +96,9 @@
                 series.name = String(myVarTitle) + " Range";
                 series.stroke = chart.colors.getIndex(fillColor);
                 series.fill = series.stroke;
-                series.fillOpacity = 0.2;
+                series.fillOpacity = 0.15;
                 series.defaultState.transitionDuration = 1000;
-                series.tensionX = 0.9;
+                series.tensionX = 0.8;
                 series.legendSettings.labelText = "{name} ("+myVarUnit+"):";
                 series.legendSettings.itemValueText = "[bold]({openValueY} - {valueY})[/bold]";
 
