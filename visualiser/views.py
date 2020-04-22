@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA
 
-AM_CHARTS_LIST = {
+AM_CHARTS_COLOR_INDEX_LIST = {
     "light_blue": 0,
     "blue": 1,
     "violet_blue": 2,
@@ -17,6 +17,18 @@ AM_CHARTS_LIST = {
     "light_green": 13,
     "green": 16,
     "cyan": 19,
+}
+
+AM_CHARTS_COLOR_HEATMAP_COUPLES = {
+    "blue_red": ["#539ad6", "#aa352f"],
+    "green_red": ["#74b377", "#bf333c"],
+    "brown_purple": ["#eeba95", "#74397a"],
+    "purple_orange": ["#e6c8ee", "#db7c3d"],
+    "cyan_green": ["#89c3c2", "#4b6822"],
+    "yellow_gold": ["#f7ecc2", "#f5b500"],
+    "beige_red": ["#f7dfd0", "#8d1915"],
+    "grey_darkblue": ["#eaecf7", "#1f3b5e"],
+    "lightblue_green": ["#bbe1ff", "#2e5c20"]
 
 }
 
@@ -181,13 +193,13 @@ def bar_heat_map(request):
     x_axis_title = "Category"
     x_axis_unit = ""
     y_axis_title = "Value Units"
-    color_list_request = ['blue', 'red', 'green']
+    color_list_request = "blue_red"
     use_default_colors = "false"
     chart_3d = "false"
-    color_list = define_color_list(color_list_request)
+    color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
                                     y_var_units,
-                                    x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                                    x_axis_type, y_axis_title, data, color_couple, use_default_colors, chart_3d,
                                     'bar_heat_map_chart')
 
     return bar_heat_map_chart.show_chart()
@@ -225,18 +237,6 @@ def line_chart_range2(request):
 def define_color_list(color_list_request):
     color_list = []
     for color in color_list_request:
-        color_list.append(AM_CHARTS_LIST[color])
+        color_list.append(AM_CHARTS_COLOR_INDEX_LIST[color])
     return color_list
-# def show_line_chart2(request):
-#     x_axis_name = 'time'
-#     x_axis_title = 'Time'
-#     x_axis_unit = ''
-#     y_axis_name = 'visits'
-#     y_axis_title = 'Visits'
-#     y_axis_unit = 'v_unit'
-#     chart_data = {}
-#     return render(request, 'visualiser/line_chart_am4.html', {'x_axis_title':x_axis_title, 'x_axis_unit':x_axis_unit,
-#                                                               'x_axis_name': x_axis_name, 'y_axis_title':y_axis_title,
-#                                                               'y_axis_unit':y_axis_unit, 'y_axis_name': y_axis_name,
-#                                                               'chart_data': chart_data})
 
