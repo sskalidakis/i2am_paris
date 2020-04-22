@@ -74,6 +74,10 @@ def parallel_coordinates_chart(request):
     return render(request, 'visualiser/parallel_coordinates_chart.html')
 
 
+def thermometer_chart(request):
+    return render(request, 'visualiser/thermometer_chart.html')
+
+
 # def show_line_chart2(request):
 #     x_axis_name = 'time'
 #     x_axis_title = 'Time'

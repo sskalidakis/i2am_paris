@@ -15,4 +15,5 @@ urlpatterns = [
     path('line_chart_range', views.line_chart_range, name='line_chart_range'),
     path('line_chart_range2', views.line_chart_range2, name='line_chart_range2'),
     path('parallel_coordinates_chart', views.parallel_coordinates_chart, name='parallel_coordinates_chart'),
+    path('thermometer_chart', views.thermometer_chart, name='thermometer_chart'),
 ]
