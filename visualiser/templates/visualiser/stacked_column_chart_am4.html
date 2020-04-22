@@ -4,99 +4,101 @@
     <script>
         am4core.ready(function () {
 
-// Themes begin
-            am4core.useTheme(am4themes_animated);
-// Themes end
-
-// Create chart instance
             var chart = am4core.create("chartdiv", am4charts.XYChart);
 
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
 
-// Add data
-            chart.data = [{
-                "model": "GCAM",
-                "low": 2.5,
-                "medium": 2.5,
-                "high": 2.0
-            }, {
-                "model": "TIAM",
-                "low": 4.5,
-                "medium": 0.5,
-                "high": 2.0
-            }, {
-                "model": "JET",
-                "low": 3.5,
-                "medium": 3.5,
-                "high": 0.0
-            }];
+            // Add data
+            chart.data = {{ chart_data |safe}};
+            var x_axis_title = "{{x_axis_title}}";
+            var x_axis_name = "{{ x_axis_name }}";
+            var x_axis_unit = "{{ x_axis_unit }}";
+            var y_var_names = {{ y_var_names|safe}};
+            var y_var_titles = {{ y_var_titles|safe}};
+            var y_var_units = {{ y_var_units|safe }};
+            var y_axis_title = "{{ y_axis_title }}";
+            var color_list = {{ color_list|safe }};
+            var use_default_colors = {{ use_default_colors }};
 
-            {#            Cursor#}
-            chart.cursor = new am4charts.XYCursor();
-            chart.cursor.lineX.stroke = am4core.color("#636861");
-            chart.cursor.lineX.strokeWidth = 2;
-            chart.cursor.lineX.strokeOpacity = 0.5;
-            chart.cursor.lineX.strokeDasharray = "";
-
-            chart.cursor.lineY.stroke = am4core.color("#636861");
-            chart.cursor.lineY.strokeWidth = 2;
-            chart.cursor.lineY.strokeOpacity = 0.5;
-            chart.cursor.lineY.strokeDasharray = "";
-
-            chart.cursor.numberFormatter.numberFormat = "#.00";
-
-            {#            chart.numberFormatter = {#}
-            {#                precision: -1, decimalSeparator: ",", thousandsSeparator: ""#}
-            {#            };#}
-
-
-// Create axes
+            // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "model";
+            categoryAxis.dataFields.category = x_axis_name;
             categoryAxis.renderer.grid.template.location = 0;
-
+            categoryAxis.renderer.minGridDistance = 30;
+            categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
+            categoryAxis.title.fontWeight = 600;
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-            valueAxis.renderer.inside = true;
-            valueAxis.numberFormatter.numberFormat = "#0.00";
-            {#            valueAxis.maxPrecision = 2;#}
-            {#            valueAxis.renderer.labels.template.disabled = true;#}
-            valueAxis.min = 0;
+            valueAxis.title.fontWeight = 600;
 
-// Create series
-            function createSeries(field, name) {
+            valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
+            valueAxis.title.fontWeight = 600;
 
-                // Set up series
-                var series = chart.series.push(new am4charts.ColumnSeries());
-                series.name = name;
-                series.dataFields.valueY = field;
-                series.dataFields.categoryX = "model";
-                series.sequencedInterpolation = true;
 
-                // Make it stacked
-                series.stacked = true;
+            // Create series
+            var series = [];
+            for (var i = 0; i < y_var_names.length; i++) {
+                if (use_default_colors) {
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], i, y_var_titles[i],
+                        y_var_units[i], y_axis_title, x_axis_name);
+                } else {
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], y_var_titles[i],
+                        y_var_units[i], y_axis_title, x_axis_name);
+                }
 
-                // Configure columns
-                series.columns.template.width = am4core.percent(60);
-                {#                series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]";#}
-
-                // Add label
-                var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-                {#                labelBullet.label.text = "{valueY}";#}
-                labelBullet.locationY = 0.5;
-
-                return series;
             }
 
-            createSeries("low", "Low");
-            createSeries("medium", "Medium");
-            createSeries("high", "High");
-
-
-// Legend
+            //Add Legend
             chart.legend = new am4charts.Legend();
+            chart.legend.useDefaultMarker = true;
+            var marker = chart.legend.markers.template.children.getIndex(0);
+            marker.cornerRadius(5, 5, 5, 5);
+            marker.strokeWidth = 2;
+            marker.strokeOpacity = 1;
+            marker.stroke = am4core.color("#ccc");
+            var markerTemplate = chart.legend.markers.template;
+            markerTemplate.width = 25;
+            markerTemplate.height = 25;
+
+
+            // Add scrollbar
+            chart.scrollbarX = new am4charts.XYChartScrollbar();
+            chart.scrollbarX.series.push(series[0]);
+
+            function create_series(setNameOfX, myVar, fillColor, myVarTitle, myVarUnit, y_axis_title,
+                                   x_axis_name) {
+                <!-- Set the range  between open and close and set and the close-->
+
+                var series = chart.series.push(new am4charts.ColumnSeries());
+                series.clustered = true;
+                series.stacked = true;
+                series.columns.template.fillOpacity = 0.9;
+                series.columns.template.width = am4core.percent(80);
+
+
+                series.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + myVarTitle + " : [bold]{valueY}[/]";
+
+                series.dataFields.valueY = myVar;
+                series.dataFields.categoryX = x_axis_name;
+                series.name = myVarTitle;
+                series.stroke = chart.colors.getIndex(fillColor);
+                series.fill = series.stroke;
+                series.columns.template.column.cornerRadiusTopLeft = 5;
+                series.columns.template.column.cornerRadiusTopRight = 5;
+
+                {#series.yAxis = valueAxis;#}
+
+                //legend shows value dynamically
+                series.legendSettings.labelText = "{name}";
+                {#series.legendSettings.itemValueText = "[bold]{value}[/bold]";#}
+                return series
+
+
+            }
+
 
         }); // end am4core.ready()
     </script>
-
 {% endblock %}
 

@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
-from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA
+from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA
 
 AM_CHARTS_LIST = {
     "light_blue": 0,
@@ -61,6 +61,9 @@ class XY_chart:
                           self.content)
         elif self.chart_type == 'stacked_column_chart':
             return render(self.request, 'visualiser/stacked_column_chart_am4.html',
+                          self.content)
+        elif self.chart_type == 'bar_heat_map_chart':
+            return render(self.request, 'visualiser/bar_heat_map.html',
                           self.content)
 
 
@@ -147,10 +150,47 @@ def show_bar_range_chart(request):
 
 
 def show_stacked_column_chart(request):
-    stacked_column_chart = XY_chart(request, 'time', 'Time', '', 'visits', 'Visits', 'v_unit', {},
-                                    'stacked_column_chart')
+    data = COLUMNCHART_DATA
+    print(data)
+    y_var_names = ["year2017", "year2018"]
+    y_var_titles = ["Year 2017", "Year 2018"]
+    y_var_units = ["%", "%"]
+    x_axis_type = "text"
+    x_axis_name = "country"
+    x_axis_title = "Country"
+    x_axis_unit = ""
+    y_axis_title = "GDP Rates"
+    color_list_request = ['blue', 'red', 'green']
+    use_default_colors = "false"
+    chart_3d = "true"
+    color_list = define_color_list(color_list_request)
+    stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, 'stacked_column_chart')
+
     return stacked_column_chart.show_chart()
 
+
+def bar_heat_map(request):
+    data = BAR_HEATMAP_DATA
+    print(data)
+    y_var_names = ["value"]
+    y_var_titles = ["Value"]
+    y_var_units = ["units"]
+    x_axis_type = "text"
+    x_axis_name = "category"
+    x_axis_title = "Category"
+    x_axis_unit = ""
+    y_axis_title = "Value Units"
+    color_list_request = ['blue', 'red', 'green']
+    use_default_colors = "false"
+    chart_3d = "false"
+    color_list = define_color_list(color_list_request)
+    bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
+                                    y_var_units,
+                                    x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                                    'bar_heat_map_chart')
+
+    return bar_heat_map_chart.show_chart()
 
 def sankey_diagram(request):
     return render(request, 'visualiser/sankey_diagram.html')
@@ -163,9 +203,6 @@ def chord_diagram(request):
 def heat_map(request):
     return render(request, 'visualiser/heat_map.html')
 
-
-def bar_heat_map(request):
-    return render(request, 'visualiser/bar_heat_map.html')
 
 
 def horizontal_dumbbell(request):

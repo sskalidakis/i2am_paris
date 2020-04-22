@@ -163,4 +163,27 @@ BAR_RANGE_CHART_DATA = [
   "fromDate": "2018-01-01 13:00",
   "toDate": "2018-01-01 24:00",
  }
-];
+]
+
+BAR_HEATMAP_DATA = [{
+ "category": "Research",
+ "value": 450
+}, {
+ "category": "Marketing",
+ "value": 1200
+}, {
+ "category": "Distribution",
+ "value": 1850
+}, {
+ "category": "HR",
+ "value": 850
+}, {
+ "category": "Sales",
+ "value": 499
+}, {
+ "category": "Support",
+ "value": 871
+}, {
+ "category": "Other",
+ "value": 512
+}]
