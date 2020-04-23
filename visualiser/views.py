@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
-from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA
+from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
+    HEAT_MAP_DATA
 
 AM_CHARTS_COLOR_INDEX_LIST = {
     "light_blue": 0,
@@ -35,7 +36,8 @@ AM_CHARTS_COLOR_HEATMAP_COUPLES = {
 
 class XY_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                 x_axis_type, y_axis_title, chart_data, color_list, use_default_colors, chart_3d, chart_type):
+                 x_axis_type, y_axis_title, chart_data, color_list, use_default_colors, chart_3d, minmax_y_value,
+                 chart_type):
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
         self.x_axis_unit = x_axis_unit
@@ -51,12 +53,14 @@ class XY_chart:
         self.color_list = color_list
         self.use_default_colors = use_default_colors
         self.chart_3d = chart_3d
+        self.minmax_y_value = minmax_y_value
+        print(minmax_y_value)
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'y_var_titles': self.y_var_titles,
                         'y_var_units': self.y_var_units, 'y_var_names': self.y_var_names,
                         'x_axis_type': self.x_axis_type, 'y_axis_title': self.y_axis_title,
                         'color_list': self.color_list, 'use_default_colors': self.use_default_colors,
-                        'chart_3d': self.chart_3d, 'chart_data': self.chart_data}
+                        'chart_3d': self.chart_3d, 'minmax_y_value': self.minmax_y_value, 'chart_data': self.chart_data}
 
     def show_chart(self):
         if self.chart_type == 'line_chart':
@@ -93,11 +97,13 @@ def show_line_chart(request):
     color_list_request = ['blue', 'red', 'green']
     use_default_colors = "false"
     chart_3d = "false"
+    min_max_y_value = [0, 2000]
 
     color_list = define_color_list(color_list_request)
 
     line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                          x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, 'line_chart')
+                          x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                          'line_chart')
     return line_chart.show_chart()
 
 
@@ -115,10 +121,12 @@ def show_column_chart(request):
     color_list_request = ['blue', 'red', 'green']
     use_default_colors = "false"
     chart_3d = "true"
+    min_max_y_value = [0, 2000]
 
     color_list = define_color_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, 'column_chart')
+                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                            'column_chart')
     return column_chart.show_chart()
 
 
@@ -135,11 +143,13 @@ def show_range_chart(request):
     color_list_request = ['blue', 'red', 'green']
     use_default_colors = "true"
     chart_3d = "false"
+    min_max_y_value = [0, 2000]
 
     color_list = define_color_list(color_list_request)
 
     range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                           x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, 'range_chart')
+                           x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                           'range_chart')
     return range_chart.show_chart()
 
 
@@ -156,8 +166,10 @@ def show_bar_range_chart(request):
     color_list = []
     use_default_colors = "true"
     chart_3d = "false"
+    min_max_y_value = [0, 2000]
     bar_range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                               x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, 'bar_range_chart')
+                               x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                               min_max_y_value, 'bar_range_chart')
     return bar_range_chart.show_chart()
 
 
@@ -175,9 +187,11 @@ def show_stacked_column_chart(request):
     color_list_request = ['blue', 'red', 'green']
     use_default_colors = "false"
     chart_3d = "true"
+    min_max_y_value = [0, 2000]
     color_list = define_color_list(color_list_request)
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, 'stacked_column_chart')
+                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                                    'stacked_column_chart')
 
     return stacked_column_chart.show_chart()
 
@@ -196,11 +210,11 @@ def bar_heat_map(request):
     color_list_request = "blue_red"
     use_default_colors = "false"
     chart_3d = "false"
+    min_max_y_value = [0, 2000]
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
-                                    y_var_units,
-                                    x_axis_type, y_axis_title, data, color_couple, use_default_colors, chart_3d,
-                                    'bar_heat_map_chart')
+                                  y_var_units, x_axis_type, y_axis_title, data, color_couple, use_default_colors,
+                                  chart_3d, min_max_y_value, 'bar_heat_map_chart')
 
     return bar_heat_map_chart.show_chart()
 
@@ -212,25 +226,20 @@ def chord_diagram(request):
     return render(request, 'visualiser/chord_diagram.html')
 
 
-def heat_map(request):
-    return render(request, 'visualiser/heat_map.html')
+def heat_map_on_map(request):
+    map_data = HEAT_MAP_DATA
+    projection = ""
+    color_list_request = "blue_red"
+    min_max_y_value = [18, 45]
+    map_var_name = "temperature"
+    map_var_title = "Temperature"
+    map_var_unit = "C degrees"
+    color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
+    return render(request, 'visualiser/heat_map_on_map.html',
+                  {"map_data": map_data, "projection": projection, "color_list": color_couple,
+                   "map_var_name": map_var_name, "map_var_title": map_var_title, "map_var_unit": map_var_unit,
+                   "minmax_y_value": min_max_y_value})
 
-
-
-def horizontal_dumbbell(request):
-    return render(request, 'visualiser/horizontal_dumbbell.html')
-
-
-def multi_line_chart(request):
-    return render(request, 'visualiser/multi_line_chart.html')
-
-
-def line_chart_range(request):
-    return render(request, 'visualiser/line_chart_range.html')
-
-
-def line_chart_range2(request):
-    return render(request, 'visualiser/line_chart_range2.html')
 
 
 

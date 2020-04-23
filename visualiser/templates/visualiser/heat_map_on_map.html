@@ -1,0 +1,96 @@
+{% extends 'visualiser/main_visualiser_am4.html' %}
+{% block content %}
+    <div id="chartdiv"></div>
+    <!--https://www.amcharts.com/demos/us-heat-map/-->
+    <script>
+        am4core.ready(function () {
+
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
+            // Themes end
+
+            // Create map instance
+            var chart = am4core.create("chartdiv", am4maps.MapChart);
+            var projection = "{{ projection }}";
+            var map_data = {{ map_data|safe }};
+            var color_list = {{ color_list|safe }};
+            var minmax_y_value = {{ minmax_y_value|safe }};
+            var map_var_name = "{{ map_var_name }}";
+            var map_var_title = "{{ map_var_title }}";
+            var var_unit = "{{ map_var_unit }}";
+
+            // Set map definition
+            <!--chart.geodata = am4geodata_usaLow;-->
+            chart.geodata = am4geodata_worldHigh;
+
+            // Set projection
+            if (projection === "eckert6") {
+                chart.projection = new am4maps.projections.Eckert6();
+            } else if (projection === "equirectangular") {
+                chart.projection = new am4maps.projections.Projection();
+            } else if (projection === "naturalearth") {
+                chart.projection = new am4maps.projections.NaturalEarth1();
+            } else if (projection === "miller") {
+                chart.projection = new am4maps.projections.Miller();
+            } else if (projection === "orthographic") {
+                chart.projection = new am4maps.projections.Orthographic();
+            } else {
+                chart.projection = new am4maps.projections.Mercator();
+            }
+
+            // Create map polygon series
+            var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+            //Set min/max fill color for each area and Heat-map legend
+            polygonSeries.heatRules.push({
+                "target": polygonSeries.mapPolygons.template,
+                "property": "fill",
+                "min": am4core.color(color_list[0]),
+                "max": am4core.color(color_list[1]),
+            });
+
+
+            // Set heatmap values for each state
+            polygonSeries.data = map_data;
+
+            // Make map load polygon data (state shapes and names) from GeoJSON
+            polygonSeries.useGeodata = true;
+
+            /* Create a heat legend */
+            var heatLegend = chart.createChild(am4charts.HeatLegend);
+            heatLegend.height = am4core.percent(91);
+            heatLegend.minColor = am4core.color(color_list[0]);
+            heatLegend.maxColor = am4core.color(color_list[1]);
+            heatLegend.minValue = minmax_y_value[0];
+            heatLegend.maxValue = minmax_y_value[1];
+            {#heatLegend.valign = "bottom";#}
+            {#heatLegend.position = "right";#}
+            heatLegend.align = "right";
+            heatLegend.marginRight = am4core.percent(10);
+            heatLegend.valign = "top";
+            heatLegend.marginTop = 20;
+            heatLegend.dy = -10;
+            heatLegend.orientation = "vertical";
+
+
+            // Set up custom heat map legend labels using axis ranges
+            var heattitle = chart.titles.create();
+            heattitle.text = map_var_title +" (" + var_unit + ")";
+            heattitle.fontSize = 19;
+            heattitle.fontWeight = 600;
+            heattitle.marginBottom = 10;
+            heattitle.marginRight = 30;
+            heattitle.align = "right";
+            heattitle.valign = "bottom";
+
+            // Configure series tooltip
+            var polygonTemplate = polygonSeries.mapPolygons.template;
+            polygonTemplate.tooltipText = "- {name} - {value} ";
+            polygonTemplate.nonScalingStroke = true;
+            polygonTemplate.strokeWidth = 0.5;
+
+            // Create hover state and set alternative fill color
+            var hs = polygonTemplate.states.create("hover");
+
+        });
+    </script>
+{% endblock %}

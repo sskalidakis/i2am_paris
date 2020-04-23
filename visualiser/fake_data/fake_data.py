@@ -187,3 +187,47 @@ BAR_HEATMAP_DATA = [{
  "category": "Other",
  "value": 512
 }]
+
+HEAT_MAP_DATA = [
+ {
+  "id": "GR",
+  "value": 30
+ },
+ {
+  "id": "FR",
+  "value": 45
+ },
+ {
+  "id": "US",
+  "value": 32
+ },
+ {
+  "id": "SP",
+  "value": 40
+ },
+ {
+  "id": "IN",
+  "value": 39
+ },
+ {
+  "id": "IT",
+  "value": 25
+ },
+ {
+  "id": "GE",
+  "value": 33
+ },
+ {
+  "id": "PL",
+  "value": 40
+ },
+ {
+  "id": "CA",
+  "value": 24
+ },
+ {
+  "id": "RU",
+  "value": 18
+ },
+
+]
