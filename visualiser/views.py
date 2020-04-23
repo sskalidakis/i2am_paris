@@ -242,6 +242,13 @@ def heat_map_on_map(request):
 
 
 
+def parallel_coordinates_chart(request):
+    return render(request, 'visualiser/parallel_coordinates_chart.html')
+
+
+def thermometer_chart(request):
+    return render(request, 'visualiser/thermometer_chart.html')
+
 
 def define_color_list(color_list_request):
     color_list = []

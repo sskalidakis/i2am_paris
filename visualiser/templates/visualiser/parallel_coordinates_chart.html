@@ -1,0 +1,123 @@
+{% extends 'visualiser/main_visualiser_am4.html' %}
+{% block content %}
+<div id="example" class="parcoords"></div>
+<div id="grid"></div>
+<!--http://bl.ocks.org/eesur/1a2514440351ec22f176
+alternative,
+https://bl.ocks.org/jasondavies/1341281
+-->
+{% load static %}
+ <script src="{% static 'd3/d3.parcoords.js' %}"></script>
+ <script src="{% static 'd3/divgrid.js' %}"></script>
+ <link rel="stylesheet" type="text/css" href="{% static 'd3/style_d3.css' %}">
+
+<script id="brushing">// quantitative colour scale
+<!--If we want we can set the range of colors base in particular 'column'-->
+var green_to_blue = d3.scale.linear()
+  .domain([9, 50])
+  .range(["#7AC143", "#00B0DD"])
+  .interpolate(d3.interpolateLab);
+
+var color = function(d) { return green_to_blue(d['B']); };
+
+var parcoords = d3.parcoords()("#example")
+  .color(color)
+  .alpha(0.4);
+
+// load csv file and create the chart
+var data = [
+  {
+    A: "Mercury",
+    B: 4222.6,
+    C: 57.9,
+    D: 0.2408467,
+    E: 0.05527,
+    F: 4879
+  },
+  {
+    A: "Venus",
+    B: 2802,
+    C: 108.2,
+    D: 0.61519726,
+    E: 0.815,
+    F: 12104
+  },
+  {
+    A: "Earth",
+    B: 24,
+    C: 149.6,
+    D: 1.0000174,
+    E: 1,
+    F: 12756
+  },
+  {
+    A: "Mars",
+    B: 24.7,
+    C: 227.9,
+    D: 1.8808158,
+    E: 0.10745,
+    F: 6792
+  },
+  {
+    A: "Jupiter",
+    B: 9.9,
+    C: 778.6,
+    D: 11.862615,
+    E: 317.83,
+    F: 142984
+  },
+  {
+    A: "Saturn",
+    B: 10.7,
+    C: 1433.5,
+    D: 29.447498,
+    E: 95.159,
+    F: 120536
+  },
+  {
+    A: "Uranus",
+    B: 17.2,
+    C: 2872.5,
+    D: 84.016846,
+    E: 14.5,
+    F: 51118
+  },
+  {
+    A: "Neptune",
+    B: 16.1,
+    C: 4495.1,
+    D: 164.79132,
+    E: 17.204,
+    F: 49528
+  }
+];
+  parcoords
+    .data(data)
+    .render()
+    .brushMode("1D-axes");  // enable brushing
+
+  // create data table, row hover highlighting
+  var grid = d3.divgrid();
+  d3.select("#grid")
+  <!--Set how rows we want to appear in 'table'-->
+    .datum(data.slice(0,10))
+    .call(grid)
+    .selectAll(".row")
+    .on({
+      "mouseover": function(d) { parcoords.highlight([d]) },
+      "mouseout": parcoords.unhighlight
+    });
+
+  // update data table on brush event
+  parcoords.on("brush", function(d) {
+    d3.select("#grid")
+      .datum(d.slice(0,10))
+      .call(grid)
+      .selectAll(".row")
+      .on({
+        "mouseover": function(d) { parcoords.highlight([d]) },
+        "mouseout": parcoords.unhighlight
+      });
+  });
+</script>
+{% endblock %}
