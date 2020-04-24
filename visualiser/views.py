@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA
+    HEAT_MAP_DATA, SANKEYCHORD
 
 AM_CHARTS_COLOR_INDEX_LIST = {
     "light_blue": 0,
@@ -81,6 +81,30 @@ class XY_chart:
         elif self.chart_type == 'bar_heat_map_chart':
             return render(self.request, 'visualiser/bar_heat_map.html',
                           self.content)
+
+class SankeyChordChart:
+    """
+    Sankey and Chord chart have the same format of data so we need a class to manipulate data
+
+    """
+    def __init__(self, request, chart_type, data):
+        """
+
+        :param chart_type:
+        :param data:
+        """
+        self.request = request
+        self.chart_type = chart_type
+        # TODO manipulate data in another method to take the form we need
+        # data must be a dict with key the begin and value a list with first element end and second the value
+        self.data = data
+
+    def show_chart(self):
+        """
+
+        :return:
+        """
+        return render(self.request, 'visualiser/{}'.format(self.chart_type), {"data": self.data})
 
 
 def show_line_chart(request):
@@ -224,20 +248,8 @@ def sankey_diagram(request):
     :param request:
     :return:
     """
-    data= {
-        "A":["D",10] ,
-        "B":["D",8],
-        "B":["E", 4] ,
-        "C":["E",3],
-        "D":["G",5] ,
-        "D":["I",2] ,
-        "D" :["H",3],
-        "E": ["H",6] ,
-        "G": ["J",5] ,
-        "I": ["J", 1] ,
-        "H": ["J",9]
-    }
-    return render(request, 'visualiser/sankey_diagram.html', {"data": data})
+    sankey = SankeyChordChart(request, 'sankey_diagram.html', SANKEYCHORD)
+    return sankey.show_chart()
 
 
 def chord_diagram(request):
@@ -246,21 +258,8 @@ def chord_diagram(request):
     :param request:
     :return:
     """
-    data = {
-        "A": ["D", 10],
-        "B": ["D", 8],
-        "B": ["E", 4],
-        "C": ["E", 3],
-        "D": ["G", 5],
-        "D": ["I", 2],
-        "D": ["H", 3],
-        "E": ["H", 6],
-        "G": ["J", 5],
-        "I": ["J", 1],
-        "H": ["J", 9]
-    }
-
-    return render(request, 'visualiser/chord_diagram.html', {"data": data})
+    chord = SankeyChordChart(request, 'chord_diagram.html', SANKEYCHORD)
+    return chord.show_chart()
 
 
 def heat_map_on_map(request):
