@@ -241,7 +241,26 @@ def sankey_diagram(request):
 
 
 def chord_diagram(request):
-    return render(request, 'visualiser/chord_diagram.html')
+    """
+    As in put we will take a dict with key the begin and value a list with first element end and second the value
+    :param request:
+    :return:
+    """
+    data = {
+        "A": ["D", 10],
+        "B": ["D", 8],
+        "B": ["E", 4],
+        "C": ["E", 3],
+        "D": ["G", 5],
+        "D": ["I", 2],
+        "D": ["H", 3],
+        "E": ["H", 6],
+        "G": ["J", 5],
+        "I": ["J", 1],
+        "H": ["J", 9]
+    }
+
+    return render(request, 'visualiser/chord_diagram.html', {"data": data})
 
 
 def heat_map_on_map(request):
