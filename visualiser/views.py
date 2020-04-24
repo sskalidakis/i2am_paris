@@ -219,7 +219,25 @@ def bar_heat_map(request):
     return bar_heat_map_chart.show_chart()
 
 def sankey_diagram(request):
-    return render(request, 'visualiser/sankey_diagram.html')
+    """
+    As in put we will take a dict with key the begin and value a list with first element end and second the value 
+    :param request:
+    :return:
+    """
+    data= {
+        "A":["D",10] ,
+        "B":["D",8],
+        "B":["E", 4] ,
+        "C":["E",3],
+        "D":["G",5] ,
+        "D":["I",2] ,
+        "D" :["H",3],
+        "E": ["H",6] ,
+        "G": ["J",5] ,
+        "I": ["J", 1] ,
+        "H": ["J",9]
+    }
+    return render(request, 'visualiser/sankey_diagram.html', {"data": data})
 
 
 def chord_diagram(request):
