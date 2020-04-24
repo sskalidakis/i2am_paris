@@ -220,7 +220,7 @@ def bar_heat_map(request):
 
 def sankey_diagram(request):
     """
-    As in put we will take a dict with key the begin and value a list with first element end and second the value 
+    As in put we will take a dict with key the begin and value a list with first element end and second the value
     :param request:
     :return:
     """
@@ -261,7 +261,83 @@ def heat_map_on_map(request):
 
 
 def parallel_coordinates_chart(request):
-    return render(request, 'visualiser/parallel_coordinates_chart.html')
+    """
+    y_axes the name of columns
+    data a list of lists, each list must have the same length of y_axes
+    slice_size define how much rows be visualid, in table below graph
+
+    :param request:
+    :return:
+    """
+    data= [
+        [
+            "Mercury",
+            4222.6,
+            57.9,
+            0.2408467,
+            0.05527,
+            4879
+        ],
+        [
+            "Venus",
+            2802,
+            108.2,
+            0.61519726,
+            0.815,
+            12104
+        ],
+        [
+            "Earth",
+            24,
+            149.6,
+            1.0000174,
+            1,
+            12756
+        ],
+        [
+            "Mars",
+            24.7,
+            227.9,
+            1.8808158,
+            0.10745,
+            6792
+        ],
+        [
+            "Jupiter",
+            9.9,
+            778.6,
+            11.862615,
+            317.83,
+            142984
+        ],
+        [
+            "Saturn",
+            10.7,
+            1433.5,
+            29.447498,
+            95.159,
+            120536
+        ],
+        [
+            "Uranus",
+            17.2,
+            2872.5,
+            84.016846,
+            14.5,
+            51118
+        ],
+        [
+            "Neptune",
+            16.1,
+            4495.1,
+            164.79132,
+            17.204,
+            49528
+        ]
+    ]
+    y_axes = ["A", "B", "C", "D", "E", "F"]
+    slice_size = 4
+    return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
 def thermometer_chart(request):
