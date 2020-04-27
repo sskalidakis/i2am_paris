@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA, SANKEYCHORD
+    HEAT_MAP_DATA, SANKEYCHORD, THERMOMETER
 
 AM_CHARTS_COLOR_INDEX_LIST = {
     "light_blue": 0,
@@ -359,7 +359,14 @@ def parallel_coordinates_chart(request):
 
 
 def thermometer_chart(request):
-    return render(request, 'visualiser/thermometer_chart.html')
+    recordData = {}
+    for i in range(1, 11):
+        temp = []
+        for j in THERMOMETER:
+            t = {"date": j["date"], "value": j["value"] * i}
+            temp.append(t)
+        recordData[i] = temp
+    return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData})
 
 
 def define_color_list(color_list_request):
