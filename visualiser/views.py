@@ -2,11 +2,10 @@ from json import JSONDecodeError
 
 from django.shortcuts import render
 
-
 from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA, HEAT_MAP_CHART_DATA
+    HEAT_MAP_DATA, SANKEYCHORD, THERMOMETER, HEAT_MAP_CHART_DATA
 
 AM_CHARTS_COLOR_INDEX_LIST = {
     "light_blue": 0,
@@ -48,6 +47,7 @@ AM_CHARTS_COLOR_HEATMAP_COUPLES = {
     "yellow_gold": ["#f7ecc2", "#dba200"],
     "skin_red": ["#f7dfd0", "#8d1915"],
     "grey_darkblue": ["#eaecf7", "#1f3b5e"],
+    "lightblue_green": ["#bbe1ff", "#2e5c20"]
 
 }
 
@@ -127,6 +127,30 @@ class XY_chart:
         elif self.chart_type == 'bar_heat_map_chart':
             return render(self.request, 'visualiser/bar_heat_map.html',
                           self.content)
+
+class SankeyChordChart:
+    """
+    Sankey and Chord chart have the same format of data so we need a class to manipulate data
+
+    """
+    def __init__(self, request, chart_type, data):
+        """
+
+        :param chart_type:
+        :param data:
+        """
+        self.request = request
+        self.chart_type = chart_type
+        # TODO manipulate data in another method to take the form we need
+        # data must be a dict with key the begin and value a list with first element end and second the value
+        self.data = data
+
+    def show_chart(self):
+        """
+
+        :return:
+        """
+        return render(self.request, 'visualiser/{}'.format(self.chart_type), {"data": self.data})
 
 
 def show_line_chart(request):
@@ -287,11 +311,23 @@ def show_heat_map_chart(request):
     return bar_heat_map_chart.show_chart()
 
 def sankey_diagram(request):
-    return render(request, 'visualiser/sankey_diagram.html')
+    """
+    As in put we will take a dict with key the begin and value a list with first element end and second the value
+    :param request:
+    :return:
+    """
+    sankey = SankeyChordChart(request, 'sankey_diagram.html', SANKEYCHORD)
+    return sankey.show_chart()
 
 
 def chord_diagram(request):
-    return render(request, 'visualiser/chord_diagram.html')
+    """
+    As in put we will take a dict with key the begin and value a list with first element end and second the value
+    :param request:
+    :return:
+    """
+    chord = SankeyChordChart(request, 'chord_diagram.html', SANKEYCHORD)
+    return chord.show_chart()
 
 
 def heat_map_on_map(request):
@@ -311,11 +347,94 @@ def heat_map_on_map(request):
 
 
 def parallel_coordinates_chart(request):
-    return render(request, 'visualiser/parallel_coordinates_chart.html')
+    """
+    y_axes the name of columns
+    data a list of lists, each list must have the same length of y_axes
+    slice_size define how much rows be visualid, in table below graph
+
+    :param request:
+    :return:
+    """
+    data= [
+        [
+            "Mercury",
+            4222.6,
+            57.9,
+            0.2408467,
+            0.05527,
+            4879
+        ],
+        [
+            "Venus",
+            2802,
+            108.2,
+            0.61519726,
+            0.815,
+            12104
+        ],
+        [
+            "Earth",
+            24,
+            149.6,
+            1.0000174,
+            1,
+            12756
+        ],
+        [
+            "Mars",
+            24.7,
+            227.9,
+            1.8808158,
+            0.10745,
+            6792
+        ],
+        [
+            "Jupiter",
+            9.9,
+            778.6,
+            11.862615,
+            317.83,
+            142984
+        ],
+        [
+            "Saturn",
+            10.7,
+            1433.5,
+            29.447498,
+            95.159,
+            120536
+        ],
+        [
+            "Uranus",
+            17.2,
+            2872.5,
+            84.016846,
+            14.5,
+            51118
+        ],
+        [
+            "Neptune",
+            16.1,
+            4495.1,
+            164.79132,
+            17.204,
+            49528
+        ]
+    ]
+    y_axes = ["A", "B", "C", "D", "E", "F"]
+    slice_size = 4
+    return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
 def thermometer_chart(request):
-    return render(request, 'visualiser/thermometer_chart.html')
+    recordData = {}
+    for i in range(1, 11):
+        temp = []
+        for j in THERMOMETER:
+            t = {"date": j["date"], "value": j["value"] * i}
+            temp.append(t)
+        recordData[i] = temp
+    return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData})
 
 
 def define_color_index_list(color_list_request):
