@@ -1,74 +1,73 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
- <div id="chartdiv"></div>
-<script>
-<!--https://www.amcharts.com/demos/chord-diagram-with-animated-bullets/-->
-<!--Alternative we have something like this: https://www.amcharts.com/demos/toggleable-chord-diagram/-->
-am4core.ready(function() {
+    <div id="chartdiv"></div>
+    <script>
 
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
+        am4core.ready(function() {
 
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
+            // Themes end
 
+            var chart = am4core.create("chartdiv", am4charts.ChordDiagram);
+            chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+            var chart_data = {{data|safe}};
+            var node_list = {{ node_list|safe }};
+            var pass_value = "{{pass_value}}";
+            var use_default_colors = {{ use_default_colors }};
 
-var chart = am4core.create("chartdiv", am4charts.ChordDiagram);
+            var color_node = [];
+            if (use_default_colors === false) {
+                var color_node_list = {{ color_node_list|safe }};
+                for (var i = 0; i < node_list.length; i++) {
+                    color_node.push({"from": node_list[i], "nodeColor": color_node_list[i]})
+                }
+            }
+            chart_data = color_node.concat(chart_data);
 
+            chart.data = chart_data;
 
-<!--chart.data = [-->
-    <!--{ from: "A", to: "D", value: 10 },-->
-    <!--{ from: "B", to: "D", value: 8 },-->
-    <!--{ from: "B", to: "E", value: 4 },-->
-    <!--{ from: "B", to: "C", value: 2 },-->
-    <!--{ from: "C", to: "E", value: 14 },-->
-    <!--{ from: "E", to: "D", value: 8 },-->
-    <!--{ from: "C", to: "A", value: 4 },-->
-    <!--{ from: "G", to: "A", value: 7 },-->
-    <!--{ from: "D", to: "B", value: 1 }-->
-<!--];-->
-// Convert data in the way can parse to chart.data
-var data = {{data|safe}};
-var data_array = [];
-for (key in data){
-     data_array.push(
-     { from: key, to: data[key][0], value: data[key][1] },
-     );
-  }
- chart.data = data_array;
+            chart.dataFields.fromName = "from";
+            chart.dataFields.toName = "to";
+            chart.dataFields.value = pass_value;
+            chart.dataFields.color = "nodeColor";
 
-chart.dataFields.fromName = "from";
-chart.dataFields.toName = "to";
-chart.dataFields.value = "value";
+            // make nodes draggable
+            var nodeTemplate = chart.nodes.template;
+            nodeTemplate.readerTitle = "Click to show/hide";
+            nodeTemplate.showSystemTooltip = true;
 
-// make nodes draggable
-var nodeTemplate = chart.nodes.template;
-nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
-nodeTemplate.showSystemTooltip = true;
+            var nodeLink = chart.links.template;
+            var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
+            bullet.fillOpacity = 1;
+            bullet.circle.radius = 5;
+            bullet.locationX = 0.5;
 
-var nodeLink = chart.links.template;
-var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
-bullet.fillOpacity = 1;
-bullet.circle.radius = 5;
-bullet.locationX = 0.5;
+            var slice = chart.nodes.template.slice;
+            slice.stroke = am4core.color("#000");
+            slice.strokeOpacity = 0.3;
+            slice.strokeWidth = 1;
+            slice.cornerRadius = 10;
+            slice.innerCornerRadius = 0;
 
-// create animations
-chart.events.on("ready", function() {
-    for (var i = 0; i < chart.links.length; i++) {
-        var link = chart.links.getIndex(i);
-        var bullet = link.bullets.getIndex(0);
+            // create animations
+            chart.events.on("ready", function() {
+                for (var i = 0; i < chart.links.length; i++) {
+                    var link = chart.links.getIndex(i);
+                    var bullet = link.bullets.getIndex(0);
 
-        animateBullet(bullet);
-    }
-})
+                    animateBullet(bullet);
+                }
+            });
 
-function animateBullet(bullet) {
-    var duration = 3000 * Math.random() + 2000;
-    var animation = bullet.animate([{ property: "locationX", from: 0, to: 1 }], duration)
-    animation.events.on("animationended", function(event) {
-        animateBullet(event.target.object);
-    })
-}
+            function animateBullet(bullet) {
+                var duration = 3000 * Math.random() + 2000;
+                var animation = bullet.animate([{ property: "locationX", from: 0, to: 1 }], duration);
+                animation.events.on("animationended", function(event) {
+                    animateBullet(event.target.object);
+                })
+            }
 
-}); // end am4core.ready()
-</script>
+        }); // end am4core.ready()
+    </script>
 {% endblock %}

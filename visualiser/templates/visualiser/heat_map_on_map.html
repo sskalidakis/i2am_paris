@@ -11,6 +11,7 @@
 
             // Create map instance
             var chart = am4core.create("chartdiv", am4maps.MapChart);
+            chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var projection = "{{ projection }}";
             var map_data = {{ map_data|safe }};
             var color_list = {{ color_list|safe }};

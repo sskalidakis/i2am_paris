@@ -17,6 +17,7 @@
             //Load data and fix colors
 
             chart.data = {{ chart_data|safe }};
+            chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var colorSet = new am4core.ColorSet();
             colorSet.saturation = 0.4;
             var color_counter = 0;

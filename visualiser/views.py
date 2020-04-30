@@ -5,51 +5,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA, SANKEYCHORD, THERMOMETER, HEAT_MAP_CHART_DATA
+    HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA
 
-AM_CHARTS_COLOR_INDEX_LIST = {
-    "light_blue": 0,
-    "blue": 1,
-    "violet_blue": 2,
-    "purple": 4,
-    "fuchsia": 7,
-    "red": 8,
-    "ceramic": 9,
-    "light_brown": 10,
-    "mustard": 11,
-    "light_green": 13,
-    "green": 16,
-    "cyan": 19,
-}
-
-AM_CHARTS_COLOR_CODES_LIST = {
-    "light_blue": "#539AD6",
-    "blue": "#3869D6",
-    "violet": "#7533D6",
-    "purple": "#7B2CA2",
-    "fuchsia": "#942A7C",
-    "red": "#AA1C28",
-    "ceramic": "#9c3421",
-    "light_brown": "#843E1F",
-    "mustard": "#c49d00",
-    "gold": "#e6ac00",
-    "light_green": "#5A992E",
-    "green": "#26671E",
-    "cyan": "#2c9e95",
-}
-
-AM_CHARTS_COLOR_HEATMAP_COUPLES = {
-    "blue_red": ["#63a1db", "#a32f22"],
-    "green_red": ["#66bd7d", "#a32f22"],
-    "beige_purple": ["#f0d2bd", "#80308a"],
-    "purple_orange": ["#f5d1ff", "#db6b21"],
-    "cyan_green": ["#99c9c9", "#446614"],
-    "yellow_gold": ["#f7ecc2", "#dba200"],
-    "skin_red": ["#f7dfd0", "#8d1915"],
-    "grey_darkblue": ["#eaecf7", "#1f3b5e"],
-    "lightblue_green": ["#bbe1ff", "#2e5c20"]
-
-}
+from visualiser.utils import *
 
 class XYZ_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title, y_axis_unit,
@@ -127,13 +85,16 @@ class XY_chart:
         elif self.chart_type == 'bar_heat_map_chart':
             return render(self.request, 'visualiser/bar_heat_map.html',
                           self.content)
+        elif self.chart_type == 'pie_chart':
+            return render(self.request, 'visualiser/pie_chart.html',
+                          self.content)
 
-class SankeyChordChart:
+class FlowChart:
     """
-    Sankey and Chord chart have the same format of data so we need a class to manipulate data
+    Sankey chart and Chord diagram have the same format of data
 
     """
-    def __init__(self, request, chart_type, data):
+    def __init__(self, request, data, node_list, pass_value, color_node_list, use_def_colors, chart_type):
         """
 
         :param chart_type:
@@ -141,16 +102,22 @@ class SankeyChordChart:
         """
         self.request = request
         self.chart_type = chart_type
-        # TODO manipulate data in another method to take the form we need
-        # data must be a dict with key the begin and value a list with first element end and second the value
+        self.pass_value = pass_value
+        self.node_list = node_list
+        self.color_node_list = color_node_list
+        self.use_def_colors = use_def_colors
         self.data = data
+        self.content = {"data": self.data, "pass_value": self.pass_value, "node_list": self.node_list,
+                        "color_node_list": self.color_node_list, "use_default_colors": self.use_def_colors}
 
     def show_chart(self):
         """
-
         :return:
         """
-        return render(self.request, 'visualiser/{}'.format(self.chart_type), {"data": self.data})
+        if (self.chart_type == "chord_diagram"):
+            return render(self.request, 'visualiser/chord_diagram.html', self.content)
+        elif (self.chart_type == "sankey_diagram"):
+            return render(self.request, 'visualiser/sankey_diagram.html', self.content)
 
 
 def show_line_chart(request):
@@ -199,6 +166,29 @@ def show_column_chart(request):
                             'column_chart')
     return column_chart.show_chart()
 
+
+def show_pie_chart(request):
+    data = PIE_CHART_DATA
+    print(data)
+    variable_name = ["oil_consumption"]
+    variable_title = ["Oil Consumption"]
+    variable_unit = ["litres"]
+    x_axis_type = ""
+    category_name = "country"
+    category_title = "Country"
+    category_unit = ""
+    y_axis_title = ""
+    color_list_request = ['blue', 'red', 'green', "gold", "ceramic", "fuchsia", "violet", "purple", "cyan"]
+    use_default_colors = "false"
+    chart_3d = "false"
+    min_max_y_value = []
+
+    color_list = define_color_code_list(color_list_request)
+
+    pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title, variable_unit,
+                          x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                          'pie_chart')
+    return pie_chart.show_chart()
 
 def show_range_chart(request):
     data = FAKE_DATA
@@ -312,12 +302,18 @@ def show_heat_map_chart(request):
 
 def sankey_diagram(request):
     """
-    As in put we will take a dict with key the begin and value a list with first element end and second the value
+    As input we will take a dict with key the begin and value a list with first element end and second the value
     :param request:
     :return:
     """
-    sankey = SankeyChordChart(request, 'sankey_diagram.html', SANKEYCHORD)
-    return sankey.show_chart()
+    pass_value = "value"
+    data = SANKEYCHORD_DATA
+    node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
+    color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA",
+                       " #A0CF65", "#BDFF6C"]
+    use_def_colors = "false"
+    sankey_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, 'sankey_diagram')
+    return sankey_diagram.show_chart()
 
 
 def chord_diagram(request):
@@ -326,8 +322,29 @@ def chord_diagram(request):
     :param request:
     :return:
     """
-    chord = SankeyChordChart(request, 'chord_diagram.html', SANKEYCHORD)
-    return chord.show_chart()
+    pass_value = "value"
+    data = SANKEYCHORD_DATA
+    node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
+    color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA",
+                       " #A0CF65", "#BDFF6C"]
+    use_def_colors = "false"
+    chord_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, 'chord_diagram')
+    return chord_diagram.show_chart()
+
+
+def parallel_coordinates_chart(request):
+    """
+    y_axes the name of columns
+    data a list of lists, each list must have the same length of y_axes
+    slice_size define how much rows be visualid, in table below graph
+
+    :param request:
+    :return:
+    """
+    data = PARALLEL_COORDINATES_DATA
+    y_axes = ["A", "B", "C", "D", "E", "F"]
+    slice_size = 4
+    return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
 def heat_map_on_map(request):
@@ -345,87 +362,6 @@ def heat_map_on_map(request):
                    "minmax_y_value": min_max_y_value})
 
 
-
-def parallel_coordinates_chart(request):
-    """
-    y_axes the name of columns
-    data a list of lists, each list must have the same length of y_axes
-    slice_size define how much rows be visualid, in table below graph
-
-    :param request:
-    :return:
-    """
-    data= [
-        [
-            "Mercury",
-            4222.6,
-            57.9,
-            0.2408467,
-            0.05527,
-            4879
-        ],
-        [
-            "Venus",
-            2802,
-            108.2,
-            0.61519726,
-            0.815,
-            12104
-        ],
-        [
-            "Earth",
-            24,
-            149.6,
-            1.0000174,
-            1,
-            12756
-        ],
-        [
-            "Mars",
-            24.7,
-            227.9,
-            1.8808158,
-            0.10745,
-            6792
-        ],
-        [
-            "Jupiter",
-            9.9,
-            778.6,
-            11.862615,
-            317.83,
-            142984
-        ],
-        [
-            "Saturn",
-            10.7,
-            1433.5,
-            29.447498,
-            95.159,
-            120536
-        ],
-        [
-            "Uranus",
-            17.2,
-            2872.5,
-            84.016846,
-            14.5,
-            51118
-        ],
-        [
-            "Neptune",
-            16.1,
-            4495.1,
-            164.79132,
-            17.204,
-            49528
-        ]
-    ]
-    y_axes = ["A", "B", "C", "D", "E", "F"]
-    slice_size = 4
-    return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
-
-
 def thermometer_chart(request):
     recordData = {}
     for i in range(1, 11):
@@ -437,17 +373,4 @@ def thermometer_chart(request):
     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData})
 
 
-def define_color_index_list(color_list_request):
-    color_list = []
-    for color in color_list_request:
-        color_list.append(AM_CHARTS_COLOR_INDEX_LIST[color])
-    return color_list
-
-
-def define_color_code_list(color_list_request):
-    color_list = []
-    for color in color_list_request:
-        if not AM_CHARTS_COLOR_CODES_LIST.get(color) is None:
-            color_list.append(AM_CHARTS_COLOR_CODES_LIST[color])
-    return color_list
 

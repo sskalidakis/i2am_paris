@@ -1,64 +1,77 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
- <div id="chartdiv"></div>
+    <div id="chartdiv"></div>
+    <script>
+        am4core.ready(function() {
 
-<script>
-am4core.ready(function() {
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
+            // Themes end
 
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
+            var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
+            chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+            var chart_data = {{data|safe}};
+            var node_list = {{ node_list|safe }};
+            var pass_value = "{{pass_value}}";
+            var use_default_colors = {{ use_default_colors }};
+            var color_node = [];
+            if (use_default_colors === false) {
+                var color_node_list = {{ color_node_list|safe }};
+                for (var i = 0; i < node_list.length; i++) {
+                    color_node.push({"from": node_list[i], "nodeColor": color_node_list[i]})
+                }
+            }
+            chart_data = color_node.concat(chart_data);
+            console.log(chart_data);
+            chart.data = chart_data;
 
-var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-// Convert data in the way can parse to chart.data
-var data = {{data|safe}};
-var data_array = [];
-for (key in data){
-     data_array.push(
-     { from: key, to: data[key][0], value: data[key][1] },
-     );
-  }
-
-chart.data= data_array;
-<!--chart.data = [-->
-  <!--{ from: "A", to: "D", value: 10 },-->
-  <!--{ from: "B", to: "D", value: 8 },-->
-  <!--{ from: "B", to: "E", value: 4 },-->
-  <!--{ from: "C", to: "E", value: 3 },-->
-  <!--{ from: "D", to: "G", value: 5 },-->
-  <!--{ from: "D", to: "I", value: 2 },-->
-  <!--{ from: "D", to: "H", value: 3 },-->
-  <!--{ from: "E", to: "H", value: 6 },-->
-  <!--{ from: "G", to: "J", value: 5 },-->
-  <!--{ from: "I", to: "J", value: 1 },-->
-  <!--{ from: "H", to: "J", value: 9 }-->
-<!--];-->
+            chart.dataFields.fromName = "from";
+            chart.dataFields.toName = "to";
+            chart.dataFields.value = pass_value;
+            chart.dataFields.color = "nodeColor";
 
 
-let hoverState = chart.links.template.states.create("hover");
-hoverState.properties.fillOpacity = 0.6;
+            let hoverState = chart.links.template.states.create("hover");
+            hoverState.properties.fillOpacity = 0.6;
 
-chart.dataFields.fromName = "from";
-chart.dataFields.toName = "to";
-chart.dataFields.value = "value";
+            // for right-most label to fit
+            chart.paddingRight = 30;
+            chart.paddingLeft = 30;
+            chart.paddingTop = 30;
+            chart.paddingBottom  =30;
 
-// for right-most label to fit
-chart.paddingRight = 30;
+            // make nodes draggable
+            var nodeTemplate = chart.nodes.template;
+            nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
+            nodeTemplate.showSystemTooltip = true;
+            nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+            nodeTemplate.width = 20;
+            nodeTemplate.cornerRadius = 8;
+            nodeTemplate.inert = true;
 
-// make nodes draggable
-var nodeTemplate = chart.nodes.template;
-nodeTemplate.inert = true;
-nodeTemplate.readerTitle = "Drag me!";
-nodeTemplate.showSystemTooltip = true;
-nodeTemplate.width = 20;
+         {% comment %}   var nodeLink = chart.links.template;
+            var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
+            bullet.fillOpacity = 1;
+            bullet.circle.radius = 5;
+            bullet.locationX = 0.5;
 
-// make nodes draggable
-var nodeTemplate = chart.nodes.template;
-nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
-nodeTemplate.showSystemTooltip = true;
-nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+            chart.events.on("ready", function () {
+                for (var i = 0; i < chart.links.length; i++) {
+                    var link = chart.links.getIndex(i);
+                    var bullet = link.bullets.getIndex(0);
 
-}); // end am4core.ready()
-</script>
+                    animateBullet(bullet);
+                }
+            });
+
+            function animateBullet(bullet) {
+                var duration = 3000 * Math.random() + 2000;
+                var animation = bullet.animate([{property: "locationX", from: 0, to: 1}], duration);
+                animation.events.on("animationended", function (event) {
+                    animateBullet(event.target.object);
+                })
+            }{% endcomment %}
+
+        }); // end am4core.ready()
+        </script>
 {% endblock %}

@@ -232,20 +232,58 @@ HEAT_MAP_DATA = [
 
 ]
 
+PIE_CHART_DATA = [
+    {
+        "country": "Lithuania",
+        "oil_consumption": 501.9
+    },
+    {
+        "country": "Czech Republic",
+        "oil_consumption": 301.9
+    },
+    {
+        "country": "Ireland",
+        "oil_consumption": 201.1
+    },
+    {
+        "country": "Germany",
+        "oil_consumption": 165.8
+    },
+    {
+        "country": "Australia",
+        "oil_consumption": 139.9
+    },
+    {
+        "country": "Austria",
+        "oil_consumption": 128.3
+    },
+    {
+        "country": "UK",
+        "oil_consumption": 99
+    },
+    {
+        "country": "Belgium",
+        "oil_consumption": 60
+    },
+    {
+        "country": "The Netherlands",
+        "oil_consumption": 50
+    }
+]
 
-SANKEYCHORD = {
-                "A": ["D", 10],
-                "B": ["D", 8],
-                "B": ["E", 4],
-                "C": ["E", 3],
-                "D": ["G", 5],
-                "D": ["I", 2],
-                "D": ["H", 3],
-                "E": ["H", 6],
-                "G": ["J", 5],
-                "I": ["J", 1],
-                "H": ["J", 9]
-              }
+SANKEYCHORD_DATA = [
+    {"from": "A", "to": "D", "value": 10},
+    {"from": "B", "to": "D", "value": 8},
+    {"from": "B", "to": "E", "value": 4},
+    {"from": "C", "to": "E", "value": 3},
+    {"from": "D", "to": "G", "value": 5},
+    {"from": "D", "to": "I", "value": 2},
+    {"from": "D", "to": "H", "value": 3},
+    {"from": "E", "to": "H", "value": 6},
+    {"from": "G", "to": "J", "value": 5},
+    {"from": "I", "to": "J", "value": 1},
+    {"from": "H", "to": "J", "value": 9}
+]
 
 THERMOMETER = [
                 {
@@ -1656,4 +1694,71 @@ HEAT_MAP_CHART_DATA = [
   "weekday": "Sat",
   "value": 11000
  }
+]
+
+PARALLEL_COORDINATES_DATA = [
+    [
+        "Mercury",
+        4222.6,
+        57.9,
+        0.2408467,
+        0.05527,
+        4879
+    ],
+    [
+        "Venus",
+        2802,
+        108.2,
+        0.61519726,
+        0.815,
+        12104
+    ],
+    [
+        "Earth",
+        24,
+        149.6,
+        1.0000174,
+        1,
+        12756
+    ],
+    [
+        "Mars",
+        24.7,
+        227.9,
+        1.8808158,
+        0.10745,
+        6792
+    ],
+    [
+        "Jupiter",
+        9.9,
+        778.6,
+        11.862615,
+        317.83,
+        142984
+    ],
+    [
+        "Saturn",
+        10.7,
+        1433.5,
+        29.447498,
+        95.159,
+        120536
+    ],
+    [
+        "Uranus",
+        17.2,
+        2872.5,
+        84.016846,
+        14.5,
+        51118
+    ],
+    [
+        "Neptune",
+        16.1,
+        4495.1,
+        164.79132,
+        17.204,
+        49528
+    ]
 ]

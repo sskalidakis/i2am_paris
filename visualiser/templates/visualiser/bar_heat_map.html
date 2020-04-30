@@ -17,6 +17,7 @@
 
         // Add data
         chart.data = {{ chart_data |safe}};
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
         var x_axis_title = "{{x_axis_title}}";
         var x_axis_name = "{{ x_axis_name }}";
         var x_axis_unit = "{{ x_axis_unit }}";
