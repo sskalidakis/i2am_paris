@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA
+    HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA,\
+    PARALLEL_COORDINATES_DATA_2
 
 from visualiser.utils import *
 
@@ -372,5 +373,30 @@ def thermometer_chart(request):
         recordData[i] = temp
     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData})
 
+def parallel_coordinates_chart2(request):
+    """
 
+    :param request:
+    :return:
+    """
+    y_axes = [
+                'name',
+                'group',
+                'protein (g)',
+                'calcium (g)',
+                'sodium (g)',
+                'fiber (g)',
+                'vitaminc (g)',
+                'potassium (g)',
+                'carbohydrate (g)',
+                'sugars (g)',
+                'fat (g)',
+                'water (g)',
+                'calories',
+                'saturated (g)',
+                'monounsat (g)',
+                'polyunsat (g)'
+    ]
+    data = PARALLEL_COORDINATES_DATA_2
+    return render(request, 'visualiser/parallel_coordinates_chart2.html', {"data": data, "y_axes": y_axes})
 

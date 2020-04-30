@@ -16,5 +16,6 @@ urlpatterns = [
     path('show_chord_diagram', views.chord_diagram, name='chord_diagram'),
     path('show_heat_map', views.heat_map_on_map, name='heat_map'),
     path('parallel_coordinates_chart', views.parallel_coordinates_chart, name='parallel_coordinates_chart'),
-    path('thermometer_chart', views.thermometer_chart, name='thermometer_chart')
+    path('thermometer_chart', views.thermometer_chart, name='thermometer_chart'),
+    path('parallel_coordinates_chart2', views.parallel_coordinates_chart2, name='parallel_coordinates_chart2')
 ]
