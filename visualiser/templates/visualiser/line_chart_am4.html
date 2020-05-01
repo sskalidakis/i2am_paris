@@ -39,6 +39,9 @@
             xAxis.renderer.minGridDistance = 50;
             xAxis.title.text = x_axis_title + " (" + x_axis_unit + ")" ;
             xAxis.title.fontWeight = 600;
+            xAxis.title.marginTop = 10;
+            xAxis.title.marginBottom = 20;
+
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
@@ -49,7 +52,7 @@
             var series=[];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], 2*i, x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }else{
                     series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
@@ -100,15 +103,20 @@
                 series.tooltipText = String(myVarTitle) + ": {valueY.value} " + myVarUnit;
                 series.tooltip.pointerOrientation = "vertical";
                 series.tooltip.background.cornerRadius = 20;
-                series.tooltip.background.fillOpacity = 0.5;
+                series.tooltip.background.fillOpacity = 0.8;
                 series.tooltip.label.padding(12, 12, 12, 12);
+                series.tooltip.autoTextColor = false;
+                series.tooltip.label.fill = am4core.color("#FFFFFF");
+                series.tooltip.getFillFromObject = false;
+                series.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
                 //legend shows value dynamically
                 series.legendSettings.labelText = "{name} (" + myVarUnit + "):";
                 series.legendSettings.itemValueText = "[bold]{valueY}[/bold]";
-                series.fill = chart.colors.getIndex(fillColor);
-                series.stroke = chart.colors.getIndex(fillColor);
+                series.fill = am4core.color(fillColor);
+                series.stroke = am4core.color(fillColor);
                 //Smoothed Lines
                 series.tensionX = 0.9;
+
 
                 //Create Gradient
                 series.fillOpacity = 1;

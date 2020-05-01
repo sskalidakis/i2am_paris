@@ -4,12 +4,14 @@
     <script>
         am4core.ready(function () {
 
+
             var chart_3d = {{ chart_3d }};
             if (chart_3d) {
                 var chart = am4core.create("chartdiv", am4charts.XYChart3D);
             }else{
                 var chart = am4core.create("chartdiv", am4charts.XYChart);
             }
+
 
             // Themes begin
             am4core.useTheme(am4themes_animated);
@@ -34,11 +36,13 @@
             categoryAxis.renderer.minGridDistance = 30;
             categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
             categoryAxis.title.fontWeight = 600;
+            categoryAxis.title.marginTop = 10;
+            categoryAxis.title.marginBottom = 20;
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.fontWeight = 600 ;
             valueAxis.renderer.labels.template.adapter.add("text", function (text) {
-                return text + "%";
+                return text ;
             });
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
@@ -49,7 +53,7 @@
             var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], i, y_var_titles[i],
+                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], chart.colors.getIndex(i), y_var_titles[i],
                         y_var_units[i], y_axis_title, x_axis_name, chart_3d);
                 } else {
                     series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], y_var_titles[i],
@@ -96,10 +100,14 @@
                 series.dataFields.valueY = myVar;
                 series.dataFields.categoryX = x_axis_name;
                 series.name = myVarTitle;
-                series.stroke = chart.colors.getIndex(fillColor);
+                series.stroke = am4core.color(fillColor);
                 series.fill = series.stroke;
                 series.columns.template.column.cornerRadiusTopLeft = 5;
                 series.columns.template.column.cornerRadiusTopRight = 5;
+                series.tooltip.autoTextColor = false;
+                series.tooltip.label.fill = am4core.color("#FFFFFF");
+                series.tooltip.getFillFromObject = false;
+                series.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
 
                 {#series.yAxis = valueAxis;#}
 

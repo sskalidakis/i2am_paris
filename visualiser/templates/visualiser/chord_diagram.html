@@ -13,8 +13,8 @@
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var chart_data = {{data|safe}};
             var node_list = {{ node_list|safe }};
-            var pass_value = "{{pass_value}}";
             var use_default_colors = {{ use_default_colors }};
+            var chart_title = "{{ chart_title }}";
 
             var color_node = [];
             if (use_default_colors === false) {
@@ -25,17 +25,25 @@
             }
             chart_data = color_node.concat(chart_data);
 
+            var title = chart.titles.create();
+            title.text = chart_title;
+            title.fontSize = 18;
+            title.fontWeight = 600;
+            title.marginTop = 30;
+
+
             chart.data = chart_data;
 
             chart.dataFields.fromName = "from";
             chart.dataFields.toName = "to";
-            chart.dataFields.value = pass_value;
+            chart.dataFields.value = "value";
             chart.dataFields.color = "nodeColor";
 
             // make nodes draggable
             var nodeTemplate = chart.nodes.template;
             nodeTemplate.readerTitle = "Click to show/hide";
             nodeTemplate.showSystemTooltip = true;
+            nodeTemplate.label.fontWeight = 600;
 
             var nodeLink = chart.links.template;
             var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
@@ -49,6 +57,7 @@
             slice.strokeWidth = 1;
             slice.cornerRadius = 10;
             slice.innerCornerRadius = 0;
+
 
             // create animations
             chart.events.on("ready", function() {

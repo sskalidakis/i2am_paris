@@ -25,6 +25,8 @@
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
 
+            console.log(color_list);
+
             // Create and format axes
             if (x_axis_type==="time") {
                 xAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -36,6 +38,8 @@
             xAxis.renderer.minGridDistance = 50;
             xAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
             xAxis.title.fontWeight = "bold";
+            xAxis.title.marginTop = 10;
+            xAxis.title.marginBottom = 20;
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
@@ -46,7 +50,7 @@
             for(var i=0; i<y_var_names.length; i++) {
                 if (use_default_colors){
                     series[i]= create_range(x_axis_name+"_"+String(i), "open_" + String(i), "close_" + String(i),
-                        y_var_names[i],2*i, x_axis_type, y_var_titles[i], y_var_units[i],valueAxis);
+                        y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i], y_var_units[i],valueAxis);
                 }else{
                     series[i] = create_range(x_axis_name + "_" + String(i), "open_" + String(i), "close_" + String(i),
                         y_var_names[i], color_list[i], x_axis_type, y_var_titles[i], y_var_units[i], valueAxis);
@@ -94,7 +98,7 @@
                 series.sequencedInterpolation = true;
                 series.strokeWidth = 0;
                 series.name = String(myVarTitle) + " Range";
-                series.stroke = chart.colors.getIndex(fillColor);
+                series.stroke = am4core.color(fillColor);
                 series.fill = series.stroke;
                 series.fillOpacity = 0.15;
                 series.defaultState.transitionDuration = 1000;
@@ -124,9 +128,13 @@
                 series3.tooltip.background.cornerRadius = 20;
                 series3.tooltip.background.fillOpacity = 0.7;
                 series3.tooltip.label.padding(12, 12, 12, 12);
+                series3.tooltip.autoTextColor = false;
+                series3.tooltip.label.fill = am4core.color("#FFFFFF");
+                series3.tooltip.getFillFromObject = false;
+                series3.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
                 series3.name = String(myVarTitle);
-                series3.stroke = chart.colors.getIndex(fillColor);
-                series3.fill = chart.colors.getIndex(fillColor);
+                series3.stroke = am4core.color(fillColor);
+                series3.fill = am4core.color(fillColor);
                 series3.tensionX = 0.9;
                 series3.legendSettings.labelText = "{name} (" + myVarUnit + "):";
                 series3.legendSettings.itemValueText = "[bold]{valueY}[/bold]";

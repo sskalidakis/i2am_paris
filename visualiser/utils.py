@@ -14,21 +14,21 @@ AM_CHARTS_COLOR_INDEX_LIST = {
 }
 
 AM_CHARTS_COLOR_CODES_LIST = {
-    "light_blue": "#539AD6",
-    "blue": "#3869D6",
-    "violet": "#7533D6",
-    "purple": "#7B2CA2",
-    "fuchsia": "#942A7C",
-    "red": "#AA1C28",
-    "ceramic": "#9c3421",
-    "light_brown": "#843E1F",
-    "mustard": "#c49d00",
-    "gold": "#e6ac00",
-    "light_green": "#5A992E",
-    "green": "#26671E",
-    "cyan": "#2c9e95",
+    "light_blue": "#65a5db",
+    "blue": "#5079d4",
+    "violet": "#8951db",
+    "purple": "#7d3e9d",
+    "fuchsia": "#a04293",
+    "red": "#ad3741",
+    "ceramic": "#a0432c",
+    "light_brown": "#844b2c",
+    "mustard": "#a78428",
+    "gold": "#e6b323",
+    "light_green": "#62993d",
+    "green": "#3b6733",
+    "cyan": "#4b9e91",
     "black": "#000000",
-    "gray": "#DDDDDD",
+    "gray": "#b4b4b4",
     "white": "#FFFFFF"
 }
 

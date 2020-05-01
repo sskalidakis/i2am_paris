@@ -17,19 +17,25 @@
             //Load data and fix colors
 
             chart.data = {{ chart_data|safe }};
+            var color_list = {{ color_list|safe }};
+            var use_default_colors = {{ use_default_colors }};
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var colorSet = new am4core.ColorSet();
-            colorSet.saturation = 0.4;
+            colorSet.saturation = 0.6;
             var color_counter = 0;
             var brightness_counter = 0;
             var previous_el = "";
             for (var i = 0; i < chart.data.length; i++) {
                 if ((previous_el !== "") && (previous_el !== chart.data[i]['name'])) {
                     brightness_counter = 0;
-                    color_counter = color_counter + 2;
+                    color_counter = color_counter + 1;
                 }
-                chart.data[i]["color"] = colorSet.getIndex(color_counter).brighten(brightness_counter);
-                brightness_counter = brightness_counter + 0.2;
+                if (use_default_colors=== true) {
+                    chart.data[i]["color"] = colorSet.getIndex(color_counter).lighten(brightness_counter);
+                }else{
+                    chart.data[i]["color"] = am4core.color(color_list[color_counter]).lighten(brightness_counter);
+                }
+                brightness_counter = brightness_counter + 0.1;
                 previous_el = chart.data[i]['name'];
 
             }
@@ -78,7 +84,7 @@
             series1.columns.template.propertyFields.fill = "color"; // get color from data
             series1.columns.template.propertyFields.stroke = "color";
             series1.columns.template.strokeOpacity = 1;
-            series1.columns.template.fillOpacity = 0.8;
+            series1.columns.template.fillOpacity = 0.9;
 
 
 

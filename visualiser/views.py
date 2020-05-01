@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA
+    HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
+    RADAR_CHART_DATA
 
 from visualiser.utils import *
 
@@ -88,13 +89,16 @@ class XY_chart:
         elif self.chart_type == 'pie_chart':
             return render(self.request, 'visualiser/pie_chart.html',
                           self.content)
+        elif self.chart_type == 'radar_chart':
+            return render(self.request, 'visualiser/radar_chart.html',
+                          self.content)
 
 class FlowChart:
     """
     Sankey chart and Chord diagram have the same format of data
 
     """
-    def __init__(self, request, data, node_list, pass_value, color_node_list, use_def_colors, chart_type):
+    def __init__(self, request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, chart_type):
         """
 
         :param chart_type:
@@ -106,9 +110,11 @@ class FlowChart:
         self.node_list = node_list
         self.color_node_list = color_node_list
         self.use_def_colors = use_def_colors
+        self.chart_title = chart_title
         self.data = data
         self.content = {"data": self.data, "pass_value": self.pass_value, "node_list": self.node_list,
-                        "color_node_list": self.color_node_list, "use_default_colors": self.use_def_colors}
+                        "color_node_list": self.color_node_list, "use_default_colors": self.use_def_colors,
+                        "chart_title": self.chart_title}
 
     def show_chart(self):
         """
@@ -136,7 +142,7 @@ def show_line_chart(request):
     chart_3d = "false"
     min_max_y_value = [0, 2000]
 
-    color_list = define_color_index_list(color_list_request)
+    color_list = define_color_code_list(color_list_request)
 
     line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                           x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
@@ -160,7 +166,7 @@ def show_column_chart(request):
     chart_3d = "true"
     min_max_y_value = [0, 2000]
 
-    color_list = define_color_index_list(color_list_request)
+    color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                             'column_chart')
@@ -190,6 +196,30 @@ def show_pie_chart(request):
                           'pie_chart')
     return pie_chart.show_chart()
 
+
+def show_radar_chart(request):
+    data = RADAR_CHART_DATA
+    print(data)
+    variable_name = ["oil_consumption", "energy_consumption"]
+    variable_title = ["Oil Consumption", "Energy Consumption"]
+    variable_unit = ["litres", "Watt"]
+    x_axis_type = ""
+    category_name = "country"
+    category_title = "Country"
+    category_unit = ""
+    y_axis_title = ""
+    color_list_request = ['red', "blue"]
+    use_default_colors = "false"
+    chart_3d = "false"
+    min_max_y_value = []
+
+    color_list = define_color_code_list(color_list_request)
+
+    radar_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
+                           variable_unit, x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                           min_max_y_value, 'radar_chart')
+    return radar_chart.show_chart()
+
 def show_range_chart(request):
     data = FAKE_DATA
     y_var_names = ["myVar1", "myVar2"]
@@ -201,11 +231,11 @@ def show_range_chart(request):
     x_axis_unit = ""
     y_axis_title = "Var"
     color_list_request = ['blue', 'red', 'green']
-    use_default_colors = "true"
+    use_default_colors = "false"
     chart_3d = "false"
     min_max_y_value = [0, 2000]
 
-    color_list = define_color_index_list(color_list_request)
+    color_list = define_color_code_list(color_list_request)
 
     range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
@@ -223,8 +253,9 @@ def show_bar_range_chart(request):
     x_axis_title = "Time"
     x_axis_unit = ""
     y_axis_title = "Name"
-    color_list = []
-    use_default_colors = "true"
+    color_list_request = ['blue', 'red', 'green','gold','mustard','purple','violet','ceramic']
+    use_default_colors = "false"
+    color_list = define_color_code_list(color_list_request)
     chart_3d = "false"
     min_max_y_value = [0, 2000]
     bar_range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
@@ -248,7 +279,7 @@ def show_stacked_column_chart(request):
     use_default_colors = "false"
     chart_3d = "true"
     min_max_y_value = [0, 2000]
-    color_list = define_color_index_list(color_list_request)
+    color_list = define_color_code_list(color_list_request)
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                                     'stacked_column_chart')
@@ -306,13 +337,14 @@ def sankey_diagram(request):
     :param request:
     :return:
     """
-    pass_value = "value"
+    pass_value = "meat"
     data = SANKEYCHORD_DATA
     node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
     color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA",
                        " #A0CF65", "#BDFF6C"]
     use_def_colors = "false"
-    sankey_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, 'sankey_diagram')
+    chart_title = "Sankey Flow Chart of Business Processes"
+    sankey_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 
 
@@ -327,8 +359,9 @@ def chord_diagram(request):
     node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
     color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA",
                        " #A0CF65", "#BDFF6C"]
-    use_def_colors = "false"
-    chord_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, 'chord_diagram')
+    use_def_colors = "true"
+    chart_title = "Chord Flow Chart of Business Processes"
+    chord_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'chord_diagram')
     return chord_diagram.show_chart()
 
 
@@ -355,6 +388,7 @@ def heat_map_on_map(request):
     map_var_name = "temperature"
     map_var_title = "Temperature"
     map_var_unit = "C degrees"
+    # projection = "eckert6"
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     return render(request, 'visualiser/heat_map_on_map.html',
                   {"map_data": map_data, "projection": projection, "color_list": color_couple,

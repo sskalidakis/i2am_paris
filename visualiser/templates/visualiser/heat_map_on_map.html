@@ -11,6 +11,9 @@
 
             // Create map instance
             var chart = am4core.create("chartdiv", am4maps.MapChart);
+           {% comment %} chart.responsive = {
+                "enabled": true
+            };{% endcomment %}
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var projection = "{{ projection }}";
             var map_data = {{ map_data|safe }};
@@ -23,6 +26,10 @@
             // Set map definition
             <!--chart.geodata = am4geodata_usaLow;-->
             chart.geodata = am4geodata_worldHigh;
+
+            chart.tapToActivate = true;
+            chart.paddingBottom = 60;
+
 
             // Set projection
             if (projection === "eckert6") {
@@ -39,8 +46,24 @@
                 chart.projection = new am4maps.projections.Mercator();
             }
 
+            if (projection === "orthographic"){
+                chart.panBehavior = "rotateLongLat";
+            } else{
+                chart.panBehavior = "move";
+            }
+            chart.paddingTop= 10;
+            chart.homeGeoPoint = {longitude: 0, latitude: 3};
+            chart.homeZoomLevel = 1;
+
+            chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#c9d7ef");
+            chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 1;
+
+
+
             // Create map polygon series
             var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+            polygonSeries.mapPolygons.template.fill = am4core.color("#b2bcb2");
+            polygonSeries.mapPolygons.template.stroke = am4core.color("#e3e3e3");
             //Set min/max fill color for each area and Heat-map legend
             polygonSeries.heatRules.push({
                 "target": polygonSeries.mapPolygons.template,
@@ -58,39 +81,45 @@
 
             /* Create a heat legend */
             var heatLegend = chart.createChild(am4charts.HeatLegend);
-            heatLegend.height = am4core.percent(91);
+            heatLegend.width = am4core.percent(60);
             heatLegend.minColor = am4core.color(color_list[0]);
             heatLegend.maxColor = am4core.color(color_list[1]);
             heatLegend.minValue = minmax_y_value[0];
             heatLegend.maxValue = minmax_y_value[1];
             {#heatLegend.valign = "bottom";#}
             {#heatLegend.position = "right";#}
-            heatLegend.align = "right";
-            heatLegend.marginRight = am4core.percent(10);
-            heatLegend.valign = "top";
-            heatLegend.marginTop = 20;
-            heatLegend.dy = -10;
-            heatLegend.orientation = "vertical";
+            heatLegend.align = "center";
+            heatLegend.dy= 50;
+            heatLegend.valign = "bottom";
+
+            {#heatLegend.orientation = "vertical";#}
 
 
-            // Set up custom heat map legend labels using axis ranges
-            var heattitle = chart.titles.create();
-            heattitle.text = map_var_title +" (" + var_unit + ")";
-            heattitle.fontSize = 19;
-            heattitle.fontWeight = 600;
-            heattitle.marginBottom = 10;
-            heattitle.marginRight = 30;
-            heattitle.align = "right";
-            heattitle.valign = "bottom";
+            var title = chart.titles.create();
+            title.text = "Heat map of " + map_var_title + " (" + var_unit + ")";
+
+            title.fontSize = 19;
+            title.fontWeight = 600;
+            {#title.marginTop = 50;#}
+            title.align = "center";
+            title.valign = "top";
+            {#title.marginBottom = 20;#}
 
             // Configure series tooltip
             var polygonTemplate = polygonSeries.mapPolygons.template;
-            polygonTemplate.tooltipText = "- {name} - {value} ";
+            polygonTemplate.tooltipText = "- {name} - {value} " + var_unit + "";
+
             polygonTemplate.nonScalingStroke = true;
             polygonTemplate.strokeWidth = 0.5;
 
             // Create hover state and set alternative fill color
             var hs = polygonTemplate.states.create("hover");
+
+            //Tooltip info
+            {#polygonTemplate.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + y_var_titles[0] + " : [bold]{valueY}[/]";#}
+            polygonSeries.tooltip.getFillFromObject = true;
+            polygonTemplate.tooltip.autoTextColor = false;
+            polygonTemplate.tooltip.label.fill = am4core.color("#FFFFFF");
 
         });
     </script>

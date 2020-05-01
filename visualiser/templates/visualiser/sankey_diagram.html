@@ -10,11 +10,12 @@
 
             var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
             var chart_data = {{data|safe}};
             var node_list = {{ node_list|safe }};
-            var pass_value = "{{pass_value}}";
             var use_default_colors = {{ use_default_colors }};
             var color_node = [];
+            var chart_title = "{{ chart_title }}";
             if (use_default_colors === false) {
                 var color_node_list = {{ color_node_list|safe }};
                 for (var i = 0; i < node_list.length; i++) {
@@ -22,17 +23,26 @@
                 }
             }
             chart_data = color_node.concat(chart_data);
-            console.log(chart_data);
+
+            var title = chart.titles.create();
+            title.text = chart_title;
+            title.fontSize = 18;
+            title.fontWeight = 600;
+            title.marginBottom = 30;
+
+
+
+
             chart.data = chart_data;
 
             chart.dataFields.fromName = "from";
             chart.dataFields.toName = "to";
-            chart.dataFields.value = pass_value;
+            chart.dataFields.value = "value";
             chart.dataFields.color = "nodeColor";
 
 
             let hoverState = chart.links.template.states.create("hover");
-            hoverState.properties.fillOpacity = 0.6;
+            hoverState.properties.fillOpacity = 0.7;
 
             // for right-most label to fit
             chart.paddingRight = 30;
@@ -46,21 +56,28 @@
             nodeTemplate.showSystemTooltip = true;
             nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
             nodeTemplate.width = 20;
-            nodeTemplate.cornerRadius = 8;
+            nodeTemplate.nameLabel.label.fontWeight = "bold";
             nodeTemplate.inert = true;
+            nodeTemplate.stroke = am4core.color("#efefef");
+            nodeTemplate.strokeWidth = 1;
+            nodeTemplate.fillOpacity = 0.9;
 
-         {% comment %}   var nodeLink = chart.links.template;
+            var nodeLink = chart.links.template;
             var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
             bullet.fillOpacity = 1;
-            bullet.circle.radius = 5;
+            bullet.circle.radius = 7;
             bullet.locationX = 0.5;
 
-            chart.events.on("ready", function () {
+
+            chart.events.on("ready", function (event) {
                 for (var i = 0; i < chart.links.length; i++) {
                     var link = chart.links.getIndex(i);
                     var bullet = link.bullets.getIndex(0);
-
-                    animateBullet(bullet);
+                    if (link.dataItem.toNode) {
+                        animateBullet(bullet);
+                    } else {
+                        link.bullets.removeValue(bullet);
+                    }
                 }
             });
 
@@ -70,7 +87,7 @@
                 animation.events.on("animationended", function (event) {
                     animateBullet(event.target.object);
                 })
-            }{% endcomment %}
+            }
 
         }); // end am4core.ready()
         </script>

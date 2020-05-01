@@ -271,6 +271,54 @@ PIE_CHART_DATA = [
     }
 ]
 
+RADAR_CHART_DATA = [
+    {
+        "country": "Lithuania",
+        "oil_consumption": 501.9,
+        "energy_consumption": 30
+    },
+    {
+        "country": "Czech Republic",
+        "oil_consumption": 301.9,
+        "energy_consumption": 90
+    },
+    {
+        "country": "Ireland",
+        "oil_consumption": 201.1,
+        "energy_consumption": 20
+    },
+    {
+        "country": "Germany",
+        "oil_consumption": 165.8,
+        "energy_consumption": 30
+    },
+    {
+        "country": "Australia",
+        "oil_consumption": 139.9,
+        "energy_consumption": 10
+    },
+    {
+        "country": "Austria",
+        "oil_consumption": 128.3,
+        "energy_consumption": 0
+    },
+    {
+        "country": "UK",
+        "oil_consumption": 99,
+        "energy_consumption": 100
+    },
+    {
+        "country": "Belgium",
+        "oil_consumption": 60,
+        "energy_consumption": 20
+    },
+    {
+        "country": "The Netherlands",
+        "oil_consumption": 50,
+        "energy_consumption": 10
+    }
+]
+
 SANKEYCHORD_DATA = [
     {"from": "A", "to": "D", "value": 10},
     {"from": "B", "to": "D", "value": 8},

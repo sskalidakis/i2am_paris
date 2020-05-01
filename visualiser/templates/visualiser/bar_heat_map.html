@@ -40,6 +40,7 @@
         categoryAxis.renderer.minGridDistance = 30;
         categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
         categoryAxis.title.fontWeight = 600;
+        categoryAxis.title.marginTop = 10;
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.title.fontWeight = 600;
@@ -62,6 +63,10 @@
 
         }
         series.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + y_var_titles[0] + " : [bold]{valueY}[/]";
+        series.tooltip.autoTextColor = false;
+        series.tooltip.label.fill = am4core.color("#FFFFFF");
+
+
 
         series.dataFields.valueY = y_var_names[0];
         series.dataFields.categoryX = x_axis_name;
