@@ -404,7 +404,10 @@ def thermometer_chart(request):
             t = {"date": j["date"], "value": j["value"] * i}
             temp.append(t)
         recordData[i] = temp
-    return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData})
+    min_temp = -20
+    max_temp = 50
+    return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
+                                                                 "min_temp": min_temp, "max_temp": max_temp})
 
 def parallel_coordinates_chart2(request):
     """

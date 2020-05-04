@@ -1,12 +1,13 @@
 
+console.log(document.getElementById("input_temp").value);
 const units = {
   Celcius: "°C",
   Fahrenheit: "°F" };
 
 
 const config = {
-  minTemp: -20,
-  maxTemp: 50,
+  minTemp: min_temp,
+  maxTemp: max_temp,
   unit: "Celcius" };
 
 
@@ -148,8 +149,17 @@ var t= 1;
 
 
 // }
+// Function which call at the begin to set start temperature
+function setStartTemp(temp) {
+temperature.style.height = (temp - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+ temperature.dataset.value = temp + units[config.unit];
+ chart.data= recordDataFun(temp);
+ }
+// Get the first key of the recordData hash map
+temp = Object.keys(recordData)[0];
+setStartTemp(temp);
 
-
+//document.getElementById("set_btn").addEventListener("onclick", test);
 document.getElementById("termometer").addEventListener("wheel", myFunction);
 var temp = 0;
 function myFunction(e) {
