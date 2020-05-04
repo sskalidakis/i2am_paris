@@ -30,23 +30,28 @@ tempValueInputs.forEach(input => {
 
 // Switch unit of temperature
 
-const unitP = document.getElementById("unit");
-
-unitP.addEventListener("click", () => {
-  config.unit = config.unit === "Celcius" ? "Fahrenheit" : "Celcius";
-  unitP.innerHTML = config.unit + ' ' + units[config.unit];
-  return setTemperature();
-});
+// const unitP = document.getElementById("unit");
+//
+// unitP.addEventListener("click", () => {
+//   config.unit = config.unit === "Celcius" ? "Fahrenheit" : "Celcius";
+//   unitP.innerHTML = config.unit + ' ' + units[config.unit];
+//   return setTemperature();
+// });
 
 // Change temperature
 
-const range = document.querySelector("input[type='range']");
-const temperature = document.getElementById("temperature");
+var range = document.querySelector("input[type='range']");
+var temperature = document.getElementById("temperature");
 
 function setTemperature() {
   temperature.style.height = (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
   temperature.dataset.value = range.value + units[config.unit];
 }
+
+$(document).ready(function () {
+  // setTemperature();
+});
+
 
 
 // function lineChart(t) {
@@ -70,15 +75,53 @@ var t= 1;
 
 // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 50;
+    dateAxis.title.fontWeight = 600;
+    dateAxis.title.marginTop = 10;
+    dateAxis.title.marginBottom = 20;
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.title.fontWeight = 600;
 
 // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "value";
     series.dataFields.dateX = "date";
-    series.tooltipText = "{value}"
     series.strokeWidth = 2;
-    series.minBulletDistance = 15;
+    series.minBulletDistance = 10;
+    series.tooltipText = "{valueY.value}";
+    series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.background.cornerRadius = 20;
+    series.tooltip.background.fillOpacity = 0.8;
+    series.tooltip.label.padding(12, 12, 12, 12);
+    series.tooltip.autoTextColor = false;
+    series.tooltip.label.fill = am4core.color("#FFFFFF");
+    series.tooltip.getFillFromObject = false;
+    series.tooltip.background.fill = am4core.color("#63A1DB").lighten(-0.3);
+
+    series.legendSettings.labelText = "{name}";
+    series.legendSettings.itemValueText = "[bold]{valueY}[/bold]";
+    series.fill = am4core.color("#63A1DB");
+    series.stroke = am4core.color("#63A1DB");
+    //Smoothed Lines
+    series.tensionX = 0.9;
+    series.fillOpacity = 1;
+    let fillModifier = new am4core.LinearGradientModifier();
+    fillModifier.opacities = [0.3, 0];
+    fillModifier.offsets = [0, 0.5];
+    fillModifier.gradient.rotation = 90;
+    series.segments.template.fillModifier = fillModifier;
+
+    //Add Legend
+    chart.legend = new am4charts.Legend();
+    chart.legend.useDefaultMarker = true;
+    var marker = chart.legend.markers.template.children.getIndex(0);
+    marker.cornerRadius(5, 5, 5, 5);
+    marker.strokeWidth = 2;
+    marker.strokeOpacity = 1;
+    marker.stroke = am4core.color("#ccc");
+    var markerTemplate = chart.legend.markers.template;
+    markerTemplate.width = 25;
+    markerTemplate.height = 25;
 
 // Drop-shaped tooltips
     series.tooltip.background.cornerRadius = 20;
@@ -89,32 +132,16 @@ var t= 1;
     series.tooltip.label.textAlign = "middle";
     series.tooltip.label.textValign = "middle";
 
-// Make bullets grow on hover
-    var bullet = series.bullets.push(new am4charts.CircleBullet());
-    bullet.circle.strokeWidth = 2;
-    bullet.circle.radius = 4;
-    bullet.circle.fill = am4core.color("#fff");
-
-    var bullethover = bullet.states.create("hover");
-    bullethover.properties.scale = 1.3;
 
 // Make a panning cursor
     chart.cursor = new am4charts.XYCursor();
-    chart.cursor.behavior = "panXY";
     chart.cursor.xAxis = dateAxis;
-    chart.cursor.snapToSeries = series;
 
-// Create vertical scrollbar and place it before the value axis
-    chart.scrollbarY = new am4core.Scrollbar();
-    chart.scrollbarY.parent = chart.leftAxesContainer;
-    chart.scrollbarY.toBack();
-
-// Create a horizontal scrollbar with previe and place it underneath the date axis
+    // Add scrollbar
     chart.scrollbarX = new am4charts.XYChartScrollbar();
     chart.scrollbarX.series.push(series);
-    chart.scrollbarX.parent = chart.bottomAxesContainer;
 
-    dateAxis.start = 0.79;
+
     dateAxis.keepSelection = true;
 
 
@@ -140,6 +167,7 @@ function myFunction(e) {
 // TODO in case of recorddata
   chart.data= recordDataFun(temp);
   temperature.style.height = (temp - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+  console.log(temperature.style.height);
   temperature.dataset.value = temp + units[config.unit];
 }
 // var flag= true;
