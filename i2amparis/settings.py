@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from i2amparis.private_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,13 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%jq+tdb&qkl+4=wcl71hn&u+%8_$^mjp7mt6cr*u@l_-zjouf#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','paris-reinforce.epu.ntua.gr','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','paris-reinforce.epu.ntua.gr']
 
 
 # Application definition
@@ -137,6 +136,8 @@ EMAIL_PROTOCOL = 'smtp'
 EMAIL_HOST_USER = 'noreply@epu.ntua.gr'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'noreply@epu.ntua.gr'
-EMAIL_HOST_PASSWORD = 'IA8|X9Rkz*W$W+59YdWm'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 EMAIL_FROM = 'noreply@epu.ntua.gr'
+
+
+GOOGLE_RECAPTCHA_SITE_KEY = '6LdK8MQUAAAAAEKv0uhyyCh8XEk0EoAwLudZGQyf'
