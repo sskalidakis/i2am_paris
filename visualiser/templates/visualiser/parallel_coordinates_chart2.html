@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'd3/parallel.css' %}">
     <script>
     // Input data and format the data in suitable format
+    const colored_groups = {{colored_groups|safe}};
+    const samples_size = {{samples_size}};
     const input_data = {{data|safe}};
     const y_axes = {{y_axes|safe}};
     var data = [];
@@ -22,7 +24,7 @@
   </head>
   <body>
   <div id="header">
-    <h1>Nutrient Explorer</h1>
+    <h1>{{title}}</h1>
     <button title="Zoom in on selected data" id="keep-data" disabled="disabled">Keep</button>
     <button title="Remove selected data" id="exclude-data" disabled="disabled">Exclude</button>
     <button title="Export data as CSV" id="export-data">Export</button>
@@ -48,22 +50,11 @@
   <div id="wrap">
     <div class="third" id="controls">
       <div class="bright">
-        <h3>What is this?</h3>
+        <h3>{{about}}</h3>
         <p>
-          A multidimensional explorer of <a href="nutrients.csv">nutrient data</a> from the <a href="http://ndb.nal.usda.gov/">USDA</a>.
+        {{about_text}}
         </p>
-        <p>
-          The parallel coordinates displays the nutrient content of foods in the database across 14 dimensions, colored by food group.
-        </p>
-        <p>
-          <a href="https://eagereyes.org/techniques/parallel-coordinate">Never heard of parallel coordinates? Read this tutorial.</a>
-        </p>
-        <p>
-          <a href="https://eagereyes.org/techniques/parallel-coordinates#brushing">Brush</a> the visualization to update other charts on this page.
-        </p>
-        <p>
-          Let me know what you think on <a href="https://www.reddit.com/r/d3js/comments/xh2ks/nutrition_parallel_coordinates_canvas/">Reddit</a>.
-        </p>
+
       </div>
 
       <div class="little-box">
@@ -76,29 +67,17 @@
           <strong>Remove Axis</strong>: Drag axis label to the left edge.<br/>
         </p>
       </div>
-      <div class="little-box">
-        <h3>Credits &amp; License</h3>
-          <p>
-          Adapted from examples by<br/>
-          <a href="http://bl.ocks.org/1341021">Mike Bostock</a> and <a href="http://bl.ocks.org/1341281">Jason Davies</a><br/>
-          </p>
-          <p>
-            Copyright &copy; 2012, Kai Chang<br/>
-            All rights reserved. Released under the <a href="https://opensource.org/licenses/bsd-3-clause">BSD License</a>.
-          </p>
-        </p>
-      </div>
     </div>
     <div  class="third">
       <small>
         <!--Last rendered <strong id="render-speed"></strong> lines-->
       </small>
-      <h3>Food Groups</h3>
+      <h3>{{groups}}</h3>
       <p id="legend">
       </p>
     </div>
     <div class="third">
-      <h3>Sample of 25 entries <input type="text" id="search" placeholder="Search Foods..."></input></h3>
+      <h3>{{samples}} <input type="text" id="search" placeholder="Search..."></input></h3>
       <p id="food-list">
       </p>
     </div>
