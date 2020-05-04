@@ -1,5 +1,4 @@
 
-console.log(document.getElementById("input_temp").value);
 const units = {
   Celcius: "°C",
   Fahrenheit: "°F" };
@@ -15,19 +14,19 @@ const config = {
 
 const tempValueInputs = document.querySelectorAll("input[type='text']");
 
-tempValueInputs.forEach(input => {
-  input.addEventListener("change", event => {
-    const newValue = event.target.value;
-
-    if (isNaN(newValue)) {
-      return input.value = config[input.id];
-    } else {
-      config[input.id] = input.value;
-      range[input.id.slice(0, 3)] = config[input.id]; // Update range
-      return setTemperature(); // Update temperature
-    }
-  });
-});
+//tempValueInputs.forEach(input => {
+//  input.addEventListener("change", event => {
+//    const newValue = event.target.value;
+//
+//    if (isNaN(newValue)) {
+//      return input.value = config[input.id];
+//    } else {
+//      config[input.id] = input.value;
+//      range[input.id.slice(0, 3)] = config[input.id]; // Update range
+//      return setTemperature(); // Update temperature
+//    }
+//  });
+//});
 
 // Switch unit of temperature
 
@@ -155,13 +154,19 @@ temperature.style.height = (temp - config.minTemp) / (config.maxTemp - config.mi
  temperature.dataset.value = temp + units[config.unit];
  chart.data= recordDataFun(temp);
  }
+
+ function setTemp(){
+ var temp = document.getElementById("input_temp").value;
+ setStartTemp(temp);
+ }
 // Get the first key of the recordData hash map
 temp = Object.keys(recordData)[0];
 setStartTemp(temp);
-
-//document.getElementById("set_btn").addEventListener("onclick", test);
 document.getElementById("termometer").addEventListener("wheel", myFunction);
+document.getElementById("input_temp").addEventListener("change", setTemp);
+
 var temp = 0;
+
 function myFunction(e) {
   if (e.deltaY < 0) {
     if (config.maxTemp > temp) {
