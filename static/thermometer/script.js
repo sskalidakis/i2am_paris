@@ -150,6 +150,7 @@ var t= 1;
 // }
 // Function which call at the begin to set start temperature
 function setStartTemp(temp) {
+document.getElementById("input_temp").value = temp;
 temperature.style.height = (temp - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
  temperature.dataset.value = temp + units[config.unit];
  chart.data= recordDataFun(temp);
