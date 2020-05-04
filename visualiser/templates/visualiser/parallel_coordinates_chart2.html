@@ -3,9 +3,22 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>Nutrient Database Explorer</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>
     {% load static %}
-     <link rel="stylesheet" type="text/css" href="{% static 'd3/parallel.css' %}">
-<!--    <link rel="stylesheet" type="text/css" href="parallel.css" />-->
+    <link rel="stylesheet" type="text/css" href="{% static 'd3/parallel.css' %}">
+    <script>
+    // Input data and format the data in suitable format
+    const input_data = {{data|safe}};
+    const y_axes = {{y_axes|safe}};
+    var data = [];
+    for (var j=0; j<input_data.length;j++){
+    var temp_dict = {}
+    for (var y=0; y<y_axes.length;y++) {
+      temp_dict[y_axes[y]]=input_data[j][y];
+    }
+    data.push(temp_dict);
+    }
+    </script>
   </head>
   <body>
   <div id="header">
@@ -89,15 +102,22 @@
       <p id="food-list">
       </p>
     </div>
+
   </div>
+
+  <center>
+      <div id="grid"></div>
+  </center>
+
+
+
+
+
   </body>
   <script src="https://mbostock.github.com/d3/d3.v2.js"></script>
   <script src="http://underscorejs.org/underscore.js"></script>
-  <script>
-  const input_data = {{data|safe}};
-  const y_axes = {{y_axes|safe}};
-  </script>
   {% load static %}
- <script src="{% static 'd3/parallel.js' %}"></script>
-<!--  <script src="parallel.js"></script>-->
+  <script src="{% static 'd3/divgrid.js' %}"></script>
+  <script src="{% static 'd3/parallel.js' %}"></script>
+
 </html>

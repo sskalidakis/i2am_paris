@@ -86,35 +86,6 @@ var svg = d3.select("svg")
     .attr("height", h + m[0] + m[2])
     .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
-// Load the data and visualization
-
-// TODO remove d3.csv
-// TODO replace data function with a new function which will take 2 lists one with actually data and one with the name
-//of axes
-// d3.csv("nutrients.csv", function(raw_data) {
-  // Convert quantitative scales to floats
-  // data = raw_data.map(function(d) {
-  //   for (var k in d) {
-  //     if (!_.isNaN(raw_data[0][k] - 0) && k != 'id') {
-  //       d[k] = parseFloat(d[k]) || 0;
-  //     }
-  //   };
-  //   return d;
-  // });
-// New way to convert the data in preference form
-//  var input_data = {{data|safe}};
-//  var y_axes = {{data|safe}};
-
-  var data = [];
-  for (var j=0; j<input_data.length;j++){
-    var temp_dict = {}
-    for (var y=0; y<y_axes.length;y++) {
-      temp_dict[y_axes[y]]=input_data[j][y];
-
-    }
-    data.push(temp_dict);
-    }
 // Now we have the data which we want
 // Data is a list of dictionaries
 
@@ -311,6 +282,20 @@ function data_table(sample) {
   table
       .append("span")
       .text(function(d) { return d.name; })
+
+
+  // create data table, row hover highlighting
+  // Load data in table-grid
+  var grid = d3.divgrid();
+  d3.select("#grid")
+  <!--Set how rows we want to appear in 'table'-->
+    .datum(sample.slice(0,10))
+    .call(grid)
+    .selectAll(".row")
+    .on({
+      "mouseover": function(d) { highlight(d) },
+      "mouseout":  function(d) { unhighlight(d) }
+    });
 }
 
 // Adjusts rendering speed
@@ -372,23 +357,6 @@ function invert_axis(d) {
   return extent;
 }
 
-// Draw a single polyline
-/*
-function path(d, ctx, color) {
-  if (color) ctx.strokeStyle = color;
-  var x = xscale(0)-15;
-      y = yscale[dimensions[0]](d[dimensions[0]]);   // left edge
-  ctx.beginPath();
-  ctx.moveTo(x,y);
-  dimensions.map(function(p,i) {
-    x = xscale(p),
-    y = yscale[p](d[p]);
-    ctx.lineTo(x, y);
-  });
-  ctx.lineTo(x+15, y);                               // right edge
-  ctx.stroke();
-}
-*/
 
 function path(d, ctx, color) {
   if (color) ctx.strokeStyle = color;
@@ -525,6 +493,7 @@ function paths(selected, ctx, count) {
   selection_stats(opacity, n, data.length)
 
   shuffled_data = _.shuffle(selected);
+  //TODO use the above data to fill the table
 
   data_table(shuffled_data.slice(0,25));
 
@@ -767,3 +736,5 @@ function search(selection,str) {
     return pattern.exec(d.name);
   });
 }
+
+
