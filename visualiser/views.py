@@ -8,7 +8,13 @@ from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANG
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2
 
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
+
 from visualiser.utils import *
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
+import json
 
 class XYZ_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title, y_axis_unit,
@@ -125,22 +131,52 @@ class FlowChart:
         elif (self.chart_type == "sankey_diagram"):
             return render(self.request, 'visualiser/sankey_diagram.html', self.content)
 
+@csrf_exempt
+def get_response_data_XY(request):
+    if request.method == "GET":
+        json_response = {
+            "y_var_names": request.GET.getlist("y_var_names[]", []),
+            "y_var_titles": request.GET.getlist("y_var_titles[]", []),
+            "y_var_units": request.GET.getlist("y_var_units[]", []),
+            "x_axis_type": request.GET.get("x_axis_type", ""),
+            "x_axis_name": request.GET.get("x_axis_name", ""),
+            "x_axis_title": request.GET.get("x_axis_title", ""),
+            "x_axis_unit": request.GET.get("x_axis_unit", ""),
+            "y_axis_title": request.GET.get("y_axis_title", ""),
+            "color_list_request": request.GET.getlist("color_list_request[]", []),
+            "use_default_colors": request.GET.get("use_default_colors", "true"),
+            "chart_3d": request.GET.get("chart_3d", ""),
+            "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
+            "dataset": request.GET.get("dataset", "")
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
 
+
+
+
+@csrf_exempt
 def show_line_chart(request):
+    response_data = get_response_data_XY(request)
+    print(response_data)
+    y_var_names = response_data['y_var_names']
+    y_var_titles = response_data['y_var_titles']
+    y_var_units = response_data['y_var_units']
+    x_axis_type = response_data['x_axis_type']
+    x_axis_name = response_data['x_axis_name']
+    x_axis_title = response_data['x_axis_title']
+    x_axis_unit = response_data['x_axis_unit']
+    y_axis_title = response_data['y_axis_title']
+    color_list_request = response_data['color_list_request']
+    use_default_colors = response_data['use_default_colors']
+    chart_3d = ""
+    min_max_y_value = response_data['min_max_y_value']
+    dataset = response_data['dataset']
+
+    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
     data = FAKE_DATA
-    print(data)
-    y_var_names = ["myVar1", "myVar2"]
-    y_var_titles = ["Var1", "Var2"]
-    y_var_units = ["v1_unit", "v2_unit"]
-    x_axis_type = "time"
-    x_axis_name = "time"
-    x_axis_title = "Time"
-    x_axis_unit = ""
-    y_axis_title = "Var"
-    color_list_request = ['blue', 'red', 'green']
-    use_default_colors = "false"
-    chart_3d = "false"
-    min_max_y_value = [0, 2000]
 
     color_list = define_color_code_list(color_list_request)
 
