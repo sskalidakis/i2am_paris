@@ -13,7 +13,7 @@ const config = {
 // Change min and max temperature values
 
 const tempValueInputs = document.querySelectorAll("input[type='text']");
-
+// TODO remove we don't need it
 //tempValueInputs.forEach(input => {
 //  input.addEventListener("change", event => {
 //    const newValue = event.target.value;
@@ -179,6 +179,8 @@ function myFunction(e) {
 
   }
 
+// Set temperature in input text
+document.getElementById("input_temp").value = temp;
 //  chart.data= myData(temp);
 // TODO in case of recorddata
   chart.data= recordDataFun(temp);
