@@ -155,8 +155,6 @@ def get_response_data_XY(request):
     return json_response
 
 
-
-
 @csrf_exempt
 def show_line_chart(request):
     response_data = get_response_data_XY(request)
@@ -186,22 +184,52 @@ def show_line_chart(request):
     return line_chart.show_chart()
 
 
-def show_column_chart(request):
-    data = COLUMNCHART_DATA
-    print(data)
-    y_var_names = ["year2017", "year2018"]
-    y_var_titles = ["Year 2017", "Year 2018"]
-    y_var_units = ["%", "%"]
-    x_axis_type = "text"
-    x_axis_name = "country"
-    x_axis_title = "Country"
-    x_axis_unit = ""
-    y_axis_title = "GDP Rates"
-    color_list_request = ['blue', 'red', 'green']
-    use_default_colors = "false"
-    chart_3d = "true"
-    min_max_y_value = [0, 2000]
+@csrf_exempt
+def get_response_data_column(request):
+    if request.method == "GET":
+        json_response = {
+            "use_default_colors": request.GET.get("use_default_colors", "false")
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
 
+
+@csrf_exempt
+def show_column_chart(request):
+    response_data = get_response_data_XY(request)
+    y_var_names = response_data["y_var_names"]
+    y_var_titles = response_data["y_var_titles"]
+    y_var_units = response_data["y_var_units"]
+    x_axis_type = response_data["x_axis_type"]
+    x_axis_name = response_data["x_axis_name"]
+    x_axis_title = response_data["x_axis_title"]
+    x_axis_unit = response_data["x_axis_unit"]
+    y_axis_title = response_data["y_axis_title"]
+    min_max_y_value = response_data["min_max_y_value"]
+    color_list_request = response_data["color_list_request"]
+    chart_3d = response_data["chart_3d"]
+    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
+    # data = response_data["dataset"]
+    data = COLUMNCHART_DATA
+    response_data_col = get_response_data_column(request)
+    use_default_colors = response_data_col["use_default_colors"]
+    # y_var_names = ["year2017", "year2018"]
+    # y_var_titles = ["Year 2017", "Year 2018"]
+    # y_var_units = ["%", "%"]
+    # x_axis_type = "text"
+    # x_axis_name = "country"
+    # x_axis_title = "Country"
+    # x_axis_unit = ""
+    # y_axis_title = "GDP Rates"
+    # color_list_request = ['blue', 'red', 'green']
+    # use_default_colors = "false"
+    # chart_3d = "true"
+    # min_max_y_value = [0, 2000]
+    # from pprint import pprint as pp
+    # pp(response_data)
+    # pp(response_data_col)
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
