@@ -198,6 +198,7 @@ def get_response_data_column(request):
 
 @csrf_exempt
 def show_column_chart(request):
+    # Use get_response_data_XY to get the same variables
     response_data = get_response_data_XY(request)
     y_var_names = response_data["y_var_names"]
     y_var_titles = response_data["y_var_titles"]
@@ -213,6 +214,7 @@ def show_column_chart(request):
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
     # data = response_data["dataset"]
     data = COLUMNCHART_DATA
+    # Create get_response_data_column to get the additional variable
     response_data_col = get_response_data_column(request)
     use_default_colors = response_data_col["use_default_colors"]
     # y_var_names = ["year2017", "year2018"]
