@@ -333,19 +333,32 @@ def show_radar_chart(request):
     return radar_chart.show_chart()
 
 def show_range_chart(request):
+    response_data_xy = get_response_data_XY(request)
+    y_var_names = response_data_xy['y_var_names']
+    y_var_titles = response_data_xy['y_var_titles']
+    y_var_units = response_data_xy['y_var_units']
+    x_axis_type = response_data_xy['x_axis_type']
+    x_axis_name = response_data_xy['x_axis_name']
+    x_axis_title = response_data_xy['x_axis_title']
+    x_axis_unit = response_data_xy['x_axis_unit']
+    y_axis_title = response_data_xy['y_axis_title']
+    color_list_request = response_data_xy['color_list_request']
+    use_default_colors = response_data_xy['use_default_colors']
+    min_max_y_value = response_data_xy["min_max_y_value"]
+    chart_3d = response_data_xy["chart_3d"]
     data = FAKE_DATA
-    y_var_names = ["myVar1", "myVar2"]
-    y_var_titles = ["Var1", "Var2"]
-    y_var_units = ["v1_unit", "v2_unit"]
-    x_axis_type = "time"
-    x_axis_name = "time"
-    x_axis_title = "Time"
-    x_axis_unit = ""
-    y_axis_title = "Var"
-    color_list_request = ['blue', 'red', 'green']
-    use_default_colors = "false"
-    chart_3d = "false"
-    min_max_y_value = [0, 2000]
+    # y_var_names = ["myVar1", "myVar2"]
+    # y_var_titles = ["Var1", "Var2"]
+    # y_var_units = ["v1_unit", "v2_unit"]
+    # x_axis_type = "time"
+    # x_axis_name = "time"
+    # x_axis_title = "Time"
+    # x_axis_unit = ""
+    # y_axis_title = "Var"
+    # color_list_request = ['blue', 'red', 'green']
+    # use_default_colors = "false"
+    # chart_3d = "false"
+    # min_max_y_value = [0, 2000]
 
     color_list = define_color_code_list(color_list_request)
 
@@ -356,20 +369,33 @@ def show_range_chart(request):
 
 
 def show_bar_range_chart(request):
+    response_data_xy = get_response_data_XY(request)
+    y_var_names = response_data_xy['y_var_names']
+    y_var_titles = response_data_xy['y_var_titles']
+    y_var_units = response_data_xy['y_var_units']
+    x_axis_type = response_data_xy['x_axis_type']
+    x_axis_name = response_data_xy['x_axis_name']
+    x_axis_title = response_data_xy['x_axis_title']
+    x_axis_unit = response_data_xy['x_axis_unit']
+    y_axis_title = response_data_xy['y_axis_title']
+    color_list_request = response_data_xy['color_list_request']
+    use_default_colors = response_data_xy['use_default_colors']
+    min_max_y_value = response_data_xy["min_max_y_value"]
+    chart_3d = response_data_xy["chart_3d"]
     data = BAR_RANGE_CHART_DATA
-    y_var_names = ["name"]
-    y_var_titles = ["Var1", "Var2"]
-    y_var_units = ["-"]
-    x_axis_type = "time"
-    x_axis_name = "time"
-    x_axis_title = "Time"
-    x_axis_unit = ""
-    y_axis_title = "Name"
-    color_list_request = ['blue', 'red', 'green','gold','mustard','purple','violet','ceramic']
-    use_default_colors = "false"
+    # y_var_names = ["name"]
+    # y_var_titles = ["Var1", "Var2"]
+    # y_var_units = ["-"]
+    # x_axis_type = "time"
+    # x_axis_name = "time"
+    # x_axis_title = "Time"
+    # x_axis_unit = ""
+    # y_axis_title = "Name"
+    # color_list_request = ['blue', 'red', 'green','gold','mustard','purple','violet','ceramic']
+    # use_default_colors = "false"
     color_list = define_color_code_list(color_list_request)
-    chart_3d = "false"
-    min_max_y_value = [0, 2000]
+    # chart_3d = "false"
+    # min_max_y_value = [0, 2000]
     bar_range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                                x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
                                min_max_y_value, 'bar_range_chart')
