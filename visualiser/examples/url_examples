@@ -35,6 +35,10 @@ http://localhost:8000/visualiser/show_pie_chart
 - GET REQUEST
 http://localhost:8000/visualiser/show_pie_chart?variable_name[]=oil_consumption&variable_title[]=Oil Consumption&variable_unit[]=litres&category_name=country&category_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=gold&color_list_request[]=ceramic&color_list_request[]=fuchsia&color_list_request[]=violet&color_list_request[]=purple&color_list_request[]=cyan
 
+http://localhost:8000/visualiser/show_radar_chart
+------------------------------------------------------------------------------------------------------------------------
+- GET REQUEST
+http://localhost:8000/visualiser/show_radar_chart?variable_name[]=oil_consumption&variable_name[]=energy_consumption&variable_title[]=Oil Consumption&variable_title[]=Energy Consumption&variable_unit[]=litres&variable_unit[]=Watt&category_name=country&category_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=red&color_list_request[]=blue
 
 
 http://localhost:8000/visualiser/show_stacked_column_chart

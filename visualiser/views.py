@@ -296,21 +296,35 @@ def show_pie_chart(request):
 
 
 def show_radar_chart(request):
+    response_data_pie = get_response_data_pie(request)
+    variable_name = response_data_pie["variable_name"]
+    variable_title = response_data_pie["variable_title"]
+    variable_unit = response_data_pie["variable_unit"]
+    category_name = response_data_pie["category_name"]
+    category_title = response_data_pie["category_title"]
+    category_unit = response_data_pie["category_unit"]
+    response_data_xy = get_response_data_XY(request)
+    x_axis_type = response_data_xy["x_axis_type"]
+    y_axis_title = response_data_xy["y_axis_title"]
+    color_list_request = response_data_xy["color_list_request"]
+    min_max_y_value = response_data_xy["min_max_y_value"]
+    chart_3d = response_data_xy["chart_3d"]
+    response_data_col = get_response_data_column(request)
+    use_default_colors = response_data_col["use_default_colors"]
     data = RADAR_CHART_DATA
     print(data)
-    variable_name = ["oil_consumption", "energy_consumption"]
-    variable_title = ["Oil Consumption", "Energy Consumption"]
-    variable_unit = ["litres", "Watt"]
-    x_axis_type = ""
-    category_name = "country"
-    category_title = "Country"
-    category_unit = ""
-    y_axis_title = ""
-    color_list_request = ['red', "blue"]
-    use_default_colors = "false"
-    chart_3d = "false"
-    min_max_y_value = []
-
+    # variable_name = ["oil_consumption", "energy_consumption"]
+    # variable_title = ["Oil Consumption", "Energy Consumption"]
+    # variable_unit = ["litres", "Watt"]
+    # x_axis_type = ""
+    # category_name = "country"
+    # category_title = "Country"
+    # category_unit = ""
+    # y_axis_title = ""
+    # color_list_request = ['red', "blue"]
+    # use_default_colors = "false"
+    # chart_3d = "false"
+    # min_max_y_value = []
     color_list = define_color_code_list(color_list_request)
 
     radar_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
