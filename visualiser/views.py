@@ -239,22 +239,54 @@ def show_column_chart(request):
     return column_chart.show_chart()
 
 
+@csrf_exempt
+def get_response_data_pie(request):
+    if request.method == "GET":
+        json_response = {
+            "variable_name": request.GET.getlist("variable_name[]", []),
+            "variable_title": request.GET.getlist("variable_title[]", []),
+            "variable_unit": request.GET.getlist("variable_unit[]", []),
+            "category_name": request.GET.get("category_name", ""),
+            "category_title": request.GET.get("category_title", ""),
+            "category_unit": request.GET.get("category_unit", "")
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
+
+
+@csrf_exempt
 def show_pie_chart(request):
+    response_data_pie = get_response_data_pie(request)
+    variable_name = response_data_pie["variable_name"]
+    variable_title = response_data_pie["variable_title"]
+    variable_unit = response_data_pie["variable_unit"]
+    category_name = response_data_pie["category_name"]
+    category_title = response_data_pie["category_title"]
+    category_unit = response_data_pie["category_unit"]
+    response_data_xy = get_response_data_XY(request)
+    x_axis_type = response_data_xy["x_axis_type"]
+    y_axis_title = response_data_xy["y_axis_title"]
+    color_list_request = response_data_xy["color_list_request"]
+    min_max_y_value = response_data_xy["min_max_y_value"]
+    chart_3d = response_data_xy["chart_3d"]
+    response_data_col = get_response_data_column(request)
+    use_default_colors = response_data_col["use_default_colors"]
     data = PIE_CHART_DATA
     print(data)
-    variable_name = ["oil_consumption"]
-    variable_title = ["Oil Consumption"]
-    variable_unit = ["litres"]
-    x_axis_type = ""
-    category_name = "country"
-    category_title = "Country"
-    category_unit = ""
-    y_axis_title = ""
-    color_list_request = ['blue', 'red', 'green', "gold", "ceramic", "fuchsia", "violet", "purple", "cyan"]
-    use_default_colors = "false"
-    chart_3d = "false"
-    min_max_y_value = []
-
+    # variable_name = ["oil_consumption"]
+    # variable_title = ["Oil Consumption"]
+    # variable_unit = ["litres"]
+    # x_axis_type = ""
+    # category_name = "country"
+    # category_title = "Country"
+    # category_unit = ""
+    # y_axis_title = ""
+    # color_list_request = ['blue', 'red', 'green', "gold", "ceramic", "fuchsia", "violet", "purple", "cyan"]
+    # use_default_colors = "false"
+    # chart_3d = "false"
+    # min_max_y_value = []
     color_list = define_color_code_list(color_list_request)
 
     pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title, variable_unit,
