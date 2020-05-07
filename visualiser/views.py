@@ -403,20 +403,33 @@ def show_bar_range_chart(request):
 
 
 def show_stacked_column_chart(request):
+    response_data_xy = get_response_data_XY(request)
+    y_var_names = response_data_xy['y_var_names']
+    y_var_titles = response_data_xy['y_var_titles']
+    y_var_units = response_data_xy['y_var_units']
+    x_axis_type = response_data_xy['x_axis_type']
+    x_axis_name = response_data_xy['x_axis_name']
+    x_axis_title = response_data_xy['x_axis_title']
+    x_axis_unit = response_data_xy['x_axis_unit']
+    y_axis_title = response_data_xy['y_axis_title']
+    color_list_request = response_data_xy['color_list_request']
+    use_default_colors = response_data_xy['use_default_colors']
+    min_max_y_value = response_data_xy["min_max_y_value"]
+    chart_3d = response_data_xy["chart_3d"]
     data = COLUMNCHART_DATA
     print(data)
-    y_var_names = ["year2017", "year2018"]
-    y_var_titles = ["Year 2017", "Year 2018"]
-    y_var_units = ["%", "%"]
-    x_axis_type = "text"
-    x_axis_name = "country"
-    x_axis_title = "Country"
-    x_axis_unit = ""
-    y_axis_title = "GDP Rates"
-    color_list_request = ['blue', 'red', 'green']
-    use_default_colors = "false"
-    chart_3d = "true"
-    min_max_y_value = [0, 2000]
+    # y_var_names = ["year2017", "year2018"]
+    # y_var_titles = ["Year 2017", "Year 2018"]
+    # y_var_units = ["%", "%"]
+    # x_axis_type = "text"
+    # x_axis_name = "country"
+    # x_axis_title = "Country"
+    # x_axis_unit = ""
+    # y_axis_title = "GDP Rates"
+    # color_list_request = ['blue', 'red', 'green']
+    # use_default_colors = "false"
+    # chart_3d = "true"
+    # min_max_y_value = [0, 2000]
     color_list = define_color_code_list(color_list_request)
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
