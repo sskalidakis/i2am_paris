@@ -439,21 +439,35 @@ def show_stacked_column_chart(request):
 
 
 def show_bar_heat_map(request):
+    response_data_xy = get_response_data_XY(request)
+    y_var_names = response_data_xy['y_var_names']
+    y_var_titles = response_data_xy['y_var_titles']
+    y_var_units = response_data_xy['y_var_units']
+    x_axis_type = response_data_xy['x_axis_type']
+    x_axis_name = response_data_xy['x_axis_name']
+    x_axis_title = response_data_xy['x_axis_title']
+    x_axis_unit = response_data_xy['x_axis_unit']
+    y_axis_title = response_data_xy['y_axis_title']
+    color_list_request = response_data_xy['color_list_request']
+    use_default_colors = response_data_xy['use_default_colors']
+    min_max_y_value = response_data_xy["min_max_y_value"]
+    chart_3d = response_data_xy["chart_3d"]
     data = BAR_HEATMAP_DATA
     print(data)
-    y_var_names = ["value"]
-    y_var_titles = ["Value"]
-    y_var_units = ["units"]
-    x_axis_type = "text"
-    x_axis_name = "category"
-    x_axis_title = "Category"
-    x_axis_unit = ""
-    y_axis_title = "Value Units"
-    color_list_request = "blue_red"
-    use_default_colors = "false"
-    chart_3d = "false"
-    min_max_y_value = [0, 2000]
-    color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
+    # y_var_names = ["value"]
+    # y_var_titles = ["Value"]
+    # y_var_units = ["units"]
+    # x_axis_type = "text"
+    # x_axis_name = "category"
+    # x_axis_title = "Category"
+    # x_axis_unit = ""
+    # y_axis_title = "Value Units"
+    # color_list_request = "blue_red"
+    # use_default_colors = "false"
+    # chart_3d = "false"
+    # min_max_y_value = [0, 2000]
+    # TODO check this color_list_request
+    color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request[0]]
     bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
                                   y_var_units, x_axis_type, y_axis_title, data, color_couple, use_default_colors,
                                   chart_3d, min_max_y_value, 'bar_heat_map_chart')

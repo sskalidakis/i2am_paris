@@ -47,6 +47,8 @@ http://localhost:8000/visualiser/show_stacked_column_chart
 http://localhost:8000/visualiser/show_stacked_column_chart?y_var_names[]=year2017&y_var_names[]=year2018&y_var_titles[]=Year 2017&y_var_titles[]=Year 2018&x_axis_type=text&x_axis_name=country&x_axis_title=Country&y_axis_title=GDP Rates&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&y_var_units[]=%&y_var_units[]=%
 
 http://localhost:8000/visualiser/show_bar_heat_map_chart
+------------------------------------------------------------------------------------------------------------------------
+http://localhost:8000/visualiser/show_bar_heat_map_chart?y_var_names[]=value&y_var_titles[]=Value&x_axis_type=text&x_axis_name=category&x_axis_title=Category&y_axis_title=Value%20Units&color_list_request[]=blue_red&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&y_var_units[]=units
 
 http://localhost:8000/visualiser/show_heat_map
 
