@@ -590,6 +590,19 @@ def chord_diagram(request):
     return chord_diagram.show_chart()
 
 
+@csrf_exempt
+def get_response_parallel_coordinates_chart(request):
+    if request.method == "GET":
+        json_response = {
+            "slice_size": request.GET.get("slice_size", "4"),
+            "y_axes": request.GET.getlist("y_axes[]", [])
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
+
+
 def parallel_coordinates_chart(request):
     """
     y_axes the name of columns
@@ -599,9 +612,12 @@ def parallel_coordinates_chart(request):
     :param request:
     :return:
     """
+    response_parallel_coordinates_chart = get_response_parallel_coordinates_chart(request)
+    y_axes = response_parallel_coordinates_chart["y_axes"]
+    slice_size = response_parallel_coordinates_chart["slice_size"]
     data = PARALLEL_COORDINATES_DATA
-    y_axes = ["A", "B", "C", "D", "E", "F"]
-    slice_size = 4
+    # y_axes = ["A", "B", "C", "D", "E", "F"]
+    # slice_size = 4
     return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
