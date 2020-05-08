@@ -505,9 +505,6 @@ def show_heat_map_chart(request):
     z_axis_unit = response_heat_map["z_axis_unit"]
     min_max_z_value = response_heat_map["min_max_z_value"]
     data = HEAT_MAP_CHART_DATA
-    from pprint import pprint as pp
-    pp(response_heat_map)
-    pp(response_data_xy)
     # y_axis_name = 'hour'
     # y_axis_title = 'Hour'
     # y_axis_unit = '-'
@@ -614,6 +611,18 @@ def heat_map_on_map(request):
                    "minmax_y_value": min_max_y_value})
 
 
+@csrf_exempt
+def get_response_thermometer_chart(request):
+    if request.method == "GET":
+        json_response = {
+            "min_max_temp": request.GET.getlist("min_max_temp[]", []),
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
+
+
 def thermometer_chart(request):
     recordData = {}
     for i in range(1, 11):
@@ -622,8 +631,12 @@ def thermometer_chart(request):
             t = {"date": j["date"], "value": j["value"] * i}
             temp.append(t)
         recordData[i] = temp
-    min_temp = -20
-    max_temp = 50
+    response_thermometer_chart =get_response_thermometer_chart(request)
+    min_max_temp = response_thermometer_chart["min_max_temp"]
+    min_temp = min_max_temp[0]
+    max_temp = min_max_temp[1]
+    # min_temp = -20
+    # max_temp = 50
     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
                                                                  "min_temp": min_temp, "max_temp": max_temp})
 

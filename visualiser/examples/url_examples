@@ -67,4 +67,9 @@ http://localhost:8000/visualiser/show_heat_map
 - GET REQUEST
 http://localhost:8000/visualiser/show_heat_map?map_var_name=temperature&map_var_title=Temperature&map_var_unit=C degrees&color_list_request[]=blue_red&min_max_y_value[]=18&min_max_y_value[]=45
 
+http://localhost:8000/visualiser/thermometer_chart
+------------------------------------------------------------------------------------------------------------------------
+- GET REQUEST
+http://localhost:8000/visualiser/thermometer_chart?min_max_temp[]=-20&min_max_temp[]=50
+
 Notes for Documentation
