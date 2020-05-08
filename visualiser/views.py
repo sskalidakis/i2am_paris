@@ -448,7 +448,7 @@ def show_bar_heat_map(request):
     x_axis_title = response_data_xy['x_axis_title']
     x_axis_unit = response_data_xy['x_axis_unit']
     y_axis_title = response_data_xy['y_axis_title']
-    color_list_request = response_data_xy['color_list_request']
+    color_list_request = response_data_xy['color_list_request'][0]
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
@@ -467,7 +467,7 @@ def show_bar_heat_map(request):
     # chart_3d = "false"
     # min_max_y_value = [0, 2000]
     # TODO check this color_list_request
-    color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request[0]]
+    color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
                                   y_var_units, x_axis_type, y_axis_title, data, color_couple, use_default_colors,
                                   chart_3d, min_max_y_value, 'bar_heat_map_chart')
@@ -475,20 +475,50 @@ def show_bar_heat_map(request):
     return bar_heat_map_chart.show_chart()
 
 
-def show_heat_map_chart(request):
-    data = HEAT_MAP_CHART_DATA
-    y_axis_name = 'hour'
-    y_axis_title = 'Hour'
-    y_axis_unit = '-'
-    x_axis_name = "weekday"
-    x_axis_title = "Weekday"
-    x_axis_unit = "-"
-    z_axis_name = "value"
-    z_axis_title = "Value"
-    z_axis_unit = "m"
-    color_list_request = "cyan"
-    min_max_z_value = [1900, 11000]
+@csrf_exempt
+def get_response_heat_map(request):
+    if request.method == "GET":
+        json_response = {
+            "z_axis_name": request.GET.get("z_axis_name", ""),
+            "z_axis_title": request.GET.get("z_axis_title", ""),
+            "z_axis_unit": request.GET.get("z_axis_unit", ""),
+            "min_max_z_value": request.GET.getlist("min_max_z_value[]", []),
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
 
+
+def show_heat_map_chart(request):
+    response_data_xy = get_response_data_XY(request)
+    y_axis_name = response_data_xy['y_var_names'][0]
+    y_axis_unit = response_data_xy['y_var_units'][0]
+    x_axis_name = response_data_xy['x_axis_name']
+    x_axis_title = response_data_xy['x_axis_title']
+    x_axis_unit = response_data_xy['x_axis_unit']
+    y_axis_title = response_data_xy['y_axis_title']
+    color_list_request = response_data_xy['color_list_request'][0]
+    response_heat_map = get_response_heat_map(request)
+    z_axis_name = response_heat_map["z_axis_name"]
+    z_axis_title = response_heat_map["z_axis_title"]
+    z_axis_unit = response_heat_map["z_axis_unit"]
+    min_max_z_value = response_heat_map["min_max_z_value"]
+    data = HEAT_MAP_CHART_DATA
+    from pprint import pprint as pp
+    pp(response_heat_map)
+    pp(response_data_xy)
+    # y_axis_name = 'hour'
+    # y_axis_title = 'Hour'
+    # y_axis_unit = '-'
+    # x_axis_name = "weekday"
+    # x_axis_title = "Weekday"
+    # x_axis_unit = "-"
+    # z_axis_name = "value"
+    # z_axis_title = "Value"
+    # z_axis_unit = "m"
+    # color_list_request = "cyan"
+    # min_max_z_value = [1900, 11000]
     color_list = AM_CHARTS_COLOR_HEATMAP_COUPLES.get(color_list_request, define_color_code_list([color_list_request]))
     bar_heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title,
                                    y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,

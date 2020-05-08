@@ -25,7 +25,7 @@ Body: {
 
 
 
-http://localhost:8000/visualiser/show_range_chart
+http://localhost:8000/visualiser/show_column_chart
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=year2017&y_var_names[]=year2018&y_var_titles[]=Year 2017&y_var_titles[]=Year 2018&y_var_units[]=%&y_var_units[]=%&x_axis_type=text&x_axis_name=country&x_axis_title=Country&y_axis_title=GDP Rates&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=2000&chart_3d=true&use_default_colors=false
@@ -48,11 +48,14 @@ http://localhost:8000/visualiser/show_stacked_column_chart?y_var_names[]=year201
 
 http://localhost:8000/visualiser/show_bar_heat_map_chart
 ------------------------------------------------------------------------------------------------------------------------
+- GET REQUEST
 http://localhost:8000/visualiser/show_bar_heat_map_chart?y_var_names[]=value&y_var_titles[]=Value&x_axis_type=text&x_axis_name=category&x_axis_title=Category&y_axis_title=Value%20Units&color_list_request[]=blue_red&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&y_var_units[]=units
 
-http://localhost:8000/visualiser/show_heat_map
+http://localhost:8000/visualiser/show_heat_map_chart
+------------------------------------------------------------------------------------------------------------------------
+- GET REQUEST
+http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=hour&y_axis_title=Hour&y_var_units[]=-&x_axis_name=weekday&x_axis_title=Weekday&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
 
-http://localhost:8000/visualiser/show_column_chart
 
 http://localhost:8000/visualiser/show_bar_range_chart
 ------------------------------------------------------------------------------------------------------------------------
