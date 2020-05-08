@@ -77,4 +77,9 @@ http://localhost:8000/visualiser/show_sankey_diagram
 - GET REQUEST
 http://localhost:8000/visualiser/show_sankey_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Sankey Flow Chart of Business Processes&node_list[]=A&node_list[]=B&node_list[]=C&node_list[]=D&node_list[]=E&node_list[]=F&node_list[]=G&node_list[]=H&node_list[]=I&node_list[]=J&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=black&color_node_list[]=gray
 
+http://localhost:8000/visualiser/show_chord_diagram
+------------------------------------------------------------------------------------------------------------------------
+- GET REQUEST
+http://localhost:8000/visualiser/show_chord_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Chord Flow Chart of Business Processes&node_list[]=A&node_list[]=B&node_list[]=C&node_list[]=D&node_list[]=E&node_list[]=F&node_list[]=G&node_list[]=H&node_list[]=I&node_list[]=J&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=black&color_node_list[]=gray
+
 Notes for Documentation

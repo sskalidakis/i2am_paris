@@ -571,13 +571,21 @@ def chord_diagram(request):
     :param request:
     :return:
     """
-    pass_value = "value"
+    response_sankey_diagram = get_response_sankey_diagram(request)
+    pass_value = response_sankey_diagram["pass_value"]
+    node_list = response_sankey_diagram["node_list"]
+    use_def_colors = response_sankey_diagram["use_def_colors"]
+    chart_title = response_sankey_diagram["chart_title"]
+    color_node_list = response_sankey_diagram["color_node_list"]
+    # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
+    # TODO use get and define a default color in case the given color doesnt appear in AM_CHARTS_COLOR_CODES_LIST
+    color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
+    # pass_value = "value"
     data = SANKEYCHORD_DATA
-    node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
-    color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA",
-                       " #A0CF65", "#BDFF6C"]
-    use_def_colors = "true"
-    chart_title = "Chord Flow Chart of Business Processes"
+    # node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
+    # color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA","#A0CF65", "#BDFF6C"]
+    # use_def_colors = "true"
+    # chart_title = "Chord Flow Chart of Business Processes"
     chord_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'chord_diagram')
     return chord_diagram.show_chart()
 
