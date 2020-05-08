@@ -575,14 +575,37 @@ def parallel_coordinates_chart(request):
     return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
+@csrf_exempt
+def get_response_heat_map_on_map(request):
+    if request.method == "GET":
+        json_response = {
+            "projection": request.GET.get("projection", ""),
+            "map_var_name": request.GET.get("map_var_name", ""),
+            "map_var_title": request.GET.get("map_var_title", ""),
+            "map_var_unit": request.GET.get("map_var_unit", "")
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
+
+
 def heat_map_on_map(request):
+    response_heat_map_on_map = get_response_heat_map_on_map(request)
+    projection = response_heat_map_on_map["projection"]
+    map_var_name = response_heat_map_on_map["map_var_name"]
+    map_var_title = response_heat_map_on_map["map_var_title"]
+    map_var_unit = response_heat_map_on_map["map_var_unit"]
+    response_data_xy = get_response_data_XY(request)
+    color_list_request = response_data_xy["color_list_request"][0]
+    min_max_y_value = response_data_xy["min_max_y_value"]
     map_data = HEAT_MAP_DATA
-    projection = ""
-    color_list_request = "blue_red"
-    min_max_y_value = [18, 45]
-    map_var_name = "temperature"
-    map_var_title = "Temperature"
-    map_var_unit = "C degrees"
+    # projection = ""
+    # color_list_request = "blue_red"
+    # min_max_y_value = [18, 45]
+    # map_var_name = "temperature"
+    # map_var_title = "Temperature"
+    # map_var_unit = "C degrees"
     # projection = "eckert6"
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     return render(request, 'visualiser/heat_map_on_map.html',
