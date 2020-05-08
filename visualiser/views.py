@@ -689,40 +689,64 @@ def thermometer_chart(request):
     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
                                                                  "min_temp": min_temp, "max_temp": max_temp})
 
+@csrf_exempt
+def get_response_parallel_coordinates_chart2(request):
+    if request.method == "GET":
+        json_response = {
+            "y_axes": request.GET.getlist("y_axes[]", []),
+            "title": request.GET.get("title", ""),
+            "about_title": request.GET.get("title", ""),
+            "about_text": request.GET.get("text", ""),
+            "groups_title": request.GET.get("groups_title", ""),
+            "samples_size": request.GET.get("samples_size", "20"),
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
+
+
 def parallel_coordinates_chart2(request):
     """
 
     :param request:
     :return:
     """
-    y_axes = [
-                'name',
-                'group',
-                'protein (g)',
-                'calcium (g)',
-                'sodium (g)',
-                'fiber (g)',
-                'vitaminc (g)',
-                'potassium (g)',
-                'carbohydrate (g)',
-                'sugars (g)',
-                'fat (g)',
-                'water (g)',
-                'calories',
-                'saturated (g)',
-                'monounsat (g)',
-                'polyunsat (g)'
-    ]
+    response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart2(request)
+    y_axes = response_parallel_coordinates_chart2["y_axes"]
+    title = response_parallel_coordinates_chart2["title"]
+    about_title = response_parallel_coordinates_chart2["about_title"]
+    about_text = response_parallel_coordinates_chart2["about_text"]
+    groups_title = response_parallel_coordinates_chart2["groups_title"]
+    sample_size = response_parallel_coordinates_chart2["samples_size"]
+    # y_axes = [
+    #             'name',
+    #             'group',
+    #             'protein (g)',
+    #             'calcium (g)',
+    #             'sodium (g)',
+    #             'fiber (g)',
+    #             'vitaminc (g)',
+    #             'potassium (g)',
+    #             'carbohydrate (g)',
+    #             'sugars (g)',
+    #             'fat (g)',
+    #             'water (g)',
+    #             'calories',
+    #             'saturated (g)',
+    #             'monounsat (g)',
+    #             'polyunsat (g)'
+    # ]
     data = PARALLEL_COORDINATES_DATA_2
-    title = "Nutrient Explorer"
-    about = "About"
-    about_text = "Write about this chart something"
-    groups = "Groups"
-    samples_size = 20
-    samples = "Sample of %s entries" %samples_size
+    # title = "Nutrient Explorer"
+    # about_title = "About"
+    # about_text = "Write about this chart something"
+    # groups_title = "Groups"
+    # sample_size = 20
+    samples_title = "Sample of %s entries" %sample_size
     # Create the variable colored_groups
     # First get the unique groups of give data
-    groups = list(set(map(lambda x: x[1], data)))
+    groups_list = list(set(map(lambda x: x[1], data)))
     # Greate a dict with keys the name of groups and value a list which represent the HSL color
     # TODO get and set the colors in utils.py and pick for each given group
     colored_groups = {
@@ -756,11 +780,11 @@ def parallel_coordinates_chart2(request):
                                                                             "data": data,
                                                                             "y_axes": y_axes,
                                                                             "title": title,
-                                                                            "about": about,
+                                                                            "about": about_title,
                                                                             "about_text": about_text,
-                                                                            "groups": groups,
-                                                                            "samples": samples,
-                                                                            "samples_size": samples_size,
+                                                                            "groups": groups_title,
+                                                                            "samples": samples_title,
+                                                                            "samples_size": sample_size,
                                                                             "colored_groups": colored_groups
     })
 
