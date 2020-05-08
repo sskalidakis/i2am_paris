@@ -523,19 +523,44 @@ def show_heat_map_chart(request):
 
     return bar_heat_map_chart.show_chart()
 
+
+@csrf_exempt
+def get_response_sankey_diagram(request):
+    if request.method == "GET":
+        json_response = {
+            "pass_value": request.GET.get("pass_value", ""),
+            "use_def_colors": request.GET.get("use_def_colors", "false"),
+            "chart_title": request.GET.get("chart_title", ""),
+            "node_list": request.GET.getlist("node_list[]", []),
+            "color_node_list": request.GET.getlist("color_node_list[]", []),
+        }
+    else:
+        json_response = json.loads(request.body)
+        print(json_response)
+    return json_response
+
+
 def sankey_diagram(request):
     """
     As input we will take a dict with key the begin and value a list with first element end and second the value
     :param request:
     :return:
     """
-    pass_value = "meat"
+    response_sankey_diagram = get_response_sankey_diagram(request)
+    pass_value = response_sankey_diagram["pass_value"]
+    node_list = response_sankey_diagram["node_list"]
+    use_def_colors = response_sankey_diagram["use_def_colors"]
+    chart_title = response_sankey_diagram["chart_title"]
+    color_node_list = response_sankey_diagram["color_node_list"]
+    # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
+    # TODO use get and define a default color in case the given color doesnt appear in AM_CHARTS_COLOR_CODES_LIST
+    color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
+    # pass_value = "meat"
     data = SANKEYCHORD_DATA
-    node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
-    color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA",
-                       " #A0CF65", "#BDFF6C"]
-    use_def_colors = "false"
-    chart_title = "Sankey Flow Chart of Business Processes"
+    # node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
+    # color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA","#A0CF65", "#BDFF6C"]
+    # use_def_colors = "false"
+    # chart_title = "Sankey Flow Chart of Business Processes"
     sankey_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 
