@@ -747,35 +747,38 @@ def parallel_coordinates_chart2(request):
     # Create the variable colored_groups
     # First get the unique groups of give data
     groups_list = list(set(map(lambda x: x[1], data)))
+    colored_groups = {}
+    for k, group in enumerate(groups_list):
+        colored_groups[group] = D3_PARALLEL_COORDINATES_COLORS[k]
     # Greate a dict with keys the name of groups and value a list which represent the HSL color
     # TODO get and set the colors in utils.py and pick for each given group
-    colored_groups = {
-                              "Baby Foods": [185,56,73],
-                              "Baked Products": [37,50,75],
-                              "Beef Products": [325,50,39],
-                              "Beverages": [10,28,67],
-                              "Breakfast Cereals": [271,39,57],
-                              "Cereal Grains and Pasta": [56,58,73],
-                              "Dairy and Egg Products": [28,100,52],
-                              "Ethnic Foods": [41,75,61],
-                              "Fast Foods": [60,86,61],
-                              "Fats and Oils": [30,100,73],
-                              "Finfish and Shellfish Products": [318,65,67],
-                              "Fruits and Fruit Juices": [274,30,76],
-                              "Lamb, Veal, and Game Products": [20,49,49],
-                              "Legumes and Legume Products": [334,80,84],
-                              "Meals, Entrees, and Sidedishes": [185,80,45],
-                              "Nut and Seed Products": [10,30,42],
-                              "Pork Products": [339,60,49],
-                              "Poultry Products": [359,69,49],
-                              "Restaurant Foods": [204,70,41],
-                              "Sausages and Luncheon Meats": [1,100,79],
-                              "Snacks": [189,57,75],
-                              "Soups, Sauces, and Gravies": [110,57,70],
-                              "Spices and Herbs": [214,55,79],
-                              "Sweets": [339,60,75],
-                              "Vegetables and Vegetable Products": [120,56,40]
-                                }
+    # colored_groups = {
+    #                           "Baby Foods": [185,56,73],
+    #                           "Baked Products": [37,50,75],
+    #                           "Beef Products": [325,50,39],
+    #                           "Beverages": [10,28,67],
+    #                           "Breakfast Cereals": [271,39,57],
+    #                           "Cereal Grains and Pasta": [56,58,73],
+    #                           "Dairy and Egg Products": [28,100,52],
+    #                           "Ethnic Foods": [41,75,61],
+    #                           "Fast Foods": [60,86,61],
+    #                           "Fats and Oils": [30,100,73],
+    #                           "Finfish and Shellfish Products": [318,65,67],
+    #                           "Fruits and Fruit Juices": [274,30,76],
+    #                           "Lamb, Veal, and Game Products": [20,49,49],
+    #                           "Legumes and Legume Products": [334,80,84],
+    #                           "Meals, Entrees, and Sidedishes": [185,80,45],
+    #                           "Nut and Seed Products": [10,30,42],
+    #                           "Pork Products": [339,60,49],
+    #                           "Poultry Products": [359,69,49],
+    #                           "Restaurant Foods": [204,70,41],
+    #                           "Sausages and Luncheon Meats": [1,100,79],
+    #                           "Snacks": [189,57,75],
+    #                           "Soups, Sauces, and Gravies": [110,57,70],
+    #                           "Spices and Herbs": [214,55,79],
+    #                           "Sweets": [339,60,75],
+    #                           "Vegetables and Vegetable Products": [120,56,40]
+    #                             }
     return render(request, 'visualiser/parallel_coordinates_chart2.html', {
                                                                             "data": data,
                                                                             "y_axes": y_axes,

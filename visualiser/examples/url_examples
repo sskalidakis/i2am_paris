@@ -87,7 +87,7 @@ http://localhost:8000/visualiser/parallel_coordinates_chart
 - GET REQUEST
 http://localhost:8000/visualiser/parallel_coordinates_chart?y_axes[]=A&y_axes[]=B&y_axes[]=C&y_axes[]=D&y_axes[]=E&y_axes[]=F&slice_size=5
 
-http://localhost:8000/visualiser/parallel_coordinates_chart2
+http://localhost:8000/visualiser/`parallel_coordinates_chart2`
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
 http://localhost:8000/visualiser/parallel_coordinates_chart2?y_axes[]=name&y_axes[]=group&y_axes[]=protein (g)&y_axes[]=calcium (g)&y_axes[]=sodium (g)&y_axes[]=fiber (g)&y_axes[]=vitaminc (g)&y_axes[]=potassium (g)&y_axes[]=carbohydrate (g)&y_axes[]=sugars (g)&y_axes[]=fat (g)&y_axes[]=water (g)&y_axes[]=calories&y_axes[]=saturated (g)&y_axes[]=monounsat (g)&y_axes[]=polyunsat (g)&title=Nutrient Explorer&about_title=About&about_text=Write about this chart&groups_title=Groups&sample_size=20
