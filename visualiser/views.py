@@ -147,7 +147,8 @@ def get_response_data_XY(request):
             "use_default_colors": request.GET.get("use_default_colors", "true"),
             "chart_3d": request.GET.get("chart_3d", ""),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
-            "dataset": request.GET.get("dataset", "")
+            "dataset": request.GET.get("dataset", ""),
+
         }
     else:
         json_response = json.loads(request.body)
@@ -185,18 +186,6 @@ def show_line_chart(request):
 
 
 @csrf_exempt
-def get_response_data_column(request):
-    if request.method == "GET":
-        json_response = {
-            "use_default_colors": request.GET.get("use_default_colors", "false")
-        }
-    else:
-        json_response = json.loads(request.body)
-        print(json_response)
-    return json_response
-
-
-@csrf_exempt
 def show_column_chart(request):
     # Use get_response_data_XY to get the same variables
     response_data = get_response_data_XY(request)
@@ -210,13 +199,11 @@ def show_column_chart(request):
     y_axis_title = response_data["y_axis_title"]
     min_max_y_value = response_data["min_max_y_value"]
     color_list_request = response_data["color_list_request"]
+    use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
     # data = response_data["dataset"]
     data = COLUMNCHART_DATA
-    # Create get_response_data_column to get the additional variable
-    response_data_col = get_response_data_column(request)
-    use_default_colors = response_data_col["use_default_colors"]
     # y_var_names = ["year2017", "year2018"]
     # y_var_titles = ["Year 2017", "Year 2018"]
     # y_var_units = ["%", "%"]
@@ -271,10 +258,9 @@ def show_pie_chart(request):
     color_list_request = response_data_xy["color_list_request"]
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    response_data_col = get_response_data_column(request)
-    use_default_colors = response_data_col["use_default_colors"]
+    use_default_colors = response_data_xy["use_default_colors"]
     data = PIE_CHART_DATA
-    print(data)
+    # print(data)
     # variable_name = ["oil_consumption"]
     # variable_title = ["Oil Consumption"]
     # variable_unit = ["litres"]
@@ -309,10 +295,8 @@ def show_radar_chart(request):
     color_list_request = response_data_xy["color_list_request"]
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    response_data_col = get_response_data_column(request)
-    use_default_colors = response_data_col["use_default_colors"]
+    use_default_colors = response_data_xy["use_default_colors"]
     data = RADAR_CHART_DATA
-    print(data)
     # variable_name = ["oil_consumption", "energy_consumption"]
     # variable_title = ["Oil Consumption", "Energy Consumption"]
     # variable_unit = ["litres", "Watt"]
@@ -592,10 +576,16 @@ def chord_diagram(request):
 
 @csrf_exempt
 def get_response_parallel_coordinates_chart(request):
+    # TODO slice_size and samples_size are the same thing
     if request.method == "GET":
         json_response = {
-            "slice_size": request.GET.get("slice_size", "4"),
-            "y_axes": request.GET.getlist("y_axes[]", [])
+            "y_axes": request.GET.getlist("y_axes[]", []),
+            "title": request.GET.get("title", ""),
+            "about_title": request.GET.get("title", ""),
+            "about_text": request.GET.get("text", ""),
+            "groups_title": request.GET.get("groups_title", ""),
+            "samples_size": request.GET.get("samples_size", "10"),
+
         }
     else:
         json_response = json.loads(request.body)
@@ -614,7 +604,7 @@ def parallel_coordinates_chart(request):
     """
     response_parallel_coordinates_chart = get_response_parallel_coordinates_chart(request)
     y_axes = response_parallel_coordinates_chart["y_axes"]
-    slice_size = response_parallel_coordinates_chart["slice_size"]
+    slice_size = response_parallel_coordinates_chart["samples_size"]
     data = PARALLEL_COORDINATES_DATA
     # y_axes = ["A", "B", "C", "D", "E", "F"]
     # slice_size = 4
@@ -660,18 +650,6 @@ def heat_map_on_map(request):
                    "minmax_y_value": min_max_y_value})
 
 
-@csrf_exempt
-def get_response_thermometer_chart(request):
-    if request.method == "GET":
-        json_response = {
-            "min_max_temp": request.GET.getlist("min_max_temp[]", []),
-        }
-    else:
-        json_response = json.loads(request.body)
-        print(json_response)
-    return json_response
-
-
 def thermometer_chart(request):
     recordData = {}
     for i in range(1, 11):
@@ -680,30 +658,17 @@ def thermometer_chart(request):
             t = {"date": j["date"], "value": j["value"] * i}
             temp.append(t)
         recordData[i] = temp
-    response_thermometer_chart =get_response_thermometer_chart(request)
-    min_max_temp = response_thermometer_chart["min_max_temp"]
+    # min_max_y_value
+    response_thermometer_chart = get_response_data_XY(request)
+    min_max_temp = response_thermometer_chart["min_max_y_value"]
+    # response_thermometer_chart =get_response_thermometer_chart(request)
+    # min_max_temp = response_thermometer_chart["min_max_temp"]
     min_temp = min_max_temp[0]
     max_temp = min_max_temp[1]
     # min_temp = -20
     # max_temp = 50
     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
                                                                  "min_temp": min_temp, "max_temp": max_temp})
-
-@csrf_exempt
-def get_response_parallel_coordinates_chart2(request):
-    if request.method == "GET":
-        json_response = {
-            "y_axes": request.GET.getlist("y_axes[]", []),
-            "title": request.GET.get("title", ""),
-            "about_title": request.GET.get("title", ""),
-            "about_text": request.GET.get("text", ""),
-            "groups_title": request.GET.get("groups_title", ""),
-            "samples_size": request.GET.get("samples_size", "20"),
-        }
-    else:
-        json_response = json.loads(request.body)
-        print(json_response)
-    return json_response
 
 
 def parallel_coordinates_chart2(request):
@@ -712,7 +677,8 @@ def parallel_coordinates_chart2(request):
     :param request:
     :return:
     """
-    response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart2(request)
+    # response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart2(request)
+    response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart(request)
     y_axes = response_parallel_coordinates_chart2["y_axes"]
     title = response_parallel_coordinates_chart2["title"]
     about_title = response_parallel_coordinates_chart2["about_title"]
