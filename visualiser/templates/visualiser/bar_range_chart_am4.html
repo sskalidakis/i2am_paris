@@ -42,6 +42,7 @@
             var x_axis_title = "{{x_axis_title}}";
             var x_axis_name = "{{ x_axis_name }}";
             var x_axis_unit = "{{ x_axis_unit }}";
+            var x_axis_type = "{{ x_axis_type }}";
             var y_var_names = {{ y_var_names|safe}};
             var y_var_titles = {{ y_var_titles|safe}};
             var y_var_units = {{ y_var_units|safe }};
@@ -54,39 +55,60 @@
             categoryAxis.dataFields.category = y_var_names[0];
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.inversed = true;
-            categoryAxis.title.text = y_axis_title;
+            categoryAxis.title.text = y_axis_title + "("+y_var_units+")";
             categoryAxis.title.fontWeight = 600;
-
-            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-            dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
-            dateAxis.renderer.minGridDistance = 70;
-            dateAxis.baseInterval = {count: 30, timeUnit: "minute"};
-            dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime();
-            dateAxis.strictMinMax = true;
-            dateAxis.renderer.tooltipLocation = 0;
-            dateAxis.title.text = x_axis_title;
-            dateAxis.title.fontWeight = 600;
-
+            // xAxis
+            if (x_axis_type === "time") {
+<!--            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());-->
+            xAxis = chart.xAxes.push(new am4charts.DateAxis());
+<!--            dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";-->
+            xAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
+<!--            dateAxis.renderer.minGridDistance = 70;-->
+            xAxis.renderer.minGridDistance = 70;
+<!--            dateAxis.baseInterval = {count: 30, timeUnit: "minute"};-->
+            xAxis.baseInterval = {count: 30, timeUnit: "minute"};
+<!--            dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime(); // TODO get from backend the max Date-->
+            xAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime(); // TODO get from backend the max Date
+<!--            dateAxis.strictMinMax = true;-->
+            xAxis.strictMinMax = true;
+<!--            dateAxis.renderer.tooltipLocation = 0;-->
+            xAxis.renderer.tooltipLocation = 0;
+<!--            dateAxis.title.text = x_axis_title;-->
+<!--            xAxis.title.text = x_axis_title;-->
+<!--            dateAxis.title.fontWeight = 600;-->
+<!--            xAxis.title.fontWeight = 600;-->
+            }
+            else {
+                xAxis = chart.xAxes.push(new am4charts.ValueAxis());
+           }
+           // Set x-axis title
+            xAxis.title.text = x_axis_title +"(" + x_axis_unit +")";
+            xAxis.title.fontWeight = 600;
             var series1 = chart.series.push(new am4charts.ColumnSeries());
             series1.columns.template.height = am4core.percent(60);
             series1.columns.template.column.cornerRadiusTopLeft = 10;
             series1.columns.template.column.cornerRadiusTopRight = 10;
             series1.columns.template.column.cornerRadiusBottomLeft = 10;
             series1.columns.template.column.cornerRadiusBottomRight = 10;
-            series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
+<!--            series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}"; // TODO remove it-->
             series1.tooltip.pointerOrientation = "vertical";
             series1.tooltip.background.cornerRadius = 20;
             series1.tooltip.background.fillOpacity = 0.8;
             series1.tooltip.label.padding(12, 12, 12, 12);
-            series1.dataFields.openDateX = "fromDate";
-            series1.dataFields.dateX = "toDate";
+             if (x_axis_type === "time") {
+            series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
+            series1.dataFields.openDateX = "fromDate"; // TODO remove it
+            series1.dataFields.dateX = "toDate"; // TODO remove it
+            }else{
+                                series1.columns.template.tooltipText = "{name}: {openValueX} - {valueX}";
+                                series1.dataFields.openValueX = "from"; // TODO remove it
+                                series1.dataFields.valueX = "to"; // TODO remove it
+                            }
             series1.dataFields.categoryY = y_var_names[0];
             series1.columns.template.propertyFields.fill = "color"; // get color from data
             series1.columns.template.propertyFields.stroke = "color";
             series1.columns.template.strokeOpacity = 1;
             series1.columns.template.fillOpacity = 0.9;
-
-
 
             chart.scrollbarX = new am4core.Scrollbar();
 

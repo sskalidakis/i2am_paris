@@ -164,6 +164,78 @@ BAR_RANGE_CHART_DATA = [
   "toDate": "2018-01-01 24:00",
  }
 ]
+BAR_RANGE_CHART_DATA_2 = [
+ {
+  "region": "MENA",
+  "name": "TIAM",
+  "from": 5,
+  "to": 10,
+ },
+ {
+  "region":"Russia",
+  "name": "GCAM",
+  "from": 11,
+  "toDate": 15,
+ },
+ {
+  "region":"Latin America",
+  "name": "42",
+  "from": 15,
+  "to": 20,
+ },
+
+ {
+  "region":"India",
+  "name": "ALADIN",
+  "from": 20,
+  "to": 25,
+ },
+ {
+  "region":"Rest of Asia",
+  "name": "ICES",
+  "from": 25,
+  "to": 30,
+ },
+
+ {
+  "region":"Africa",
+  "name": "NATEM",
+  "from": 30,
+  "to": 35,
+ },
+ {
+  "region":"China",
+  "name": "MAPLE",
+  "from": 35,
+  "to": 40,
+ },
+
+ {
+  "region":"Europe",
+  "name": "CONTO",
+  "from": 40,
+  "to": 45,
+ },
+ {
+  "region":"Pacific OECD",
+  "name": "NEMESIS",
+  "from": 45,
+  "to": 50,
+ },
+
+ {
+  "region":"North America",
+  "name": "LEAP",
+  "from": 50,
+  "to": 55,
+ },
+{
+  "region":"World",
+  "name": "FORECAST",
+  "from": 50,
+  "to": 55,
+ }
+]
 
 BAR_HEATMAP_DATA = [{
  "category": "Research",
@@ -187,6 +259,78 @@ BAR_HEATMAP_DATA = [{
  "category": "Other",
  "value": 512
 }]
+
+BAR_HEATMAP_DATA_2 = [{
+ "category": "GCAM",
+ "value": 45
+}, {
+ "category": "TIAM",
+ "value": 12
+}, {
+ "category": "MUSE",
+ "value": 18.5
+}, {
+ "category": "42",
+ "value": 8.5
+}, {
+ "category": "GEMINI-E3",
+ "value": 49.9
+}, {
+ "category": "ICES",
+ "value": 8.7
+}, {
+ "category": "DICE",
+ "value": 51.2
+},
+    {
+ "category": "E3ME",
+ "value": 5.1
+},
+{
+ "category": "ALADIN",
+ "value": 12
+},
+{
+ "category": "FORECAST",
+ "value": 20
+},
+{
+ "category": "LEAP",
+ "value": 33
+},
+{
+ "category": "JRC-EU-TIMES",
+ "value": 42
+},
+{
+ "category": "NEMESIS",
+ "value": 62
+},
+{
+ "category": "CONTO",
+ "value": 27
+},
+{
+ "category": "MARKAL-India",
+ "value": 51
+},
+{
+ "category": "MAPLE",
+ "value": 24
+},
+{
+ "category": "NATEM",
+ "value": 77
+},
+{
+ "category": "SISGEMA",
+ "value": 88
+},
+{
+ "category": "TIMES-CAC",
+ "value": 33
+},
+]
 
 HEAT_MAP_DATA = [
  {

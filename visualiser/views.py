@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
-    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2
+    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -366,7 +366,8 @@ def show_bar_range_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    data = BAR_RANGE_CHART_DATA
+    # data = BAR_RANGE_CHART_DATA
+    data = BAR_RANGE_CHART_DATA_2
     # y_var_names = ["name"]
     # y_var_titles = ["Var1", "Var2"]
     # y_var_units = ["-"]
@@ -436,7 +437,7 @@ def show_bar_heat_map(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    data = BAR_HEATMAP_DATA
+    data = BAR_HEATMAP_DATA_2
     print(data)
     # y_var_names = ["value"]
     # y_var_titles = ["Value"]
@@ -635,7 +636,8 @@ def heat_map_on_map(request):
     response_data_xy = get_response_data_XY(request)
     color_list_request = response_data_xy["color_list_request"][0]
     min_max_y_value = response_data_xy["min_max_y_value"]
-    map_data = HEAT_MAP_DATA
+    # map_data = HEAT_MAP_DATA
+    map_data = generate_data_for_heat_map()
     # projection = ""
     # color_list_request = "blue_red"
     # min_max_y_value = [18, 45]
