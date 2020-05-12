@@ -19,6 +19,27 @@ import json
 class XYZ_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title, y_axis_unit,
                  z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, chart_type):
+        """
+        :param request: Contains all request data needed to render the HTML page. (Request Object)
+        :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
+        :param x_axis_title: The title of the variable of the X-Axis as displayed in the user interfaces (String)
+        :param x_axis_unit: The unit of the selected variable of the X-Axis (String)
+        :param y_axis_name: The unique name of the selected variable of the Y-Axis as used in the code (String)
+        :param y_axis_title: The title of the variable of the Y-Axis as displayed in the user interfaces (String)
+        :param y_axis_unit: The unit of the selected variable of the Y-Axis (String)
+        :param z_axis_name: The unique name of the selected variable of the Z-Axis as used in the code (String)
+        :param z_axis_title: The title of the variable of the Z-Axis as displayed in the user interfaces (String)
+        :param z_axis_unit: The unit of the selected variable of the Z-Axis (String)
+        :param chart_data: A JSON object in the appropriate format  that contains the data that will displayed. (JSON Object)
+        :param color_list: List of colours (for each series) or a colour couple (for heatmaps. If one color is given in
+                a heatmap, then the couple is created using white as the other colour). (List of Strings)
+                Colours: “light_blue, blue, violet, purple, fuchsia, red, ceramic, light_brown, mustard, gold,
+                light_green, green, cyan, black, gray, white”
+                Colour couples: "blue_red, green_red, beige_purple, purple_orange, cyan_green, yellow_gold, skin_red,
+                grey_darkblue, lightblue_green"
+        :param minmax_z_value: A two-element list that contains the min and max value of the variables on the Z-Axis. (List of Numbers)
+        :param chart_type: The type of the chart. Options : heat_map_chart
+        """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
         self.x_axis_unit = x_axis_unit
@@ -40,6 +61,9 @@ class XYZ_chart:
                         'minmax_z_value': self.minmax_z_value, 'chart_data': self.chart_data}
 
     def show_chart(self):
+        """
+        :return: Returns visualisation HTML.
+        """
         if self.chart_type == 'heat_map_chart':
             return render(self.request, 'visualiser/heat_map_chart.html',
                           self.content)
@@ -49,13 +73,35 @@ class XY_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                  x_axis_type, y_axis_title, chart_data, color_list, use_default_colors, chart_3d, minmax_y_value,
                  chart_type):
+        """
+        :param request: Contains all request data needed to render the HTML page. (Request Object)
+        :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
+        :param x_axis_title: The title of the variable of the X-Axis as displayed in the user interfaces (String)
+        :param x_axis_unit: The unit of the selected variable of the X-Axis (String)
+        :param y_var_names: A list of names of the variables presented on the Y-Axis as used in the code (List of Strings)
+        :param y_var_titles:A list of titles of the variables presented on the Y-Axis as displayed in the interfaces. (List of Strings)
+        :param y_var_units: A list of units of the variables presented on the Y-Axis as displayed in the user interfaces (List of Strings)
+        :param x_axis_type: The type of the X-Axis. Options: “Time”, “Text”, “Number”. (String)
+        :param y_axis_title: General title of the Y-Axis (common for all variables) (String)
+        :param chart_data: A JSON object in the appropriate format  that contains the data that will displayed. (JSON Object)
+        :param color_list: List of colours (for each series) or a colour couple (for heatmaps. If one color is given in
+                a heatmap, then the couple is created using white as the other colour). (List of Strings)
+                Colours: “light_blue, blue, violet, purple, fuchsia, red, ceramic, light_brown, mustard, gold,
+                light_green, green, cyan, black, gray, white”
+                Colour couples: "blue_red, green_red, beige_purple, purple_orange, cyan_green, yellow_gold, skin_red,
+                grey_darkblue, lightblue_green"
+        :param use_default_colors: If “true”, the default colours are used for the chosen chart (String: "true" or "false")
+        :param chart_3d: If “true”, the chart is displayed in three dimensions. (not all visualisations support 3D) (String: "true" or "false")
+        :param minmax_y_value: A two-element list that contains the min and max value of the variables on the Y-Axis. (List of Numbers)
+        :param chart_type: The type of the chart. Options : line_chart, column_chart, range_chart, bar_range_chart,
+                stacked_column_chart, column_heatmap_chart, pie_chart, radar_chart
+        """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
         self.x_axis_unit = x_axis_unit
         self.y_var_names = y_var_names
         self.y_var_titles = y_var_titles
         self.y_var_units = y_var_units
-        self.x_var_type = x_axis_type
         self.chart_data = chart_data
         self.request = request
         self.chart_type = chart_type
@@ -74,6 +120,9 @@ class XY_chart:
                         'chart_3d': self.chart_3d, 'minmax_y_value': self.minmax_y_value, 'chart_data': self.chart_data}
 
     def show_chart(self):
+        """
+        :return: Returns visualisation HTML.
+        """
         if self.chart_type == 'line_chart':
             return render(self.request, 'visualiser/line_chart_am4.html',
                           self.content)
@@ -102,13 +151,17 @@ class XY_chart:
 class FlowChart:
     """
     Sankey chart and Chord diagram have the same format of data
-
     """
     def __init__(self, request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, chart_type):
         """
-
-        :param chart_type:
-        :param data:
+        :param request: Contains all request data needed to render the HTML page. (Request Object)
+        :param data: The JSON Object containing the data to be visualised (JSON Object)
+        :param node_list: A list of names of all the nodes in the diagrams as used in the JSON Object.(list of Strings)
+        :param pass_value: The name of the pass value as used in the JSON Object (String)
+        :param color_node_list: A list of colours, one for each node. (List of Strings)
+        :param use_def_colors: If true colour list is ignored and default colours are used. (String: "true" or "false")
+        :param chart_title: The title of the created chart. (String)
+        :param chart_type: The type of the chart. (String: "sankey_diagram" or "chord_diagram")
         """
         self.request = request
         self.chart_type = chart_type
@@ -124,12 +177,46 @@ class FlowChart:
 
     def show_chart(self):
         """
-        :return:
+        :return: Returns visualisation HTML.
         """
         if (self.chart_type == "chord_diagram"):
             return render(self.request, 'visualiser/chord_diagram.html', self.content)
         elif (self.chart_type == "sankey_diagram"):
             return render(self.request, 'visualiser/sankey_diagram.html', self.content)
+
+
+class MapChart:
+    """
+    This class contains all map visualisations
+    """
+
+    def __init__(self, request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
+                 min_max_value, chart_type):
+        """
+        :param chart_type:
+        :param data:
+        """
+
+        self.request = request
+        self.chart_type = chart_type
+        self.map_data = map_data
+        self.projection = projection
+        self.color_couple = color_couple
+        self.map_var_name = map_var_name
+        self.map_var_title = map_var_title
+        self.map_var_unit = map_var_unit
+        self.min_max_value = min_max_value
+        self.content = {"map_data": map_data, "projection": projection, "color_list": color_couple,
+                        "map_var_name": map_var_name, "map_var_title": map_var_title, "map_var_unit": map_var_unit,
+                        "minmax_y_value": min_max_value}
+
+    def show_chart(self):
+        """
+        :return: Returns visualisation HTML.
+        """
+        if (self.chart_type == "heatmap_on_map"):
+            return render(self.request, 'visualiser/heat_map_on_map.html', self.content)
+
 
 @csrf_exempt
 def get_response_data_XY(request):
@@ -204,21 +291,6 @@ def show_column_chart(request):
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
     # data = response_data["dataset"]
     data = COLUMNCHART_DATA
-    # y_var_names = ["year2017", "year2018"]
-    # y_var_titles = ["Year 2017", "Year 2018"]
-    # y_var_units = ["%", "%"]
-    # x_axis_type = "text"
-    # x_axis_name = "country"
-    # x_axis_title = "Country"
-    # x_axis_unit = ""
-    # y_axis_title = "GDP Rates"
-    # color_list_request = ['blue', 'red', 'green']
-    # use_default_colors = "false"
-    # chart_3d = "true"
-    # min_max_y_value = [0, 2000]
-    # from pprint import pprint as pp
-    # pp(response_data)
-    # pp(response_data_col)
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
@@ -226,39 +298,22 @@ def show_column_chart(request):
     return column_chart.show_chart()
 
 
-@csrf_exempt
-def get_response_data_pie(request):
-    if request.method == "GET":
-        json_response = {
-            "variable_name": request.GET.getlist("variable_name[]", []),
-            "variable_title": request.GET.getlist("variable_title[]", []),
-            "variable_unit": request.GET.getlist("variable_unit[]", []),
-            "category_name": request.GET.get("category_name", ""),
-            "category_title": request.GET.get("category_title", ""),
-            "category_unit": request.GET.get("category_unit", "")
-        }
-    else:
-        json_response = json.loads(request.body)
-        print(json_response)
-    return json_response
-
 
 @csrf_exempt
 def show_pie_chart(request):
-    response_data_pie = get_response_data_pie(request)
-    variable_name = response_data_pie["variable_name"]
-    variable_title = response_data_pie["variable_title"]
-    variable_unit = response_data_pie["variable_unit"]
-    category_name = response_data_pie["category_name"]
-    category_title = response_data_pie["category_title"]
-    category_unit = response_data_pie["category_unit"]
-    response_data_xy = get_response_data_XY(request)
-    x_axis_type = response_data_xy["x_axis_type"]
-    y_axis_title = response_data_xy["y_axis_title"]
-    color_list_request = response_data_xy["color_list_request"]
-    min_max_y_value = response_data_xy["min_max_y_value"]
-    chart_3d = response_data_xy["chart_3d"]
-    use_default_colors = response_data_xy["use_default_colors"]
+    response_data = get_response_data_XY(request)
+    variable_name = response_data["y_var_names"]
+    variable_title = response_data["y_var_titles"]
+    variable_unit = response_data["y_var_units"]
+    category_name = response_data["x_axis_name"]
+    category_title = response_data["x_axis_title"]
+    category_unit = response_data["x_axis_unit"]
+    x_axis_type = response_data["x_axis_type"]
+    y_axis_title = response_data["y_axis_title"]
+    color_list_request = response_data["color_list_request"]
+    min_max_y_value = response_data["min_max_y_value"]
+    chart_3d = response_data["chart_3d"]
+    use_default_colors = response_data["use_default_colors"]
     data = PIE_CHART_DATA
     # print(data)
     # variable_name = ["oil_consumption"]
@@ -282,20 +337,19 @@ def show_pie_chart(request):
 
 
 def show_radar_chart(request):
-    response_data_pie = get_response_data_pie(request)
-    variable_name = response_data_pie["variable_name"]
-    variable_title = response_data_pie["variable_title"]
-    variable_unit = response_data_pie["variable_unit"]
-    category_name = response_data_pie["category_name"]
-    category_title = response_data_pie["category_title"]
-    category_unit = response_data_pie["category_unit"]
-    response_data_xy = get_response_data_XY(request)
-    x_axis_type = response_data_xy["x_axis_type"]
-    y_axis_title = response_data_xy["y_axis_title"]
-    color_list_request = response_data_xy["color_list_request"]
-    min_max_y_value = response_data_xy["min_max_y_value"]
-    chart_3d = response_data_xy["chart_3d"]
-    use_default_colors = response_data_xy["use_default_colors"]
+    response_data = get_response_data_XY(request)
+    variable_name = response_data["y_var_names"]
+    variable_title = response_data["y_var_titles"]
+    variable_unit = response_data["y_var_units"]
+    category_name = response_data["x_axis_name"]
+    category_title = response_data["x_axis_title"]
+    category_unit = response_data["x_axis_unit"]
+    x_axis_type = response_data["x_axis_type"]
+    y_axis_title = response_data["y_axis_title"]
+    color_list_request = response_data["color_list_request"]
+    min_max_y_value = response_data["min_max_y_value"]
+    chart_3d = response_data["chart_3d"]
+    use_default_colors = response_data["use_default_colors"]
     data = RADAR_CHART_DATA
     # variable_name = ["oil_consumption", "energy_consumption"]
     # variable_title = ["Oil Consumption", "Energy Consumption"]
@@ -438,19 +492,6 @@ def show_bar_heat_map(request):
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
     data = BAR_HEATMAP_DATA_2
-    print(data)
-    # y_var_names = ["value"]
-    # y_var_titles = ["Value"]
-    # y_var_units = ["units"]
-    # x_axis_type = "text"
-    # x_axis_name = "category"
-    # x_axis_title = "Category"
-    # x_axis_unit = ""
-    # y_axis_title = "Value Units"
-    # color_list_request = "blue_red"
-    # use_default_colors = "false"
-    # chart_3d = "false"
-    # min_max_y_value = [0, 2000]
     # TODO check this color_list_request
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
@@ -510,7 +551,7 @@ def show_heat_map_chart(request):
 
 
 @csrf_exempt
-def get_response_sankey_diagram(request):
+def get_response_flow_diagram(request):
     if request.method == "GET":
         json_response = {
             "pass_value": request.GET.get("pass_value", ""),
@@ -531,7 +572,7 @@ def sankey_diagram(request):
     :param request:
     :return:
     """
-    response_sankey_diagram = get_response_sankey_diagram(request)
+    response_sankey_diagram = get_response_flow_diagram(request)
     pass_value = response_sankey_diagram["pass_value"]
     node_list = response_sankey_diagram["node_list"]
     use_def_colors = response_sankey_diagram["use_def_colors"]
@@ -556,7 +597,7 @@ def chord_diagram(request):
     :param request:
     :return:
     """
-    response_sankey_diagram = get_response_sankey_diagram(request)
+    response_sankey_diagram = get_response_flow_diagram(request)
     pass_value = response_sankey_diagram["pass_value"]
     node_list = response_sankey_diagram["node_list"]
     use_def_colors = response_sankey_diagram["use_def_colors"]
@@ -635,7 +676,7 @@ def heat_map_on_map(request):
     map_var_unit = response_heat_map_on_map["map_var_unit"]
     response_data_xy = get_response_data_XY(request)
     color_list_request = response_data_xy["color_list_request"][0]
-    min_max_y_value = response_data_xy["min_max_y_value"]
+    min_max_value = response_data_xy["min_max_y_value"]
     # map_data = HEAT_MAP_DATA
     map_data = generate_data_for_heat_map()
     # projection = ""
@@ -646,10 +687,9 @@ def heat_map_on_map(request):
     # map_var_unit = "C degrees"
     # projection = "eckert6"
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
-    return render(request, 'visualiser/heat_map_on_map.html',
-                  {"map_data": map_data, "projection": projection, "color_list": color_couple,
-                   "map_var_name": map_var_name, "map_var_title": map_var_title, "map_var_unit": map_var_unit,
-                   "minmax_y_value": min_max_y_value})
+    heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
+                              min_max_value, 'heatmap_on_map')
+    return heatmap_on_map.show_chart()
 
 
 def thermometer_chart(request):
