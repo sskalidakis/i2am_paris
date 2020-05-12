@@ -489,7 +489,8 @@ def show_heat_map_chart(request):
     z_axis_title = response_heat_map["z_axis_title"]
     z_axis_unit = response_heat_map["z_axis_unit"]
     min_max_z_value = response_heat_map["min_max_z_value"]
-    data = HEAT_MAP_CHART_DATA
+    # data = HEAT_MAP_CHART_DATA
+    data = generate_data_for_heat_map_chart()
     # y_axis_name = 'hour'
     # y_axis_title = 'Hour'
     # y_axis_unit = '-'

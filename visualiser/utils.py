@@ -109,6 +109,29 @@ def generate_data_for_heat_map():
     return data
 
 
+def generate_data_for_heat_map_chart():
+    models = ["ALADIN", "FORECAST", "JRC-EU-TIMES", "LEAP", "NEMESIS", "CONTO", "MARKAL-India", "MAPLE", "NATEM",
+              "SISGEMA", "TIMES-CAC", "DICE", "GCAM", "ICES", "Gemini-E3", "TIAM", "MUSE", "42", "E3ME"]
+    sdgs = ["Total", "by eductional attainment level", "by age", "by sex", "by econcomic activity",
+            "(Partially) Aggregated (*)", "Macroeconomic", "Private Investments", "Public investments",
+            "(Partially) Aggregated (*)", "Expenditures", "Receipts", "Social benefits", "Balances",
+            "(Partially) Aggregated (*)", "Production", "Value added", "Imports", "Exports", "Employment",
+            "Energy expenditure", "Investments", "Raw material consumption", "Other materials consumption",
+            "(Partially) Aggregated (*)", "Total gross/real disposable income", "Capital incomes", "Labour incomes",
+            "Social transfers", "By quantiles", "Energy poverty", "(Partially) Aggregated (*)"]
+    data = []
+    for model in models:
+        for sdg in sdgs:
+            data.append(
+                {
+                    "SDG": sdg,
+                    "Model": model,
+                    "value": randint(0, 2)
+                }
+            )
+    return data
+
+
 def define_color_index_list(color_list_request):
     color_list = []
     for color in color_list_request:

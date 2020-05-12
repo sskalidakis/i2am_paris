@@ -57,7 +57,8 @@ http://localhost:8000/visualiser/show_heat_map_chart
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
 http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=hour&y_axis_title=Hour&y_var_units[]=-&x_axis_name=weekday&x_axis_title=Weekday&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
-
+----
+http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=SDG&y_axis_title=Socioecon.%20Granularity&y_var_units[]=-&x_axis_name=Model&x_axis_title=Models&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
 
 http://localhost:8000/visualiser/show_bar_range_chart
 ------------------------------------------------------------------------------------------------------------------------
