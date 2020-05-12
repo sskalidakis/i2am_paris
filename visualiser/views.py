@@ -384,7 +384,8 @@ def show_range_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    data = FAKE_DATA
+    # data = FAKE_DATA
+    data = generate_data_for_range_chart()
     # y_var_names = ["myVar1", "myVar2"]
     # y_var_titles = ["Var1", "Var2"]
     # y_var_units = ["v1_unit", "v2_unit"]
@@ -530,7 +531,8 @@ def show_heat_map_chart(request):
     z_axis_title = response_heat_map["z_axis_title"]
     z_axis_unit = response_heat_map["z_axis_unit"]
     min_max_z_value = response_heat_map["min_max_z_value"]
-    data = HEAT_MAP_CHART_DATA
+    # data = HEAT_MAP_CHART_DATA
+    data = generate_data_for_heat_map_chart()
     # y_axis_name = 'hour'
     # y_axis_title = 'Hour'
     # y_axis_unit = '-'

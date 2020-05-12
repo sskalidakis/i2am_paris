@@ -58,7 +58,8 @@ http://localhost:8000/visualiser/show_heat_map_chart
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
 http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=hour&y_axis_title=Hour&y_var_units[]=-&x_axis_name=weekday&x_axis_title=Weekday&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
-
+----
+http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=SDG&y_axis_title=Socioecon.%20Granularity&y_var_units[]=-&x_axis_name=Model&x_axis_title=Models&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
 
 http://localhost:8000/visualiser/show_bar_range_chart
 ------------------------------------------------------------------------------------------------------------------------
@@ -103,4 +104,7 @@ http://localhost:8000/visualiser/show_range_chart
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
 http://localhost:8000/visualiser/show_range_chart?y_var_names[]=myVar1&y_var_names[]=myVar2&y_var_titles[]=Var1&y_var_titles[]=Var2&y_var_units[]=v1_units&y_var_units[]=v2_units&x_axis_type=time&x_axis_name=time&x_axis_title=Time&y_axis_title=Var&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green
+-------------------
+http://localhost:8000/visualiser/show_range_chart?y_var_names[]=F&y_var_names[]=BC&y_var_names[]=NL&y_var_names[]=C&y_var_names[]=P&y_var_titles[]=FOREST&y_var_titles[]=BIOENERGY CROPLAND&y_var_titles[]=NATURAL LAND&y_var_titles[]=CROPLAND&y_var_titles[]=PASTURE&y_var_units[]=Mkm2&y_var_units[]=Mkm2&y_var_units[]=Mkm2&y_var_units[]=Mkm2&x_axis_name=year&x_axis_title=SSP1 Sustainability-focused&y_axis_title=Change in Land from 2010&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&x_axis_unit=year
+
 Notes for Documentation
