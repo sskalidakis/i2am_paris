@@ -1,4 +1,4 @@
-from random import randint # Use it in function generate_data_for_heat_map
+from random import randint, choice # Use it in function generate_data_for_heat_map
 
 AM_CHARTS_COLOR_INDEX_LIST = {
     "light_blue": 0,
@@ -130,6 +130,31 @@ def generate_data_for_heat_map_chart():
                 }
             )
     return data
+
+
+def generate_data_for_range_chart():
+    vars = ["F", "BC", "NL", "C", "P"]
+    data = []
+    for k, var in enumerate(vars):
+        for year in range(2010,2101):
+            v = randint(-10, 10)
+            multi_c = choice([-1, 1])
+            v_c = v + multi_c * randint(0, 5)
+            c_lose = v_c
+            # v_p = randint((-2)*v, 2*v)
+            multi_o = choice([-1, 1])
+            v_p = v + multi_o * randint(0, 5)
+            o_open = v_p
+            data.append(
+                {
+                    var: v,
+                    "close_"+str(k): c_lose,
+                    "open_"+str(k): o_open,
+                    "year_"+str(k): year
+                }
+            )
+    return data
+
 
 
 def define_color_index_list(color_list_request):

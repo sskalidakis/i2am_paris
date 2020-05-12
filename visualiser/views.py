@@ -330,7 +330,8 @@ def show_range_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    data = FAKE_DATA
+    # data = FAKE_DATA
+    data = generate_data_for_range_chart()
     # y_var_names = ["myVar1", "myVar2"]
     # y_var_titles = ["Var1", "Var2"]
     # y_var_units = ["v1_unit", "v2_unit"]
