@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
-    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2
+    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -584,7 +584,8 @@ def sankey_diagram(request):
     # TODO use get and define a default color in case the given color doesnt appear in AM_CHARTS_COLOR_CODES_LIST
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
     # pass_value = "meat"
-    data = SANKEYCHORD_DATA
+    # data = SANKEYCHORD_DATA
+    data = SANKEYCHORD_DATA_2
     # node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
     # color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA","#A0CF65", "#BDFF6C"]
     # use_def_colors = "false"
@@ -609,7 +610,7 @@ def chord_diagram(request):
     # TODO use get and define a default color in case the given color doesnt appear in AM_CHARTS_COLOR_CODES_LIST
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
     # pass_value = "value"
-    data = SANKEYCHORD_DATA
+    data = SANKEYCHORD_DATA_2
     # node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
     # color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA","#A0CF65", "#BDFF6C"]
     # use_def_colors = "true"

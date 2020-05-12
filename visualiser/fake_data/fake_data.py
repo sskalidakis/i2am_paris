@@ -477,6 +477,49 @@ SANKEYCHORD_DATA = [
     {"from": "H", "to": "J", "value": 9}
 ]
 
+SANKEYCHORD_DATA_2 = [
+                        {"from":"Solar", "to":"Electricity grid", "value":4},
+                        {"from":"Solar", "to":"Buildings", "value":14},
+                        {"from":"Solar", "to":"Losses/ own use", "value":3},
+                        {"from":"Wind", "to":"Electricity grid", "value":12},
+                        {"from":"Geothermal", "to":"Electricity grid", "value":2},
+                        {"from":"Geothermal", "to":"Losses/ own use", "value":16},
+                        {"from":"Hydro", "to":"Electricity grid", "value":23},
+                        {"from":"Nuclear", "to":"Power plants", "value":36},
+                        {"from":"Coal reserves", "to":"Solid", "value":184},
+                        {"from":"Coal reserves", "to":"Losses/ own use", "value":38},
+                        {"from":"Oil reserves", "to":"Liquid", "value":278},
+                        {"from":"Oil reserves", "to":"Losses/ own use", "value":34},
+                        {"from":"Gas reserves", "to":"Gas", "value":158},
+                        {"from":"Gas reserves", "to":"Losses/ own use", "value":40},
+                        {"from":"Biomass and waste", "to":"Solid", "value":44},
+                        {"from":"Biomass and waste", "to":"Liquid", "value":7},
+                        {"from":"Biomass and waste", "to":"Gas", "value":8},
+                        {"from":"Biomass and waste", "to":"Losses/ own use", "value":8},
+                        {"from":"Electricity grid", "to":"Buildings", "value":86},
+                        {"from":"Electricity grid", "to":"Manufacturing", "value":47},
+                        {"from":"Electricity grid", "to":"Transport", "value":7},
+                        {"from":"Electricity grid", "to":"Other", "value":3},
+                        {"from":"Electricity grid", "to":"Losses/ own use", "value":12},
+                        {"from":"Heat network", "to":"Buildings", "value":6},
+                        {"from":"Heat network", "to":"Manufacturing", "value":9},
+                        {"from":"Solid", "to":"Buildings", "value":28},
+                        {"from":"Solid", "to":"Manufacturing", "value":76},
+                        {"from":"Solid", "to":"Power plants", "value":120},
+                        {"from":"Power plants", "to":"Losses/ own use", "value":136},
+                        {"from":"Power plants", "to":"Electricity grid", "value":117},
+                        {"from":"Liquid", "to":"Heat network", "value":1},
+                        {"from":"Liquid", "to":"Buildings", "value":12},
+                        {"from":"Liquid", "to":"Manufacturing", "value":66},
+                        {"from":"Liquid", "to":"Transport", "value":157},
+                        {"from":"Liquid", "to":"Other", "value":4},
+                        {"from":"Gas", "to":"Power plants", "value":78},
+                        {"from":"Gas", "to":"Buildings", "value":35},
+                        {"from":"Gas", "to":"Manufacturing", "value":48},
+                        {"from":"Gas", "to":"Transport", "value":4}
+
+                        ]
+
 THERMOMETER = [
                 {
                   "date": "2012-07-27",
