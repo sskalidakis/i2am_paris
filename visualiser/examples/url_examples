@@ -313,11 +313,11 @@ Body:{
 
 
 ---
-http://localhost:8000/visualiser/show_sankey_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Sankey&node_list[]=Coal%20reserves&node_list[]=Gas%20reserves&node_list[]=Hydro&node_list[]=Nuclear&node_list[]=Oil%20reserves&node_list[]=Solar&node_list[]=Wind&node_list[]=Biomass%20and%20waste&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=gray
+http://localhost:8000/visualiser/show_sankey_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Energy flows in 2050&node_list[]=Coal%20reserves&node_list[]=Gas%20reserves&node_list[]=Hydro&node_list[]=Nuclear&node_list[]=Oil%20reserves&node_list[]=Solar&node_list[]=Wind&node_list[]=Biomass%20and%20waste&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=gray
 -POST REQUEST:
 http://localhost:8000/visualiser/show_sankey_diagram
 Body:{
-        'chart_title': 'Sankey',
+        'chart_title': 'Energy flows in 2050',
          'color_node_list': ['blue',
                              'violet',
                              'purple',
@@ -363,11 +363,11 @@ Body:{
 
 
 --
-http://localhost:8000/visualiser/show_chord_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Sankey&node_list[]=Coal reserves&node_list[]=Gas reserves&node_list[]=Hydro&node_list[]=Nuclear&node_list[]=Oil reserves&node_list[]=Solar&node_list[]=Wind&node_list[]=Biomass and waste&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=gray
+http://localhost:8000/visualiser/show_chord_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Energy flows in 2050&node_list[]=Coal reserves&node_list[]=Gas reserves&node_list[]=Hydro&node_list[]=Nuclear&node_list[]=Oil reserves&node_list[]=Solar&node_list[]=Wind&node_list[]=Biomass and waste&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=gray
 -POST REQUEST:
 http://localhost:8000/visualiser/show_chord_diagram
 Body:{
-         'chart_title': 'Sankey',
+         'chart_title': 'Energy flows in 2050',
          'color_node_list': ['blue',
                              'violet',
                              'purple',
@@ -433,7 +433,7 @@ Body:{
 
 - GET REQUEST
 http://localhost:8000/visualiser/parallel_coordinates_chart2?y_axes[]=name&y_axes[]=group&y_axes[]=CO2(%)&y_axes[]=Temperature(Celcius)&y_axes[]=GDP(%)&title=Correlation of temperature and Co2 emissions with GDP&about_title=About&about_text=Write about this chart&groups_title=Groups&sample_size=20
-- POST REQUEST 
+- POST REQUEST
 http://localhost:8000/visualiser/parallel_coordinates_chart2
 Body:{
         'about_text': 'Write about this chart',
