@@ -748,7 +748,8 @@ def parallel_coordinates_chart2(request):
     #             'monounsat (g)',
     #             'polyunsat (g)'
     # ]
-    data = PARALLEL_COORDINATES_DATA_2
+    # data = PARALLEL_COORDINATES_DATA_2
+    data = generate_data_for_parallel_coordinates_chart2()
     # title = "Nutrient Explorer"
     # about_title = "About"
     # about_text = "Write about this chart something"

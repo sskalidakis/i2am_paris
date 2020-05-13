@@ -431,6 +431,18 @@ Body:{
                     'polyunsat (g)']
                     }
 
+- GET REQUEST
+http://localhost:8000/visualiser/parallel_coordinates_chart2?y_axes[]=name&y_axes[]=group&y_axes[]=CO2(%)&y_axes[]=Temperature(Celcius)&y_axes[]=GDP(%)&title=Correlation of temperature and Co2 emissions with GDP&about_title=About&about_text=Write about this chart&groups_title=Groups&sample_size=20
+- POST REQUEST 
+http://localhost:8000/visualiser/parallel_coordinates_chart2
+Body:{
+        'about_text': 'Write about this chart',
+         'about_title': 'About',
+         'groups_title': 'Groups',
+         'sample_size': '20',
+         'title': 'Correlation of temperature and Co2 emissions with GDP',
+         'y_axes': ['name', 'group', 'CO2(%)', 'Temperature(Celcius)', 'GDP(%)']
+         }
 
 http://localhost:8000/visualiser/show_range_chart
 ------------------------------------------------------------------------------------------------------------------------
