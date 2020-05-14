@@ -315,19 +315,6 @@ def show_pie_chart(request):
     chart_3d = response_data["chart_3d"]
     use_default_colors = response_data["use_default_colors"]
     data = PIE_CHART_DATA
-    # print(data)
-    # variable_name = ["oil_consumption"]
-    # variable_title = ["Oil Consumption"]
-    # variable_unit = ["litres"]
-    # x_axis_type = ""
-    # category_name = "country"
-    # category_title = "Country"
-    # category_unit = ""
-    # y_axis_title = ""
-    # color_list_request = ['blue', 'red', 'green', "gold", "ceramic", "fuchsia", "violet", "purple", "cyan"]
-    # use_default_colors = "false"
-    # chart_3d = "false"
-    # min_max_y_value = []
     color_list = define_color_code_list(color_list_request)
 
     pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title, variable_unit,
@@ -351,20 +338,7 @@ def show_radar_chart(request):
     chart_3d = response_data["chart_3d"]
     use_default_colors = response_data["use_default_colors"]
     data = RADAR_CHART_DATA
-    # variable_name = ["oil_consumption", "energy_consumption"]
-    # variable_title = ["Oil Consumption", "Energy Consumption"]
-    # variable_unit = ["litres", "Watt"]
-    # x_axis_type = ""
-    # category_name = "country"
-    # category_title = "Country"
-    # category_unit = ""
-    # y_axis_title = ""
-    # color_list_request = ['red', "blue"]
-    # use_default_colors = "false"
-    # chart_3d = "false"
-    # min_max_y_value = []
     color_list = define_color_code_list(color_list_request)
-
     radar_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
                            variable_unit, x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
                            min_max_y_value, 'radar_chart')
@@ -386,21 +360,7 @@ def show_range_chart(request):
     chart_3d = response_data_xy["chart_3d"]
     # data = FAKE_DATA
     data = generate_data_for_range_chart()
-    # y_var_names = ["myVar1", "myVar2"]
-    # y_var_titles = ["Var1", "Var2"]
-    # y_var_units = ["v1_unit", "v2_unit"]
-    # x_axis_type = "time"
-    # x_axis_name = "time"
-    # x_axis_title = "Time"
-    # x_axis_unit = ""
-    # y_axis_title = "Var"
-    # color_list_request = ['blue', 'red', 'green']
-    # use_default_colors = "false"
-    # chart_3d = "false"
-    # min_max_y_value = [0, 2000]
-
     color_list = define_color_code_list(color_list_request)
-
     range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                            'range_chart')
@@ -423,19 +383,7 @@ def show_bar_range_chart(request):
     chart_3d = response_data_xy["chart_3d"]
     # data = BAR_RANGE_CHART_DATA
     data = BAR_RANGE_CHART_DATA_2
-    # y_var_names = ["name"]
-    # y_var_titles = ["Var1", "Var2"]
-    # y_var_units = ["-"]
-    # x_axis_type = "time"
-    # x_axis_name = "time"
-    # x_axis_title = "Time"
-    # x_axis_unit = ""
-    # y_axis_title = "Name"
-    # color_list_request = ['blue', 'red', 'green','gold','mustard','purple','violet','ceramic']
-    # use_default_colors = "false"
     color_list = define_color_code_list(color_list_request)
-    # chart_3d = "false"
-    # min_max_y_value = [0, 2000]
     bar_range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                                x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
                                min_max_y_value, 'bar_range_chart')
@@ -458,23 +406,10 @@ def show_stacked_column_chart(request):
     chart_3d = response_data_xy["chart_3d"]
     data = COLUMNCHART_DATA
     print(data)
-    # y_var_names = ["year2017", "year2018"]
-    # y_var_titles = ["Year 2017", "Year 2018"]
-    # y_var_units = ["%", "%"]
-    # x_axis_type = "text"
-    # x_axis_name = "country"
-    # x_axis_title = "Country"
-    # x_axis_unit = ""
-    # y_axis_title = "GDP Rates"
-    # color_list_request = ['blue', 'red', 'green']
-    # use_default_colors = "false"
-    # chart_3d = "true"
-    # min_max_y_value = [0, 2000]
     color_list = define_color_code_list(color_list_request)
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                                     'stacked_column_chart')
-
     return stacked_column_chart.show_chart()
 
 
@@ -533,17 +468,6 @@ def show_heat_map_chart(request):
     min_max_z_value = response_heat_map["min_max_z_value"]
     # data = HEAT_MAP_CHART_DATA
     data = generate_data_for_heat_map_chart()
-    # y_axis_name = 'hour'
-    # y_axis_title = 'Hour'
-    # y_axis_unit = '-'
-    # x_axis_name = "weekday"
-    # x_axis_title = "Weekday"
-    # x_axis_unit = "-"
-    # z_axis_name = "value"
-    # z_axis_title = "Value"
-    # z_axis_unit = "m"
-    # color_list_request = "cyan"
-    # min_max_z_value = [1900, 11000]
     color_list = AM_CHARTS_COLOR_HEATMAP_COUPLES.get(color_list_request, define_color_code_list([color_list_request]))
     bar_heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title,
                                    y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
@@ -581,15 +505,9 @@ def sankey_diagram(request):
     chart_title = response_sankey_diagram["chart_title"]
     color_node_list = response_sankey_diagram["color_node_list"]
     # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
-    # TODO use get and define a default color in case the given color doesnt appear in AM_CHARTS_COLOR_CODES_LIST
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
-    # pass_value = "meat"
     # data = SANKEYCHORD_DATA
     data = SANKEYCHORD_DATA_2
-    # node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
-    # color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA","#A0CF65", "#BDFF6C"]
-    # use_def_colors = "false"
-    # chart_title = "Sankey Flow Chart of Business Processes"
     sankey_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 
@@ -607,21 +525,14 @@ def chord_diagram(request):
     chart_title = response_sankey_diagram["chart_title"]
     color_node_list = response_sankey_diagram["color_node_list"]
     # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
-    # TODO use get and define a default color in case the given color doesnt appear in AM_CHARTS_COLOR_CODES_LIST
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
-    # pass_value = "value"
     data = SANKEYCHORD_DATA_2
-    # node_list = ["A", "B", "C", "D", "E", "G", "H", "I", "J"]
-    # color_node_list = ["#93B5C6", "#DDEDAA", "#BD4F6C", "#D7816A", "#BEC5AD", "#13B5C6", "#DDEDfA","#A0CF65", "#BDFF6C"]
-    # use_def_colors = "true"
-    # chart_title = "Chord Flow Chart of Business Processes"
     chord_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'chord_diagram')
     return chord_diagram.show_chart()
 
 
 @csrf_exempt
 def get_response_parallel_coordinates_chart(request):
-    # TODO slice_size and samples_size are the same thing
     if request.method == "GET":
         json_response = {
             "y_axes": request.GET.getlist("y_axes[]", []),
@@ -651,8 +562,6 @@ def parallel_coordinates_chart(request):
     y_axes = response_parallel_coordinates_chart["y_axes"]
     slice_size = response_parallel_coordinates_chart["samples_size"]
     data = PARALLEL_COORDINATES_DATA
-    # y_axes = ["A", "B", "C", "D", "E", "F"]
-    # slice_size = 4
     return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
@@ -682,13 +591,6 @@ def heat_map_on_map(request):
     min_max_value = response_data_xy["min_max_y_value"]
     # map_data = HEAT_MAP_DATA
     map_data = generate_data_for_heat_map()
-    # projection = ""
-    # color_list_request = "blue_red"
-    # min_max_y_value = [18, 45]
-    # map_var_name = "temperature"
-    # map_var_title = "Temperature"
-    # map_var_unit = "C degrees"
-    # projection = "eckert6"
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
                               min_max_value, 'heatmap_on_map')
@@ -703,15 +605,10 @@ def thermometer_chart(request):
             t = {"date": j["date"], "value": j["value"] * i}
             temp.append(t)
         recordData[i] = temp
-    # min_max_y_value
     response_thermometer_chart = get_response_data_XY(request)
     min_max_temp = response_thermometer_chart["min_max_y_value"]
-    # response_thermometer_chart =get_response_thermometer_chart(request)
-    # min_max_temp = response_thermometer_chart["min_max_temp"]
     min_temp = min_max_temp[0]
     max_temp = min_max_temp[1]
-    # min_temp = -20
-    # max_temp = 50
     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
                                                                  "min_temp": min_temp, "max_temp": max_temp})
 
@@ -722,7 +619,6 @@ def parallel_coordinates_chart2(request):
     :param request:
     :return:
     """
-    # response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart2(request)
     response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart(request)
     y_axes = response_parallel_coordinates_chart2["y_axes"]
     title = response_parallel_coordinates_chart2["title"]
@@ -730,31 +626,8 @@ def parallel_coordinates_chart2(request):
     about_text = response_parallel_coordinates_chart2["about_text"]
     groups_title = response_parallel_coordinates_chart2["groups_title"]
     sample_size = response_parallel_coordinates_chart2["samples_size"]
-    # y_axes = [
-    #             'name',
-    #             'group',
-    #             'protein (g)',
-    #             'calcium (g)',
-    #             'sodium (g)',
-    #             'fiber (g)',
-    #             'vitaminc (g)',
-    #             'potassium (g)',
-    #             'carbohydrate (g)',
-    #             'sugars (g)',
-    #             'fat (g)',
-    #             'water (g)',
-    #             'calories',
-    #             'saturated (g)',
-    #             'monounsat (g)',
-    #             'polyunsat (g)'
-    # ]
     # data = PARALLEL_COORDINATES_DATA_2
     data = generate_data_for_parallel_coordinates_chart2()
-    # title = "Nutrient Explorer"
-    # about_title = "About"
-    # about_text = "Write about this chart something"
-    # groups_title = "Groups"
-    # sample_size = 20
     samples_title = "Sample of %s entries" %sample_size
     # Create the variable colored_groups
     # First get the unique groups of give data
@@ -763,34 +636,6 @@ def parallel_coordinates_chart2(request):
     for k, group in enumerate(groups_list):
         colored_groups[group] = D3_PARALLEL_COORDINATES_COLORS[k]
     # Greate a dict with keys the name of groups and value a list which represent the HSL color
-    # TODO get and set the colors in utils.py and pick for each given group
-    # colored_groups = {
-    #                           "Baby Foods": [185,56,73],
-    #                           "Baked Products": [37,50,75],
-    #                           "Beef Products": [325,50,39],
-    #                           "Beverages": [10,28,67],
-    #                           "Breakfast Cereals": [271,39,57],
-    #                           "Cereal Grains and Pasta": [56,58,73],
-    #                           "Dairy and Egg Products": [28,100,52],
-    #                           "Ethnic Foods": [41,75,61],
-    #                           "Fast Foods": [60,86,61],
-    #                           "Fats and Oils": [30,100,73],
-    #                           "Finfish and Shellfish Products": [318,65,67],
-    #                           "Fruits and Fruit Juices": [274,30,76],
-    #                           "Lamb, Veal, and Game Products": [20,49,49],
-    #                           "Legumes and Legume Products": [334,80,84],
-    #                           "Meals, Entrees, and Sidedishes": [185,80,45],
-    #                           "Nut and Seed Products": [10,30,42],
-    #                           "Pork Products": [339,60,49],
-    #                           "Poultry Products": [359,69,49],
-    #                           "Restaurant Foods": [204,70,41],
-    #                           "Sausages and Luncheon Meats": [1,100,79],
-    #                           "Snacks": [189,57,75],
-    #                           "Soups, Sauces, and Gravies": [110,57,70],
-    #                           "Spices and Herbs": [214,55,79],
-    #                           "Sweets": [339,60,75],
-    #                           "Vegetables and Vegetable Products": [120,56,40]
-    #                             }
     return render(request, 'visualiser/parallel_coordinates_chart2.html', {
                                                                             "data": data,
                                                                             "y_axes": y_axes,
