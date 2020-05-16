@@ -260,7 +260,7 @@ def show_line_chart(request):
     dataset = response_data['dataset']
 
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = FAKE_DATA
+    data = generate_data_for_range_chart()
 
     color_list = define_color_code_list(color_list_request)
 
