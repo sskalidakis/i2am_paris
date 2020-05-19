@@ -126,7 +126,7 @@ def generate_data_for_heat_map_chart():
                 {
                     "SDG": sdg,
                     "Model": model,
-                    "value": randint(0, 2)
+                    "usage": randint(0, 100)
                 }
             )
     return data

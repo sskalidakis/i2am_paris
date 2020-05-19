@@ -13,6 +13,7 @@
 
             var chart_data = {{data|safe}};
             var node_list = {{ node_list|safe }};
+
             console.log(node_list);
             var use_default_colors = {{ use_default_colors }};
             var color_node = [];
@@ -46,7 +47,7 @@
             hoverState.properties.fillOpacity = 0.7;
 
             // for right-most label to fit
-            chart.paddingRight = 30;
+            chart.paddingRight = 140;
             chart.paddingLeft = 30;
             chart.paddingTop = 30;
             chart.paddingBottom  =30;

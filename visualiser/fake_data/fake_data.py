@@ -175,12 +175,12 @@ BAR_RANGE_CHART_DATA_2 = [
   "region":"Russia",
   "name": "GCAM",
   "from": 11,
-  "toDate": 15,
+  "to": 25,
  },
  {
   "region":"Latin America",
   "name": "42",
-  "from": 15,
+  "from": 10,
   "to": 20,
  },
 
@@ -206,7 +206,7 @@ BAR_RANGE_CHART_DATA_2 = [
  {
   "region":"China",
   "name": "MAPLE",
-  "from": 35,
+  "from": 15,
   "to": 40,
  },
 
@@ -219,21 +219,21 @@ BAR_RANGE_CHART_DATA_2 = [
  {
   "region":"Pacific OECD",
   "name": "NEMESIS",
-  "from": 45,
+  "from": 35,
   "to": 50,
  },
 
  {
   "region":"North America",
   "name": "LEAP",
-  "from": 50,
+  "from": 40,
   "to": 55,
  },
 {
   "region":"World",
   "name": "FORECAST",
   "from": 50,
-  "to": 55,
+  "to": 60,
  }
 ]
 
@@ -262,73 +262,73 @@ BAR_HEATMAP_DATA = [{
 
 BAR_HEATMAP_DATA_2 = [{
  "category": "GCAM",
- "value": 45
+ "precision": 45
 }, {
  "category": "TIAM",
- "value": 12
+ "precision": 12
 }, {
  "category": "MUSE",
- "value": 18.5
+ "precision": 18.5
 }, {
  "category": "42",
- "value": 8.5
+ "precision": 8.5
 }, {
  "category": "GEMINI-E3",
- "value": 49.9
+ "precision": 49.9
 }, {
  "category": "ICES",
- "value": 8.7
+ "precision": 8.7
 }, {
  "category": "DICE",
- "value": 51.2
+ "precision": 51.2
 },
     {
  "category": "E3ME",
- "value": 5.1
+ "precision": 5.1
 },
 {
  "category": "ALADIN",
- "value": 12
+ "precision": 12
 },
 {
  "category": "FORECAST",
- "value": 20
+ "precision": 20
 },
 {
  "category": "LEAP",
- "value": 33
+ "precision": 33
 },
 {
  "category": "JRC-EU-TIMES",
- "value": 42
+ "precision": 42
 },
 {
  "category": "NEMESIS",
- "value": 62
+ "precision": 62
 },
 {
  "category": "CONTO",
- "value": 27
+ "precision": 27
 },
 {
  "category": "MARKAL-India",
- "value": 51
+ "precision": 51
 },
 {
  "category": "MAPLE",
- "value": 24
+ "precision": 24
 },
 {
  "category": "NATEM",
- "value": 77
+ "precision": 77
 },
 {
  "category": "SISGEMA",
- "value": 88
+ "precision": 88
 },
 {
  "category": "TIMES-CAC",
- "value": 33
+ "precision": 33
 },
 ]
 
@@ -419,47 +419,47 @@ RADAR_CHART_DATA = [
     {
         "country": "Lithuania",
         "oil_consumption": 501.9,
-        "energy_consumption": 30
+        "energy_consumption": 700
     },
     {
         "country": "Czech Republic",
         "oil_consumption": 301.9,
-        "energy_consumption": 90
+        "energy_consumption": 900
     },
     {
         "country": "Ireland",
         "oil_consumption": 201.1,
-        "energy_consumption": 20
+        "energy_consumption": 750
     },
     {
         "country": "Germany",
         "oil_consumption": 165.8,
-        "energy_consumption": 30
+        "energy_consumption": 300
     },
     {
         "country": "Australia",
         "oil_consumption": 139.9,
-        "energy_consumption": 10
+        "energy_consumption": 200
     },
     {
         "country": "Austria",
         "oil_consumption": 128.3,
-        "energy_consumption": 0
+        "energy_consumption": 500
     },
     {
         "country": "UK",
         "oil_consumption": 99,
-        "energy_consumption": 100
+        "energy_consumption": 700
     },
     {
         "country": "Belgium",
         "oil_consumption": 60,
-        "energy_consumption": 20
+        "energy_consumption": 200
     },
     {
         "country": "The Netherlands",
         "oil_consumption": 50,
-        "energy_consumption": 10
+        "energy_consumption": 700
     }
 ]
 
@@ -501,19 +501,14 @@ SANKEYCHORD_DATA_2 = [
                         {"from":"Electricity grid", "to":"Transport", "value":7},
                         {"from":"Electricity grid", "to":"Other", "value":3},
                         {"from":"Electricity grid", "to":"Losses/ own use", "value":12},
-                        {"from":"Heat network", "to":"Buildings", "value":6},
-                        {"from":"Heat network", "to":"Manufacturing", "value":9},
                         {"from":"Solid", "to":"Buildings", "value":28},
                         {"from":"Solid", "to":"Manufacturing", "value":76},
-                        {"from":"Solid", "to":"Power plants", "value":120},
                         {"from":"Power plants", "to":"Losses/ own use", "value":136},
-                        {"from":"Power plants", "to":"Electricity grid", "value":117},
-                        {"from":"Liquid", "to":"Heat network", "value":1},
+                         {"from":"Liquid", "to":"Heat", "value":1},
                         {"from":"Liquid", "to":"Buildings", "value":12},
                         {"from":"Liquid", "to":"Manufacturing", "value":66},
                         {"from":"Liquid", "to":"Transport", "value":157},
                         {"from":"Liquid", "to":"Other", "value":4},
-                        {"from":"Gas", "to":"Power plants", "value":78},
                         {"from":"Gas", "to":"Buildings", "value":35},
                         {"from":"Gas", "to":"Manufacturing", "value":48},
                         {"from":"Gas", "to":"Transport", "value":4}

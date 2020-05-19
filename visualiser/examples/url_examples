@@ -118,7 +118,7 @@ Body:{
 http://localhost:8000/visualiser/show_bar_heat_map_chart
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
-http://localhost:8000/visualiser/show_bar_heat_map_chart?y_var_names[]=value&y_var_titles[]=Value&x_axis_type=text&x_axis_name=category&x_axis_title=Category&y_axis_title=Value%20Units&color_list_request[]=blue_red&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&y_var_units[]=units
+http://localhost:8000/visualiser/show_bar_heat_map_chart?y_var_names[]=precision&y_var_titles[]=Precision&x_axis_type=text&x_axis_name=category&x_axis_title=Category&y_axis_title=Model%20Precision&color_list_request[]=blue_red&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&y_var_units[]=units
 -POST REQUEST:
 http://localhost:8000/visualiser/show_bar_heat_map_chart
 Body:{
@@ -177,7 +177,7 @@ Body:{
 
 
 ----
-http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=SDG&y_axis_title=Socioecon.%20Granularity&y_var_units[]=-&x_axis_name=Model&x_axis_title=Models&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
+http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=SDG&y_axis_title=Socioecon.%20Granularity&y_var_units[]=-&x_axis_name=Model&x_axis_title=Models&x_axis_unit=-&z_axis_name=usage&z_axis_title=Usage&z_axis_unit=%&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
 
 -POST REQUEST:
 http://localhost:8000/visualiser/show_heat_map_chart
@@ -466,7 +466,7 @@ Body:{
 
 
 -------------------
-http://localhost:8000/visualiser/show_range_chart?y_var_names[]=F&y_var_names[]=BC&y_var_names[]=NL&y_var_names[]=C&y_var_names[]=P&y_var_titles[]=FOREST&y_var_titles[]=BIOENERGY CROPLAND&y_var_titles[]=NATURAL LAND&y_var_titles[]=CROPLAND&y_var_titles[]=PASTURE&y_var_units[]=Mkm2&y_var_units[]=Mkm2&y_var_units[]=Mkm2&y_var_units[]=Mkm2&x_axis_name=year&x_axis_title=SSP1 Sustainability-focused&y_axis_title=Change in Land from 2010&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&x_axis_unit=year
+http://localhost:8000/visualiser/show_range_chart?y_var_names[]=F&y_var_names[]=BC&y_var_names[]=NL&&y_var_titles[]=FOREST&y_var_titles[]=BIOENERGY CROPLAND&y_var_titles[]=NATURAL LAND&y_var_units[]=Mkm2&y_var_units[]=Mkm2&y_var_units[]=Mkm2&y_var_units[]=Mkm2&x_axis_name=year&x_axis_title=SSP1 Sustainability-focused&y_axis_title=Change in Land from 2010&use_default_colors=false&chart_3d=false&min_max_y_value[]=0&min_max_y_value[]=2000&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&x_axis_unit=year
 -POST REQUEST:
 http://localhost:8000/visualiser/show_range_chart
 Body:{

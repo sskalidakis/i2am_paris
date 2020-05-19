@@ -44,6 +44,10 @@
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.title.fontWeight = 600;
+        var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis2.title.fontWeight = 600;
+        valueAxis2.renderer.opposite = true;
+
 
         valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
         valueAxis.title.fontWeight = 600;
@@ -62,7 +66,7 @@
             series.columns.template.width = am4core.percent(80);
 
         }
-        series.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + y_var_titles[0] + " : [bold]{valueY}[/]";
+        series.columns.template.tooltipText =  "{categoryX}- " + y_var_titles[0] + " : [bold]{valueY}"+ y_var_units[0] +"[/]";
         series.tooltip.autoTextColor = false;
         series.tooltip.label.fill = am4core.color("#FFFFFF");
 
@@ -75,6 +79,7 @@
         series.columns.template.column.cornerRadiusTopRight = 5;
         series.stroke = am4core.color("#9f9f9f");
         series.strokeOpacity = 0.5;
+        series.yAxis = valueAxis2;
 
         /* Create a heat rule */
         series.heatRules.push({

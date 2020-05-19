@@ -152,12 +152,11 @@ class FlowChart:
     """
     Sankey chart and Chord diagram have the same format of data
     """
-    def __init__(self, request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, chart_type):
+    def __init__(self, request, data, node_list, color_node_list, use_def_colors, chart_title, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param data: The JSON Object containing the data to be visualised (JSON Object)
         :param node_list: A list of names of all the nodes in the diagrams as used in the JSON Object.(list of Strings)
-        :param pass_value: The name of the pass value as used in the JSON Object (String)
         :param color_node_list: A list of colours, one for each node. (List of Strings)
         :param use_def_colors: If true colour list is ignored and default colours are used. (String: "true" or "false")
         :param chart_title: The title of the created chart. (String)
@@ -165,13 +164,12 @@ class FlowChart:
         """
         self.request = request
         self.chart_type = chart_type
-        self.pass_value = pass_value
         self.node_list = node_list
         self.color_node_list = color_node_list
         self.use_def_colors = use_def_colors
         self.chart_title = chart_title
         self.data = data
-        self.content = {"data": self.data, "pass_value": self.pass_value, "node_list": self.node_list,
+        self.content = {"data": self.data, "node_list": self.node_list,
                         "color_node_list": self.color_node_list, "use_default_colors": self.use_def_colors,
                         "chart_title": self.chart_title}
 
@@ -262,7 +260,7 @@ def show_line_chart(request):
     dataset = response_data['dataset']
 
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = FAKE_DATA
+    data = generate_data_for_range_chart()
 
     color_list = define_color_code_list(color_list_request)
 
@@ -480,7 +478,6 @@ def show_heat_map_chart(request):
 def get_response_flow_diagram(request):
     if request.method == "GET":
         json_response = {
-            "pass_value": request.GET.get("pass_value", ""),
             "use_def_colors": request.GET.get("use_def_colors", "false"),
             "chart_title": request.GET.get("chart_title", ""),
             "node_list": request.GET.getlist("node_list[]", []),
@@ -499,7 +496,6 @@ def sankey_diagram(request):
     :return:
     """
     response_sankey_diagram = get_response_flow_diagram(request)
-    pass_value = response_sankey_diagram["pass_value"]
     node_list = response_sankey_diagram["node_list"]
     use_def_colors = response_sankey_diagram["use_def_colors"]
     chart_title = response_sankey_diagram["chart_title"]
@@ -508,7 +504,7 @@ def sankey_diagram(request):
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
     # data = SANKEYCHORD_DATA
     data = SANKEYCHORD_DATA_2
-    sankey_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
+    sankey_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 
 
@@ -519,7 +515,6 @@ def chord_diagram(request):
     :return:
     """
     response_sankey_diagram = get_response_flow_diagram(request)
-    pass_value = response_sankey_diagram["pass_value"]
     node_list = response_sankey_diagram["node_list"]
     use_def_colors = response_sankey_diagram["use_def_colors"]
     chart_title = response_sankey_diagram["chart_title"]
@@ -527,7 +522,7 @@ def chord_diagram(request):
     # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
     data = SANKEYCHORD_DATA_2
-    chord_diagram = FlowChart(request, data, node_list, pass_value, color_node_list, use_def_colors, chart_title, 'chord_diagram')
+    chord_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'chord_diagram')
     return chord_diagram.show_chart()
 
 
