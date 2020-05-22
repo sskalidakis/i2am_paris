@@ -25,6 +25,19 @@ def feedback_form(request):
                 rating = str(form.cleaned_data['rating'])
                 email_text = 'User: "' + str(username) + '" submitted his/her feedback on BDO Platform, regarding action: "' + str(
                     action) + '".\nComment: "' + str(details) + '"\nRating: ' + str(rating) + '/5 stars.'
+                ''' Begin reCAPTCHA validation '''
+                recaptcha_response = request.POST.get('g-recaptcha-response')
+                url = 'https://www.google.com/recaptcha/api/siteverify'
+
+                values = {
+                    'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                    'response': recaptcha_response
+                }
+                data = urllib.parse.urlencode(values).encode()
+                req = urllib.request.Request(url, data=data)
+                response = urllib.request.urlopen(req)
+                result = json.loads(response.read().decode())
+                ''' End reCAPTCHA validation '''
                 # send_mail(str(username) + "'s Feedback on BDO Platform", email_text, 'noreply@epu.ntua.gr', ['iam@paris-reinforce.eu'],
                 #           fail_silently=False)
                 # print email_text
