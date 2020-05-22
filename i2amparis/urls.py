@@ -19,5 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('i2amparis_main.urls')),
     path('visualiser/', include('visualiser.urls')),
+    path('feedback_form/', include('feedback_form.urls')),
     path('admin/', admin.site.urls),
 ]

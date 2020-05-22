@@ -11,8 +11,9 @@ from django.core.mail import send_mail
 
 
 def feedback_form(request):
-    if request.user.is_authenticated():
-        username = request.user.username
+    # if request.user.is_authenticated():
+    #     username = request.user.username
+        username = "test"
         if request.method == 'POST':
             form = FeedbackForm(request.POST)
 
@@ -26,10 +27,10 @@ def feedback_form(request):
                     action) + '".\nComment: "' + str(details) + '"\nRating: ' + str(rating) + '/5 stars.'
                 send_mail(str(username) + "'s Feedback on BDO Platform", email_text, 'admin@bigdataocean.eu', ['feedback@bigdataocean.eu'],
                           fail_silently=False)
-                print email_text
+                # print email_text
                 return render(request, 'feedback_form/thanks.html')
         else:
             form = FeedbackForm()
         return render(request, 'feedback_form/feedback_form.html', {'form': form, 'user':username})
-    else:
-        raise PermissionDenied
+    # else:
+    #     raise PermissionDenied
