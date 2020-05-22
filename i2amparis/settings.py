@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'visualiser',
+    'feedback_form',
     'i2amparis_main',
 ]
 
