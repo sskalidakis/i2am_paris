@@ -16,17 +16,17 @@ def feedback_form(request):
         username = "test"
         if request.method == 'POST':
             form = FeedbackForm(request.POST)
-
             if form.is_valid():
                 form.save()
                 # This can be used to send an email to inform us about the newly submitted feedback.
                 action = form.cleaned_data['service']
                 details = form.cleaned_data['details']
+                print(details)
                 rating = str(form.cleaned_data['rating'])
                 email_text = 'User: "' + str(username) + '" submitted his/her feedback on BDO Platform, regarding action: "' + str(
                     action) + '".\nComment: "' + str(details) + '"\nRating: ' + str(rating) + '/5 stars.'
-                send_mail(str(username) + "'s Feedback on BDO Platform", email_text, 'admin@bigdataocean.eu', ['feedback@bigdataocean.eu'],
-                          fail_silently=False)
+                # send_mail(str(username) + "'s Feedback on BDO Platform", email_text, 'noreply@epu.ntua.gr', ['iam@paris-reinforce.eu'],
+                #           fail_silently=False)
                 # print email_text
                 return render(request, 'feedback_form/thanks.html')
         else:
