@@ -83,15 +83,19 @@
             </div>
             <div class="navbar-collapse collapse" style="margin-right: 0">
                 <ul class="nav navbar-nav" data-0="margin-top:0px;background-color: rgba(28, 28, 28, 1);"
-                    data-300="margin-top:0px;background-color: rgba(184, 184, 184, 0.65);"
+                    data-300="margin-top:0px;background-color: rgba(75, 75, 75, 0.5);"
                     style="width: 100%">
-                    <li class="active"><a href="#header" style="font-weight: 500">Home</a></li>
+                    <li ><a href="#header" style="font-weight: 500">Home</a></li>
                     <li><a href="#section-works" style="font-weight: 500">Documentation</a></li>
 {#                    <li><a href="#section-services" style="font-weight: 500">Analyses</a></li>#}
+                    <li>
+                        <a href="https://paris-reinforce.eu//" style="font-weight: 500">The Project</a></li>
                     <li><a href="#section-opencall" style="font-weight: 500">Submit</a></li>
                     <li><a href="#section-contact" style="font-weight: 500">Contact</a></li>
+                    <li>
+                        <a href="feedback_form/"><i style="margin-right: 0.5em" class="fa fa-star"></i>Evaluate Us</a></li>
                     <li class="quick-access-content">
-                        <a href="dynamic_doc/"><i style="margin-right: 0.5em" class="fa fa-star"></i>Model Dynamic
+                        <a href="dynamic_doc/"><i style="margin-right: 0.5em" class="fa fa-rocket"></i>Model Dynamic
                             Documentation</a></li>
                 </ul>
             </div>
@@ -290,13 +294,13 @@
 
 
   <!-- spacer section:testimonial -->
-  <section id="testimonials" class="section" data-stellar-background-ratio="0.5" style="height: auto; padding: 5px;">
+  <section id="testimonials" class="section" data-stellar-background-ratio="0.5" style="height: auto;">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
           <div class="align-center">
             <div class="testimonial pad-top40 pad-bot40 clearfix">
-              <h3 style="color: white">
+              <h3 style="color: white; font-size: 25px; font-weight: 500">
                   I<sup>2</sup>AM PARIS seeks to enable modellers to communicate with one another and stakeholders to interact with
                   modelling assumptions, scenarios and results in an informative way and to understand which
                   decarbonisation pathways are the most relevant and realistic, ultimately enhancing the legitimacy of
@@ -394,9 +398,9 @@
 {#</section>#}
 {#<!--/services-->#}
 
-    <hr>
+
 <!-- open call -->
-  <section id="section-opencall" class="section appear clearfix" style="">
+  <section id="section-opencall" class="section appear clearfix" style="background: #343a40; color: #fefefe">
     <div class="container">
 
       <div class="row mar-bot40">
@@ -408,11 +412,11 @@
 
                  <p> Integrated assessment and energy system modellers are welcome to submit
                   documentation of their models. The template to fill in the required information
-                  can be found <a href="{% static '/excel_files/I2AM PARIS_documentation_template_final.xlsx' %}">here</a>,
+                  can be found <a href="{% static '/excel_files/I2AM PARIS_documentation_template_final.xlsx' %}"><b>here</b></a>,
                   and an example based on the GCAM
-                  model can be found <a href="{% static '/excel_files/I2AM PARIS_documentation_template_GCAM.xlsx' %}">here </a>.
+                  model can be found <a href="{% static '/excel_files/I2AM PARIS_documentation_template_GCAM.xlsx' %}"><b>here</b></a>.
                   Please e-mail the template filled in for your model to
-                  <address><a href="mailto:iam@paris-reinforce.eu">iam@paris-reinforce.eu</a></address>
+                  <address><a href="mailto:iam@paris-reinforce.eu"><b>iam@paris-reinforce.eu</b></a></address>
                  </p>
           </div>
         </div>

@@ -15,7 +15,7 @@ a:hover {
 }
 
 .navbar .navbar-nav > .active > a {
-	color: #97ae21;
+	/*color: #97ae21;*/
 }
 .navbar .navbar-brand:hover {
 	color: #97ae21;

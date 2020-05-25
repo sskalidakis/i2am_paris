@@ -1844,7 +1844,7 @@ nav#filter a {
 #contact-form input[type=text],
 #contact-form input[type=email],
 .contactForm textarea {
-  width: 100%;
+  /*width: 100%;*/
   font-family: 'Open Sans', sans serif;
   border: 0;
   font-size: 14px;
