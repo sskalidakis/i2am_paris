@@ -126,7 +126,7 @@ def contact_form(request):
                 form.save()
                 messages.success(request, 'New comment added with success!')
                 send_mail(str(username) + "'s Feedback on I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
-                          ['iam@paris-reinforce.eu'],
+                          ['iam@paris-reinforce.eu', 'paris.reinforce@gmail.com'],
                           fail_silently=False)
                 return JsonResponse({'status': 'OK'})
             else:
