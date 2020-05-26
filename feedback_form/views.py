@@ -34,7 +34,6 @@ def feedback_form(request):
                 rating = str(form.cleaned_data['rating'])
                 email_text = 'User: "' + str(username) + '" submitted his/her feedback on I2AM Paris Platform, regarding: "' + str(
                     action) + '".\nComment: "' + str(details) + '"\nRating: ' + str(rating) + '/5 stars. \nE-mail:' + email
-                print("before captcha", flush=True)
                 ''' Begin reCAPTCHA validation '''
                 recaptcha_response = request.POST.get('g-recaptcha-response')
                 url = 'https://www.google.com/recaptcha/api/siteverify'
@@ -48,16 +47,12 @@ def feedback_form(request):
                 response = urllib.request.urlopen(req)
                 result = json.loads(response.read().decode())
                 ''' End reCAPTCHA validation '''
-                print("after captcha", flush=True)
                 if result['success']:
                     form.save()
-                    print("record saved", flush=True)
                     messages.success(request, 'New comment added with success!')
-                    print("message printed", flush=True)
                     send_mail(str(username) + "'s Feedback on I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
                               ['iam@paris-reinforce.eu'],
                               fail_silently=False)
-                    print("email sent", flush=True)
                    
                     return JsonResponse({'status': 'OK'})
                     # return render(request, 'feedback_form/thanks.html')
