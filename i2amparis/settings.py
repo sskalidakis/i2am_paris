@@ -141,6 +141,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'noreply@epu.ntua.gr'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 EMAIL_FROM = 'noreply@epu.ntua.gr'
+SERVER_EMAIL = 'noreply@epu.ntua.gr'
 
 
 GOOGLE_RECAPTCHA_SITE_KEY = '6LdK8MQUAAAAAEKv0uhyyCh8XEk0EoAwLudZGQyf'
