@@ -238,15 +238,19 @@ class RetrieveGranularities:
             enable = False
             for name in PoliciesName.objects.filter(policies_cat_id=cat_id).values_list('policies_name', flat=True):
                 name_id = PoliciesName.objects.get(policies_name=name, policies_cat_id=cat_id).id
-                states = PoliciesStates.objects.filter(policies_name_id=name_id, model_id=self.model_id).values_list('state', flat=True)
-                if len(states) == 1:
-                    if states[0] in ['Feasible', 'Feasible with modifications']:
+                states = list(PoliciesStates.objects.filter(policies_name_id=name_id, model_id=self.model_id).values_list('state', flat=True))
+                if len(states) > 0:
+                    # if states[0] in ['Feasible', 'Feasible with modifications']:
+                    temp_state = set(states) & set(['Feasible', 'Feasible with modifications'])
+                    if len(temp_state) > 0:
                         state = True
                     else:
+                        # In this case if there is a another option than  'Feasible' or 'Feasible with modifications' is false
+                        # TODO is this correct?
                         state = False
                 else:
                     # If we have more than one states state will be true
-                    state = True
+                    state = False
                 if enable == False:
                     if state:
                         enable = True
@@ -277,14 +281,19 @@ class RetrieveGranularities:
                 name_id = SocioeconsName.objects.get(socioecons_name=name, socioecons_cat_id=cat_id).id
                 states = SocioeconsStates.objects.filter(
                     model_id=self.model_id, socioecons_name_id=name_id).values_list('state', flat=True)
-                if len(states) == 1:
-                    if states[0] in ['Endogenous', 'Exogenous']:
+                if len(states) > 0:
+                    temp_states = set(states) & set(['Endogenous', 'Exogenous'])
+                    if len(temp_states) > 0:
                         state = True
+                    # if states[0] in ['Endogenous', 'Exogenous']:
+                    #     state = True
                     else:
+                        # In this case if there is a another option than  'Endogenous' or 'Exogenous' is false
+                        # TODO is this correct?
                         state = False
                 else:
                     # In case there is more than one state is true
-                    state = True
+                    state = False
                 if enable == False:
                     if state:
                         enable = True
