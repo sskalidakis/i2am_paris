@@ -8,20 +8,21 @@
             font-size: 0.9em;
         }
         .desc_text{
-            font-size: 0.7em;
+            font-size: 0.8em;
         }
         .take_up_space{
             min-height: 1em;
-            margin-top: 1em;
+            margin-bottom: 0.5em;
         }
         .text_take_up_space{
-            min-height: 7em;
-            margin-top: 1em;
+            min-height: 10em;
+            {#margin-bottom: 1em;#}
         }
 
     </style>
 {% endblock %}
 {% block content %}
+
     <div class="container" style="width: 100%; height:100%;">
         <div class="row" style="margin-top: 6em; height: 75vh">
             <div class="col-sm-10" style="height: 100%">
@@ -71,8 +72,15 @@
             </div>
 
             <div class="col-sm-2" style="margin-top: 2em">
-                <div class="heading">Model Name</div>
-                <div class="desc_text take_up_space" id="model_name"></div>
+                <h3>Information</h3>
+{#                <div class="heading">Model Name</div>#}
+                <label for="model_name">Model Name
+                    <select class="form-control desc_text take_up_space" id="model_name">
+                    {% for el in models %}
+                    <option value="{{ el.model_name }}">{{ el.model_title }}</option>
+                    {% endfor %}
+                    </select>
+                </label>
                 <div class="heading">Model Geographical Coverage</div>
                 <div class="desc_text take_up_space" id="geo_cov"></div>
                 <div class="heading">Model Type</div>
@@ -81,13 +89,21 @@
                 <div class="desc_text take_up_space" id="model_timestep"></div>
                 <div class="heading">Model Description</div>
                 <div class="desc_text text_take_up_space" id="model_desc"></div>
-                <hr>
-                <div class="heading">Variable Name</div>
-                <div class="desc_text take_up_space" id="var_name"></div>
-                <div class="heading">Variable Unit</div>
-                <div class="desc_text take_up_space" id="var_unit"></div>
-                <div class="heading">Variable Source</div>
-                <div class="desc_text take_up_space" id="var_source"></div>
+{#                <hr>#}
+{#                <div class="heading">Variable Name</div>#}
+                <label for="var_name">Variable Name
+                    <select class=" form-control desc_text take_up_space" id="var_name" >
+                    {% for el in variables %}
+                        <option value="{{ el.var_name }}">{{ el.var_title }}</option>
+                    {% endfor %}
+                    </select>
+                </label>
+{#                <div class="heading">Variable Unit</div>#}
+{#                <div class="desc_text take_up_space" id="var_unit"></div>#}
+{#                <div class="heading">Variable Source</div>#}
+{#                <div class="desc_text take_up_space" id="var_source"></div>#}
+                <div class="heading"> Category</div>
+                <div class="desc_text take_up_space" id="var_cat"></div>
                 <div class="heading">Variable Definition</div>
                 <div class="desc_text text_take_up_space" id="var_def"></div>
 
@@ -95,6 +111,26 @@
         </div>
 
     </div>
+    <div id="models_container" style="display: none">
+        {% for model in models %}
+            <div id={{ model.model_name }}>
+{#                <span id="long_title">{{ model.long_title }}</span>#}
+                <span class="d_model_coverage">{{ model.coverage_title }}</span>
+                <span class="d_model_type">{{ model.type_of_model }}</span>
+                <span class="d_model_timestep">{{ model.time_steps_in_solution }}</span>
+                <span class="d_model_description">{{ model.short_description }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="variables_container" style="display: none">
+        {% for variable in variables %}
+            <div id={{ variable.var_name }}>
+                <span class="d_var_title">{{ variable.var_title }}</span>
+                <span class="d_var_category">{{ variable.var_category }}</span>
+                <span class="d_var_definition">{{ variable.var_definition }}</span>
+            </div>
+        {% endfor %}
+</div>
 
 {% endblock %}
 
@@ -133,7 +169,7 @@
                 "z_axis_title": "Value",
                 "z_axis_unit": "-",
                 "min_max_z_value": 0,
-                "color_list_request": ["red","green","blue"],
+                "color_list_request": ["grey_green","orange_yellow","light_red"],
                 "distinct":["Extractable model output", "Interlinkable model input", "No explicit output or input"],
                 "dataset": "harm_data.json",
                 "dataset_type": "file"
@@ -160,47 +196,31 @@
                 $('#loading_bar').hide();
             });
             console.log(url);
-
-
-            /*$.ajax({
-                type: "post",
-                url: "/visualiser/show_heat_map_chart",
-                data: data,
-                dataType: 'text',
-                success: function (responseData, textStatus, xhr) {
-                    console.log(responseData);
-                    {#$('#viz_iframe').attr('src', "/visualiser/show_heat_map_chart?y_var_names[]=variable&y_axis_title=Variables&y_var_units[]=-&x_axis_name=model&x_axis_title=Models&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&distinct[]=Extractable%20model%20output&distinct[]=Interlinkable%20model%20input&distinct[]=No%20explicit%20output%20or%20input") ;#}
-                    $('#viz_iframe').contents().find("html").append(responseData);
-                    $('#viz_iframe').attr() ;
-                    $('#loading_bar').hide();
-                    $('#viz_iframe').show();
-                },
-                error: function (jqXHR, exception, error) {
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    console.log(msg);
-                }
-            });*/
+            
 
         });
-        $('#col_order')
-            .val('default')
-            .trigger('change');
+        $('#col_order').val('default').trigger('change');
     </script>
+
+    <script>
+        $("#model_name").change(function () {
+            $('#geo_cov').text($('#'+ String($(this).val()) +' .d_model_coverage').text());
+            $('#model_type').text($('#' + String($(this).val()) + ' .d_model_type').text());
+            $('#model_timestep').text($('#' + String($(this).val()) + ' .d_model_timestep').text());
+            $('#model_desc').text($('#' + String($(this).val()) + ' .d_model_description').text());
+
+        });
+        $("#var_name").change(function () {
+            $('#var_def').text($('#' + String($(this).val()) + ' .d_var_definition').text());
+            $('#var_cat').text($('#' + String($(this).val()) + ' .d_var_category').text());
+        });
+
+        $('#model_name').val('gemini_e3').trigger('change');
+        $('#var_name').val('population').trigger('change');
+
+    </script>
+
+
 
 
 {% endblock %}
