@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
-from i2amparis_main.models import ModelsInfo
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
@@ -37,6 +37,12 @@ def overview_comparative_assessment_doc_national_oeu(request):
     print('Overview Comparative Assessment National O_EU')
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
+def harmonisation(request):
+    models = ModelsInfo.objects.all()
+    variables = Harmonisation_Variables.objects.all()
+    context = {"models": models,
+               "variables": variables}
+    return render(request, 'i2amparis_main/harmonisation.html',context)
 
 def detailed_model_doc(request,model=''):
     if model == '':
@@ -132,6 +138,9 @@ def contact_form(request):
             else:
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
                 return JsonResponse({'status': 'NOT_OK'})
+
+
+
 
 
 

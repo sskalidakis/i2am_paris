@@ -1083,6 +1083,89 @@ THERMOMETER = [
                 }
          ]
 
+HEAT_MAP_CHART_DATA2 = [
+    {
+        "hour": "12pm",
+        "weekday": "Sun",
+        "value": "0"
+    },
+    {
+        "hour": "1am",
+        "weekday": "Sun",
+        "value": "1"
+    },
+    {
+        "hour": "2am",
+        "weekday": "Sun",
+        "value": "2"
+    },
+    {
+        "hour": "3am",
+        "weekday": "Sun",
+        "value": "1"
+    },
+    {
+        "hour": "12pm",
+        "weekday": "Mon",
+        "value": "3"
+    },
+    {
+        "hour": "1am",
+        "weekday": "Mon",
+        "value": "1"
+    },
+    {
+        "hour": "2am",
+        "weekday": "Mon",
+        "value": "2"
+    },
+    {
+        "hour": "3am",
+        "weekday": "Mon",
+        "value": "2"
+    },
+    {
+        "hour": "12pm",
+        "weekday": "Tue",
+        "value": "1"
+    },
+    {
+        "hour": "1am",
+        "weekday": "Tue",
+        "value": "1"
+    },
+    {
+        "hour": "2am",
+        "weekday": "Tue",
+        "value": "2"
+    },
+    {
+        "hour": "3am",
+        "weekday": "Tue",
+        "value": "2"
+    },
+    {
+        "hour": "12pm",
+        "weekday": "Wed",
+        "value": "1"
+    },
+    {
+        "hour": "1am",
+        "weekday": "Wed",
+        "value": "3"
+    },
+    {
+        "hour": "2am",
+        "weekday": "Wed",
+        "value": "3"
+    },
+    {
+        "hour": "3am",
+        "weekday": "Wed",
+        "value": "2"
+    },
+]
+
 HEAT_MAP_CHART_DATA = [
  {
   "hour": "12pm",

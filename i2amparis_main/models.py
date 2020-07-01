@@ -10,12 +10,19 @@ In classes Emissions, Socioecons & Policies there is the field state which can h
 * exogenous
 * Not represented 
 """
+class Harmonisation_Variables(models.Model):
+    """Variables for harmonisation table"""
+    var_name = models.CharField(null=False, default="-", max_length=50)
+    var_title = models.CharField(null=False, default="-", max_length=50)
+    var_category = models.CharField(null=False, default="-", max_length=50)
+    var_definition = models.TextField(null=False, default="-")
+    var_unit = models.CharField(null=False, default="-", max_length=20)
+    var_source_info = models.TextField(null=False, default="-")
 
 
 class ModelsInfo(models.Model):
     """
     Tab Model information
-
     """
     model_name = models.TextField()
     model_title = models.TextField(default="")
@@ -29,6 +36,8 @@ class ModelsInfo(models.Model):
     icon = models.TextField(default="")
     ordering = models.IntegerField(default=0)
     coverage = models.TextField(default="")
+    coverage_title = models.TextField(default="")
+    harmonisation = models.BooleanField(default=False)
 
 
     def __str__(self):

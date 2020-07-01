@@ -159,6 +159,11 @@ http://localhost:8000/visualiser/show_heat_map_chart
 ------------------------------------------------------------------------------------------------------------------------
 - GET REQUEST
 http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=hour&y_axis_title=Hour&y_var_units[]=-&x_axis_name=weekday&x_axis_title=Weekday&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=cyan&min_max_z_value[]=1900&min_max_z_value[]=11000
+- GET REQUEST (2 / distinct_colors)
+http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=hour&y_axis_title=Hour&y_var_units[]=-&x_axis_name=weekday&x_axis_title=Weekday&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&distinct[]=1&distinct[]=2&distinct[]=3
+- GET REQUEST (3 / distinct_colors)
+http://localhost:8000/visualiser/show_heat_map_chart?y_var_names[]=variable&y_axis_title=Variables&y_var_units[]=-&x_axis_name=model&x_axis_title=Models&x_axis_unit=-&z_axis_name=value&z_axis_title=Value&z_axis_unit=m&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&distinct[]=Extractable%20model%20output&distinct[]=Interlinkable%20model%20input&distinct[]=No%20explicit%20output%20or%20input
+
 -POST REQUEST:
 http://localhost:8000/visualiser/show_heat_map_chart
 Body:{

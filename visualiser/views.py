@@ -4,9 +4,13 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
+
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
-    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2
+    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
+    HEAT_MAP_CHART_DATA2
+
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -18,7 +22,7 @@ import json
 
 class XYZ_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title, y_axis_unit,
-                 z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, chart_type):
+                 z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, distinct, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -39,6 +43,7 @@ class XYZ_chart:
                 grey_darkblue, lightblue_green"
         :param minmax_z_value: A two-element list that contains the min and max value of the variables on the Z-Axis. (List of Numbers)
         :param chart_type: The type of the chart. Options : heat_map_chart
+        :param distinct: defines a list of distinct values that will be presented with different colors on the heatmap (list of values)
         """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
@@ -54,11 +59,12 @@ class XYZ_chart:
         self.chart_type = chart_type
         self.color_list = color_list
         self.minmax_z_value = minmax_z_value
+        self.distinct = distinct
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'y_axis_title': self.y_axis_title,
                         'y_axis_unit': self.y_axis_unit, 'y_axis_name': self.y_axis_name,'z_axis_name': z_axis_name,
                         'z_axis_title': z_axis_title, 'z_axis_unit': z_axis_unit, 'color_list': self.color_list,
-                        'minmax_z_value': self.minmax_z_value, 'chart_data': self.chart_data}
+                        'minmax_z_value': self.minmax_z_value, 'distinct': distinct, 'chart_data': self.chart_data}
 
     def show_chart(self):
         """
@@ -233,11 +239,11 @@ def get_response_data_XY(request):
             "chart_3d": request.GET.get("chart_3d", ""),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
+            "distinct": request.GET.getlist("distinct[]", [])
 
         }
     else:
-        json_response = json.loads(request.body)
-        print(json_response)
+        json_response = json.loads(request.body.decode('utf-8'))
     return json_response
 
 
@@ -450,6 +456,22 @@ def get_response_heat_map(request):
     return json_response
 
 
+
+def create_heatmap_data(dataset):
+    print(dataset)
+    with open('static/harmonisation_data/' + dataset, 'r') as f:
+        data = f.read()
+    diction = json.loads(data)
+    new_dict = []
+    for model, vars in diction.items():
+        for var, val in vars.items():
+            var_title = Harmonisation_Variables.objects.get(var_name=var).var_title
+            new_dict.append({"model": model, "variable": var_title, "value": val})
+    print(new_dict)
+    return new_dict
+
+
+@csrf_exempt
 def show_heat_map_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_axis_name = response_data_xy['y_var_names'][0]
@@ -458,20 +480,25 @@ def show_heat_map_chart(request):
     x_axis_title = response_data_xy['x_axis_title']
     x_axis_unit = response_data_xy['x_axis_unit']
     y_axis_title = response_data_xy['y_axis_title']
-    color_list_request = response_data_xy['color_list_request'][0]
     response_heat_map = get_response_heat_map(request)
     z_axis_name = response_heat_map["z_axis_name"]
     z_axis_title = response_heat_map["z_axis_title"]
     z_axis_unit = response_heat_map["z_axis_unit"]
     min_max_z_value = response_heat_map["min_max_z_value"]
-    # data = HEAT_MAP_CHART_DATA
-    data = generate_data_for_heat_map_chart()
-    color_list = AM_CHARTS_COLOR_HEATMAP_COUPLES.get(color_list_request, define_color_code_list([color_list_request]))
-    bar_heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title,
+    distinct = response_data_xy['distinct']
+    dataset = response_data_xy['dataset']
+    if len(distinct) == 0:
+        color_list_request = response_data_xy['color_list_request'][0]
+        color_list = AM_CHARTS_COLOR_HEATMAP_COUPLES.get(color_list_request,
+                                                         define_color_code_list([color_list_request]))
+    else:
+        color_list = define_color_code_list(response_data_xy['color_list_request'])
+    data = create_heatmap_data(dataset)
+    heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title,
                                    y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
-                                   min_max_z_value, 'heat_map_chart')
+                                   min_max_z_value, distinct, 'heat_map_chart')
 
-    return bar_heat_map_chart.show_chart()
+    return heat_map_chart.show_chart()
 
 
 @csrf_exempt
@@ -584,8 +611,8 @@ def heat_map_on_map(request):
     response_data_xy = get_response_data_XY(request)
     color_list_request = response_data_xy["color_list_request"][0]
     min_max_value = response_data_xy["min_max_y_value"]
-    # map_data = HEAT_MAP_DATA
-    map_data = generate_data_for_heat_map()
+    map_data = HEAT_MAP_DATA
+    # map_data = generate_data_for_heat_map()
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
                               min_max_value, 'heatmap_on_map')
