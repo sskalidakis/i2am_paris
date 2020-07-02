@@ -1,7 +1,10 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
-    <div id="chartdiv"></div>
-
+    <div id="chartdiv" style="font-family: Raleway, Helvetica, Arial, sans-serif;!important; font-weight: lighter"></div>
+    <div id="harmonisation_hidden" style="display: none">
+        <div id="col_clicked"></div>
+        <div id="row_clicked"></div>
+    </div>
     <script>
 
         am4core.ready(function () {
@@ -169,6 +172,11 @@
                     heatLegend.valueAxis.hideTooltip();
                 });
             }
+
+            series.columns.template.events.on("hit", function (ev) {
+                $('#col_clicked').text(ev.target.dataItem.categoryX);
+                $('#row_clicked').text(ev.target.dataItem.categoryY);
+            }, this);
 
 
         });

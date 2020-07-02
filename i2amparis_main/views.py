@@ -39,17 +39,8 @@ def overview_comparative_assessment_doc_national_oeu(request):
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
 def harmonisation(request):
-    models = ModelsInfo.objects.all()
-    # dict_models = {}
-    # for el1 in models:
-    #     dict_models[el1.model_title] = {serializers.serialize('json', [el1, ])}
-
-    variables = Harmonisation_Variables.objects.all()
-    # dict_variables = {}
-    # for el2 in variables:
-    #     dict_variables[el2.var_title] = {serializers.serialize('json', [el2, ])}
-    # print(dict_variables)
-    # print(dict_models)
+    models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
+    variables = Harmonisation_Variables.objects.all().order_by('var_title')
 
     context = {"models": models,
                "variables": variables}

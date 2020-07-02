@@ -10,14 +10,7 @@ In classes Emissions, Socioecons & Policies there is the field state which can h
 * exogenous
 * Not represented 
 """
-class Harmonisation_Variables(models.Model):
-    """Variables for harmonisation table"""
-    var_name = models.CharField(null=False, default="-", max_length=50)
-    var_title = models.CharField(null=False, default="-", max_length=50)
-    var_category = models.CharField(null=False, default="-", max_length=50)
-    var_definition = models.TextField(null=False, default="-")
-    var_unit = models.CharField(null=False, default="-", max_length=20)
-    var_source_info = models.TextField(null=False, default="-")
+
 
 
 class ModelsInfo(models.Model):
@@ -39,9 +32,23 @@ class ModelsInfo(models.Model):
     coverage_title = models.TextField(default="")
     harmonisation = models.BooleanField(default=False)
 
-
     def __str__(self):
         return self.model_name
+
+class Harmonisation_Variables(models.Model):
+    """Variables for harmonisation table"""
+    var_name = models.CharField(null=False, default="-", max_length=50)
+    var_title = models.CharField(null=False, default="-", max_length=50)
+    var_category = models.CharField(null=False, default="-", max_length=50)
+    var_definition = models.TextField(null=False, default="-")
+    var_unit = models.CharField(null=False, default="-", max_length=20)
+    var_source_info = models.TextField(null=False, default="-")
+    model_relation = models.ManyToManyField(ModelsInfo, through='HarmData')
+
+class HarmData(models.Model):
+    model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    io_status = models.CharField(null=False, default="", max_length=50)
 
 
 # class Sectors(models.Model):

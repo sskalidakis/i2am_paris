@@ -10,7 +10,7 @@ from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANG
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
     HEAT_MAP_CHART_DATA2
 
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmData
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -239,7 +239,8 @@ def get_response_data_XY(request):
             "chart_3d": request.GET.get("chart_3d", ""),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
-            "distinct": request.GET.getlist("distinct[]", [])
+            "dataset_type": request.GET.get("dataset_type","file"),
+            "distinct": request.GET.getlist("distinct[]", []),
 
         }
     else:
@@ -456,18 +457,50 @@ def get_response_heat_map(request):
     return json_response
 
 
-
-def create_heatmap_data(dataset):
+def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, dataset_type):
+    print(harmonisation_map)
     print(dataset)
-    with open('static/harmonisation_data/' + dataset, 'r') as f:
-        data = f.read()
-    diction = json.loads(data)
     new_dict = []
-    for model, vars in diction.items():
-        for var, val in vars.items():
-            var_title = Harmonisation_Variables.objects.get(var_name=var).var_title
-            new_dict.append({"model": model, "variable": var_title, "value": val})
-    print(new_dict)
+    if dataset_type =='file':
+        with open('static/harmonisation_data/' + dataset, 'r') as f:
+            data = f.read()
+        diction = json.loads(data)
+        for model, vars in diction.items():
+            for var, val in vars.items():
+                var_title = Harmonisation_Variables.objects.get(var_name=var).var_title
+                new_dict.append({"model": model, "variable": var_title, "value": val})
+        print(new_dict)
+    elif dataset_type == 'db':
+        data = HarmData.objects.all()
+        col_ordering = None
+        if col_order == 'alphabetically':
+            col_ordering = 'model__model_title'
+        elif col_order == 'model_type':
+            col_ordering = 'model__type_of_model'
+        elif col_order == 'coverage':
+            col_ordering = 'model__coverage'
+        elif col_order == 'time_steps_in_solution':
+            col_ordering = 'model__time_steps_in_solution'
+
+        row_ordering = None
+        if row_order == 'alphabetically':
+            row_ordering = 'variable__var_title'
+        elif row_order == 'var_category':
+            row_ordering = 'variable__var_category'
+
+        if (col_ordering is None) and (row_ordering is None):
+            pass
+        elif col_ordering is None:
+            data = data.order_by(row_ordering)
+        elif row_ordering is None:
+            data = data.order_by(col_ordering)
+        else:
+            data = data.order_by(col_ordering, row_ordering)
+
+
+        for el in data:
+            new_dict.append({"model": el.model.model_title, "variable": el.variable.var_title, "value": el.io_status})
+
     return new_dict
 
 
@@ -487,13 +520,17 @@ def show_heat_map_chart(request):
     min_max_z_value = response_heat_map["min_max_z_value"]
     distinct = response_data_xy['distinct']
     dataset = response_data_xy['dataset']
+    dataset_type = response_data_xy['dataset_type']
+    harmonisation_map = request.GET.get("harmonisation_map", "false")
+    col_order = request.GET.get("col_order", "default")
+    row_order = request.GET.get("row_order", "default")
     if len(distinct) == 0:
         color_list_request = response_data_xy['color_list_request'][0]
         color_list = AM_CHARTS_COLOR_HEATMAP_COUPLES.get(color_list_request,
                                                          define_color_code_list([color_list_request]))
     else:
         color_list = define_color_code_list(response_data_xy['color_list_request'])
-    data = create_heatmap_data(dataset)
+    data = create_heatmap_data(dataset, harmonisation_map, col_order, row_order,dataset_type)
     heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title,
                                    y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
                                    min_max_z_value, distinct, 'heat_map_chart')

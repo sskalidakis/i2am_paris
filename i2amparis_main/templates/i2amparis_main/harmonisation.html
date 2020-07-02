@@ -16,7 +16,7 @@
         }
         .text_take_up_space{
             min-height: 10em;
-            {#margin-bottom: 1em;#}
+            margin-bottom: 1em;
         }
 
     </style>
@@ -26,7 +26,7 @@
     <div class="container" style="width: 100%; height:100%;">
         <div class="row" style="margin-top: 6em; height: 75vh">
             <div class="col-sm-10" style="height: 100%">
-                <div class="row" style="height: 100%; line-height: 100%;">
+                <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
                     <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart" style="width: 100%; height: 100%;  border:none"></iframe>
                     <div id="loading_bar" style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:50%;margin-top:-6em; display: none">
                         <img style="height: 13em; width: 13em;" src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
@@ -72,7 +72,7 @@
             </div>
 
             <div class="col-sm-2" style="margin-top: 2em">
-                <h3>Information</h3>
+                <h2>Information</h2>
 {#                <div class="heading">Model Name</div>#}
                 <label for="model_name">Model Name
                     <select class="form-control desc_text take_up_space" id="model_name">
@@ -134,6 +134,7 @@
 
 {% endblock %}
 
+
 {% block js %}
 {#    <script src="https://www.amcharts.com/lib/4/core.js"></script>#}
 {#    <script src="https://www.amcharts.com/lib/4/charts.js"></script>#}
@@ -155,15 +156,16 @@
             $('#loading_bar').show();
 
             var data = {
+                "harmonisation_map": true,
                 "col_order": $('#col_order').val(),
                 "row_order": $('#row_order').val(),
                 "col_group": $('#col_group').val(),
                 "row_group": $('#row_group').val(),
                 "y_var_names": ["variable"],
-                "y_axis_title": "Variables",
+                "y_axis_title": "Variable",
                 "y_var_units":["-"],
                 "x_axis_name": "model",
-                "x_axis_title": "Models",
+                "x_axis_title": "Model",
                 "x_axis_unit": "-",
                 "z_axis_name": "value",
                 "z_axis_title": "Value",
@@ -172,7 +174,7 @@
                 "color_list_request": ["grey_green","orange_yellow","light_red"],
                 "distinct":["Extractable model output", "Interlinkable model input", "No explicit output or input"],
                 "dataset": "harm_data.json",
-                "dataset_type": "file"
+                "dataset_type": "db",
             };
             var url = '';
             for (var key in data) {
@@ -194,9 +196,26 @@
             viz_frame.load(function () {
                 $(this).show();
                 $('#loading_bar').hide();
+                $(this).contents().on('click', function () {
+
+                    var col_option = $('iframe').contents().find('#col_clicked').text();
+                    var col_val = $('#model_name option')
+                        .filter(function () {
+                            return $.trim($(this).text()) === col_option;
+                        }).val();
+                    $('#model_name').val(col_val);
+                    $('#model_name').trigger('change');
+                    var row_option = $('iframe').contents().find('#row_clicked').text();
+                    var row_val = $('#var_name option')
+                        .filter(function () {
+                            return $.trim($(this).text()) === row_option;
+                        }).val();
+                    $('#var_name').val(row_val);
+                    $('#var_name').trigger('change');
+                })
             });
             console.log(url);
-            
+
 
         });
         $('#col_order').val('default').trigger('change');
@@ -215,11 +234,16 @@
             $('#var_cat').text($('#' + String($(this).val()) + ' .d_var_category').text());
         });
 
-        $('#model_name').val('gemini_e3').trigger('change');
-        $('#var_name').val('population').trigger('change');
+        {#$('#model_name').val('gemini_e3').trigger('change');#}
+        {#$('#var_name').val('population').trigger('change');#}
+
+
 
     </script>
 
+    <script>
+
+    </script>
 
 
 
