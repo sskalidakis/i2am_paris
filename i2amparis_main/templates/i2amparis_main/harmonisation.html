@@ -24,7 +24,7 @@
 {% block content %}
 
     <div class="container" style="width: 100%; height:100%;">
-        <div class="row" style="margin-top: 6em; height: 75vh">
+        <div class="row" style="margin-top: 6em; height: 95vh">
             <div class="col-sm-10" style="height: 100%">
                 <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
                     <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart" style="width: 100%; height: 100%;  border:none"></iframe>
@@ -87,8 +87,13 @@
                 <div class="desc_text take_up_space" id="model_type"></div>
                 <div class="heading"> Model Time Step (Years)</div>
                 <div class="desc_text take_up_space" id="model_timestep"></div>
-                <div class="heading">Model Description</div>
-                <div class="desc_text text_take_up_space" id="model_desc"></div>
+                <div class="heading " style="margin-bottom: 2em">
+                <a style="font-size: 1em;font-weight: bold; " id="model_desc" target="_blank" rel="noopener noreferrer"  href="/detailed_model_doc/">Detailed Model Description
+                    <i class="fa fa-info-circle"></i>
+                </a>
+                </div>
+
+{#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
 {#                <hr>#}
 {#                <div class="heading">Variable Name</div>#}
                 <label for="var_name">Variable Name
@@ -171,7 +176,7 @@
                 "z_axis_title": "Value",
                 "z_axis_unit": "-",
                 "min_max_z_value": 0,
-                "color_list_request": ["grey_green","orange_yellow","light_red"],
+                "color_list_request": ["grey_green","light_blue","ice_gray"],
                 "distinct":["Extractable model output", "Interlinkable model input", "No explicit output or input"],
                 "dataset": "harm_data.json",
                 "dataset_type": "db",
@@ -194,6 +199,7 @@
             var complete_url = "/visualiser/show_heat_map_chart?" + url;
             viz_frame.attr('src',complete_url);
             viz_frame.load(function () {
+                $('body').css('height', '119vh');
                 $(this).show();
                 $('#loading_bar').hide();
                 $(this).contents().on('click', function () {
@@ -226,13 +232,16 @@
             $('#geo_cov').text($('#'+ String($(this).val()) +' .d_model_coverage').text());
             $('#model_type').text($('#' + String($(this).val()) + ' .d_model_type').text());
             $('#model_timestep').text($('#' + String($(this).val()) + ' .d_model_timestep').text());
-            $('#model_desc').text($('#' + String($(this).val()) + ' .d_model_description').text());
+            $('#model_desc').attr('href','/detailed_model_doc/'+ String($(this).val()));
+            $('#model_desc').html("<i class=\"fa fa-info-circle\"></i> Description of " + String($(this).find('option:selected').text()));
 
         });
         $("#var_name").change(function () {
             $('#var_def').text($('#' + String($(this).val()) + ' .d_var_definition').text());
             $('#var_cat').text($('#' + String($(this).val()) + ' .d_var_category').text());
         });
+        $('#model_desc').attr('href', '/detailed_model_doc/' + String($('#model_name').val()));
+        $('#model_desc').html("<i class=\"fa fa-info-circle\"></i> Description of " + String($('#model_name').find('option:selected').text()));
 
         {#$('#model_name').val('gemini_e3').trigger('change');#}
         {#$('#var_name').val('population').trigger('change');#}

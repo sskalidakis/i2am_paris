@@ -16,7 +16,7 @@ AM_CHARTS_COLOR_INDEX_LIST = {
 }
 
 AM_CHARTS_COLOR_CODES_LIST = {
-    "light_blue": "#65a5db",
+    "light_blue": "#5B9BD5",
     "petrol_blue": "#066f7c",
     "blue": "#5079d4",
     "violet": "#8951db",
@@ -39,6 +39,7 @@ AM_CHARTS_COLOR_CODES_LIST = {
     "cyan": "#4b9e91",
     "black": "#000000",
     "gray": "#b4b4b4",
+    "ice_gray": "#CDD4D6",
     "white": "#FFFFFF"
 }
 

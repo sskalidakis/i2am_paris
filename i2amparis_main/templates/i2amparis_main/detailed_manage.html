@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71499906-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-71499906-6');
+    </script>
+    <!-- BASICS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>I2AMPARIS - Detailed Model Documentation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href={% static "main_theme/css/isotope.css" %} media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/js/fancybox/jquery.fancybox.css" %} type="text/css"
+          media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap-theme.css" %}>
+    <link href={% static "main_theme/css/responsive-slider.css" %} rel="stylesheet">
+    <link rel="stylesheet" href={% static "main_theme/css/animate.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/style.css" %}>
+
+    <link rel="stylesheet" href={% static "main_theme/css/font-awesome.min.css" %}>
+    <!-- skin -->
+    <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <style>
+        #section-main-content {
+            min-height: 3380px;
+        }
+
+        {#        html {#}
+        {#            scroll-behavior: smooth;#}
+        {#        }#}
+
+        .heading-new {
+            color: #97ae21E6
+        }
+    </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
+    <!-- =======================================================
+    Theme Name: Green
+    Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+</head>
+
+<body>
+
+
+{% include "i2amparis_main/upper_bar_documentation.html" %}
+<div class="main-page" style="margin-top: 100px">
+    {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
+    <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
+        <div class="main-content">
+            <div id="mySidebar" class="sidebar">
+                <div>
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                </div>
+
+
+                {#                                  ALADIN#}
+
+                <div id="collapse_aladin">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span>Short overview</span>
+                            <a style="display: none"
+                               href="#aladin_short_overview">Short Overview</a>
+                        </li>
+                        <li>
+                            <div class="panel-group aladin_methology">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding:0px">
+                                        <h5 class="panel-title"
+                                            style="background-color:#343a40; padding: 5px">
+                                            <a data-toggle="collapse"
+                                               href="#collapse_aladin_methology"><i
+                                                    class="fa fa-caret-right rotate"
+                                                    style="margin-right: 10px;"></i>Methology
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapse_aladin_methology"
+                                         class="panel-collapse collapse">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <span>Model core for Germany</span>
+                                                <a style="display: none"
+                                                   href="#aladin_model_core_germany">
+                                                    Model core for Germany</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span>Passenger Cars outside of Germany</span>
+                                                <a style="display: none"
+                                                   href="#aladin_passenger_cars_outside_germany">
+                                                    Passenger Cars outside of Germany</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span>Heavy-duty vehicles</span>
+                                                <a style="display: none"
+                                                   href="#aladin_heavy_duty_vehicles">
+                                                    Heavy-duty vehicles</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span>Input Data</span>
+                                                <a style="display: none"
+                                                   href="#aladin_input_data">
+                                                    Input Data</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="panel-group aladin_model_coverage">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding:0px">
+                                        <h5 class="panel-title"
+                                            style="background-color:#343a40; padding: 5px">
+                                            <a data-toggle="collapse"
+                                               href="#collapse_aladin_model_coverage"><i
+                                                    class="fa fa-caret-right rotate"
+                                                    style="margin-right: 10px;"></i>Model
+                                                coverage
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapse_aladin_model_coverage"
+                                         class="panel-collapse collapse">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <span>Geographical, temporal, and segment coverage</span>
+                                                <a style="display: none"
+                                                   href="#aladin_gegraphical_temporal_segment">
+                                                    Geographical, temporal, and segment
+                                                    coverage</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span>Mitigation options</span>
+                                                <a style="display: none"
+                                                   href="#aladin_mitigation_options">
+                                                    Mitigation options</a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Specific modelling for PARIS REINFORCE</span>
+                            <a style="display: none"
+                               href="#aladin_paris_reinforce">Specific modelling for PARIS
+                                REINFORCE</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Recent publications using the ALADIN model</span>
+                            <a style="display: none"
+                               href="#aladin_recent_publications">
+                                Recent publications using the ALADIN model
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <span>References</span>
+                            <a style="display: none"
+                               href="#aladin_references">References</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+
+            <div id="main_bar">
+                <div class="container">
+
+                    <div class="row">
+                        <h1 id="aladin" style="padding-bottom: 1em; padding-top: 1em">The MANAGE Model</h1>
+                    </div>
+                    <div class="row">
+                        No information available yet.
+                    </div>
+
+
+                </div>
+            </div>
+    </section>
+</div>
+
+{% include "i2amparis_main/pages_footer.html" %}
+
+
+<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+
+<script src={% static "main_theme/js/modernizr-2.6.2-respond-1.1.0.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.js" %}></script>
+<script src={% static "main_theme/js/jquery.easing.1.3.js" %}></script>
+<script src={% static "main_theme/js/bootstrap.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.isotope.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.nicescroll.min.js" %}></script>
+<script src={% static "main_theme/js/fancybox/jquery.fancybox.pack.js" %}></script>
+<script src={% static "main_theme/js/skrollr.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.scrollTo.js" %}></script>
+<script src={% static "main_theme/js/jquery.localScroll.js" %}></script>
+<script src={% static "main_theme/js/stellar.js" %}></script>
+<script src={% static "main_theme/js/responsive-slider.js" %}></script>
+<script src={% static "main_theme/js/jquery.appear.js" %}></script>
+<script src={% static "main_theme/js/grid.js" %}></script>
+<script src={% static "main_theme/js/main.js" %}></script>
+<script src={% static "main_theme/js/wow.min.js" %}></script>
+<script>
+    wow = new WOW({}).init();
+</script>
+<script src={% static "main_theme/contactform/contactform.js" %}></script>
+<script src={% static "content_button_js.js" %}></script>
+{#<script src={% static "goback_button_js.js" %}></script>#}
+<script src={% static "navigate_menu_js.js" %}></script>
+
+
+</body>
+
+</html>
