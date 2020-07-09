@@ -432,7 +432,147 @@
                           <section class="section">
                               <span id="teem_key_params" class="anchor"></span>
                               <h2 class="mb-0 heading-new">Key parameters</h2>
-                          <p><b>BSAM: *Please Insert Table 1*</b></p>
+<!--                          <p><b>BSAM: *Please Insert Table 1*</b></p>-->
+                               <div class="my_table table-responsive">
+<table class="table ">
+       <thead>
+       <tr>
+
+           <th style="width:7.5%">Model input parameter</th>
+           <th style="width:7.5%">Key data sources</th>
+           <th style="width:7.5%">Dimensions (Space/Time)</th>
+           </tr>
+       </thead>
+            <tbody>
+            <tr>
+            <td><b></b>Electricity</td>
+            <td>
+            <ul>
+            <ol>1)ENTSO-e Transparency Platform</ol>
+            <ol>2) Scientific literature/Technical reports</ol>
+            </ul>
+            </td>
+            <td>country / hour</td>
+            </tr>
+            <tr>
+            <td><b>Generators</b></td>
+            <td>1) Scientific literature/Technical reports</td>
+            <td>technology, fuel, technical characteristics / -</td>
+            </tr>
+            <tr>
+            <td><b>Generating Resource Availability</b></td>
+            <td>
+            <ul>
+            <ol>1) Scientific literature/Technical reports</ol>
+            <ol>2) Stakeholder engagement</ol>
+            </ul>
+            </td>
+            <td>country / year</td>
+            </tr>
+            <tr>
+            <td><b>Hydro basin levels</b></td>
+            <td>Technical reports</td>
+            <td>basin / month (historical data; at least 1 year)</td>
+            </tr>
+            <tr>
+            <td><b>Historical hydro generation</b></td>
+            <td>ENTSO-e Transparency Platform</td>
+            <td>country / month</td>
+            </tr>
+            <tr>
+            <td><b>Expected generation of hydro plants</b></td>
+            <td>Scientific literature/Technical reports</td>
+            <td>dam / month</td>
+            </tr>
+            <tr>
+            <td><b>Thermal reference price</b></td>
+            <td>Hellenic Energy Exchange website</td>
+            <td>country / month</td>
+            </tr>
+            <tr>
+            <td><b>Imports Prices</b></td>
+            <td>ENTSO-e Transparency Platform</td>
+            <td>country / hour</td>
+            </tr>
+            <tr>
+            <td><b>Interconnections Capacity</b></td>
+            <td>Scientific literature/Technical reports</td>
+            <td>country / year</td>
+            </tr>
+            <tr>
+            <td><b>Natural Gas Prices</b></td>
+            <td><a href="https://www.eia.gov/dnav/ng/hist/rngwhhdm.htm">https://www.eia.gov/dnav/ng/hist/rngwhhdm.htm</a></td>
+            <td>country / month</td>
+            </tr>
+            <tr>
+            <td><b>PV-generated electricity</b></td>
+            <td>ENTSO-e Transparency Platform</td>
+            <td>country / hour</td>
+            </tr>
+            <tr>
+            <td><b>Wind-generated electricity</b></td>
+            <td>ENTSO-e Transparency Platform</td>
+            <td>country / hour</td>
+            </tr>
+            <tr>
+            <td><b>Market Data</b></td>
+            <td><ul>
+            <ol>1) IPTO’s website</ol>
+            <ol>2) Technical reports</ol>
+            </ul></td>
+            <td>country / -</td>
+            </tr>
+            <tr>
+            <td class="colored" colspan="2"><b>Key outputs</b></td>
+            <td class="colored"><b>Dimensions (Space/Time)</b></td>
+            </tr>
+            <tr>
+            <td colspan="2"  class="light-grey"><b>System Marginal Price</b></td>
+            <td  class="light-grey">country / hour</td>
+            </tr>
+            <tr>
+            <td colspan="2"><b>Generators’ profits</b></td>
+            <td>resource / day</td>
+            </tr>
+            <tr>
+            <td colspan="2"  class="light-grey"><b>Resource Scheduling</b></td>
+            <td  class="light-grey">resource / hour</td>
+            </tr>
+            <tr>
+            <td colspan="2"><b>Electricity mix</b></td>
+            <td>country / hour</td>
+            </tr>
+            <tr>
+            <td class="light-grey" colspan="3"><b>Description of (likely) unclear terms</b></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+            <ul>
+                <li><b>Country: modelled country or the country from which electricity is imported.</b></li>
+                <li><b>Resource: Generating resource</b></li>
+                <li><b>Resource Scheduling: Generation from each resource for every hour of a modelled period</b></li>
+                <li><b>Technology: lignite plant, open-cycle gas turbine, combined-cycle gas turbine, other.</b></li>
+                <li><b>Fuel: lignite, natural gas, other.</b></li>
+                <li><b>Technical characteristics: nominal capacity, technical minimum generation, minimum uptime/downtime,
+                    cost/generation function coefficients, heat rate function coefficients, cost to start-up from hot/cold
+                    state, start-up times from hot/cold state, time since shut down to reach cold state</b></li>
+                <li><b>Dam: the dam from which a hydro plant is powered</b></li>
+                <li><b>Basin: the basin of a river which powers many dams</b></li>
+                <li><b>Thermal reference price: price of displaced energy from thermal units due to the use of hydro generated
+                    electricity</b></li>
+                <li><b>Generating resource availability: percentage of its nominal capacity. Zero if planned for
+                    decommissioning. </b></li>
+                <li><b>Market data: System reserves, electricity price cap, linearized segments of generation/cost function of
+                    generators, collective profit percentage limit above which fines are imposed to profiteering generators,
+                    consecutive years and capacity factor below which a plant is considered unprofitable, virtual power plant
+                    capacity.</b></li>
+            </ul>
+                </td>
+            </tr>
+           </tbody>
+         <caption>BSAM:</caption>
+        </table>
+        </div>
                               <!--INSERT TABLE 2                              -->
                                <div class="my_table table-responsive">
                                    <table class="table ">
