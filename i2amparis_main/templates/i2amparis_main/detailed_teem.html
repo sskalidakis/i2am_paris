@@ -496,7 +496,66 @@
                              <caption>ATOM:</caption>
                         </table>
                         </div>
-                              <p><b>DREEM * Please Insert Table 3*</b></p>
+<!--                              <p><b>DREEM * Please Insert Table 3*</b></p>-->
+                               <div class="my_table table-responsive">
+<table class="table ">
+       <thead>
+       <tr>
+
+           <th style="width:7.5%">Model input parameter</th>
+           <th style="width:7.5%">Key data sources</th>
+           <th style="width:7.5%">Dimensions (Space/Time)</th>
+           </tr>
+       </thead>
+            <tbody>
+            <tr>
+            <td><b>Weather Data</b></td>
+            <td><a href="https://energyplus.net/weather-region/europe_wmo_region_6">EnergyPlus</a></td>
+            <td>Region/Minute</td>
+            </tr>
+            <tr>
+            <td><b>Building typologies & envelope specifications</b></td>
+            <td><a href="http://webtool.building-typology.eu/#bm">TabulaWebtool</a>, <a href="http://bpie.eu/">BPIE</a>,
+                <a href="https://www.entranze.eu/tools/interactive-data-tool">ENTRANZE</a>,
+                <a href="https://www.odyssee-mure.eu/">ODYSEE-MURE</a>
+            </td>
+            <td>Region/Minute</td>
+            </tr>
+            <tr>
+                <td><b>Demographics/Occupancy & activity profiles/ Appliances (traits, power ratings and use characteristics)</b></td>
+                <td>Survey/Census data <a href="https://ec.europa.eu/eurostat/documents/3859598/5935825/KS-GQ-13-003-EN.PDF/baa96509-3f4b-4c7a-94dd-feb1a31c7291">Development of detailed statistics on energy consumption in households (SECH)</a></td>
+                <td>Country-Region/Monthly</td>
+            </tr>
+            <tr>
+            <td><b>Thermal comfort parameters</b></td>
+            <td><p>
+                International standards:
+                <ul>
+                <ol><a href="https://www.iso.org/standard/39155.html">“DIN EN ISO 7730”</a></ol>
+                <ol><a href="https://www.sciencedirect.com/science/article/abs/pii/S1364032113003535">“ASHRAE 55”</a></ol>
+                <ol><a
+                        href="http://www.cres.gr/greenbuilding/PDF/prend/set4/
+                        WI_31_Pre-FV_version_prEN_15251_Indoor_Environment.pdf">“EN 15251”</a></ol>
+                </ul>
+                </p></td>
+            <td>Country/Monthly</td>
+            </tr>
+            <tr>
+            <td><b>Competitive electricity consumption tariffs and other regulated charges</b></td>
+            <td>Market data publicly available (e.g., <a href="https://www.dei.gr/Documents2/TIMOLOGIA/
+            NEA-TIMOLOGIA-SEPT2019/SEPT19-V2/TIMOK-XT-2019-G1-SEPT19_v2.pdf">“G1” tariff </a> in Greece).</td>
+            <td>Country/Yearly</td>
+            </tr>
+            <tr>
+            <td><b>System Marginal Prices</b></td>
+            <td>Market data publicly available (e.g., <a href="http://www.admie.gr/en/operations-data/electricity-power-market-participation/market-data/">Greek Independent Power Transmission Operator (IPTO))
+            </a></td>
+            <td>Country/Hourly</td>
+            </tr>
+           </tbody>
+         <caption>DREEM:</caption>
+        </table>
+</div>
                               <p><b>AIM:</b> Any input and output used/generated in simulation models</p>
                           </section>
                      </div>
