@@ -21,12 +21,13 @@ from django.utils.decorators import method_decorator
 import json
 
 class XYZ_chart:
-    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title, y_axis_unit,
+    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title, y_axis_unit,
                  z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, distinct, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
         :param x_axis_title: The title of the variable of the X-Axis as displayed in the user interfaces (String)
+        :param x_sec_axis: True if second X-Axis exists (otherwies false) (String)
         :param x_axis_unit: The unit of the selected variable of the X-Axis (String)
         :param y_axis_name: The unique name of the selected variable of the Y-Axis as used in the code (String)
         :param y_axis_title: The title of the variable of the Y-Axis as displayed in the user interfaces (String)
@@ -48,6 +49,7 @@ class XYZ_chart:
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
         self.x_axis_unit = x_axis_unit
+        self.x_sec_axis = x_sec_axis
         self.y_axis_name = y_axis_name
         self.y_axis_title = y_axis_title
         self.y_axis_unit = y_axis_unit
@@ -61,10 +63,11 @@ class XYZ_chart:
         self.minmax_z_value = minmax_z_value
         self.distinct = distinct
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
-                        'x_axis_name': self.x_axis_name, 'y_axis_title': self.y_axis_title,
-                        'y_axis_unit': self.y_axis_unit, 'y_axis_name': self.y_axis_name,'z_axis_name': z_axis_name,
-                        'z_axis_title': z_axis_title, 'z_axis_unit': z_axis_unit, 'color_list': self.color_list,
-                        'minmax_z_value': self.minmax_z_value, 'distinct': distinct, 'chart_data': self.chart_data}
+                        'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
+                        'y_axis_title': self.y_axis_title, 'y_axis_unit': self.y_axis_unit,
+                        'y_axis_name': self.y_axis_name,'z_axis_name': z_axis_name, 'z_axis_title': z_axis_title,
+                        'z_axis_unit': z_axis_unit, 'color_list': self.color_list, 'minmax_z_value': self.minmax_z_value,
+                        'distinct': distinct, 'chart_data': self.chart_data}
 
     def show_chart(self):
         """
@@ -233,6 +236,7 @@ def get_response_data_XY(request):
             "x_axis_name": request.GET.get("x_axis_name", ""),
             "x_axis_title": request.GET.get("x_axis_title", ""),
             "x_axis_unit": request.GET.get("x_axis_unit", ""),
+            "x_sec_axis": request.GET.get("x_sec_axis", ""),
             "y_axis_title": request.GET.get("y_axis_title", ""),
             "color_list_request": request.GET.getlist("color_list_request[]", []),
             "use_default_colors": request.GET.get("use_default_colors", "true"),
@@ -461,7 +465,7 @@ def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, datase
     print(harmonisation_map)
     print(dataset)
     new_dict = []
-    if dataset_type =='file':
+    if dataset_type == 'file':
         with open('static/harmonisation_data/' + dataset, 'r') as f:
             data = f.read()
         diction = json.loads(data)
@@ -481,6 +485,8 @@ def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, datase
             col_ordering = 'model__coverage'
         elif col_order == 'time_steps_in_solution':
             col_ordering = 'model__time_steps_in_solution'
+        elif col_order == 'default':
+            col_ordering = 'model__ordering'
 
         row_ordering = None
         if row_order == 'alphabetically':
@@ -497,9 +503,10 @@ def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, datase
         else:
             data = data.order_by(col_ordering, row_ordering)
 
-
         for el in data:
-            new_dict.append({"model": el.model.model_title, "variable": el.variable.var_title, "value": el.io_status})
+            new_dict.append(
+                {"model": el.model.model_title, "variable": el.variable.var_title, "value": el.io_status})
+
 
     return new_dict
 
@@ -512,6 +519,7 @@ def show_heat_map_chart(request):
     x_axis_name = response_data_xy['x_axis_name']
     x_axis_title = response_data_xy['x_axis_title']
     x_axis_unit = response_data_xy['x_axis_unit']
+    x_sec_axis = response_data_xy['x_sec_axis']
     y_axis_title = response_data_xy['y_axis_title']
     response_heat_map = get_response_heat_map(request)
     z_axis_name = response_heat_map["z_axis_name"]
@@ -530,8 +538,8 @@ def show_heat_map_chart(request):
                                                          define_color_code_list([color_list_request]))
     else:
         color_list = define_color_code_list(response_data_xy['color_list_request'])
-    data = create_heatmap_data(dataset, harmonisation_map, col_order, row_order,dataset_type)
-    heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_axis_name, y_axis_title,
+    data = create_heatmap_data(dataset, harmonisation_map, col_order, row_order, dataset_type)
+    heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
                                    y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
                                    min_max_z_value, distinct, 'heat_map_chart')
 
@@ -674,7 +682,6 @@ def thermometer_chart(request):
 
 def parallel_coordinates_chart2(request):
     """
-
     :param request:
     :return:
     """

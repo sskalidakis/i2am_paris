@@ -1,9 +1,10 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
-    <div id="chartdiv" style="font-family: Raleway, Helvetica, Arial, sans-serif;!important; font-weight: lighter"></div>
+    <div id="chartdiv" style="font-family: Raleway, Helvetica, Arial, sans-serif;!important; font-weight: lighter;"></div>
     <div id="harmonisation_hidden" style="display: none">
         <div id="col_clicked"></div>
         <div id="row_clicked"></div>
+
     </div>
     <script>
 
@@ -29,8 +30,10 @@
             var z_axis_name = "{{ z_axis_name }}";
             var z_axis_unit = "{{ z_axis_unit }}";
             var color_list = {{ color_list|safe }};
+            var x_sec_axis = "{{ x_sec_axis }}";
             var minmax_z_value = {{ minmax_z_value|safe }};
             var distinct = {{ distinct|safe }};
+            console.log(x_sec_axis);
             //Fix colors
             var light_color;
             var dark_color;
@@ -54,12 +57,15 @@
             yAxis.title.text = y_axis_title + " (" + y_axis_unit + ")";
             yAxis.title.fontWeight = 600;
             yAxis.renderer.minGridDistance = 10;
-            yAxis.renderer.labels.template.fontSize = "0.9em";
+            yAxis.renderer.labels.template.fontSize = "0.7em";
 
             xAxis.renderer.grid.template.disabled = true;
             {#xAxis.renderer.grid.template.stroke = "#ffffff";#}
             xAxis.renderer.minGridDistance = 30;
             xAxis.renderer.labels.template.fontSize = "0.7em";
+            xAxis.renderer.opposite = true;
+            xAxis.renderer.labels.template.rotation = -25;
+            xAxis.dataFields.category = x_axis_name;
 
             yAxis.renderer.grid.template.disabled = true;
             {#yAxis.renderer.grid.template.stroke = "#ffffff";#}
@@ -69,7 +75,13 @@
             xAxis.dataFields.category = x_axis_name;
             yAxis.dataFields.category = y_axis_name;
 
+            {#if ($('#axes_enabled').text()==="true") {#}
+            {#    yAxis.renderer.labels.template.disabled = true;#}
+            {#    xAxis.renderer.labels.template.disabled = true;#}
+
+
             var series = chart.series.push(new am4charts.ColumnSeries());
+            chart.seriesContainer.zIndex = -1;
             series.dataFields.categoryX = x_axis_name;
             series.dataFields.categoryY = y_axis_name;
             if (distinct.length === 0) {
@@ -138,11 +150,13 @@
                     return fill;
                 });
 
-                var legend = new am4charts.Legend();
+                var legend = chart.bottomAxesContainer.createChild(am4charts.Legend);
+                legend.series = series;
                 legend.itemContainers.template.clickable = false;
                 legend.itemContainers.template.focusable = false;
                 legend.itemContainers.template.cursorOverStyle = am4core.MouseCursorStyle.default;
                 legend.parent = chart.chartContainer;
+                legend.labels.template.fontSize = '0.8em';
                 legend.data = [];
                 for (var i = 0; i < distinct.length; i++) {
                     legend.data.push({"name": distinct[i], "fill": color_list[i]});
@@ -183,5 +197,7 @@
 
 
     </script>
+
+
 {% endblock %}
 

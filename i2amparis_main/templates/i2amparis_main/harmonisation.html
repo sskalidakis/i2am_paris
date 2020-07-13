@@ -1,4 +1,4 @@
-{% extends "base_template.html" %}
+{% extends "base_template_harmonisation.html" %}
 {% load static %}
 {% csrf_token %}
 {% block css %}
@@ -18,141 +18,737 @@
             min-height: 10em;
             margin-bottom: 1em;
         }
+        tr td.colored{
+            background-color: rgba(69, 81, 14, 0.69) !important;
+        }
 
     </style>
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
 {% endblock %}
-{% block content %}
 
-    <div class="container" style="width: 100%; height:100%;">
-        <div class="row" style="margin-top: 6em; height: 95vh">
-            <div class="col-sm-10" style="height: 100%">
-                <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
-                    <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart" style="width: 100%; height: 100%;  border:none"></iframe>
-                    <div id="loading_bar" style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:50%;margin-top:-6em; display: none">
-                        <img style="height: 13em; width: 13em;" src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
-                        <div class="heading" style="font-size: 1.5em">Loading...</div>
+{% block content %}
+    <div class="tab-content">
+        <div class="tab-pane" id="harm_heatmap">
+            <div class="container" style="width: 100%; height:100%;">
+                <div class="row" style="margin-top: 6em; height: 93vh">
+                    <div class="col-sm-10 col-xs-12" style="height: 100%">
+                        <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
+                            <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart" style="width: 100%; height: 100%;  border:none"></iframe>
+                            <div id="loading_bar" style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
+                                <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em" src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                                <div class="row" style="font-size: 1.0em ; margin-left: 2em; margin-right: 2em;">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-8">This heatmap indicates how
+                                        different variables are handled across the models within the
+                                        Paris Reinforce consortium. The rows present the different socio and techno economic
+                                        variables. The columns indicate the 16 PR models. Variables are either considered as outputs
+                                        from models, inputs to models or are not represented by the models as any explicit output or
+                                        input
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                </div>
+                                <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 col-xs-12" style="margin-top: 1.5em">
+                        <label for="model_name">Model Name
+                            <select class="form-control desc_text take_up_space" id="model_name">
+                            {% for el in models %}
+                            <option value="{{ el.model_name }}">{{ el.model_title }}</option>
+                            {% endfor %}
+                            </select>
+                        </label>
+                        <div class="heading">Model Geographical Coverage</div>
+                        <div class="desc_text take_up_space" id="geo_cov"></div>
+                        <div class="heading">Model Type</div>
+                        <div class="desc_text take_up_space" id="model_type"></div>
+                        <div class="heading"> Model Time Step (Years)</div>
+                        <div class="desc_text take_up_space" id="model_timestep"></div>
+                        <div class="heading " style="margin-bottom: 2em">
+                        <a style="font-size: 1em;font-weight: bold; " id="model_desc" target="_blank" rel="noopener noreferrer"  href="/detailed_model_doc/">Detailed Model Description
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                        </div>
+
+        {#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
+        {#                <hr>#}
+        {#                <div class="heading">Variable Name</div>#}
+                        <label for="var_name">Variable Name
+                            <select class=" form-control desc_text take_up_space" id="var_name" >
+                            {% for el in variables %}
+                                <option value="{{ el.var_name }}">{{ el.var_title }}</option>
+                            {% endfor %}
+                            </select>
+                        </label>
+        {#                <div class="heading">Variable Unit</div>#}
+        {#                <div class="desc_text take_up_space" id="var_unit"></div>#}
+        {#                <div class="heading">Variable Source</div>#}
+        {#                <div class="desc_text take_up_space" id="var_source"></div>#}
+                        <div class="heading"> Category</div>
+                        <div class="desc_text take_up_space" id="var_cat"></div>
+                        <div class="heading">Variable Definition</div>
+                        <div class="desc_text text_take_up_space" id="var_def"></div>
+
+                        <div style="margin-top: 1em;">
+                            <label>
+                                Order Columns By:
+                                <select id="col_order" class="form-control">
+                                    <option value="default">Default</option>
+                                    <option value="alphabetically">Alphabetically</option>
+                                    <option value="model_type">Model Type</option>
+                                    <option value="coverage">Geographical Coverage</option>
+                                    <option value="time_steps_in_solution">Time Step</option>
+                                </select>
+                            </label>
+                            <label>
+                                Order Rows By:
+                                <select id="row_order" class="form-control">
+                                    <option value="default">Default</option>
+                                    <option value="alphabetically">Alphabetically</option>
+                                    <option value="var_category">Variable Category</option>
+                                </select>
+                            </label>
+                        </div>
+
                     </div>
                 </div>
-                <div class="row" style="margin-top: 1em">
-                    <label class="col-sm-3">
-                        Order Columns By:
-                        <select id="col_order" class="form-control">
-                            <option value="default">Default</option>
-                            <option value="alphabetically">Alphabetically</option>
-                            <option value="model_type">Model Type</option>
-                            <option value="coverage">Geographical Coverage</option>
-                            <option value="time_steps_in_solution">Time Step</option>
-                        </select>
-                    </label>
-                    <label class="col-sm-3" style="display: none">
-                        Group Columns By:
-                        <select id="col_group" class="form-control">
-                            <option value="no_grouping">No Grouping</option>
-                            <option value="model_type">Model Type</option>
-                            <option value="coverage">Geographical Coverage</option>
-                        </select>
-                    </label>
-                    <label class="col-sm-3" >
-                        Order Rows By:
-                        <select id="row_order" class="form-control">
-                            <option value="default">Default</option>
-                            <option value="alphabetically">Alphabetically</option>
-                            <option value="var_category">Variable Category</option>
-                        </select>
-                    </label>
-                    <label class="col-sm-3" style="display: none">
-                        Group Rows By:
-                        <select id="row_group" class="form-control">
-                            <option value="no_grouping">No Grouping</option>
-                            <option value="var_category">Variable Category</option>
-                        </select>
-                    </label>
 
-                </div>
             </div>
-
-            <div class="col-sm-2" style="margin-top: 2em">
-                <h2 style="margin-bottom: 0.2em;margin-top: 0">Information</h2>
-{#                <div class="heading">Model Name</div>#}
-                <label for="model_name">Model Name
-                    <select class="form-control desc_text take_up_space" id="model_name">
-                    {% for el in models %}
-                    <option value="{{ el.model_name }}">{{ el.model_title }}</option>
-                    {% endfor %}
-                    </select>
-                </label>
-                <div class="heading">Model Geographical Coverage</div>
-                <div class="desc_text take_up_space" id="geo_cov"></div>
-                <div class="heading">Model Type</div>
-                <div class="desc_text take_up_space" id="model_type"></div>
-                <div class="heading"> Model Time Step (Years)</div>
-                <div class="desc_text take_up_space" id="model_timestep"></div>
-                <div class="heading " style="margin-bottom: 2em">
-                <a style="font-size: 1em;font-weight: bold; " id="model_desc" target="_blank" rel="noopener noreferrer"  href="/detailed_model_doc/">Detailed Model Description
-                    <i class="fa fa-info-circle"></i>
-                </a>
-                </div>
-
-{#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
-{#                <hr>#}
-{#                <div class="heading">Variable Name</div>#}
-                <label for="var_name">Variable Name
-                    <select class=" form-control desc_text take_up_space" id="var_name" >
-                    {% for el in variables %}
-                        <option value="{{ el.var_name }}">{{ el.var_title }}</option>
-                    {% endfor %}
-                    </select>
-                </label>
-{#                <div class="heading">Variable Unit</div>#}
-{#                <div class="desc_text take_up_space" id="var_unit"></div>#}
-{#                <div class="heading">Variable Source</div>#}
-{#                <div class="desc_text take_up_space" id="var_source"></div>#}
-                <div class="heading"> Category</div>
-                <div class="desc_text take_up_space" id="var_cat"></div>
-                <div class="heading">Variable Definition</div>
-                <div class="desc_text text_take_up_space" id="var_def"></div>
-
+            <div id="models_container" style="display: none">
+                {% for model in models %}
+                    <div id={{ model.model_name }}>
+        {#                <span id="long_title">{{ model.long_title }}</span>#}
+                        <span class="d_model_coverage">{{ model.coverage_title }}</span>
+                        <span class="d_model_type">{{ model.type_of_model }}</span>
+                        <span class="d_model_timestep">{{ model.time_steps_in_solution }}</span>
+                        <span class="d_model_description">{{ model.short_description }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="variables_container" style="display: none">
+                {% for variable in variables %}
+                    <div id={{ variable.var_name }}>
+                        <span class="d_var_title">{{ variable.var_title }}</span>
+                        <span class="d_var_category">{{ variable.var_category }}</span>
+                        <span class="d_var_definition">{{ variable.var_definition }}</span>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
-    </div>
-    <div id="models_container" style="display: none">
-        {% for model in models %}
-            <div id={{ model.model_name }}>
-{#                <span id="long_title">{{ model.long_title }}</span>#}
-                <span class="d_model_coverage">{{ model.coverage_title }}</span>
-                <span class="d_model_type">{{ model.type_of_model }}</span>
-                <span class="d_model_timestep">{{ model.time_steps_in_solution }}</span>
-                <span class="d_model_description">{{ model.short_description }}</span>
+
+
+    <div class="tab-pane" id="harm_tables">
+            <div class="container" style="width: 70%; height:100%;">
+                <div class="row" style="margin-top: 6em;">
+                    <div class="my_table table-responsive">
+                        <table class="table ">
+                            <thead>
+                            <tr>
+                                <th class="transparent_category nolr-border" style="width:5%"></th>
+                                <th style="width:7.5%">Variable</th>
+                                <th style="width:7.5%">Definition</th>
+                                <th style="width:7.5%">Time span</th>
+                                <th style="width:7.5%">Source</th>
+                                <th style="width:7.5%">Units</th>
+                                <th style="width:7.5%">Comments</th>
+                                <th style="width:7.5%">Used in models (Update / <i>check differences</i>)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="3">Socio-economics</td>
+                                <td class="colored">Population</td>
+                                <td class="colored">Total country population</td>
+                                <td class="colored">2010-2100</td>
+                                <td class="colored">EUROPOP, OECD and UN (short- & mid-term) SSP2 (long-term; KC & Lutz 2017)</td>
+                                <td class="colored">Million people, Growth rate</td>
+                                <td class="colored" rowspan="3">Switch from short- & mid-term to long-term projections depending by
+                                    country, ensuring smooth transitions between projected growth levels, and consistency between
+                                    (working) population and GDP growth rates.
+                                </td>
+                                <td class="colored">ALADIN, FORECAST, JRC-EU-TIMES, LEAP, NEMESIS</td>
+                            </tr>
+                            <tr>
+                                <td>Working Population</td>
+                                <td>Total population between 15 and 64 years old</td>
+                                <td>2010-2100</td>
+                                <td>Ageing Report (EC, 2017), OECD and UN (short- & mid-term) SSP2 (long-term; KC &Lutz 2017)</td>
+                                <td>Million people,Growth rate</td>
+                                <td>NEMESIS</td>
+                            </tr>
+                            <tr>
+                                <td class="colored">GDP</td>
+                                <td class="colored">Gross domestic product based on purchasing-power-parity valuation</td>
+                                <td class="colored">2010-2100</td>
+                                <td class="colored">Ageing Report (EC, 2017), OECD (Economic Outlook No. 103 and 106) (short- &
+                                    mid-term), IMF (short-term), SSP2 (long-term Dellink et al, 2017)
+                                </td>
+                                <td class="colored">PPP (constant billion 2010 International $),PPP (constant billion 2010 &euro;),&nbsp;<p>
+                                    Growth rate</p></td>
+                                <td class="colored">ALADIN, FORECAST, JRC-EU-TIMES, LEAP, NEMESIS</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Power generation costs</td>
+                                <td>Key technological attributes of renewable and non-renewable technologies</td>
+                                <td>Costs of investment, fixed and variable operation &amp; maintenance (O&amp;M), capacity factors,
+                                    conversion efficiencies and technical lifetimes
+                                </td>
+                                <td>2003 - 2048</td>
+                                <td>Extracted from TIAM-Grantham. Future cost evolution based on Napp et al, (2019)</td>
+                                <td>Costs in US$2010/kW, Lifetime in years</td>
+                                <td>Technologies included are wind, solar, nuclear, geothermal, hydro, coal, gas, biomass</td>
+                                <td><em>JRC-EU-TIMES, LEAP, NEMESIS</em></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes of renewable and non-renewable technologies</td>
+                                <td class="colored">Costs of investment, fixed and variable O&amp;M, conversion efficiencies,
+                                    self-consumption share, capacity factors, technical lifetimes and O&amp;M costs growth
+                                </td>
+                                <td class="colored">2020 - 2050</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh,Lifetime in years</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                                <td class="colored"><em>JRC-EU-TIMES, LEAP, NEMESIS</em></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Transport costs</td>
+                                <td>Key technological attributes of cars, buses and trucks</td>
+                                <td>Costs of investment, fixed O&amp;M, efficiencies and technical lifetimes</td>
+                                <td>2006 - 2050</td>
+                                <td>Extracted from TIAM-Grantham. Future cost evolution based on NREL Electrification Futures Study
+                                    (2017) and Napp et al, (2019)
+                                </td>
+                                <td>Costs in M 2010 US$/Billion vehicle km, Efficiency in B vehicle km/PJ, Lifetime in years</td>
+                                <td>Attributes available by fuel technology (diesel, fuel, electric, hydrogen, hybrid, natural gas)
+                                    and by efficiency categories
+                                </td>
+                                <td><em>ALADIN, JRC-EU-TIMES, LEAP</em></td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes of cars, trucks, trains and planes</td>
+                                <td class="colored">Costs of investment and efficiency ratio</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh,Efficiency in liters/100 vehicle km</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                    Fuel technology disaggregation
+                                </td>
+                                <td class="colored"><em>ALADIN, JRC-EU-TIMES, LEAP</em></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Residential and commercial
+                                    costs
+                                </td>
+                                <td>Key technological attributes of main household appliances, lighting, heating and cooling</td>
+                                <td>Costs of investment, fixed O&amp;M, capacity factors and efficiencies.</td>
+                                <td>2006 - 2048</td>
+                                <td>Extracted from TIAM-Grantham.</td>
+                                <td>Costs in Million US$2010/PJ</td>
+                                <td>Attributes available by fuel technology (bio, coal, diesel, electric, kerosene, LPG, Natural
+                                    gas, solar) and by efficiency categories
+                                </td>
+                                <td><em>FORECAST, JRC-EU-TIMES, LEAP</em></td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes of main household appliances, heating and cooling
+                                </td>
+                                <td class="colored">Costs of investment and efficiency ratios.</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                                <td class="colored"><em>FORECAST, JRC-EU-TIMES, LEAP</em></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Industry costs</td>
+                                <td>Key technological attributes of steel and cement industries</td>
+                                <td>Costs of investment, fixed and variable O&amp;M, capacity factor, technical lifetime and input
+                                    material requirements
+                                </td>
+                                <td>2006-2030</td>
+                                <td>Extracted from TIAM-Grantham.</td>
+                                <td>Costs in $2010USD/Mt, Lifetime in years, Input requirements in PJ/Mt and t/t</td>
+                                <td>Attributes available by process type</td>
+                                <td><em>FORECAST, JRC-EU-TIMES</em></td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes by type of process</td>
+                                <td class="colored">Costs of investment and efficiency ratios.</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                                <td class="colored"><em>FORECAST, JRC-EU-TIMES</em></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Fossil fuel prices</td>
+                                <td>Fossil fuel price paths</td>
+                                <td>Price projections in the main regions for oil, gas and coal</td>
+                                <td>2010-2050</td>
+                                <td>2019 World Energy Outlook by International Energy Agency</td>
+                                <td><p>Oil: $2018USD per barrel/per GJ</p>
+                                    <p>Gas: $2018USD per Mbtu/per GJ</p>
+                                    <p>Coal: $2018USD per tonne GJ</p>
+                                </td>
+                                <td>Figures available at global level and for 4 regions: EU, USA, China and Japan</td>
+                                <td>ALADIN, FORECAST, JRC-EU-TIMES, LEAP, NEMESIS</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Exchange rates</td>
+                                <td class="colored">Exchange rates</td>
+                                <td class="colored">Exchange rates between US$ and national currency</td>
+                                <td class="colored" rowspan="2">2000-2100</td>
+                                <td class="colored" rowspan="2">Economic Outlook No. 103 (July 2018) by OECD</td>
+                                <td class="colored">US$/National currency</td>
+                                <td class="colored" rowspan="2">Long-term baseline projections + constant after 2060 except
+                                    Bulgaria, Cyprus, Croatia, Malta and Romania from Eurostat
+                                </td>
+                                <td class="colored">NEMESIS, LEAP</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Interest rates</td>
+                                <td>Interest rates</td>
+                                <td>Short- and long-term interest rates</td>
+                                <td>%</td>
+                                <td>NEMESIS,<em>JRC-EU-TIMES</em></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Household charac-teristics</td>
+                                <td class="colored">Household characteristics</td>
+                                <td class="colored">Building-related projections in the Residential and Commercial sector</td>
+                                <td class="colored">2010-2060</td>
+                                <td class="colored">JRC-EU-TIMES</td>
+                                <td class="colored">Residential: thousands of units by house type ((semi-)detached, flat)
+                                    Commercial: Million square meters by sector
+                                </td>
+                                <td class="colored">European country coverage only. For periods between the milestone years, values
+                                    are linearly interpolated
+                                </td>
+                                <td class="colored">JRC-EU-TIMES</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Sectoral growth</td>
+                                <td>Production and value added</td>
+                                <td>Production and gross value added by sector</td>
+                                <td>2005-2100</td>
+                                <td>Eurostat and GDP projections of Paris Reinforce</td>
+                                <td>Chain linked volume (2010), million &euro;</td>
+                                <td>European country coverage only. 90 sectors covered</td>
+                                <td>FORECAST, JRC-EU-TIMES, LEAP</td>
+                            </tr>
+                            </tbody>
+                            <caption>Characteristics of harmonized parameters and use in WP 5 models</caption>
+                        </table>
+                    </div>
+
+                    <div class="my_table table-responsive">
+                        <table class="table ">
+                            <thead>
+                            <tr>
+                                <th class="transparent_category nolr-border" style="width:5%"></th>
+                                <th style="width:7.5%">Variable</th>
+                                <th style="width:7.5%">Definition</th>
+                                <th style="width:7.5%">Time span</th>
+                                <th style="width:7.5%">Source</th>
+                                <th style="width:7.5%">Units</th>
+                                <th style="width:7.5%">Comments</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td rowspan="7" class="colored">Socioeconomics</td>
+                                <td class="light-grey" rowspan="2">Population</td>
+                                <td class="colored" rowspan="2">Total country population</td>
+                                <td class="colored" rowspan="2">2010-2100</td>
+                                <td class="colored">EUROPOP, OECD and UN (short- & mid-term)</td>
+                                <td class="colored">Million people</td>
+                                <td class="colored" rowspan="7">Switch from short- & mid-term to long-term projections by country,
+                                    ensuring smooth transitions between projected growth levels, and consistency between (working)
+                                    population and GDP growth rates.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colored">SSP2 (long-term; KC & Lutz 2017)</td>
+                                <td class="colored">Growth rate</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" rowspan="2">Working age Population</td>
+                                <td rowspan="2">Total population between 15 and 64 years old</td>
+                                <td rowspan="2">2010-2100</td>
+                                <td>Ageing Report (EC, 2017), OECD and UN (short- & mid-term)</td>
+                                <td>Million people</td>
+                            </tr>
+                            <tr>
+                                <td>SSP2 (long-term; KC & Lutz 2017)</td>
+                                <td>Growth rate</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" rowspan="3">GDP</td>
+                                <td class="colored" rowspan="3">Gross domestic product based on purchasing-power-parity valuation
+                                </td>
+                                <td class="colored" rowspan="3">2010-2100</td>
+                                <td class="colored" rowspan="3">Ageing Report (EC, 2017), OECD (Economic Outlook No. 103 and 106)
+                                    (short- & mid-term), IMF (short-term), SSP2 (long-term Dellink et al, 2017)
+                                </td>
+                                <td class="colored">PPP (constant billion 2010 International $)</td>
+                            </tr>
+                            <tr>
+                                <td class="colored">PPP (constant billion 2010 €)</td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Growth rate</td>
+                            </tr>
+
+                            <tr>
+                                <td class="colored" rowspan="13">Techno economics</td>
+                                <td class="light-grey" rowspan="2"> Key technological attributes of renewable and non-renewable
+                                    technologies
+                                </td>
+                                <td rowspan="2">Costs of investment, fixed and variable operation & maintenance (O&M), capacity
+                                    factors, conversion efficiencies and technical lifetimes
+                                </td>
+                                <td rowspan="2">2003-2048</td>
+                                <td rowspan="2"> Extracted from TIAM-Grantham. Future cost evolution based on Napp et al, (2019)
+                                </td>
+                                <td>Costs in US$2010/kW</td>
+                                <td rowspan="2">Technologies included are wind, solar, nuclear, geothermal, hydro, coal, gas,
+                                    biomass
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lifetime in years</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" rowspan="2">Key technological attributes of renewable and non-renewable
+                                    technologies
+                                </td>
+                                <td class="colored" rowspan="2">Costs of investment, fixed and variable O&M, conversion
+                                    efficiencies, self-consumption share, capacity factors, technical lifetimes and O&M costs growth
+                                </td>
+                                <td class="colored" rowspan="2">2020-2050</td>
+                                <td class="colored" rowspan="2">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored"> Costs in EUR'13/MWh</td>
+                                <td class="colored" rowspan="2">No global coverage. Costs are estimated for Europe. No regional
+                                    disaggregation
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Lifetime in years</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" rowspan="3">Key technological attributes of cars, buses and trucks</td>
+                                <td rowspan="3">Costs of investment, fixed O&M, efficiencies and technical lifetimes</td>
+                                <td rowspan="3">2006-2050</td>
+                                <td rowspan="3">Extracted from TIAM-Grantham. Future cost evolution based on NREL Electrification
+                                    Futures Study (2017) and Napp et al, (2019)
+                                </td>
+                                <td>Costs in M 2010 US$/Billion vehicle km</td>
+                                <td rowspan="3">Attributes available by fuel technology (diesel, fuel, electric, hydrogen, hybrid,
+                                    natural gas) and by efficiency categories
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Efficiency in B vehicle km/PJ</td>
+                            </tr>
+                            <tr>
+                                <td>Lifetime in years</td>
+                            </tr>
+
+                            <tr>
+                                <td class="light-grey" rowspan="2">Key technological attributes of cars, trucks, trains and planes
+                                </td>
+                                <td class="colored" rowspan="2">Costs of investment and efficiency ratio</td>
+                                <td class="colored" rowspan="2">-</td>
+                                <td class="colored" rowspan="2">NECPs (Mantzos et al, 2017</td>
+                                <td class="colored">Costs in EUR'13/MWh</td>
+                                <td class="colored" rowspan="2">No global coverage. Costs are estimated for Europe. No regional
+                                    disaggregation Fuel technology disaggregation
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Efficiency in liters/100 vehicle km</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey">Key technological attributes of main household appliances, lighting, heating
+                                    and cooling
+                                </td>
+                                <td>Costs of investment, fixed O&M, capacity factors and efficiencies.</td>
+                                <td>2006-2048</td>
+                                <td>Extracted from TIAM-Grantham.</td>
+                                <td>Costs in Million US$2010/PJ</td>
+                                <td>Attributes available by fuel technology (bio, coal, diesel, electric, kerosene, LPG, Natural
+                                    gas, solar) and by efficiency categories
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey">Key technological attributes of main household appliances, heating and
+                                    cooling
+                                </td>
+                                <td class="colored">Costs of investment and efficiency ratios.</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR'13/MWh</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" rowspan="2">Key technological attributes of steel and cement industries</td>
+                                <td rowspan="2">Costs of investment, fixed and variable O&M, capacity factor, technical lifetime and
+                                    input material requirements
+                                </td>
+                                <td rowspan="2">2006-2030</td>
+                                <td rowspan="2">Extracted from TIAM-Grantham.</td>
+                                <td>Costs in $2010USD/Mt</td>
+                                <td rowspan="2">Attributes available by process type</td>
+                            </tr>
+                            <tr>
+                                <td>Lifetime in years, Input requirements in PJ/Mt and t/t</td>
+                            </tr>
+                            </tbody>
+                            <caption>Characteristics of harmonized parameters and use in WP 6 models</caption>
+                        </table>
+                    </div>
+
+
+                    <div class="my_table table-responsive">
+                        <table class="table ">
+                            <thead>
+                            <tr>
+                                <th class="transparent_category nolr-border" style="width:5%"></th>
+                                <th style="width:7.5%">Variable</th>
+                                <th style="width:7.5%">Definition</th>
+                                <th style="width:7.5%">Time span</th>
+                                <th style="width:7.5%">Source</th>
+                                <th style="width:7.5%">Units</th>
+                                <th style="width:7.5%">Comments</th>
+                                <th style="width:7.5%">Used in models (Update / <i>check differences</i>)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="3">Socio-economics</td>
+                                <td class="colored">Population</td>
+                                <td class="colored">Total country population</td>
+                                <td class="colored">2010-2100</td>
+                                <td class="colored">EUROPOP, OECD and UN (short- & mid-term) SSP2 (long-term; KC & Lutz 2017)</td>
+                                <td class="colored">Million people, Growth rate</td>
+                                <td class="colored" rowspan="3">Switch from short- & mid-term to long-term projections depending by
+                                    country, ensuring smooth transitions between projected growth levels, and consistency between
+                                    (working) population and GDP growth rates.
+                                </td>
+                                <td class="colored">GCAM, TIAM, MUSE, GEMINI-E3, ICES, E3ME, 42</td>
+                            </tr>
+                            <tr>
+                                <td>Working Population</td>
+                                <td>Total population between 15 and 64 years old</td>
+                                <td>2010-2100</td>
+                                <td>Ageing Report (EC, 2017), OECD and UN (short- & mid-term) SSP2 (long-term; KC &Lutz 2017)</td>
+                                <td>Million people,Growth rate</td>
+                                <td>MUSE, ICES, E3ME</td>
+                            </tr>
+                            <tr>
+                                <td class="colored">GDP</td>
+                                <td class="colored">Gross domestic product based on purchasing-power-parity valuation</td>
+                                <td class="colored">2010-2100</td>
+                                <td class="colored">Ageing Report (EC, 2017), OECD (Economic Outlook No. 103 and 106) (short- &
+                                    mid-term), IMF (short-term), SSP2 (long-term Dellink et al, 2017)
+                                </td>
+                                <td class="colored">PPP (constant billion 2010 International $),PPP (constant billion 2010 &euro;),&nbsp;<p>
+                                    Growth rate</p></td>
+                                <td class="colored">GCAM, TIAM, MUSE, GEMINI-E3, ICES, E3ME, 42</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Power generation costs</td>
+                                <td>Key technological attributes of renewable and non-renewable technologies</td>
+                                <td>Costs of investment, fixed and variable operation &amp; maintenance (O&amp;M), capacity factors,
+                                    conversion efficiencies and technical lifetimes
+                                </td>
+                                <td>2003 - 2048</td>
+                                <td>Extracted from TIAM-Grantham. Future cost evolution based on Napp et al, (2019)</td>
+                                <td>Costs in US$2010/kW, Lifetime in years</td>
+                                <td>Technologies included are wind, solar, nuclear, geothermal, hydro, coal, gas, biomass</td>
+                                <td>GCAM, TIAM, MUSE, GEMINI-E3, E3ME</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes of renewable and non-renewable technologies</td>
+                                <td class="colored">Costs of investment, fixed and variable O&amp;M, conversion efficiencies,
+                                    self-consumption share, capacity factors, technical lifetimes and O&amp;M costs growth
+                                </td>
+                                <td class="colored">2020 - 2050</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh,Lifetime in years</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                                <td class="colored"><em>TIAM</em></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Transport costs</td>
+                                <td>Key technological attributes of cars, buses and trucks</td>
+                                <td>Costs of investment, fixed O&amp;M, efficiencies and technical lifetimes</td>
+                                <td>2006 - 2050</td>
+                                <td>Extracted from TIAM-Grantham. Future cost evolution based on NREL Electrification Futures Study
+                                    (2017) and Napp et al, (2019)
+                                </td>
+                                <td>Costs in M 2010 US$/Billion vehicle km, Efficiency in B vehicle km/PJ, Lifetime in years</td>
+                                <td>Attributes available by fuel technology (diesel, fuel, electric, hydrogen, hybrid, natural gas)
+                                    and by efficiency categories
+                                </td>
+                                <td>GCAM, TIAM, MUSE, GEMINI-E3, E3ME</td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes of cars, trucks, trains and planes</td>
+                                <td class="colored">Costs of investment and efficiency ratio</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh,Efficiency in liters/100 vehicle km</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                    Fuel technology disaggregation
+                                </td>
+                                <td class="colored"></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Residential and commercial
+                                    costs
+                                </td>
+                                <td>Key technological attributes of main household appliances, lighting, heating and cooling</td>
+                                <td>Costs of investment, fixed O&amp;M, capacity factors and efficiencies.</td>
+                                <td>2006 - 2048</td>
+                                <td>Extracted from TIAM-Grantham.</td>
+                                <td>Costs in Million US$2010/PJ</td>
+                                <td>Attributes available by fuel technology (bio, coal, diesel, electric, kerosene, LPG, Natural
+                                    gas, solar) and by efficiency categories
+                                </td>
+                                <td><em>TIAM, GCAM, MUSE, E3ME</em></td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes of main household appliances, heating and cooling
+                                </td>
+                                <td class="colored">Costs of investment and efficiency ratios.</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                                <td class="colored"></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="2">Industry costs</td>
+                                <td>Key technological attributes of steel and cement industries</td>
+                                <td>Costs of investment, fixed and variable O&amp;M, capacity factor, technical lifetime and input
+                                    material requirements
+                                </td>
+                                <td>2006-2030</td>
+                                <td>Extracted from TIAM-Grantham.</td>
+                                <td>Costs in $2010USD/Mt, Lifetime in years, Input requirements in PJ/Mt and t/t</td>
+                                <td>Attributes available by process type</td>
+                                <td>TIAM, GCAM, MUSE, E3ME</td>
+                            </tr>
+                            <tr>
+                                <td class="colored">Key technological attributes by type of process</td>
+                                <td class="colored">Costs of investment and efficiency ratios.</td>
+                                <td class="colored">-</td>
+                                <td class="colored">NECPs (Mantzos et al, 2017)</td>
+                                <td class="colored">Costs in EUR&#39;13/MWh</td>
+                                <td class="colored">No global coverage. Costs are estimated for Europe. No regional disaggregation
+                                </td>
+                                <td class="colored"></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Fossil fuel prices</td>
+                                <td>Fossil fuel price paths</td>
+                                <td>Price projections in the main regions for oil, gas and coal</td>
+                                <td>2010-2050</td>
+                                <td>2019 World Energy Outlook by International Energy Agency</td>
+                                <td><p>Oil: $2018USD per barrel/per GJ</p>
+                                    <p>Gas: $2018USD per Mbtu/per GJ</p>
+                                    <p>Coal: $2018USD per tonne GJ</p>
+                                </td>
+                                <td>Figures available at global level and for 4 regions: EU, USA, China and Japan</td>
+                                <td>GEMINI-E3, ICES, E3ME</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Exchange rates</td>
+                                <td class="colored">Exchange rates</td>
+                                <td class="colored">Exchange rates between US$ and national currency</td>
+                                <td class="colored" rowspan="2">2000-2100</td>
+                                <td class="colored" rowspan="2">Economic Outlook No. 103 (July 2018) by OECD</td>
+                                <td class="colored">US$/National currency</td>
+                                <td class="colored" rowspan="2">Long-term baseline projections + constant after 2060 except
+                                    Bulgaria, Cyprus, Croatia, Malta and Romania from Eurostat
+                                </td>
+                                <td class="colored">E3ME</td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;">Interest rates</td>
+                                <td>Interest rates</td>
+                                <td>Short- and long-term interest rates</td>
+                                <td>%</td>
+                                <td>NEMESIS,<em>E3ME</em></td>
+                            </tr>
+                            <tr>
+                                <td class="light-grey" style="vertical-align: middle;" rowspan="3">Emissions</td>
+                                <td class="colored" rowspan="3">Historical emissions</td>
+                                <td class="colored">CO<sub>2</sub>, CH<sub>4</sub>, BC, OC, CO, NH<sub>3</sub>, NO<sub>x</sub>, VOC,
+                                    SO<sub>2</sub></td>
+                                <td class="colored">1970-2015</td>
+                                <td class="colored">CMIP6 (Hoesly et al, 2018; van Marle et al, 2017)</td>
+                                <td class="colored" rowspan="3">Mt</td>
+                                <td class="colored">222 countries, 19 sectors</td>
+                                <td class="colored">All: GCAM, GEMINI-E3, ICES, E3ME, TIAM; Only CO2: 42, MUSE</td>
+                            </tr>
+                            <tr>
+                                <td>N<sub>2</sub>O</td>
+                                <td>1990-2017</td>
+                                <td>PRIMAP (Gütschow et al, 2016)</td>
+                                <td>216 countries (and aggregated regions), 14 sectors</td>
+                                <td>GEMINI-E3, ICES, GCAM</td>
+                            </tr>
+                            <tr>
+                                <td>HFC, SF<sub>6<sub>, C<sub>2</sub>F<sub>6</sub>, CF<sub>4</sub></td>
+                                <td>1978-2016</td>
+                                <td>NOAA: WMO Ozone Assessment 2018</td>
+                                <td>Global totals, no regions or sectors, 1978-2016</td>
+                                <td>GCAM</td>
+                            </tr>
+
+                            </tbody>
+                            <caption>Characteristics of harmonised parameters and use in WP 7 models</caption>
+                        </table>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
     </div>
-    <div id="variables_container" style="display: none">
-        {% for variable in variables %}
-            <div id={{ variable.var_name }}>
-                <span class="d_var_title">{{ variable.var_title }}</span>
-                <span class="d_var_category">{{ variable.var_category }}</span>
-                <span class="d_var_definition">{{ variable.var_definition }}</span>
-            </div>
-        {% endfor %}
-</div>
+    </div>
 
 {% endblock %}
 
 
 {% block js %}
-{#    <script src="https://www.amcharts.com/lib/4/core.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/charts.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/fonts/notosans-sc.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/fonts/notosans-sc.js"></script>#}
-{#    <!--For maps-->#}
-{#    <script src="https://www.amcharts.com/lib/4/maps.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/geodata/worldHigh.js"></script>#}
-{#    <script src="https://www.amcharts.com/lib/4/geodata/worldLow.js"></script>#}
-{#    <!--Import D3-->#}
-{#    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>#}
+
+    <script>
+        $(document).ready(function () {
+            setTimeout(timer, 10);
+            function timer(){
+                $('a[href="#harm_heatmap"]').tab('show');
+            }
+            $(function () {
+                $('#myTab a:last').tab('show')
+            })
+        });
+
+    </script>
+
     <script>
 
         $("#col_order,#row_order").change(function () {
@@ -167,10 +763,10 @@
                 "col_group": $('#col_group').val(),
                 "row_group": $('#row_group').val(),
                 "y_var_names": ["variable"],
-                "y_axis_title": "Variable",
+                "y_axis_title": "Variables",
                 "y_var_units":["-"],
                 "x_axis_name": "model",
-                "x_axis_title": "Model",
+                "x_axis_title": "Models",
                 "x_axis_unit": "-",
                 "z_axis_name": "value",
                 "z_axis_title": "Value",
@@ -184,7 +780,6 @@
             var url = '';
             for (var key in data) {
                 if (data.hasOwnProperty(key)) {
-                    console.log(key + " -> " + data[key]);
                     if (Array.isArray(data[key])){
                         for(var j=0; j<data[key].length;j++) {
                             url = url + String(key) + '[]' +"="+ String(data[key][j]) +'&'
@@ -199,8 +794,8 @@
             var complete_url = "/visualiser/show_heat_map_chart?" + url;
             viz_frame.attr('src',complete_url);
             viz_frame.load(function () {
-                $('body').css('height', '119vh');
                 $(this).show();
+
                 $('#loading_bar').hide();
                 $(this).contents().on('click', function () {
 
@@ -220,7 +815,6 @@
                     $('#var_name').trigger('change');
                 })
             });
-            console.log(url);
 
 
         });
@@ -247,10 +841,6 @@
         {#$('#var_name').val('population').trigger('change');#}
 
 
-
-    </script>
-
-    <script>
 
     </script>
 
