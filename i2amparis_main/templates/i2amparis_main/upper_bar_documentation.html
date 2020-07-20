@@ -24,7 +24,9 @@
                         style="width: 100%">
                         <li><a style="color: white ;font-size: 0.6em">{{ coverage }}</a></li>
                         {% for el in menu_models %}
+                            {% if el.harmonisation is True %}
                         <li><a href="/detailed_model_doc/{{ el.name }}" style="font-weight: 500;font-size: 0.6em">{{ el.title }}</a></li>
+                            {% endif %}
                        {% endfor %}
 
                     </ul>

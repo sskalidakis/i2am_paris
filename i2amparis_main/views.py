@@ -51,7 +51,6 @@ def detailed_model_doc(request,model=''):
         print('Detailed Model Documentation')
         list_of_models = ModelsInfo.objects.all()
         sel_icons = 'rev_icons'
-
         context = {
             'model_list': list_of_models,
             'sel_icons': sel_icons
@@ -60,15 +59,16 @@ def detailed_model_doc(request,model=''):
     else:
         category = ModelsInfo.objects.get(model_name=model).coverage
         list_of_cat_models = ModelsInfo.objects.filter(coverage=category)
-        print (category)
-        print (list_of_cat_models)
+        print(category)
+        print(list_of_cat_models)
         model_dict = []
         for el in list_of_cat_models:
             model_obj = {}
             model_obj['name'] = el.model_name
             model_obj['title'] = el.model_title
+            model_obj['harmonisation'] = el.harmonisation
             model_dict.append(model_obj)
-        print (model_dict)
+        print(model_dict)
         if category == 'global':
             menu_cat = 'Other Global Models'
         elif category == 'national_eu':
