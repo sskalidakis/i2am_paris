@@ -119,7 +119,7 @@ def generate_data_for_heat_map():
 
 
 def generate_data_for_heat_map_chart():
-    models = ["ALADIN", "FORECAST", "JRC-EU-TIMES", "LEAP", "NEMESIS", "CONTO", "MARKAL-India", "MAPLE", "NATEM",
+    models = ["ALADIN", "FORECAST", "EU-TIMES", "LEAP", "NEMESIS", "CONTO", "MARKAL-India", "MAPLE", "NATEM",
               "SISGEMA", "TIMES-CAC", "DICE", "GCAM", "ICES", "Gemini-E3", "TIAM", "MUSE", "42", "E3ME"]
     sdgs = ["Total", "by eductional attainment level", "by age", "by sex", "by econcomic activity",
             "(Partially) Aggregated (*)", "Macroeconomic", "Private Investments", "Public investments",

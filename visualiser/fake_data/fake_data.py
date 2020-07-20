@@ -299,7 +299,7 @@ BAR_HEATMAP_DATA_2 = [{
  "precision": 33
 },
 {
- "category": "JRC-EU-TIMES",
+ "category": "EU-TIMES",
  "precision": 42
 },
 {
