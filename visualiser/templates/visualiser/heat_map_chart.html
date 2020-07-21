@@ -2,8 +2,8 @@
 {% block content %}
     <div id="chartdiv" style="font-family: Raleway, Helvetica, Arial, sans-serif;!important; font-weight: lighter;"></div>
     <div id="harmonisation_hidden" style="display: none">
-        <div id="col_clicked"></div>
-        <div id="row_clicked"></div>
+        <div id="col_clicked">42</div>
+        <div id="row_clicked">Age</div>
 
     </div>
     <script>
@@ -100,7 +100,7 @@
                 series.tooltip.getFillFromObject = false;
                 series.tooltip.background.fill = am4core.color("#262626");
             }
-
+            series.tooltip.fontSize = '0.9em';
             var columnTemplate = series.columns.template;
             columnTemplate.strokeWidth = 1;
             columnTemplate.strokeOpacity = 0.2;

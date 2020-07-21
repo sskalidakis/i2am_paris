@@ -37,18 +37,20 @@ class ModelsInfo(models.Model):
 
 class Harmonisation_Variables(models.Model):
     """Variables for harmonisation table"""
-    var_name = models.CharField(null=False, default="-", max_length=50)
-    var_title = models.CharField(null=False, default="-", max_length=50)
-    var_category = models.CharField(null=False, default="-", max_length=50)
-    var_definition = models.TextField(null=False, default="-")
-    var_unit = models.CharField(null=False, default="-", max_length=20)
-    var_source_info = models.TextField(null=False, default="-")
+    var_name = models.CharField(null=False, default="", max_length=50)
+    var_title = models.CharField(null=False, default="", max_length=50)
+    var_category = models.CharField(null=False, default="", max_length=50)
+    var_definition = models.TextField(null=False, default="")
     model_relation = models.ManyToManyField(ModelsInfo, through='HarmData')
+
 
 class HarmData(models.Model):
     model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     io_status = models.CharField(null=False, default="", max_length=50)
+    var_unit = models.CharField(null=False, default="", max_length=20)
+    var_source_info = models.TextField(null=False, default="")
+    var_timespan = models.TextField(null=False, default="")
 
 
 # class Sectors(models.Model):
