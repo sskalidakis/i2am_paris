@@ -53,6 +53,10 @@
             cursor: pointer;
         }
 
+        .rounded-corners-el {
+            border-radius: 4px;
+        }
+
 
 
 
@@ -112,7 +116,7 @@
                     {% if model.coverage == 'global' %}
                         <a class="col" data-link="{{ model.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                        <img style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                        <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                              src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
                         >
                 <div class="long_title"
@@ -128,7 +132,7 @@
                     {% if model.coverage == 'national_eu' %}
                         <a class="col" data-link="{{ model.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                        <img style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                        <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                              src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
                         >
                 <div class="long_title"
@@ -144,7 +148,7 @@
                     {% if model.coverage == 'national_oeu' %}
                         <a class="col" data-link="{{ model.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                        <img style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                        <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                              src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
                         >
                 <div class="long_title"
