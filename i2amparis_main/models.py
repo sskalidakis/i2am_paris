@@ -35,6 +35,7 @@ class ModelsInfo(models.Model):
     def __str__(self):
         return self.model_name
 
+# Data Used only for the harmonisation Heatmap Application
 class Harmonisation_Variables(models.Model):
     """Variables for harmonisation table"""
     var_name = models.CharField(null=False, default="", max_length=50)
@@ -42,7 +43,6 @@ class Harmonisation_Variables(models.Model):
     var_category = models.CharField(null=False, default="", max_length=50)
     var_definition = models.TextField(null=False, default="")
     model_relation = models.ManyToManyField(ModelsInfo, through='HarmData')
-
 
 class HarmData(models.Model):
     model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
@@ -52,68 +52,40 @@ class HarmData(models.Model):
     var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
 
+# Data Model
 
-# class Sectors(models.Model):
-#     """
-#     Tab Sectoral Granularity
-#
-#     """
-#     category = models.TextField()
-#     subcategory = models.TextField(default="")
-#     name = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Emissions(models.Model):
-#     """
-#     Tab Emission Granularity
-#
-#     """
-#     categories = models.TextField()  # TODO change the name to category
-#     name = models.TextField()
-#     state = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#     title = models.TextField(default="")
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Socioecons(models.Model):
-#     """
-#     Tab Socioecons Granularity
-#
-#     """
-#     category = models.TextField()
-#     subcategory = models.TextField(default="")
-#     name = models.TextField()
-#     state = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Policies(models.Model):
-#     """
-#     Tab Policy Granularity
-#
-#     """
-#     category = models.TextField()
-#     name = models.TextField()
-#     state = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#
-#     def __str__(self):
-#         return self.name
 
+class DataVariableHarmonisationGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+class Dataset(models.Model):
+    dataset_name = models.CharField(null=False, default="", max_length=50)
+    dataset_title = models.CharField(null=False, default="", max_length=50)
+    dataset_description = models.TextField(null=False, default="")
+    dataset_provider = models.CharField(null=False, default="", max_length=50)
+    dataset_format = models.CharField(null=False, default="", max_length=50)
+    # TODO: maybe we need to define a data_format class or structure. Needs discussion
+    dataset_date_creation = models.DateField(auto_now_add=True)
+    dataset_date_update = models.DateField(auto_now=True)
+
+class Variable(models.Model):
+    var_name = models.CharField(null=False, default="", max_length=50)
+    var_title = models.CharField(null=False, default="", max_length=50)
+    var_category = models.CharField(null=False, default="", max_length=50)
+    var_definition = models.TextField(null=False, default="")
+    var_unit = models.CharField(null=False, default="", max_length=50)
+    dataset_relation = models.ForeignKey(Dataset, null=False, on_delete=models.CASCADE)
+
+
+class DataVariableHarmonisation(models.Model):
+    model = models.CharField(null=False, default="", max_length=50)
+    variable = models.CharField(null=False, default="", max_length=50)
+    io_status = models.CharField(null=False, default="", max_length=50)
+
+#Dynamic Documentation Models
 
 class Regions(models.Model):
     """
@@ -143,70 +115,12 @@ class Countries(models.Model):
         return self.country_name
 
 
-# class Mitigations(models.Model):
-#     """
-#     Tab Mitigation-Adaptation measures(1)
-#
-#     """
-#     category = models.TextField()
-#     subcategory = models.TextField(default="")
-#     name = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Adaptation(models.Model):
-#     """
-#     Tab Mitigation-Adaptation measures(2)
-#
-#     """
-#     category = models.TextField()
-#     name = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Sdgs(models.Model):
-#     """
-#     Tab SDG Granularity
-#
-#     """
-#     name = models.TextField()
-#     title = models.TextField(default="")
-#     description = models.TextField()
-#     icon = models.TextField(default="")
-#     model_name = models.ManyToManyField(ModelsInfo)
-#
-#     def __str__(self):
-#         return self.name
-
-
-class Feedback(models.Model):
-    username = models.CharField(max_length=120)
-    email = models.CharField(default='', max_length=120)
-    subject = models.CharField(default='', max_length=120)
-    message = models.TextField(default='')
-
-    def __str__(self):
-        return self.username
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-# New models
-
 class SdgsCat(models.Model):
     sdgs_cat = models.TextField()
     sdgs_title = models.TextField()
     ordering = models.IntegerField(default=0)
     model_id = models.ManyToManyField(ModelsInfo,
                                       through='SdgsName')
-    ordering = models.IntegerField(default=0)
 
 
 class SdgsName(models.Model):
@@ -357,3 +271,13 @@ class PoliciesStates(models.Model):
     model_id = models.ForeignKey(ModelsInfo,
                               on_delete=models.CASCADE)
     state = models.TextField()
+
+# Feedback Form Models
+class Feedback(models.Model):
+    username = models.CharField(max_length=120)
+    email = models.CharField(default='', max_length=120)
+    subject = models.CharField(default='', max_length=120)
+    message = models.TextField(default='')
+
+    def __str__(self):
+        return self.username

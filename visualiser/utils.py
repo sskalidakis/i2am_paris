@@ -48,11 +48,12 @@ AM_CHARTS_COLOR_HEATMAP_COUPLES = {
     "green_red": ["#66bd7d", "#a32f22"],
     "beige_purple": ["#f0d2bd", "#80308a"],
     "purple_orange": ["#f5d1ff", "#db6b21"],
-    "cyan_green": ["#99c9c9", "#446614"],
+    "cyan_green": ["#d5eded", "#446614"],
     "yellow_gold": ["#f7ecc2", "#dba200"],
     "skin_red": ["#f7dfd0", "#8d1915"],
     "grey_darkblue": ["#eaecf7", "#1f3b5e"],
-    "lightblue_green": ["#bbe1ff", "#2e5c20"]
+    "lightblue_green": ["#bbe1ff", "#2e5c20"],
+    "darkblue_lightgreen": ["#02487a", "#8cc63f"]
 
 }
 
@@ -116,6 +117,8 @@ def generate_data_for_heat_map():
              }
         )
     return data
+
+
 
 
 def generate_data_for_heat_map_chart():

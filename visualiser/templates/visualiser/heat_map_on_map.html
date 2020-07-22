@@ -11,6 +11,7 @@
 
             // Create map instance
             var chart = am4core.create("chartdiv", am4maps.MapChart);
+            chart.exporting.menu = new am4core.ExportMenu();
            {% comment %} chart.responsive = {
                 "enabled": true
             };{% endcomment %}
@@ -55,14 +56,14 @@
             chart.homeGeoPoint = {longitude: 0, latitude: 3};
             chart.homeZoomLevel = 1;
 
-            chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#c9d7ef");
+            chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#ffffff");
             chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 1;
 
 
 
             // Create map polygon series
             var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
-            polygonSeries.mapPolygons.template.fill = am4core.color("#b2bcb2");
+            polygonSeries.mapPolygons.template.fill = am4core.color("#ffffff");
             polygonSeries.mapPolygons.template.stroke = am4core.color("#e3e3e3");
             //Set min/max fill color for each area and Heat-map legend
             polygonSeries.heatRules.push({
@@ -91,12 +92,36 @@
             heatLegend.align = "center";
             heatLegend.dy= 50;
             heatLegend.valign = "bottom";
+            heatLegend.series = polygonSeries;
+            heatLegend.valueAxis.renderer.labels.template.fontSize = 9;
+            heatLegend.valueAxis.renderer.minGridDistance = 30;
+
+{#// heat legend behavior#}
+{#            polygonSeries.columns.template.events.on("over", function (event) {#}
+{#                handleHover(event.target);#}
+{#            })#}
+{##}
+{#            polygonSeries.columns.template.events.on("hit", function (event) {#}
+{#                handleHover(event.target);#}
+{#            })#}
+{##}
+{#            function handleHover(column) {#}
+{#                if (!isNaN(column.dataItem.value)) {#}
+{#                    heatLegend.valueAxis.showTooltipAt(column.dataItem.value)#}
+{#                } else {#}
+{#                    heatLegend.valueAxis.hideTooltip();#}
+{#                }#}
+{#            }#}
+{##}
+{#            polygonSeries.columns.template.events.on("out", function (event) {#}
+{#                heatLegend.valueAxis.hideTooltip();#}
+{#            });#}
 
             {#heatLegend.orientation = "vertical";#}
 
 
             var title = chart.titles.create();
-            title.text = "Heat map of " + map_var_title + " (" + var_unit + ")";
+            title.text = map_var_title + " Heat map "+ "(" + var_unit + " per country)";
 
             title.fontSize = 19;
             title.fontWeight = 600;

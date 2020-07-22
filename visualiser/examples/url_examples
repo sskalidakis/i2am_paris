@@ -268,6 +268,15 @@ Body:{
          'min_max_y_value': [18, 45]
          }
 
+http://localhost:8000/visualiser/show_heat_map?map_var_name=frequency&map_var_title=Model%20Coverage&map_var_unit=models&color_list_request[]=cyan_green&min_max_y_value[]=4&min_max_y_value[]=30
+
+http://localhost:8000/visualiser/show_heat_map?map_var_name=frequency&map_var_title=Model%20Coverage&map_var_unit=models&color_list_request[]=grey_darkblue&min_max_y_value[]=3&min_max_y_value[]=112
+
+http://localhost:8000/visualiser/show_heat_map?map_var_name=frequency&map_var_title=Model%20Coverage&map_var_unit=models&color_list_request[]=lightblue_green&min_max_y_value[]=3&min_max_y_value[]=112
+
+http://localhost:8000/visualiser/show_heat_map?map_var_name=frequency&map_var_title=Model%20Coverage&map_var_unit=models&color_list_request[]=beige_purple&min_max_y_value[]=20&min_max_y_value[]=112
+
+
 
 ------------------------------------------------------------------------------------------------------------------------
 http://localhost:8000/visualiser/show_heat_map?map_var_name=Annual share of global CO₂ emissions&map_var_title=Annual share of global CO₂ emissions&map_var_unit=%&color_list_request[]=blue_red&min_max_y_value[]=0&min_max_y_value[]=50

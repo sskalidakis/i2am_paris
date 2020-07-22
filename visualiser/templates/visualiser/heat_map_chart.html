@@ -30,10 +30,10 @@
             var z_axis_name = "{{ z_axis_name }}";
             var z_axis_unit = "{{ z_axis_unit }}";
             var color_list = {{ color_list|safe }};
-            var x_sec_axis = "{{ x_sec_axis }}";
             var minmax_z_value = {{ minmax_z_value|safe }};
             var distinct = {{ distinct|safe }};
-            console.log(x_sec_axis);
+            var guides = "{{ guides|safe }}";
+
             //Fix colors
             var light_color;
             var dark_color;
@@ -191,6 +191,25 @@
                 $('#col_clicked').text(ev.target.dataItem.categoryX);
                 $('#row_clicked').text(ev.target.dataItem.categoryY);
             }, this);
+
+            if(guides !== ''){
+                for(var j;j<length(guides);j++){
+                    createRange(guides['from'], guides['to'], guides['label']);
+                }
+            }
+
+            function createRange(from, to, label) {
+                var range =yAxis.axisRanges.create();
+                range.category = from;
+                range.endCategory = to;
+                range.label.text = label;
+                range.label.paddingRight = 40;
+                range.label.angle = 90;
+                range.label.location = 0.5;
+                range.label.horizontalCenter = "middle";
+                range.label.fontWeight = "bolder";
+                range.grid.disabled = true;
+            }
 
 
         });
