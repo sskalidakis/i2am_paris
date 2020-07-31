@@ -12,7 +12,6 @@ In classes Emissions, Socioecons & Policies there is the field state which can h
 """
 
 
-
 class ModelsInfo(models.Model):
     """
     Tab Model information
@@ -35,6 +34,7 @@ class ModelsInfo(models.Model):
     def __str__(self):
         return self.model_name
 
+
 # Data Used only for the harmonisation Heatmap Application
 class Harmonisation_Variables(models.Model):
     """Variables for harmonisation table"""
@@ -43,6 +43,8 @@ class Harmonisation_Variables(models.Model):
     var_category = models.CharField(null=False, default="", max_length=50)
     var_definition = models.TextField(null=False, default="")
     model_relation = models.ManyToManyField(ModelsInfo, through='HarmData')
+    order = models.IntegerField(null=False, default=1)
+
 
 class HarmData(models.Model):
     model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
@@ -52,24 +54,54 @@ class HarmData(models.Model):
     var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
 
-# Data Model
+
+# Data Variable Tables
+class DataVariablesModels(models.Model):
+    """
+    Models for data model
+    """
+    name = models.TextField()
+    title = models.TextField(default="")
+    type = models.TextField()
+    time_horizon = models.IntegerField()
+    time_steps_in_solution = models.IntegerField(default=0)
+    ordering = models.IntegerField(default=0)
+    coverage = models.TextField(default="")
+    coverage_title = models.TextField(default="")
 
 
-class DataVariableHarmonisationGuides(models.Model):
+class DataVariablesHarmonisation(models.Model):
+    """HarmVariables for data model"""
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=50)
+    category = models.CharField(null=False, default="", max_length=50)
+    order = models.IntegerField(null=False, default=1)
+
+
+#Datasets
+class DatasetVariableHarmonisation(models.Model):
+    harmonisation_model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
+    harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetVariableHarmonisationGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
 
 
+# Data Model
 class Dataset(models.Model):
+    """dataset name is the name of table containing the data of the specific dataset"""
     dataset_name = models.CharField(null=False, default="", max_length=50)
     dataset_title = models.CharField(null=False, default="", max_length=50)
     dataset_description = models.TextField(null=False, default="")
     dataset_provider = models.CharField(null=False, default="", max_length=50)
-    dataset_format = models.CharField(null=False, default="", max_length=50)
-    # TODO: maybe we need to define a data_format class or structure. Needs discussion
-    dataset_date_creation = models.DateField(auto_now_add=True)
-    dataset_date_update = models.DateField(auto_now=True)
+    dataset_date_creation = models.DateTimeField(auto_now_add=True)
+    dataset_date_update = models.DateTimeField(auto_now=True)
+    dataset_django_model = models.CharField(null=False, default="", max_length=50)
+
 
 class Variable(models.Model):
     var_name = models.CharField(null=False, default="", max_length=50)
@@ -78,14 +110,10 @@ class Variable(models.Model):
     var_definition = models.TextField(null=False, default="")
     var_unit = models.CharField(null=False, default="", max_length=50)
     dataset_relation = models.ForeignKey(Dataset, null=False, on_delete=models.CASCADE)
+    variable_table_name = models.CharField(null=True, max_length=50)
 
 
-class DataVariableHarmonisation(models.Model):
-    model = models.CharField(null=False, default="", max_length=50)
-    variable = models.CharField(null=False, default="", max_length=50)
-    io_status = models.CharField(null=False, default="", max_length=50)
-
-#Dynamic Documentation Models
+# Dynamic Documentation Models
 
 class Regions(models.Model):
     """
@@ -109,6 +137,7 @@ class Countries(models.Model):
     country_name = models.TextField()
     country_code = models.CharField(max_length=3)
     region_name = models.ManyToManyField(Regions)
+
     # model_name = models.ManyToManyField(ModelsInfo)
 
     def __str__(self):
@@ -214,9 +243,9 @@ class EmissionsIcon(models.Model):
 
 class EmissionsStates(models.Model):
     emissions_name_id = models.ForeignKey(EmissionsName,
-                               on_delete=models.CASCADE)
+                                          on_delete=models.CASCADE)
     model_id = models.ForeignKey(ModelsInfo,
-                              on_delete=models.CASCADE)
+                                 on_delete=models.CASCADE)
     state = models.TextField()
 
 
@@ -241,9 +270,9 @@ class SocioeconsName(models.Model):
 
 class SocioeconsStates(models.Model):
     socioecons_name_id = models.ForeignKey(SocioeconsName,
-                               on_delete=models.CASCADE)
+                                           on_delete=models.CASCADE)
     model_id = models.ForeignKey(ModelsInfo,
-                              on_delete=models.CASCADE)
+                                 on_delete=models.CASCADE)
     state = models.TextField()
 
 
@@ -267,10 +296,11 @@ class PoliciesName(models.Model):
 
 class PoliciesStates(models.Model):
     policies_name_id = models.ForeignKey(PoliciesName,
-                               on_delete=models.CASCADE)
+                                         on_delete=models.CASCADE)
     model_id = models.ForeignKey(ModelsInfo,
-                              on_delete=models.CASCADE)
+                                 on_delete=models.CASCADE)
     state = models.TextField()
+
 
 # Feedback Form Models
 class Feedback(models.Model):

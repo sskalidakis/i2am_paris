@@ -1,16 +1,17 @@
 from json import JSONDecodeError
-
+import logging
+import sys
 from django.shortcuts import render
+from django.apps import apps
 
 from django.http import HttpResponse
-
 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
     HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP
 
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmData
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmData, Variable, Dataset
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -20,8 +21,16 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 import json
 
+from visualiser.visualiser_settings import DATA_TABLES_APP
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO,
+                    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+log = logging.getLogger(__name__)
+
+
 class XYZ_chart:
-    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title, y_axis_unit,
+    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
+                 y_axis_unit,
                  z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, distinct, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
@@ -65,8 +74,9 @@ class XYZ_chart:
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
                         'y_axis_title': self.y_axis_title, 'y_axis_unit': self.y_axis_unit,
-                        'y_axis_name': self.y_axis_name,'z_axis_name': z_axis_name, 'z_axis_title': z_axis_title,
-                        'z_axis_unit': z_axis_unit, 'color_list': self.color_list, 'minmax_z_value': self.minmax_z_value,
+                        'y_axis_name': self.y_axis_name, 'z_axis_name': z_axis_name, 'z_axis_title': z_axis_title,
+                        'z_axis_unit': z_axis_unit, 'color_list': self.color_list,
+                        'minmax_z_value': self.minmax_z_value,
                         'distinct': distinct, 'chart_data': self.chart_data}
 
     def show_chart(self):
@@ -157,10 +167,12 @@ class XY_chart:
             return render(self.request, 'visualiser/radar_chart.html',
                           self.content)
 
+
 class FlowChart:
     """
     Sankey chart and Chord diagram have the same format of data
     """
+
     def __init__(self, request, data, node_list, color_node_list, use_def_colors, chart_title, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
@@ -243,7 +255,7 @@ def get_response_data_XY(request):
             "chart_3d": request.GET.get("chart_3d", ""),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
-            "dataset_type": request.GET.get("dataset_type","file"),
+            "dataset_type": request.GET.get("dataset_type", "file"),
             "distinct": request.GET.getlist("distinct[]", []),
 
         }
@@ -307,7 +319,6 @@ def show_column_chart(request):
     return column_chart.show_chart()
 
 
-
 @csrf_exempt
 def show_pie_chart(request):
     response_data = get_response_data_XY(request)
@@ -326,9 +337,10 @@ def show_pie_chart(request):
     data = PIE_CHART_DATA
     color_list = define_color_code_list(color_list_request)
 
-    pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title, variable_unit,
-                          x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
-                          'pie_chart')
+    pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
+                         variable_unit,
+                         x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                         'pie_chart')
     return pie_chart.show_chart()
 
 
@@ -352,6 +364,7 @@ def show_radar_chart(request):
                            variable_unit, x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
                            min_max_y_value, 'radar_chart')
     return radar_chart.show_chart()
+
 
 def show_range_chart(request):
     response_data_xy = get_response_data_XY(request)
@@ -416,8 +429,10 @@ def show_stacked_column_chart(request):
     data = COLUMNCHART_DATA
     print(data)
     color_list = define_color_code_list(color_list_request)
-    stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+    stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
+                                    y_var_units,
+                                    x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                                    min_max_y_value,
                                     'stacked_column_chart')
     return stacked_column_chart.show_chart()
 
@@ -464,7 +479,7 @@ def get_response_heat_map(request):
 def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, dataset_type):
     print(harmonisation_map)
     print(dataset)
-    new_dict = []
+    final_data = []
     if dataset_type == 'file':
         with open('static/harmonisation_data/' + dataset, 'r') as f:
             data = f.read()
@@ -472,43 +487,75 @@ def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, datase
         for model, vars in diction.items():
             for var, val in vars.items():
                 var_title = Harmonisation_Variables.objects.get(var_name=var).var_title
-                new_dict.append({"model": model, "variable": var_title, "value": val})
-        print(new_dict)
+                final_data.append({"model": model, "variable": var_title, "value": val})
+        print(final_data)
     elif dataset_type == 'db':
-        data = HarmData.objects.all()
-        col_ordering = None
-        if col_order == 'alphabetically':
-            col_ordering = 'model__model_title'
-        elif col_order == 'model_type':
-            col_ordering = 'model__type_of_model'
-        elif col_order == 'coverage':
-            col_ordering = 'model__coverage'
-        elif col_order == 'time_steps_in_solution':
-            col_ordering = 'model__time_steps_in_solution'
-        elif col_order == 'default':
-            col_ordering = 'model__ordering'
+        try:
+            dataset = Dataset.objects.get(dataset_name=dataset)
+            data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
+            data = data_table.objects.all()
+            variables = Variable.objects.filter(dataset_relation=dataset.id)
+        except Exception as e:
+            log.error(e)
+            return e, 400
+        # TODO: For the ordering we should gather the fields from each variable and create a text for each of them
+        #  according to the variable name. Then the ordering should take place. You can get the fields of a model using the command below.
+        # col_ordering = None
+        # dataset_fields = Dataset._meta.get_fields()
 
-        row_ordering = None
-        if row_order == 'alphabetically':
-            row_ordering = 'variable__var_title'
-        elif row_order == 'var_category':
-            row_ordering = 'variable__var_category'
+        
+        # if col_order == 'alphabetically':
+        #     col_ordering = 'model__model_title'
+        # elif col_order == 'model_type':
+        #     col_ordering = 'model__type_of_model'
+        # elif col_order == 'coverage':
+        #     col_ordering = 'model__coverage'
+        # elif col_order == 'time_steps_in_solution':
+        #     col_ordering = 'model__time_steps_in_solution'
+        # elif col_order == 'default':
+        #     col_ordering = 'model__ordering'
 
-        if (col_ordering is None) and (row_ordering is None):
-            pass
-        elif col_ordering is None:
-            data = data.order_by(row_ordering)
-        elif row_ordering is None:
-            data = data.order_by(col_ordering)
-        else:
-            data = data.order_by(col_ordering, row_ordering)
-
+        # data = HarmData.objects.all()
+        # col_ordering = None
+        # if col_order == 'alphabetically':
+        #     col_ordering = 'model__model_title'
+        # elif col_order == 'model_type':
+        #     col_ordering = 'model__type_of_model'
+        # elif col_order == 'coverage':
+        #     col_ordering = 'model__coverage'
+        # elif col_order == 'time_steps_in_solution':
+        #     col_ordering = 'model__time_steps_in_solution'
+        # elif col_order == 'default':
+        #     col_ordering = 'model__ordering'
+        #
+        # row_ordering = 'variable__order'
+        # # if row_order == 'alphabetically':
+        # #     row_ordering = 'variable__var_title'
+        # # elif row_order == 'var_category':
+        # #     row_ordering = 'variable__var_category'
+        # #
+        # # if (col_ordering is None) and (row_ordering is None):
+        # #     pass
+        # # elif col_ordering is None:
+        # #     data = data.order_by(row_ordering)
+        # # elif row_ordering is None:
+        # #     data = data.order_by(col_ordering)
+        # # else:
+        # data = data.order_by(col_ordering, row_ordering)
+        final_data = []
         for el in data:
-            new_dict.append(
-                {"model": el.model.model_title, "variable": el.variable.var_title, "value": el.io_status})
+            dictionary = {}
+            for var in variables:
+                if var.variable_table_name is None:
+                    dictionary[var.var_name] = getattr(el, var.var_name)
+                else:
+                    var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
+                    var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
+                    value = var_table_obj.title
+                    dictionary[var.var_name] = value
+            final_data.append(dictionary)
 
-
-    return new_dict
+    return final_data
 
 
 @csrf_exempt
@@ -540,8 +587,8 @@ def show_heat_map_chart(request):
         color_list = define_color_code_list(response_data_xy['color_list_request'])
     data = create_heatmap_data(dataset, harmonisation_map, col_order, row_order, dataset_type)
     heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
-                                   y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
-                                   min_max_z_value, distinct, 'heat_map_chart')
+                               y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
+                               min_max_z_value, distinct, 'heat_map_chart')
 
     return heat_map_chart.show_chart()
 
@@ -629,7 +676,8 @@ def parallel_coordinates_chart(request):
     y_axes = response_parallel_coordinates_chart["y_axes"]
     slice_size = response_parallel_coordinates_chart["samples_size"]
     data = PARALLEL_COORDINATES_DATA
-    return render(request, 'visualiser/parallel_coordinates_chart.html', {"y_axes": y_axes, "data": data, "slice_size": slice_size})
+    return render(request, 'visualiser/parallel_coordinates_chart.html',
+                  {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
 @csrf_exempt
@@ -694,7 +742,7 @@ def parallel_coordinates_chart2(request):
     sample_size = response_parallel_coordinates_chart2["samples_size"]
     # data = PARALLEL_COORDINATES_DATA_2
     data = generate_data_for_parallel_coordinates_chart2()
-    samples_title = "Sample of %s entries" %sample_size
+    samples_title = "Sample of %s entries" % sample_size
     # Create the variable colored_groups
     # First get the unique groups of give data
     groups_list = list(set(map(lambda x: x[1], data)))
@@ -703,14 +751,13 @@ def parallel_coordinates_chart2(request):
         colored_groups[group] = D3_PARALLEL_COORDINATES_COLORS[k]
     # Greate a dict with keys the name of groups and value a list which represent the HSL color
     return render(request, 'visualiser/parallel_coordinates_chart2.html', {
-                                                                            "data": data,
-                                                                            "y_axes": y_axes,
-                                                                            "title": title,
-                                                                            "about": about_title,
-                                                                            "about_text": about_text,
-                                                                            "groups": groups_title,
-                                                                            "samples": samples_title,
-                                                                            "samples_size": sample_size,
-                                                                            "colored_groups": colored_groups
+        "data": data,
+        "y_axes": y_axes,
+        "title": title,
+        "about": about_title,
+        "about_text": about_text,
+        "groups": groups_title,
+        "samples": samples_title,
+        "samples_size": sample_size,
+        "colored_groups": colored_groups
     })
-
