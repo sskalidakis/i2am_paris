@@ -51,7 +51,7 @@
     <div class="tab-content">
         <div class="tab-pane" id="harm_heatmap">
             <div class="container" style="width: 100%; height:100%;">
-                <div class="row" style="margin-top: 6em; height: 110vh">
+                <div class="row" style="margin-top: 6em; height: 130vh">
                     <div class="col-sm-9 col-xs-12" style="height: 100%">
                         <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
                             <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart"
@@ -93,20 +93,20 @@
                                 Order Columns By:
                                 <select id="col_order" class="form-control">
                                     <option value="default">Default</option>
-                                    <option value="alphabetically">Alphabetically</option>
-                                    <option value="model_type">Model Type</option>
+                                    <option value="title">Alphabetically</option>
+                                    <option value="type">Model Type</option>
                                     <option value="coverage">Geographical Coverage</option>
                                     <option value="time_steps_in_solution">Time Step</option>
                                 </select>
                             </label>
-                            {#                            <label>#}
-                            {#                                Order Rows By:#}
-                            {#                                <select id="row_order" class="form-control">#}
-                            {#                                    <option value="default">Default</option>#}
-                            {#                                    <option value="alphabetically">Alphabetically</option>#}
-                            {#                                    <option value="var_category">Variable Category</option>#}
-                            {#                                </select>#}
-                            {#                            </label>#}
+{#                            <label style="display: block;width: 70%">#}
+{#                                Order Rows By:#}
+{#                                <select id="row_order" class="form-control">#}
+{#                                    <option value="default">Default</option>#}
+{#                                    <option value="title">Alphabetically</option>#}
+{#                                    <option value="category">Variable Category</option>#}
+{#                                </select>#}
+{#                            </label>#}
                         </div>
 
                         <label for="model_name" style="display: block;width: 70%">Model Name
@@ -226,7 +226,7 @@
             $('#loading_bar').show();
 
             var data = {
-                "harmonisation_map": true,
+                "row_categorisation_dataset": "datasetvariableharmonisationguides",
                 "col_order": $('#col_order').val(),
                 "row_order": $('#row_order').val(),
                 "y_var_names": ["harmonisation_variable"],

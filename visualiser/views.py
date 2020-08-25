@@ -30,8 +30,8 @@ log = logging.getLogger(__name__)
 
 class XYZ_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
-                 y_axis_unit,
-                 z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, distinct, chart_type):
+                 y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, distinct,
+                 ranges, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -54,6 +54,7 @@ class XYZ_chart:
         :param minmax_z_value: A two-element list that contains the min and max value of the variables on the Z-Axis. (List of Numbers)
         :param chart_type: The type of the chart. Options : heat_map_chart
         :param distinct: defines a list of distinct values that will be presented with different colors on the heatmap (list of values)
+        :param ranges: Used in case a dataset in the from-to-value format is given including the data used to create guidelines or ranges on the chart
         """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
@@ -71,13 +72,14 @@ class XYZ_chart:
         self.color_list = color_list
         self.minmax_z_value = minmax_z_value
         self.distinct = distinct
+        self.ranges = ranges
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
                         'y_axis_title': self.y_axis_title, 'y_axis_unit': self.y_axis_unit,
                         'y_axis_name': self.y_axis_name, 'z_axis_name': z_axis_name, 'z_axis_title': z_axis_title,
                         'z_axis_unit': z_axis_unit, 'color_list': self.color_list,
                         'minmax_z_value': self.minmax_z_value,
-                        'distinct': distinct, 'chart_data': self.chart_data}
+                        'distinct': distinct, 'ranges': self.ranges, 'chart_data': self.chart_data}
 
     def show_chart(self):
         """
@@ -476,86 +478,101 @@ def get_response_heat_map(request):
     return json_response
 
 
-def create_heatmap_data(dataset, harmonisation_map, col_order, row_order, dataset_type):
-    print(harmonisation_map)
-    print(dataset)
+def create_heatmap_data(dataset, row_categorisation_dataset, col_order, row_order, dataset_type):
     final_data = []
+    ranges_data = []
     if dataset_type == 'file':
-        with open('static/harmonisation_data/' + dataset, 'r') as f:
-            data = f.read()
-        diction = json.loads(data)
-        for model, vars in diction.items():
-            for var, val in vars.items():
-                var_title = Harmonisation_Variables.objects.get(var_name=var).var_title
-                final_data.append({"model": model, "variable": var_title, "value": val})
-        print(final_data)
+        final_data = heatmap_chart_data_from_file(dataset)
+
     elif dataset_type == 'db':
         try:
             dataset = Dataset.objects.get(dataset_name=dataset)
             data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
             data = data_table.objects.all()
-            variables = Variable.objects.filter(dataset_relation=dataset.id)
+            variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
         except Exception as e:
+            log.error('Dataset or corresponding variables not found in order to complete the 2d histogram.')
             log.error(e)
             return e, 400
-        # TODO: For the ordering we should gather the fields from each variable and create a text for each of them
-        #  according to the variable name. Then the ordering should take place. You can get the fields of a model using the command below.
-        # col_ordering = None
-        # dataset_fields = Dataset._meta.get_fields()
 
-        
-        # if col_order == 'alphabetically':
-        #     col_ordering = 'model__model_title'
-        # elif col_order == 'model_type':
-        #     col_ordering = 'model__type_of_model'
-        # elif col_order == 'coverage':
-        #     col_ordering = 'model__coverage'
-        # elif col_order == 'time_steps_in_solution':
-        #     col_ordering = 'model__time_steps_in_solution'
-        # elif col_order == 'default':
-        #     col_ordering = 'model__ordering'
+        # The order of the variables is decided to be like this: column, row, value.
+        try:
+            col_ordering = heatmap_ordering(col_order, variables, 0)
+            row_ordering = heatmap_ordering(row_order, variables, 1)
+            data = heatmap_ordering_method(col_ordering, data, row_ordering)
+        except Exception as e:
+            log.error('Error while ordering the columns or rows for the histogram 2d')
+            log.error(e)
+            return e, 400
 
-        # data = HarmData.objects.all()
-        # col_ordering = None
-        # if col_order == 'alphabetically':
-        #     col_ordering = 'model__model_title'
-        # elif col_order == 'model_type':
-        #     col_ordering = 'model__type_of_model'
-        # elif col_order == 'coverage':
-        #     col_ordering = 'model__coverage'
-        # elif col_order == 'time_steps_in_solution':
-        #     col_ordering = 'model__time_steps_in_solution'
-        # elif col_order == 'default':
-        #     col_ordering = 'model__ordering'
-        #
-        # row_ordering = 'variable__order'
-        # # if row_order == 'alphabetically':
-        # #     row_ordering = 'variable__var_title'
-        # # elif row_order == 'var_category':
-        # #     row_ordering = 'variable__var_category'
-        # #
-        # # if (col_ordering is None) and (row_ordering is None):
-        # #     pass
-        # # elif col_ordering is None:
-        # #     data = data.order_by(row_ordering)
-        # # elif row_ordering is None:
-        # #     data = data.order_by(col_ordering)
-        # # else:
-        # data = data.order_by(col_ordering, row_ordering)
-        final_data = []
-        for el in data:
-            dictionary = {}
-            for var in variables:
-                if var.variable_table_name is None:
-                    dictionary[var.var_name] = getattr(el, var.var_name)
-                else:
-                    var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
-                    var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
-                    value = var_table_obj.title
-                    dictionary[var.var_name] = value
-            final_data.append(dictionary)
+        final_data = reformat_heatmap_data(data, variables)
+        # If guides/ranges are used the dataset of the guides has to be declared explicitly in the request
+        # TODO: We may need to change that
+        # TODO: Also we may need to include column categorisation
+        ranges_data = heatmap_row_categorisation(row_categorisation_dataset)
 
+    return final_data, ranges_data
+
+
+def heatmap_row_categorisation(row_categorisation_dataset):
+    ranges_data = []
+    if row_categorisation_dataset != '':
+        row_ranges_table = apps.get_model(DATA_TABLES_APP, row_categorisation_dataset).objects.all()
+        for el in row_ranges_table:
+            dict_el = {'guide_from': el.guide_from, 'guide_to': el.guide_to, 'value': el.value}
+            ranges_data.append(dict_el)
+    return ranges_data
+
+
+def heatmap_chart_data_from_file(dataset):
+    final_data = []
+    with open('static/harmonisation_data/' + dataset, 'r') as f:
+        data = f.read()
+    diction = json.loads(data)
+    for model, vars in diction.items():
+        for var, val in vars.items():
+            var_title = Harmonisation_Variables.objects.get(var_name=var).var_title
+            final_data.append({"model": model, "variable": var_title, "value": val})
+    print(final_data)
     return final_data
+
+
+def reformat_heatmap_data(data, variables):
+    final_data = []
+    for el in data:
+        dictionary = {}
+        for var in variables:
+            if var.variable_table_name is None:
+                dictionary[var.var_name] = getattr(el, var.var_name)
+            else:
+                var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
+                var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
+                value = var_table_obj.title
+                dictionary[var.var_name] = value
+        final_data.append(dictionary)
+    return final_data
+
+
+def heatmap_ordering_method(col_ordering, data, row_ordering):
+    if (col_ordering is None) and (row_ordering is None):
+        pass
+    elif col_ordering is None:
+        data = data.order_by(row_ordering)
+    elif row_ordering is None:
+        data = data.order_by(col_ordering)
+    else:
+        data = data.order_by(col_ordering, row_ordering)
+    return data
+
+
+def heatmap_ordering(order, variables, var_position):
+    ordering = None
+    django_model = apps.get_model(DATA_TABLES_APP, variables[var_position].variable_table_name)
+    fields = django_model._meta.get_fields()
+    for field in fields:
+        if order == field.name:
+            ordering = str(variables[var_position].var_name) + "__" + str(field.name)
+    return ordering
 
 
 @csrf_exempt
@@ -576,7 +593,7 @@ def show_heat_map_chart(request):
     distinct = response_data_xy['distinct']
     dataset = response_data_xy['dataset']
     dataset_type = response_data_xy['dataset_type']
-    harmonisation_map = request.GET.get("harmonisation_map", "false")
+    row_categorisation_dataset = request.GET.get("row_categorisation_dataset", "")
     col_order = request.GET.get("col_order", "default")
     row_order = request.GET.get("row_order", "default")
     if len(distinct) == 0:
@@ -585,10 +602,10 @@ def show_heat_map_chart(request):
                                                          define_color_code_list([color_list_request]))
     else:
         color_list = define_color_code_list(response_data_xy['color_list_request'])
-    data = create_heatmap_data(dataset, harmonisation_map, col_order, row_order, dataset_type)
+    data, ranges = create_heatmap_data(dataset, row_categorisation_dataset, col_order, row_order, dataset_type)
     heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
                                y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
-                               min_max_z_value, distinct, 'heat_map_chart')
+                               min_max_z_value, distinct, ranges, 'heat_map_chart')
 
     return heat_map_chart.show_chart()
 

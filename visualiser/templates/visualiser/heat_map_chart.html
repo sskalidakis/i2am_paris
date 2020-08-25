@@ -32,7 +32,8 @@
             var color_list = {{ color_list|safe }};
             var minmax_z_value = {{ minmax_z_value|safe }};
             var distinct = {{ distinct|safe }};
-            var guides = "{{ guides|safe }}";
+            var ranges = {{ ranges|safe }};
+            console.log(ranges);
 
             //Fix colors
             var light_color;
@@ -192,9 +193,10 @@
                 $('#row_clicked').text(ev.target.dataItem.categoryY);
             }, this);
 
-            if(guides !== ''){
-                for(var j;j<length(guides);j++){
-                    createRange(guides['from'], guides['to'], guides['label']);
+            if(ranges.length !== 0){
+                for(var j=0;j<ranges.length;j++){
+                    createRange(ranges[j]['guide_from'], ranges[j]['guide_to'], ranges[j]['value']);
+                    createLines(ranges[j]['guide_from'])
                 }
             }
 
@@ -203,12 +205,26 @@
                 range.category = from;
                 range.endCategory = to;
                 range.label.text = label;
-                range.label.paddingRight = 40;
-                range.label.angle = 90;
+                range.label.paddingRight = 100;
+                range.label.paddingLeft = 20;
+                range.label.rotation = 0;
                 range.label.location = 0.5;
-                range.label.horizontalCenter = "middle";
-                range.label.fontWeight = "bolder";
+                range.label.fontWeight = "1000";
                 range.grid.disabled = true;
+                range.tick.disabled = true;
+                range.label.align = "left";
+
+            }
+
+            function createLines(from) {
+                var line = yAxis.axisRanges.create();
+                line.category = from;
+                line.label.disabled = true;
+                line.grid.disabled = true;
+                line.tick.disabled = false;
+                line.tick.strokeOpacity = 0.3;
+                line.tick.length = 250;
+                line.tick.location = 0;
             }
 
 
