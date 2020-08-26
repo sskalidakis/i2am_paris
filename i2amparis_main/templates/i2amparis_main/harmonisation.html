@@ -353,7 +353,6 @@
             sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
             sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
             show_hide_empty_fields();
-            console.log(('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit'));
         });
         sel_var_name.change(function () {
             sel_var_def.text($('#' + String($(this).val()) + ' .d_var_definition').text());
