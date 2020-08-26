@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmData
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
@@ -41,9 +41,21 @@ def overview_comparative_assessment_doc_national_oeu(request):
 def harmonisation(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('var_title')
+    var_mod_data = HarmData.objects.all()
+    var_mod = []
+    for el in var_mod_data:
+        dict_el = {
+            "model": el.model.model_name,
+            "var": el.variable.var_name,
+            "var_unit": el.var_unit,
+            "var_source_info": el.var_source_info,
+            "var_timespan": el.var_timespan
+        }
+        var_mod.append(dict_el)
 
     context = {"models": models,
-               "variables": variables}
+               "variables": variables,
+               "var_mod": var_mod}
     return render(request, 'i2amparis_main/harmonisation.html', context)
 
 def detailed_model_doc(request,model=''):

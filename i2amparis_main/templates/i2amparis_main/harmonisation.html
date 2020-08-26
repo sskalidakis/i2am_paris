@@ -147,14 +147,22 @@
                                 {% endfor %}
                             </select>
                         </label>
-                        {#                <div class="heading">Variable Unit</div>#}
-                        {#                <div class="desc_text take_up_space" id="var_unit"></div>#}
-                        {#                <div class="heading">Variable Source</div>#}
-                        {#                <div class="desc_text take_up_space" id="var_source"></div>#}
                         <div class="heading"> Category</div>
                         <div class="desc_text take_up_space" id="var_cat"></div>
                         <div class="heading">Variable Definition</div>
-                        <div class="desc_text text_take_up_space" id="var_def"></div>
+                        <div class="desc_text take_up_space" id="var_def"></div>
+                        <div class = "source_container">
+                            <div class="heading">Source</div>
+                            <div class="desc_text take_up_space" id="var_mod_source"></div>
+                        </div>
+                        <div class="unit_container">
+                            <div class="heading">Unit</div>
+                            <div class="desc_text take_up_space" id="var_mod_unit"></div>
+                        </div>
+                        <div class="timespan_container">
+                            <div class="heading">Timespan</div>
+                            <div class="desc_text take_up_space" id="var_mod_timespan"></div>
+                        </div>
 
                     </div>
                 </div>
@@ -177,6 +185,15 @@
                         <span class="d_var_title">{{ variable.var_title }}</span>
                         <span class="d_var_category">{{ variable.var_category }}</span>
                         <span class="d_var_definition">{{ variable.var_definition }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="var_mod_data_container" style="display: none">
+                {% for el in var_mod %}
+                    <div id={{ el.model }}_{{ el.var }}>
+                        <span class="d_var_mod_unit">{{ el.var_unit }}</span>
+                        <span class="d_var_mod_source_info">{{ el.var_source_info }}</span>
+                        <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
                     </div>
                 {% endfor %}
             </div>
@@ -289,33 +306,74 @@
     </script>
 
     <script>
-        $("#model_name").change(function () {
-            $('#geo_cov').text($('#' + String($(this).val()) + ' .d_model_coverage').text());
-            $('#model_type').text($('#' + String($(this).val()) + ' .d_model_type').text());
-            $('#model_timestep').text($('#' + String($(this).val()) + ' .d_model_timestep').text());
-            $('#model_desc').attr('href', '/detailed_model_doc/' + String($(this).val()));
-            $('#model_dynamic').attr('href', '/dynamic_doc/' + String($('#model_name').val()));
-            $('#model_desc').html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String($(this).find('option:selected').text()));
-            $('#model_dynamic').html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($(this).find('option:selected').text()));
+
+    var sel_model_name = $("#model_name");
+    var sel_geo_cov = $('#geo_cov');
+    var sel_model_type = $('#model_type');
+    var sel_model_timestep = $('#model_timestep');
+    var sel_model_desc = $('#model_desc');
+    var sel_model_dynamic = $('#model_dynamic');
+    var sel_var_mod_unit = $('#var_mod_unit');
+    var sel_var_mod_source = $('#var_mod_source');
+    var sel_var_mod_timespan = $('#var_mod_timespan');
+    var sel_var_name = $("#var_name");
+    var sel_var_def = $('#var_def');
+    var sel_var_cat = $('#var_cat');
+    var sel_unit_container = $('.unit_container');
+    var sel_source_container = $('.source_container');
+    var sel_timespan_container = $('.timespan_container');
+
+    function show_hide_empty_fields() {
+        if (sel_var_mod_unit.text() === '') {
+            sel_unit_container.hide();
+        } else {
+            sel_unit_container.show();
+        }
+        if (sel_var_mod_source.text() === '') {
+            sel_source_container.hide();
+        } else {
+            sel_source_container.show();
+        }
+        if (sel_var_mod_timespan.text() === '') {
+            sel_timespan_container.hide();
+        } else {
+            sel_timespan_container.show();
+        }
+    }
+
+        sel_model_name.change(function () {
+            sel_geo_cov.text($('#' + String($(this).val()) + ' .d_model_coverage').text());
+            sel_model_type.text($('#' + String($(this).val()) + ' .d_model_type').text());
+            sel_model_timestep.text($('#' + String($(this).val()) + ' .d_model_timestep').text());
+            sel_model_desc.attr('href', '/detailed_model_doc/' + String($(this).val()));
+            sel_model_dynamic.attr('href', '/dynamic_doc/' + String($('#model_name').val()));
+            sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String($(this).find('option:selected').text()));
+            sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($(this).find('option:selected').text()));
+            sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_'+ String(sel_var_name.val()) + ' .d_var_mod_unit').text());
+            sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
+            sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
+            show_hide_empty_fields();
+            console.log(('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit'));
+        });
+        sel_var_name.change(function () {
+            sel_var_def.text($('#' + String($(this).val()) + ' .d_var_definition').text());
+            sel_var_cat.text($('#' + String($(this).val()) + ' .d_var_category').text());
+            sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
+            sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
+            sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
+            show_hide_empty_fields();
 
         });
-        $("#var_name").change(function () {
-            $('#var_def').text($('#' + String($(this).val()) + ' .d_var_definition').text());
-            $('#var_cat').text($('#' + String($(this).val()) + ' .d_var_category').text());
-        });
-        $('#model_desc').attr('href', '/detailed_model_doc/' + String($('#model_name').val()));
-        $('#geo_cov').text($('#' + String($('#model_name').val()) + ' .d_model_coverage').text());
-        $('#model_type').text($('#' + String($('#model_name').val()) + ' .d_model_type').text());
-        $('#model_timestep').text($('#' + String($('#model_name').val()) + ' .d_model_timestep').text());
-        $('#model_dynamic').attr('href', '/dynamic_doc/' + String($('#model_name').val()));
-        $('#model_desc').html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String($('#model_name').find('option:selected').text()));
-        $('#model_dynamic').html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($('#model_name').find('option:selected').text()));
-        $('#var_def').text($('#' + String($('#var_name').val()) + ' .d_var_definition').text());
-        $('#var_cat').text($('#' + String($('#var_name').val()) + ' .d_var_category').text());
-
-        {#$('#model_name').val('gemini_e3').trigger('change');#}
-        {#$('#var_name').val('population').trigger('change');#}
-
+        sel_model_desc.attr('href', '/detailed_model_doc/' + String(sel_model_name.val()));
+        sel_geo_cov.text($('#' + String(sel_model_name.val()) + ' .d_model_coverage').text());
+        sel_model_type.text($('#' + String(sel_model_name.val()) + ' .d_model_type').text());
+        sel_model_timestep.text($('#' + String(sel_model_name.val()) + ' .d_model_timestep').text());
+        sel_model_dynamic.attr('href', '/dynamic_doc/' + String(sel_model_name.val()));
+        sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String(sel_model_name.find('option:selected').text()));
+        sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String(sel_model_name.find('option:selected').text()));
+        sel_var_def.text($('#' + String(sel_var_name.val()) + ' .d_var_definition').text());
+        sel_var_cat.text($('#' + String(sel_var_name.val()) + ' .d_var_category').text());
+        show_hide_empty_fields();
 
     </script>
 
