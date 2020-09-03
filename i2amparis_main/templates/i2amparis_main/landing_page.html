@@ -219,7 +219,7 @@
         <div class="container">
 
             <div class="row mar-bot40">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="wow bounceIn">
                         <div class="align-center">
                             <div class="wow rotateIn">
@@ -231,20 +231,13 @@
                                     <p>An interactive library of the models , in the form of a responsive
                                         “infographic”, for all models, with regard to their features.</p>
                                 </div>
-{#                                <select id="dynamic_doc_format_select">#}
-{#                                    <option value="">Single-page Layout</option>#}
-{#                                    <option value="_alternative_1">Simple Layout</option>#}
-                                    {#                                    <option value="_alternative_2">Second Alternative</option>#}
-{#                                    <option value="_alternative_2">Simple Layout with Map Legend</option>#}
-{#                                    <option value="_alternative_3">Detailed, Descriptive Layout</option>#}
-{#                                </select>#}
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="align-center">
                         <div class="wow bounceIn">
 
@@ -268,7 +261,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="align-center">
                         <div class="wow bounceIn">
                             <div class="service-col detailed_doc">
@@ -278,6 +271,25 @@
                                 <h2><a class="detailed_doc" href="detailed_model_doc">Detailed Model Documentation</a></h2>
                                 <p>A detailed documentation of each one of the global, regional and national models of
                                     the PARIS REINFORCE modelling ensemble</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3">
+                    <div class="wow bounceIn">
+                        <div class="align-center">
+                            <div class="wow rotateIn">
+                                <div class="service-col harmonisation_map" style="cursor: pointer">
+                                    <div class="service-icon">
+                                        <figure><i class="fa fa-table"></i></figure>
+                                    </div>
+                                    <h2><a href="harmonisation" class="harmonisation_map">Variable Harmonisation Heatmap</a></h2>
+                                    <p>This heatmap indicates how
+                                        different variables are handled across the models within the
+                                        Paris Reinforce consortium. </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -519,6 +531,9 @@
         });
         $(document).on('click', 'div.detailed_doc', function (e) {
             $("a.detailed_doc")[0].click()
+        });
+        $(document).on('click', 'div.harmonisation_map', function (e) {
+            $("a.harmonisation_map")[0].click()
         });
 
     </script>
