@@ -230,15 +230,16 @@
                     range.label.align = "top";
                     range.label.paddingTop = 20;
                     range.label.paddingBottom = 60;
-                    {#range.template.label.rotation = 90;#}
+                    range.label.rotation = 0;
+                    range.label.disabled = false;
                 }
 
                 range.category = from;
                 range.endCategory = to;
                 range.label.text = label;
-                range.label.rotation = 0;
                 range.label.location = 0.5;
                 range.label.fontWeight = "1000";
+                range.label.fontSize = "0.6em";
                 range.grid.disabled = true;
                 range.tick.disabled = true;
             }
