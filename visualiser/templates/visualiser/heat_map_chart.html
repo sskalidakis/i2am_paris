@@ -32,8 +32,9 @@
             var color_list = {{ color_list|safe }};
             var minmax_z_value = {{ minmax_z_value|safe }};
             var distinct = {{ distinct|safe }};
-            var ranges = {{ ranges|safe }};
-            console.log(ranges);
+            var row_ranges = {{ row_ranges|safe }};
+            var col_ranges = {{ col_ranges|safe }};
+            {#console.log(ranges);#}
 
             //Fix colors
             var light_color;
@@ -50,13 +51,23 @@
                 }
             }
             var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            xAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
+            var x_unit = '';
+            if ((x_axis_unit!=='')&&(x_axis_unit!=='-')){
+                x_unit = " (" + x_axis_unit + ")"
+            }
+            xAxis.title.text = x_axis_title + x_unit;
             xAxis.title.fontWeight = 600;
+            xAxis.title.fontSize = "1.3em";
 
 
             var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-            yAxis.title.text = y_axis_title + " (" + y_axis_unit + ")";
+            var y_unit = '';
+            if ((y_axis_unit !== '') && (y_axis_unit !== '-')) {
+                y_unit = " (" + y_axis_unit + ")"
+            }
+            yAxis.title.text = y_axis_title + y_unit;
             yAxis.title.fontWeight = 600;
+            yAxis.title.fontSize = "1.3em";
             yAxis.renderer.minGridDistance = 10;
             yAxis.renderer.labels.template.fontSize = "0.7em";
 
@@ -64,8 +75,9 @@
             {#xAxis.renderer.grid.template.stroke = "#ffffff";#}
             xAxis.renderer.minGridDistance = 30;
             xAxis.renderer.labels.template.fontSize = "0.7em";
+            xAxis.renderer.labels.template.location = 0.2;
             xAxis.renderer.opposite = true;
-            xAxis.renderer.labels.template.rotation = -25;
+            xAxis.renderer.labels.template.rotation = -90;
             xAxis.dataFields.category = x_axis_name;
 
             yAxis.renderer.grid.template.disabled = true;
@@ -193,37 +205,58 @@
                 $('#row_clicked').text(ev.target.dataItem.categoryY);
             }, this);
 
-            if(ranges.length !== 0){
-                for(var j=0;j<ranges.length;j++){
-                    createRange(ranges[j]['guide_from'], ranges[j]['guide_to'], ranges[j]['value']);
-                    createLines(ranges[j]['guide_from'])
+            if(row_ranges.length !== 0){
+                for(var j=0;j<row_ranges.length;j++){
+                    createRowRange(row_ranges[j]['guide_from'], row_ranges[j]['guide_to'], row_ranges[j]['value'], 'y');
+                    createRowLines(row_ranges[j]['guide_from'], 'y');
+                }
+            }
+            if (col_ranges.length !== 0) {
+                for (j = 0; j < col_ranges.length; j++) {
+                    createRowRange(col_ranges[j]['guide_from'], col_ranges[j]['guide_to'], col_ranges[j]['value'], 'x');
+                    createRowLines(col_ranges[j]['guide_from'], 'x');
                 }
             }
 
-            function createRange(from, to, label) {
-                var range =yAxis.axisRanges.create();
+            function createRowRange(from, to, label, axis) {
+                var range;
+                if (axis==='y') {
+                    range = yAxis.axisRanges.create();
+                    range.label.align = "left";
+                    range.label.paddingRight = 150;
+                    range.label.paddingLeft = 20;
+                }else{
+                    range = xAxis.axisRanges.create();
+                    range.label.align = "top";
+                    range.label.paddingTop = 20;
+                    range.label.paddingBottom = 60;
+                    {#range.template.label.rotation = 90;#}
+                }
+
                 range.category = from;
                 range.endCategory = to;
                 range.label.text = label;
-                range.label.paddingRight = 150;
-                range.label.paddingLeft = 20;
                 range.label.rotation = 0;
                 range.label.location = 0.5;
                 range.label.fontWeight = "1000";
                 range.grid.disabled = true;
                 range.tick.disabled = true;
-                range.label.align = "left";
-
             }
 
-            function createLines(from) {
-                var line = yAxis.axisRanges.create();
+            function createRowLines(from, axis) {
+                var line;
+                if (axis === 'y') {
+                    line = yAxis.axisRanges.create();
+                    line.tick.length = 250;
+                } else {
+                    line = xAxis.axisRanges.create();
+                    line.tick.length = 100;
+                }
                 line.category = from;
                 line.label.disabled = true;
                 line.grid.disabled = true;
                 line.tick.disabled = false;
                 line.tick.strokeOpacity = 0.3;
-                line.tick.length = 250;
                 line.tick.location = 0;
             }
 

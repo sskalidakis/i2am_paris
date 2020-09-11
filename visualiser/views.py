@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 class XYZ_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
                  y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, chart_data, color_list, minmax_z_value, distinct,
-                 ranges, chart_type):
+                 row_ranges, col_ranges, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -54,7 +54,8 @@ class XYZ_chart:
         :param minmax_z_value: A two-element list that contains the min and max value of the variables on the Z-Axis. (List of Numbers)
         :param chart_type: The type of the chart. Options : heat_map_chart
         :param distinct: defines a list of distinct values that will be presented with different colors on the heatmap (list of values)
-        :param ranges: Used in case a dataset in the from-to-value format is given including the data used to create guidelines or ranges on the chart
+        :param row_ranges: Used in case a dataset in the from-to-value format is given including the data used to create guidelines or ranges on the rows of the chart
+        :param col_ranges: Used in case a dataset in the from-to-value format is given including the data used to create guidelines or ranges on the columns of the chart
         """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
@@ -72,14 +73,16 @@ class XYZ_chart:
         self.color_list = color_list
         self.minmax_z_value = minmax_z_value
         self.distinct = distinct
-        self.ranges = ranges
+        self.row_ranges = row_ranges
+        self.col_ranges = col_ranges
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
                         'y_axis_title': self.y_axis_title, 'y_axis_unit': self.y_axis_unit,
                         'y_axis_name': self.y_axis_name, 'z_axis_name': z_axis_name, 'z_axis_title': z_axis_title,
                         'z_axis_unit': z_axis_unit, 'color_list': self.color_list,
                         'minmax_z_value': self.minmax_z_value,
-                        'distinct': distinct, 'ranges': self.ranges, 'chart_data': self.chart_data}
+                        'distinct': distinct, 'row_ranges': self.row_ranges, 'col_ranges': self.col_ranges,
+                        'chart_data': self.chart_data}
 
     def show_chart(self):
         """
@@ -478,9 +481,11 @@ def get_response_heat_map(request):
     return json_response
 
 
-def create_heatmap_data(dataset, row_categorisation_dataset, col_order, row_order, dataset_type):
+def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_dataset, col_order, row_order,
+                        dataset_type):
     final_data = []
-    ranges_data = []
+    row_ranges_data = []
+    col_ranges_data = []
     if dataset_type == 'file':
         final_data = heatmap_chart_data_from_file(dataset)
 
@@ -509,16 +514,17 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_order, row_orde
         # If guides/ranges are used the dataset of the guides has to be declared explicitly in the request
         # TODO: We may need to change that
         # TODO: Also we may need to include column categorisation
-        ranges_data = heatmap_row_categorisation(row_categorisation_dataset)
+        row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
+        col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
 
-    return final_data, ranges_data
+    return final_data, row_ranges_data, col_ranges_data
 
 
-def heatmap_row_categorisation(row_categorisation_dataset):
+def heatmap_categorisation(categorisation_dataset):
     ranges_data = []
-    if row_categorisation_dataset != '':
-        row_ranges_table = apps.get_model(DATA_TABLES_APP, row_categorisation_dataset).objects.all()
-        for el in row_ranges_table:
+    if categorisation_dataset != '':
+        ranges_table = apps.get_model(DATA_TABLES_APP, categorisation_dataset).objects.all()
+        for el in ranges_table:
             dict_el = {'guide_from': el.guide_from, 'guide_to': el.guide_to, 'value': el.value}
             ranges_data.append(dict_el)
     return ranges_data
@@ -594,6 +600,7 @@ def show_heat_map_chart(request):
     dataset = response_data_xy['dataset']
     dataset_type = response_data_xy['dataset_type']
     row_categorisation_dataset = request.GET.get("row_categorisation_dataset", "")
+    col_categorisation_dataset = request.GET.get("col_categorisation_dataset", "")
     col_order = request.GET.get("col_order", "default")
     row_order = request.GET.get("row_order", "default")
     if len(distinct) == 0:
@@ -602,10 +609,11 @@ def show_heat_map_chart(request):
                                                          define_color_code_list([color_list_request]))
     else:
         color_list = define_color_code_list(response_data_xy['color_list_request'])
-    data, ranges = create_heatmap_data(dataset, row_categorisation_dataset, col_order, row_order, dataset_type)
+    data, row_ranges, col_ranges = create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_dataset,
+                                                       col_order, row_order, dataset_type)
     heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
                                y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
-                               min_max_z_value, distinct, ranges, 'heat_map_chart')
+                               min_max_z_value, distinct, row_ranges, col_ranges, 'heat_map_chart')
 
     return heat_map_chart.show_chart()
 

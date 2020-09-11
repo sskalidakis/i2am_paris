@@ -92,11 +92,11 @@
                             <label style="display: block;width: 70%">
                                 Order Columns By:
                                 <select id="col_order" class="form-control">
-                                    <option value="default">Default</option>
-                                    <option value="title">Alphabetically</option>
-                                    <option value="type">Model Type</option>
-                                    <option value="coverage">Geographical Coverage</option>
-                                    <option value="time_steps_in_solution">Time Step</option>
+                                    <option value="default" data-category="">Default</option>
+                                    <option value="title" data-category="">Alphabetically</option>
+                                    <option value="type" data-category="datasetmodeltypeguides">Model Type</option>
+                                    <option value="coverage" data-category="datasetmodelgeoguides">Geographical Coverage</option>
+                                    <option value="time_steps_in_solution" data-category="datasetmodeltimestepguides">Time Step</option>
                                 </select>
                             </label>
 {#                            <label style="display: block;width: 70%">#}
@@ -241,9 +241,13 @@
             var viz_frame = $('#viz_iframe');
             viz_frame.hide();
             $('#loading_bar').show();
-
+            var col_ordering_grouping = $('#col_order option:selected').attr('data-category');
+            if((col_ordering_grouping==="")&&(col_ordering_grouping===null)&&(col_ordering_grouping===undefined)){
+                col_ordering_grouping = "";
+            }
             var data = {
                 "row_categorisation_dataset": "datasetvariableharmonisationguides",
+                "col_categorisation_dataset": col_ordering_grouping,
                 "col_order": $('#col_order').val(),
                 "row_order": $('#row_order').val(),
                 "y_var_names": ["harmonisation_variable"],

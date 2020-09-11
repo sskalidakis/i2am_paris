@@ -84,8 +84,26 @@ class DatasetVariableHarmonisation(models.Model):
     harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
     harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
 
+# Guide Datasets
 
 class DatasetVariableHarmonisationGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetModelGeoGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+class DatasetModelTypeGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetModelTimestepGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
