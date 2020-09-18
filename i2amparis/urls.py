@@ -21,4 +21,6 @@ urlpatterns = [
     path('visualiser/', include('visualiser.urls')),
     path('feedback_form/', include('feedback_form.urls')),
     path('admin/', admin.site.urls),
+    path('harmonisation_map_tool/', include('harmonisation_map_tool.urls')),
+    path('data_manager/', include('data_manager.urls'))
 ]

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'visualiser',
     'feedback_form',
     'i2amparis_main',
+    'harmonisation_map_tool',
+    'data_manager'
 ]
 
 MIDDLEWARE = [

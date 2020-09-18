@@ -6,6 +6,7 @@ from django.apps import apps
 
 from django.http import HttpResponse
 
+from data_manager.orm_query_manager import heatmap_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -511,11 +512,13 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
             return e, 400
 
         final_data = reformat_heatmap_data(data, variables)
-        # If guides/ranges are used the dataset of the guides has to be declared explicitly in the request
-        # TODO: We may need to change that
-        # TODO: Also we may need to include column categorisation
+        # If guides/ranges are used, the dataset of the guides has to be declared explicitly in the request
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
         col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
+    elif dataset_type == 'query':
+        final_data = heatmap_query(dataset)
+    elif dataset_type == 'dataframe':
+        pass
 
     return final_data, row_ranges_data, col_ranges_data
 
