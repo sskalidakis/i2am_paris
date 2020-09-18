@@ -285,7 +285,7 @@
             return cookieValue;
         }
 
-        function create_visualisation(query_name) {
+        function create_visualisation(query_id) {
             var viz_frame = $('#viz_iframe');
             viz_frame.hide();
             $('#loading_bar').show();
@@ -310,7 +310,7 @@
                 "min_max_z_value": 0,
                 "color_list_request": ["grey_green", "light_blue", "ice_gray"],
                 "distinct": ["Extractable model output", "Interlinkable model input", "No explicit output or input"],
-                "dataset": query_name,
+                "dataset": query_id,
                 "dataset_type": "query",
             };
             var url = '';
@@ -333,7 +333,7 @@
                 $.ajax({
                     url: "/data_manager/delete_query",
                     type: "POST",
-                    data: JSON.stringify(query_name),
+                    data: JSON.stringify(query_id),
                     contentType: 'application/json',
                     success: function (data) {
                         console.log(data);
@@ -399,13 +399,13 @@
         });
 
         $("#run-button").click(function () {
-            $("#model_name option").remove();
-            $('#dynamic_chart').css('visibility', 'visible')
             var selector_models = $(".model-list div.selected");
             if (selector_models.length < 1){
                 alert('Please, select at least one model from the list.')
             }
             else {
+                $("#model_name option").remove();
+                $('#dynamic_chart').css('visibility', 'visible')
                 const csrftoken = getCookie('csrftoken');
                 var selected_models = [];
                 selector_models.each(function (index) {
@@ -451,7 +451,8 @@
                     contentType: 'application/json',
                     success: function (data) {
                         $('.viz-container').show();
-                        create_visualisation('var_harmonisation_on_demand');
+                        var query_id = data['query_id']
+                        create_visualisation(query_id);
                     },
                     error: function (data) {
                         console.log(data);

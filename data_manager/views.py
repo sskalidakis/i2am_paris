@@ -15,7 +15,7 @@ def create_query(request):
 
 def delete_query(request):
     if request.method == 'POST':
-        query_name = json.loads(request.body)
-        query = Query.objects.get(query_name=query_name)
+        query_id = json.loads(request.body)
+        query = Query.objects.get(id=query_id)
         query.delete()
-        return JsonResponse({"response": "Successfully deleted query " + str(query_name)})
+        return JsonResponse({"response": "Successfully deleted query " + str(query_id)})

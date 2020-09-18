@@ -517,6 +517,7 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
         col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
     elif dataset_type == 'query':
         final_data = heatmap_query(dataset)
+        row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
     elif dataset_type == 'dataframe':
         pass
 
