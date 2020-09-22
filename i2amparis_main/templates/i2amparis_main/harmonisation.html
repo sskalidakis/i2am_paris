@@ -87,6 +87,13 @@
                                 title="<p>This heatmap indicates how different variables are handled across the models within the Paris Reinforce consortium. The rows present the different socio and techno economic variables. The columns indicate the 16 PR models. Variables are either considered as outputs from models, inputs to models or are not represented by the models as any explicit output or input</p>">
                                 Variable Harmonisation Heatmap
                             </h4>
+                            <div style="margin-bottom: 1em">You can also create on-demand variable harmonisation heatmaps
+                                <a target="_blank"
+                                   rel="noopener noreferrer"
+                                   style="font-weight: bold"
+                                   href="harmonisation_map_tool/harmonisation_manual">here
+                                </a>.
+                            </div>
                         </div>
                         <div style="margin-bottom: 3em;">
                             <label style="display: block;width: 70%">
@@ -95,18 +102,22 @@
                                     <option value="default" data-category="">Default</option>
                                     <option value="title" data-category="">Alphabetically</option>
                                     <option value="type" data-category="datasetmodeltypeguides">Model Type</option>
-                                    <option value="coverage" data-category="datasetmodelgeoguides">Geographical Coverage</option>
-                                    <option value="time_steps_in_solution" data-category="datasetmodeltimestepguides">Time Step</option>
+                                    <option value="coverage" data-category="datasetmodelgeoguides">Geographical
+                                        Coverage
+                                    </option>
+                                    <option value="time_steps_in_solution" data-category="datasetmodeltimestepguides">
+                                        Time Step
+                                    </option>
                                 </select>
                             </label>
-{#                            <label style="display: block;width: 70%">#}
-{#                                Order Rows By:#}
-{#                                <select id="row_order" class="form-control">#}
-{#                                    <option value="default">Default</option>#}
-{#                                    <option value="title">Alphabetically</option>#}
-{#                                    <option value="category">Variable Category</option>#}
-{#                                </select>#}
-{#                            </label>#}
+                            {#                            <label style="display: block;width: 70%">#}
+                            {#                                Order Rows By:#}
+                            {#                                <select id="row_order" class="form-control">#}
+                            {#                                    <option value="default">Default</option>#}
+                            {#                                    <option value="title">Alphabetically</option>#}
+                            {#                                    <option value="category">Variable Category</option>#}
+                            {#                                </select>#}
+                            {#                            </label>#}
                         </div>
 
                         <label for="model_name" style="display: block;width: 70%">Model Name
@@ -151,7 +162,7 @@
                         <div class="desc_text take_up_space" id="var_cat"></div>
                         <div class="heading">Variable Definition</div>
                         <div class="desc_text take_up_space" id="var_def"></div>
-                        <div class = "source_container">
+                        <div class="source_container">
                             <div class="heading">Source</div>
                             <div class="desc_text take_up_space" id="var_mod_source"></div>
                         </div>
@@ -221,7 +232,7 @@
 
     <script>
         $(document).ready(function () {
-            $('body').tooltip({container:'body', html:true, selector: '[data-toggle=tooltip]', placement:'auto'});
+            $('body').tooltip({container: 'body', html: true, selector: '[data-toggle=tooltip]', placement: 'auto'});
             setTimeout(timer, 10);
 
             function timer() {
@@ -242,7 +253,7 @@
             viz_frame.hide();
             $('#loading_bar').show();
             var col_ordering_grouping = $('#col_order option:selected').attr('data-category');
-            if((col_ordering_grouping==="")&&(col_ordering_grouping===null)&&(col_ordering_grouping===undefined)){
+            if ((col_ordering_grouping === "") && (col_ordering_grouping === null) && (col_ordering_grouping === undefined)) {
                 col_ordering_grouping = "";
             }
             var data = {
@@ -311,39 +322,39 @@
 
     <script>
 
-    var sel_model_name = $("#model_name");
-    var sel_geo_cov = $('#geo_cov');
-    var sel_model_type = $('#model_type');
-    var sel_model_timestep = $('#model_timestep');
-    var sel_model_desc = $('#model_desc');
-    var sel_model_dynamic = $('#model_dynamic');
-    var sel_var_mod_unit = $('#var_mod_unit');
-    var sel_var_mod_source = $('#var_mod_source');
-    var sel_var_mod_timespan = $('#var_mod_timespan');
-    var sel_var_name = $("#var_name");
-    var sel_var_def = $('#var_def');
-    var sel_var_cat = $('#var_cat');
-    var sel_unit_container = $('.unit_container');
-    var sel_source_container = $('.source_container');
-    var sel_timespan_container = $('.timespan_container');
+        var sel_model_name = $("#model_name");
+        var sel_geo_cov = $('#geo_cov');
+        var sel_model_type = $('#model_type');
+        var sel_model_timestep = $('#model_timestep');
+        var sel_model_desc = $('#model_desc');
+        var sel_model_dynamic = $('#model_dynamic');
+        var sel_var_mod_unit = $('#var_mod_unit');
+        var sel_var_mod_source = $('#var_mod_source');
+        var sel_var_mod_timespan = $('#var_mod_timespan');
+        var sel_var_name = $("#var_name");
+        var sel_var_def = $('#var_def');
+        var sel_var_cat = $('#var_cat');
+        var sel_unit_container = $('.unit_container');
+        var sel_source_container = $('.source_container');
+        var sel_timespan_container = $('.timespan_container');
 
-    function show_hide_empty_fields() {
-        if (sel_var_mod_unit.text() === '') {
-            sel_unit_container.hide();
-        } else {
-            sel_unit_container.show();
+        function show_hide_empty_fields() {
+            if (sel_var_mod_unit.text() === '') {
+                sel_unit_container.hide();
+            } else {
+                sel_unit_container.show();
+            }
+            if (sel_var_mod_source.text() === '') {
+                sel_source_container.hide();
+            } else {
+                sel_source_container.show();
+            }
+            if (sel_var_mod_timespan.text() === '') {
+                sel_timespan_container.hide();
+            } else {
+                sel_timespan_container.show();
+            }
         }
-        if (sel_var_mod_source.text() === '') {
-            sel_source_container.hide();
-        } else {
-            sel_source_container.show();
-        }
-        if (sel_var_mod_timespan.text() === '') {
-            sel_timespan_container.hide();
-        } else {
-            sel_timespan_container.show();
-        }
-    }
 
         sel_model_name.change(function () {
             sel_geo_cov.text($('#' + String($(this).val()) + ' .d_model_coverage').text());
@@ -353,7 +364,7 @@
             sel_model_dynamic.attr('href', '/dynamic_doc/' + String($('#model_name').val()));
             sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String($(this).find('option:selected').text()));
             sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($(this).find('option:selected').text()));
-            sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_'+ String(sel_var_name.val()) + ' .d_var_mod_unit').text());
+            sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
             sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
             sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
             show_hide_empty_fields();

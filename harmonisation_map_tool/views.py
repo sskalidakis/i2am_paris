@@ -23,7 +23,7 @@ def request_harmonisation_data(request):
 def harmonisation_manual(request):
     db = countries_data.RetriveDB('')
     data = db.create_json()
-    list_of_models = db.create_models_btn()
+    list_of_models = db.create_models_btn(harmonisation=1)
     models = ModelsInfo.objects.all().order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('var_title')
     context = {"models": models,

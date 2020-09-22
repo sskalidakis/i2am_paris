@@ -61,14 +61,17 @@ class RetriveDB:
             data.append(temp_dict)
         return data
 
-    def create_models_btn(self):
+    def create_models_btn(self, harmonisation=0):
         """
         Retrive all models names and create the buttons
 
         :return:
         """
         # Get all table of models
-        models_data = ModelsInfo.objects.all().order_by('ordering')
+        if harmonisation == 1:
+            models_data = ModelsInfo.objects.filter(harmonisation=1).order_by('ordering')
+        else:
+            models_data = ModelsInfo.objects.all().order_by('ordering')
         # Get the titles of each model
         model_dict = {}
         for el in models_data:
