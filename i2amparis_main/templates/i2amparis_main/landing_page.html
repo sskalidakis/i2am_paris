@@ -87,7 +87,7 @@
                     style="width: 100%">
                     <li ><a href="#header" style="font-weight: 500">Home</a></li>
                     <li><a href="#section-works" style="font-weight: 500">Documentation</a></li>
-{#                    <li><a href="#section-services" style="font-weight: 500">Analyses</a></li>#}
+                    <li><a href="#section-services" style="font-weight: 500">Results</a></li>
                     <li>
                         <a href="https://paris-reinforce.eu//" target="_blank" style="font-weight: 500">The Project</a></li>
                     <li><a href="#section-opencall" style="font-weight: 500">Open Call</a></li>
@@ -281,13 +281,13 @@
                     <div class="wow bounceIn">
                         <div class="align-center">
                             <div class="wow rotateIn">
-                                <div class="service-col harmonisation_map" style="cursor: pointer">
+                                <div class="service-col harmonisation_map_on_demand" style="cursor: pointer">
                                     <div class="service-icon">
                                         <figure><i class="fa fa-table"></i></figure>
                                     </div>
-                                    <h2><a href="harmonisation" class="harmonisation_map">Variable Harmonisation Heatmap</a></h2>
-                                    <p>This heatmap indicates how
-                                        different variables are handled across the models within the
+                                    <h2><a href="/harmonisation_map_tool/harmonisation_manual" class="harmonisation_map_on_demand">Variable Harmonisation Heatmap</a></h2>
+                                    <p>This tool creates on-demand heatmaps that indicate how
+                                        different variables are handled across the different models within the
                                         Paris Reinforce consortium. </p>
                                 </div>
                             </div>
@@ -331,22 +331,41 @@
 
 
 
-{#<!-- services -->#}
-{#<section id="section-services" class="section appear pad-bot5 clearfix bg-white">#}
-{#    <div class="container">#}
-{#        <div class="row mar-bot5">#}
-{#            <div class="col-md-offset-3 col-md-6">#}
-{#                <div class="section-header">#}
-{#                    <div class="wow bounceIn" data-animation-delay="7.8s">#}
-{##}
-{#                        <h2 class="section-heading animated">Analyses</h2>#}
-{#                        <h4>Choose among several types of analyses</h4>#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="row mar-bot40">#}
+<!-- services -->
+<section id="section-services" class="section appear pad-bot5 clearfix bg-white">
+    <div class="container">
+        <div class="row mar-bot5">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="section-header">
+                    <div class="wow bounceIn" data-animation-delay="7.8s">
+
+                        <h2 class="section-heading animated">Results</h2>
+                        <h4>Choose among the following workspaces</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mar-bot40">
+            <div class="col-lg-12">
+                <div class="wow bounceIn">
+                    <div class="align-center">
+
+                        <div class="wow rotateIn">
+                            <div class="service-col paris_reinforce_workspace">
+                                <div class="">
+{#                                    <figure><link rel="icon" type="image/png" href={% static "logos/paris_reinforce_logo.png" %}></figure>#}
+                                    <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                                </div>
+                                <h2><a href="paris_reinforce_workspace" class="paris_reinforce_workspace">Where are we headed?</a></h2>
+                                <p>These are the results produced by the analysis made using the models of the Paris Reinforce project.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 {#            <div class="col-lg-4">#}
 {#                <div class="wow bounceIn">#}
 {#                    <div class="align-center">#}
@@ -403,12 +422,12 @@
 {#                    </div>#}
 {#                </div>#}
 {#            </div>#}
-{##}
-{#        </div>#}
-{##}
-{#    </div>#}
-{#</section>#}
-{#<!--/services-->#}
+
+        </div>
+
+    </div>
+</section>
+<!--/services-->
 
 
 <!-- open call -->
@@ -532,8 +551,11 @@
         $(document).on('click', 'div.detailed_doc', function (e) {
             $("a.detailed_doc")[0].click()
         });
-        $(document).on('click', 'div.harmonisation_map', function (e) {
-            $("a.harmonisation_map")[0].click()
+        $(document).on('click', 'div.harmonisation_map_on_demand', function (e) {
+            $("a.harmonisation_map_on_demand")[0].click()
+        });
+        $(document).on('click', 'div.paris_reinforce_workspace', function (e) {
+            $("a.paris_reinforce_workspace")[0].click()
         });
 
     </script>

@@ -38,7 +38,7 @@ def overview_comparative_assessment_doc_national_oeu(request):
     print('Overview Comparative Assessment National O_EU')
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
-def harmonisation(request):
+def paris_reinforce_workspace(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('var_title')
     var_mod_data = HarmData.objects.all()
@@ -56,7 +56,7 @@ def harmonisation(request):
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
-    return render(request, 'i2amparis_main/harmonisation.html', context)
+    return render(request, 'i2amparis_main/paris_reinforce_workspace.html', context)
 
 def detailed_model_doc(request,model=''):
     if model == '':

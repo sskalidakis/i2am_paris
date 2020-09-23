@@ -18,7 +18,7 @@ urlpatterns = [
     path('dynamic_doc/', views.dynamic_doc, name='dynamic_doc'),
     path('dynamic_doc/<str:model>/', views.dynamic_doc, name='dynamic_doc_model'),
     path('contact_form', views.contact_form, name='contact_form'),
-    path('harmonisation', views.harmonisation, name='harmonisation'),
+    path('paris_reinforce_workspace', views.paris_reinforce_workspace, name='paris_reinforce_workspace'),
     # path('', include('visualiser.urls')),
     # path('', include('feedback_form.urls')),
     # path('<str:model>', views.dynamic_doc, name='dynamic_doc'),
