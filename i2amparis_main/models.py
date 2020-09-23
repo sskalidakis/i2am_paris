@@ -131,6 +131,26 @@ class Variable(models.Model):
     dataset_relation = models.ForeignKey(Dataset, null=False, on_delete=models.CASCADE)
     variable_table_name = models.CharField(null=True, max_length=50)
 
+# Results Models
+
+
+class ScenariosRes(models.Model):
+    scenario = models.CharField(null=False, default="")
+
+
+class RegionsRes(models.Model):
+    """
+    Regions of results
+    """
+    region = models.CharField(null=False, default="")
+
+
+class VariablesRes(models.Model):
+    variable = models.CharField(null=False, default="")
+
+
+class UnitsRes(models.Model):
+    unit = models.CharField(null=False, default="")
 
 # Dynamic Documentation Models
 
