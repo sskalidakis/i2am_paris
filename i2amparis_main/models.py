@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 """
 Info:
@@ -79,11 +78,12 @@ class DataVariablesHarmonisation(models.Model):
     order = models.IntegerField(null=False, default=1)
 
 
-#Datasets
+# Datasets
 class DatasetVariableHarmonisation(models.Model):
     harmonisation_model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
     harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
     harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
+
 
 # Guide Datasets
 
@@ -97,6 +97,7 @@ class DatasetModelGeoGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
+
 
 class DatasetModelTypeGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
@@ -131,26 +132,46 @@ class Variable(models.Model):
     dataset_relation = models.ForeignKey(Dataset, null=False, on_delete=models.CASCADE)
     variable_table_name = models.CharField(null=True, max_length=50)
 
+
 # Results Models
 
 
 class ScenariosRes(models.Model):
-    scenario = models.CharField(null=False, default="")
+    scenario = models.CharField(null=False, default="", max_length=50)
 
 
 class RegionsRes(models.Model):
     """
     Regions of results
     """
-    region = models.CharField(null=False, default="")
+    region = models.CharField(null=False, default="", max_length=50)
 
 
 class VariablesRes(models.Model):
-    variable = models.CharField(null=False, default="")
+    variable = models.CharField(null=False, default="", max_length=50)
 
 
 class UnitsRes(models.Model):
-    unit = models.CharField(null=False, default="")
+    unit = models.CharField(null=False, default="", max_length=50)
+
+
+class ResultsYears(models.Model):
+    year = models.IntegerField()
+    value = models.FloatField()
+    model_id = models.ManyToManyField(ModelsInfo, through='ResultsComp')
+
+    def __str__(self):
+        return self.year
+
+
+class ResultsComp(models.Model):
+    resultsyears_id = models.ForeignKey(ResultsYears, on_delete=models.CASCADE)
+    model_id = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
+    scenario_id = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region_id = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable_id = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    unit_id = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+
 
 # Dynamic Documentation Models
 
