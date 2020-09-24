@@ -155,22 +155,16 @@ class UnitsRes(models.Model):
     unit = models.CharField(null=False, default="", max_length=50)
 
 
-class ResultsYears(models.Model):
-    year = models.IntegerField()
-    value = models.FloatField()
-    model_id = models.ManyToManyField(ModelsInfo, through='ResultsComp')
-
-    def __str__(self):
-        return self.year
-
-
 class ResultsComp(models.Model):
-    resultsyears_id = models.ForeignKey(ResultsYears, on_delete=models.CASCADE)
+    # resultsyears_id = models.ForeignKey(ResultsYears, on_delete=models.CASCADE)
     model_id = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
     scenario_id = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
     region_id = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
     variable_id = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
     unit_id = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    value = models.FloatField()
+
 
 
 # Dynamic Documentation Models
