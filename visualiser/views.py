@@ -245,6 +245,10 @@ class MapChart:
 
 @csrf_exempt
 def get_response_data_XY(request):
+    '''
+    This method retrieves all the parameters from the request
+    :return: A JSON object containing all request parameters for the visualisation
+    '''
     if request.method == "GET":
         json_response = {
             "y_var_names": request.GET.getlist("y_var_names[]", []),
@@ -469,6 +473,10 @@ def show_bar_heat_map(request):
 
 @csrf_exempt
 def get_response_heat_map(request):
+    '''
+    This method retrieves all the addition parameters necessary for the heatmap visualisation
+    :return: A JSON object with all the necessary parameters
+    '''
     if request.method == "GET":
         json_response = {
             "z_axis_name": request.GET.get("z_axis_name", ""),
@@ -484,6 +492,14 @@ def get_response_heat_map(request):
 
 def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_dataset, col_order, row_order,
                         dataset_type):
+    '''
+    This method contains all the ways for creating a heatmap chart using data from a file, a whole table in the database, a query or a dataframe.
+    :param dataset: the name of the file in case dataset_type = "file", the name of the table if dataset_type = "db", the id of the query if dataset_type = "query"
+    :param row_categorisation_dataset, col_categorisation_dataset: these parameters are used for categorising the variables in the x and y axis of the heatmap according to a given data_set
+    :param col_order, row_order: these parameters are used for ordering the elements of the rows and columns of the heatmap according to a given variable
+    :param dataset_type: values: "db", "file", "dataframe", query
+    :return: the necessary data for the creation of the heatmap chart in the suitable format
+    '''
     final_data = []
     row_ranges_data = []
     col_ranges_data = []
@@ -525,6 +541,11 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
 
 
 def heatmap_categorisation(categorisation_dataset):
+    '''
+    This method is responsible for categorising the data in the columns and rows of the heatmap
+    :param categorisation_dataset: the name of a table in the database that categorises the rows, and columns in a specific way
+    :return: A json file in the suitable format for categorising data of the rows or the columns into groups
+    '''
     ranges_data = []
     if categorisation_dataset != '':
         ranges_table = apps.get_model(DATA_TABLES_APP, categorisation_dataset).objects.all()
@@ -535,6 +556,11 @@ def heatmap_categorisation(categorisation_dataset):
 
 
 def heatmap_chart_data_from_file(dataset):
+    '''
+    This methdo is used for reading data from a file
+    :param dataset: the name(path) of a file that is going to be used
+    :return: Data in a suitable format for the heatmap chart
+    '''
     final_data = []
     with open('static/harmonisation_data/' + dataset, 'r') as f:
         data = f.read()
@@ -548,6 +574,12 @@ def heatmap_chart_data_from_file(dataset):
 
 
 def reformat_heatmap_data(data, variables):
+    """
+    This method is used for reformatting the data to the suitable format
+    :param data: The data records retrieved from the database
+    :param variables: The specific variables whose columns are going to be used in the chart
+    :return: Data in a suitable format for the heatmap chart
+    """
     final_data = []
     for el in data:
         dictionary = {}
@@ -564,6 +596,13 @@ def reformat_heatmap_data(data, variables):
 
 
 def heatmap_ordering_method(col_ordering, data, row_ordering):
+    '''
+    This method is used for multi-level ordering the data of the rows or the columns (or both) in the heatmap
+    :param col_ordering: the field according to which the columns are going to be ordered
+    :param data: The raw data retrieved from the database
+    :param row_ordering: the field according to which the rows are going to be ordered
+    :return: Ordered data according to given fields
+    '''
     if (col_ordering is None) and (row_ordering is None):
         pass
     elif col_ordering is None:
@@ -576,6 +615,13 @@ def heatmap_ordering_method(col_ordering, data, row_ordering):
 
 
 def heatmap_ordering(order, variables, var_position):
+    '''
+    This method orders the data according to a given field
+    :param order: the name of the filed according to which the ordering takes place
+    :param variables: The selected variables that are used in the heatmap
+    :param var_position: The position of the variable in the table
+    :return: Ordered data
+    '''
     ordering = None
     django_model = apps.get_model(DATA_TABLES_APP, variables[var_position].variable_table_name)
     fields = django_model._meta.get_fields()
@@ -587,6 +633,10 @@ def heatmap_ordering(order, variables, var_position):
 
 @csrf_exempt
 def show_heat_map_chart(request):
+    '''
+    This is the method for creating the necessary content for the creation of the heatmap visualisation
+    :return: A heatmap visualisation
+    '''
     response_data_xy = get_response_data_XY(request)
     y_axis_name = response_data_xy['y_var_names'][0]
     y_axis_unit = response_data_xy['y_var_units'][0]
