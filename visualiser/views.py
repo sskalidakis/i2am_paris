@@ -521,6 +521,8 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
     elif dataset_type == 'dataframe':
         pass
 
+    import pdb
+    pdb.set_trace()
     return final_data, row_ranges_data, col_ranges_data
 
 
