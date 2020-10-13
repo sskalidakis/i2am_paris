@@ -1,4 +1,4 @@
-$("#col_order,#row_order").change(function () {
+$("#col_order").change(function () {
     var viz_frame = $('#viz_iframe');
     viz_frame.hide();
     $('#loading_bar').show();
@@ -10,7 +10,7 @@ $("#col_order,#row_order").change(function () {
         "row_categorisation_dataset": "datasetvariableharmonisationguides",
         "col_categorisation_dataset": col_ordering_grouping,
         "col_order": $('#col_order').val(),
-        "row_order": $('#row_order').val(),
+        "row_order": "order",
         "y_var_names": ["harmonisation_variable"],
         "y_axis_title": "Variables",
         "y_var_units": ["-"],

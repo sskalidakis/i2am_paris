@@ -40,7 +40,7 @@ def overview_comparative_assessment_doc_national_oeu(request):
 
 def paris_reinforce_workspace(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
-    variables = Harmonisation_Variables.objects.all().order_by('var_title')
+    variables = Harmonisation_Variables.objects.all().order_by('order')
     var_mod_data = HarmData.objects.all()
     var_mod = []
     for el in var_mod_data:

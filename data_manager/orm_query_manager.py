@@ -28,7 +28,8 @@ def var_harmonisation_on_demand(query_id):
     model_list = []
     if 'model_list' in json_params.keys():
         model_list = json_params['model_list']
-    results = HarmData.objects.filter(model__model_name__in=model_list)
+    # TODO: Create the ordering grouping etc. using the JSON Query format
+    results = HarmData.objects.filter(model__model_name__in=model_list).order_by("variable__order")
     var_mod = []
     for el in results:
         dict_el = {
