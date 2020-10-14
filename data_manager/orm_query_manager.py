@@ -23,22 +23,19 @@ def var_harmonisation_on_demand(query_id):
     :param query_id: The query_id of the query to be executed in order to retrieve data for the on-demand variable harmonisation heatmap
     :return:
     '''
-    from i2amparis_main.models import HarmData
+    from i2amparis_main.models import DatasetOnDemandVariableHarmonisation
     json_params = get_query_parameters(query_id)
     model_list = []
     if 'model_list' in json_params.keys():
         model_list = json_params['model_list']
     # TODO: Create the ordering grouping etc. using the JSON Query format
-    results = HarmData.objects.filter(model__model_name__in=model_list).order_by("variable__order")
+    results = DatasetOnDemandVariableHarmonisation.objects.filter(model__name__in=model_list).order_by("variable__order")
     var_mod = []
     for el in results:
         dict_el = {
-            "model": el.model.model_title,
+            "model": el.model.title,
             "var": el.variable.var_title,
             "status": el.io_status,
-            "var_unit": el.var_unit,
-            "var_source_info": el.var_source_info,
-            "var_timespan": el.var_timespan
         }
         var_mod.append(dict_el)
 

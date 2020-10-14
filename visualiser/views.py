@@ -12,7 +12,7 @@ from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANG
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
     HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP
 
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmData, Variable, Dataset
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, Variable, Dataset
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt

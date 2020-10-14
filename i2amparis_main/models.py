@@ -35,24 +35,6 @@ class ModelsInfo(models.Model):
         return self.model_name
 
 
-# Data Used only for the harmonisation Heatmap Application
-class Harmonisation_Variables(models.Model):
-    """Variables for harmonisation table"""
-    var_name = models.CharField(null=False, default="", max_length=50)
-    var_title = models.CharField(null=False, default="", max_length=50)
-    var_category = models.CharField(null=False, default="", max_length=50)
-    var_definition = models.TextField(null=False, default="")
-    model_relation = models.ManyToManyField(ModelsInfo, through='HarmData')
-    order = models.IntegerField(null=False, default=1)
-
-
-class HarmData(models.Model):
-    model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
-    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
-    io_status = models.CharField(null=False, default="", max_length=50)
-    var_unit = models.CharField(null=False, default="", max_length=20)
-    var_source_info = models.TextField(null=False, default="")
-    var_timespan = models.TextField(null=False, default="")
 
 
 # Data Variable Tables
@@ -78,11 +60,48 @@ class DataVariablesHarmonisation(models.Model):
     order = models.IntegerField(null=False, default=1)
 
 
+# Data Used only for the harmonisation Heatmap Application
+class Harmonisation_Variables(models.Model):
+    """Variables for harmonisation table"""
+    var_name = models.CharField(null=False, default="", max_length=50)
+    var_title = models.CharField(null=False, default="", max_length=50)
+    var_category = models.CharField(null=False, default="", max_length=50)
+    var_definition = models.TextField(null=False, default="")
+    model_relation = models.ManyToManyField(DataVariablesModels, through='HarmDataNew')
+    order = models.IntegerField(null=False, default=1)
+
+
 # Datasets
-class DatasetVariableHarmonisation(models.Model):
-    harmonisation_model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-    harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
-    harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
+# class DatasetVariableHarmonisation(models.Model):
+#     harmonisation_model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+#     harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
+#     harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetOnDemandVariableHarmonisation(models.Model):
+    # used in the on-demand variable harmonisation heatmap
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    io_status = models.CharField(null=False, default="", max_length=50)
+
+
+# class HarmData(models.Model):
+#     model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
+#     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+#     io_status = models.CharField(null=False, default="", max_length=50)
+#     var_unit = models.CharField(null=False, default="", max_length=20)
+#     var_source_info = models.TextField(null=False, default="")
+#     var_timespan = models.TextField(null=False, default="")
+
+
+class HarmDataNew(models.Model):
+    # used in the paris reinforce workspace
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    io_status = models.CharField(null=False, default="", max_length=50)
+    var_unit = models.CharField(null=False, default="", max_length=20)
+    var_source_info = models.TextField(null=False, default="")
+    var_timespan = models.TextField(null=False, default="")
 
 
 # Guide Datasets

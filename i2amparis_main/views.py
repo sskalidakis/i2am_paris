@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmData
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
@@ -41,11 +41,11 @@ def overview_comparative_assessment_doc_national_oeu(request):
 def paris_reinforce_workspace(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
-    var_mod_data = HarmData.objects.all()
+    var_mod_data = HarmDataNew.objects.all()
     var_mod = []
     for el in var_mod_data:
         dict_el = {
-            "model": el.model.model_name,
+            "model": el.model.name,
             "var": el.variable.var_name,
             "var_unit": el.var_unit,
             "var_source_info": el.var_source_info,
