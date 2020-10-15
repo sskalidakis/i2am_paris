@@ -102,6 +102,7 @@ class HarmDataNew(models.Model):
     var_unit = models.CharField(null=False, default="", max_length=20)
     var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
+    var_source_url = models.TextField(null=False, default="")
 
 
 # Guide Datasets
