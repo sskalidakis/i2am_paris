@@ -83,12 +83,14 @@ var sel_model_desc = $('#model_desc');
 var sel_model_dynamic = $('#model_dynamic');
 var sel_var_mod_unit = $('#var_mod_unit');
 var sel_var_mod_source = $('#var_mod_source');
+var sel_var_mod_source_url = $('#var_mod_source_url');
 var sel_var_mod_timespan = $('#var_mod_timespan');
 var sel_var_name = $("#var_name");
 var sel_var_def = $('#var_def');
 var sel_var_cat = $('#var_cat');
 var sel_unit_container = $('.unit_container');
 var sel_source_container = $('.source_container');
+var sel_source_container_url = $('.source_container_url');
 var sel_timespan_container = $('.timespan_container');
 
 function show_hide_empty_fields() {
@@ -101,6 +103,11 @@ function show_hide_empty_fields() {
         sel_source_container.hide();
     } else {
         sel_source_container.show();
+    }
+    if (sel_var_mod_source_url.text() === '') {
+        sel_source_container_url.hide();
+    } else {
+        sel_source_container_url.show();
     }
     if (sel_var_mod_timespan.text() === '') {
         sel_timespan_container.hide();
@@ -119,6 +126,9 @@ sel_model_name.change(function () {
     sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($(this).find('option:selected').text()));
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
     sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
+    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url').text();
+    sel_var_mod_source_url.text(temp_mod_url);
+    sel_var_mod_source_url.attr('href', temp_mod_url);
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 });
@@ -127,6 +137,9 @@ sel_var_name.change(function () {
     sel_var_cat.text($('#' + String($(this).val()) + ' .d_var_category').text());
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
     sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
+    var temp_var_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url').text();
+    sel_var_mod_source_url.text(temp_var_url);
+    sel_var_mod_source_url.attr('href', temp_var_url);
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 

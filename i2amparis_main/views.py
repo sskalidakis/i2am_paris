@@ -49,10 +49,11 @@ def paris_reinforce_workspace(request):
             "var": el.variable.var_name,
             "var_unit": el.var_unit,
             "var_source_info": el.var_source_info,
-            "var_timespan": el.var_timespan
+            "var_timespan": el.var_timespan,
+            "var_source_url": el.var_source_url
         }
         var_mod.append(dict_el)
-
+    print(var_mod)
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
