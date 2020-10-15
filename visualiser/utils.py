@@ -16,9 +16,12 @@ AM_CHARTS_COLOR_INDEX_LIST = {
 }
 
 AM_CHARTS_COLOR_CODES_LIST = {
+    "lighter_blue": "#ADCDEA",
     "light_blue": "#5B9BD5",
-    "petrol_blue": "#066f7c",
+    "moody_blue": "#487caa",
+    "dark_blue": "#2d4d6a",
     "blue": "#5079d4",
+    "petrol_blue": "#066f7c",
     "violet": "#8951db",
     "purple": "#7d3e9d",
     "fuchsia": "#a04293",
