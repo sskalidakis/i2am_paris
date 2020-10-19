@@ -279,7 +279,7 @@ def get_response_data_XY(request):
 @csrf_exempt
 def show_line_chart(request):
     response_data = get_response_data_XY(request)
-    print(response_data)
+    print('Retrieved request parameters.')
     y_var_names = response_data['y_var_names']
     y_var_titles = response_data['y_var_titles']
     y_var_units = response_data['y_var_units']
@@ -293,13 +293,11 @@ def show_line_chart(request):
     chart_3d = ""
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
-
-    #TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = generate_data_for_range_chart(dataset, 'query')
-    #data = FAKE_DATA
-    #print("fake Data=", data)
+    dataset_type = response_data['dataset_type']
+    data = generate_data_for_range_chart(dataset, dataset_type)
+    print('Retrieved data for the chart.')
     color_list = define_color_code_list(color_list_request)
-
+    print('Defined chart colors.')
     line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                           x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                           'line_chart')
@@ -309,22 +307,24 @@ def show_line_chart(request):
 def generate_data_for_range_chart(dataset, dataset_type):
     final_data = []
     if dataset_type == 'file':
-        final_data = range_chart_data_from_file('visualiser/fake_data/'+dataset)
+        final_data = range_chart_data_from_file('visualiser/fake_data/' + dataset)
+        print('Retrieved data from file')
     elif dataset_type == 'db':
-            print("dataset=", dataset)
             dataset = Dataset.objects.get(dataset_name=dataset)
             data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
             data = data_table.objects.all()
+            # Missing Variables--> need to load Dataset Variables
             ls_graph = []
             for resitem in data:
-                dict={"time_0":resitem.year, "val":resitem.value}
+                # Look at reformat_heatmap_data. You need to create something similar. This is fixed for time_0 and val/ year and value
+                dict = {"time_0": resitem.year, "val": resitem.value}
                 ls_graph.append(dict)
                 final_data = ls_graph
-    elif dataset_type=='query':
-        data = range_chart_query("1")
-        print(final_data)
+    elif dataset_type == 'query':
+        data = range_chart_query(dataset)
         ls_graph = []
         for resitem in data:
+            # The same in here. Where is the query?
             dict = {"time_0": resitem.year, "val": resitem.value}
             ls_graph.append(dict)
             final_data = ls_graph
@@ -335,7 +335,6 @@ def generate_data_for_range_chart(dataset, dataset_type):
 @csrf_exempt
 def range_chart_data_from_file(dataset):
     final_data = []
-    print("dataset=", dataset)
     with open(dataset) as f:
         final_data = ast.literal_eval(f.read())
     return final_data
@@ -595,7 +594,7 @@ def heatmap_categorisation(categorisation_dataset):
 
 def heatmap_chart_data_from_file(dataset):
     '''
-    This methdo is used for reading data from a file
+    This method is used for reading data from a file
     :param dataset: the name(path) of a file that is going to be used
     :return: Data in a suitable format for the heatmap chart
     '''
