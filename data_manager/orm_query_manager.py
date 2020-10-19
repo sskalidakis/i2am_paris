@@ -4,6 +4,12 @@ from django.http import JsonResponse
 
 from data_manager.models import Query
 
+def range_chart_query(query_id):
+    from i2amparis_main.models import ResultsComp
+    #query_name = Query.objects.get(id=query_id).query_name
+    #results = var_harmonisation_on_demand(query_id)
+    results = ResultsComp.objects.filter(region_id_id=23, model_id_id=5, scenario_id_id=10, variable_id_id=113).order_by("year")
+    return results
 
 def heatmap_query(query_id):
     '''

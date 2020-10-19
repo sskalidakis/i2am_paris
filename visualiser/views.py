@@ -3,10 +3,12 @@ import logging
 import sys
 from django.shortcuts import render
 from django.apps import apps
+import ast
 
 from django.http import HttpResponse
 
-from data_manager.orm_query_manager import heatmap_query
+import i2amparis
+from data_manager.orm_query_manager import heatmap_query, range_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -292,15 +294,51 @@ def show_line_chart(request):
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
 
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    # data = generate_data_for_range_chart()
-    data = FAKE_DATA
+    #TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
+    data = generate_data_for_range_chart(dataset, 'query')
+    #data = FAKE_DATA
+    #print("fake Data=", data)
     color_list = define_color_code_list(color_list_request)
 
     line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                           x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                           'line_chart')
     return line_chart.show_chart()
+
+@csrf_exempt
+def generate_data_for_range_chart(dataset, dataset_type):
+    final_data = []
+    if dataset_type == 'file':
+        final_data = range_chart_data_from_file('visualiser/fake_data/'+dataset)
+    elif dataset_type == 'db':
+            print("dataset=", dataset)
+            dataset = Dataset.objects.get(dataset_name=dataset)
+            data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
+            data = data_table.objects.all()
+            ls_graph = []
+            for resitem in data:
+                dict={"time_0":resitem.year, "val":resitem.value}
+                ls_graph.append(dict)
+                final_data = ls_graph
+    elif dataset_type=='query':
+        data = range_chart_query("1")
+        print(final_data)
+        ls_graph = []
+        for resitem in data:
+            dict = {"time_0": resitem.year, "val": resitem.value}
+            ls_graph.append(dict)
+            final_data = ls_graph
+
+    print("final_data=", final_data)
+    return final_data
+
+@csrf_exempt
+def range_chart_data_from_file(dataset):
+    final_data = []
+    print("dataset=", dataset)
+    with open(dataset) as f:
+        final_data = ast.literal_eval(f.read())
+    return final_data
 
 
 @csrf_exempt
@@ -530,7 +568,7 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
         final_data = reformat_heatmap_data(data, variables)
         # If guides/ranges are used, the dataset of the guides has to be declared explicitly in the request
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
-        col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
+        col_ranges_datsdasda = heatmap_categorisation(col_categorisation_dataset)
     elif dataset_type == 'query':
         final_data = heatmap_query(dataset)
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)

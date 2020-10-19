@@ -141,7 +141,7 @@ class Dataset(models.Model):
     dataset_date_creation = models.DateTimeField(auto_now_add=True)
     dataset_date_update = models.DateTimeField(auto_now=True)
     dataset_django_model = models.CharField(null=False, default="", max_length=50)
-
+    #string name of sql table
 
 class Variable(models.Model):
     var_name = models.CharField(null=False, default="", max_length=50)
