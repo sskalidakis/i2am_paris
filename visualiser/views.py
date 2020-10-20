@@ -313,13 +313,17 @@ def generate_data_for_range_chart(dataset, dataset_type):
             dataset = Dataset.objects.get(dataset_name=dataset)
             data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
             data = data_table.objects.all()
+            variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
+            print("variabes=",variables)
             # Missing Variables--> need to load Dataset Variables
-            ls_graph = []
-            for resitem in data:
-                # Look at reformat_heatmap_data. You need to create something similar. This is fixed for time_0 and val/ year and value
-                dict = {"time_0": resitem.year, "val": resitem.value}
-                ls_graph.append(dict)
-                final_data = ls_graph
+            final_data = reformat_range_chart_data(data, [variables[5], variables[0]])
+            print("final data 0:3", final_data[0:3])
+            # ls_graph = []
+            # for resitem in data:
+            #     # Look at reformat_heatmap_data. You need to create something similar. This is fixed for time_0 and val/ year and value
+            #     dict = {"time_0": resitem.year, "val": resitem.value}
+            #     ls_graph.append(dict)
+            #     final_data = ls_graph
     elif dataset_type == 'query':
         data = range_chart_query(dataset)
         ls_graph = []
@@ -328,7 +332,30 @@ def generate_data_for_range_chart(dataset, dataset_type):
             ls_graph.append(dict)
             final_data = ls_graph
 
-    print("final_data=", final_data)
+    #print("final_data=", final_data)
+    return final_data
+
+def reformat_range_chart_data(data, variables):
+    """
+    This method is used for reformatting the data to the suitable format
+    :param data: The data records retrieved from the database
+    :param variables: The specific variables whose columns are going to be used in the chart
+    :return: Data in a suitable format for the heatmap chart
+    """
+    final_data = []
+    for v in variables:
+        print(v.var_name)
+    for el in data:
+        dictionary = {}
+        for var in variables:
+            if var.variable_table_name is None:
+                dictionary[var.var_name] = getattr(el, var.var_name)
+            else:
+                var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
+                var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
+                value = var_table_obj.title
+                dictionary[var.var_name] = value
+        final_data.append(dictionary)
     return final_data
 
 @csrf_exempt
