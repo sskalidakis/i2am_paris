@@ -158,26 +158,26 @@ class Variable(models.Model):
 
 class ScenariosRes(models.Model):
     scenario = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class RegionsRes(models.Model):
     """
     Regions of results
     """
-    region = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class VariablesRes(models.Model):
-    variable = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class UnitsRes(models.Model):
-    unit = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class ResultsComp(models.Model):
-    # resultsyears_id = models.ForeignKey(ResultsYears, on_delete=models.CASCADE)
-    model_id = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
+    model_id = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
     scenario_id = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
     region_id = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
     variable_id = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)

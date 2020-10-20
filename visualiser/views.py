@@ -314,7 +314,7 @@ def generate_data_for_range_chart(dataset, dataset_type):
             data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
             data = data_table.objects.all()
             variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
-            final_data = reformat_range_chart_data(data, variables)[0:50]
+            final_data = reformat_chart_data(data, variables)
 
     elif dataset_type == 'query':
         data = range_chart_query(dataset)
@@ -327,18 +327,19 @@ def generate_data_for_range_chart(dataset, dataset_type):
     #print("final_data=", final_data)
     return final_data
 
-def reformat_range_chart_data(data, variables):
+def reformat_chart_data(data, variables):
     """
     This method is used for reformatting the data to the suitable format
     :param data: The data records retrieved from the database
     :param variables: The specific variables whose columns are going to be used in the chart
     :return: Data in a suitable format for the heatmap chart
     """
+
     final_data = []
-    ls=[variables[5], variables[0]]
+
     for el in data:
         dictionary = {}
-        for var in ls:
+        for var in variables:
             if var.variable_table_name is None:
                 dictionary[var.var_name] = getattr(el, var.var_name)
             else:
@@ -581,7 +582,7 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
             log.error(e)
             return e, 400
 
-        final_data = reformat_heatmap_data(data, variables)
+        final_data = reformat_chart_data(data, variables)
         # If guides/ranges are used, the dataset of the guides has to be declared explicitly in the request
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
         col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
@@ -627,26 +628,26 @@ def heatmap_chart_data_from_file(dataset):
     return final_data
 
 
-def reformat_heatmap_data(data, variables):
-    """
-    This method is used for reformatting the data to the suitable format
-    :param data: The data records retrieved from the database
-    :param variables: The specific variables whose columns are going to be used in the chart
-    :return: Data in a suitable format for the heatmap chart
-    """
-    final_data = []
-    for el in data:
-        dictionary = {}
-        for var in variables:
-            if var.variable_table_name is None:
-                dictionary[var.var_name] = getattr(el, var.var_name)
-            else:
-                var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
-                var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
-                value = var_table_obj.title
-                dictionary[var.var_name] = value
-        final_data.append(dictionary)
-    return final_data
+# def reformat_heatmap_data(data, variables):
+#     """
+#     This method is used for reformatting the data to the suitable format
+#     :param data: The data records retrieved from the database
+#     :param variables: The specific variables whose columns are going to be used in the chart
+#     :return: Data in a suitable format for the heatmap chart
+#     """
+#     final_data = []
+#     for el in data:
+#         dictionary = {}
+#         for var in variables:
+#             if var.variable_table_name is None:
+#                 dictionary[var.var_name] = getattr(el, var.var_name)
+#             else:
+#                 var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
+#                 var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
+#                 value = var_table_obj.title
+#                 dictionary[var.var_name] = value
+#         final_data.append(dictionary)
+#     return final_data
 
 
 def heatmap_ordering_method(col_ordering, data, row_ordering):
