@@ -1,8 +1,12 @@
 import json
 
 from django.http import JsonResponse
+from django.apps import apps
 
 from data_manager.models import Query
+from i2amparis_main.models import Dataset
+
+from visualiser.visualiser_settings import DATA_TABLES_APP
 
 def range_chart_query(query_id):
     from i2amparis_main.models import ResultsComp
@@ -29,6 +33,12 @@ def var_harmonisation_on_demand(query_id):
     :param query_id: The query_id of the query to be executed in order to retrieve data for the on-demand variable harmonisation heatmap
     :return:
     '''
+    q_params = get_query_parameters(query_id)
+    dataset = q_params['dataset']
+    dataset = Dataset.objects.get(dataset_name=dataset)
+    data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
+    data = data_table.objects.all()
+    # variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
     from i2amparis_main.models import DatasetOnDemandVariableHarmonisation
     json_params = get_query_parameters(query_id)
     model_list = []
