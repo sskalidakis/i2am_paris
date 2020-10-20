@@ -316,7 +316,7 @@ def generate_data_for_range_chart(dataset, dataset_type):
             variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
             print("variabes=",variables)
             # Missing Variables--> need to load Dataset Variables
-            final_data = reformat_range_chart_data(data, [variables[5], variables[0]])
+            final_data = reformat_range_chart_data(data, [variables[5], variables[0]])[0:50]
             print("final data 0:3", final_data[0:3])
             # ls_graph = []
             # for resitem in data:

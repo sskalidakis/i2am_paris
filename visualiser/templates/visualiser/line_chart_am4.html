@@ -27,6 +27,7 @@
             var xAxis;
             console.log(use_default_colors);
             console.log(color_list);
+            console.log(chart.data);
 
             // Create axes
             if (x_axis_type === "time") {
@@ -52,10 +53,10 @@
             var series=[];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name , y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }else{
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name , y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }
             }

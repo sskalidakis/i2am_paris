@@ -35,6 +35,12 @@ def var_harmonisation_on_demand(query_id):
     '''
     q_params = get_query_parameters(query_id)
     dataset = q_params['dataset']
+    select = q_params['query_configuration']['select']
+    filter = q_params['query_configuration']['filter']
+    ordering = q_params['query_configuration']['ordering']
+    grouping = q_params['query_configuration']['grouping']
+    add_params = q_params['additional_parameters']
+
     dataset = Dataset.objects.get(dataset_name=dataset)
     data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
     data = data_table.objects.all()
