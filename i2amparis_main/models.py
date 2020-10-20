@@ -157,7 +157,7 @@ class Variable(models.Model):
 
 
 class ScenariosRes(models.Model):
-    scenario = models.CharField(null=False, default="", max_length=50)
+
     name = models.CharField(null=False, default="", max_length=50)
     title = models.CharField(null=False, default="", max_length=100)
 
