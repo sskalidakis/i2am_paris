@@ -324,7 +324,6 @@ def generate_data_for_range_chart(dataset, dataset_type):
         data = range_chart_query(dataset)
         ls_graph = []
         for resitem in data:
-            # The same in here. Where is the query?
             dict = {"time_0": resitem.year, "val": resitem.value}
             ls_graph.append(dict)
             final_data = ls_graph
@@ -567,7 +566,7 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
         final_data = reformat_heatmap_data(data, variables)
         # If guides/ranges are used, the dataset of the guides has to be declared explicitly in the request
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
-        col_ranges_datsdasda = heatmap_categorisation(col_categorisation_dataset)
+        col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
     elif dataset_type == 'query':
         final_data = heatmap_query(dataset)
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)

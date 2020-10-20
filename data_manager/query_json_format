@@ -25,9 +25,13 @@
 					} ,
 
 		"ordering": {
-			"params":["variable_8", "variable_9"],
-			"ascending": True
-		},
+			"params":[
+			    {"parameter": "variable_8",
+			    "ascending": true},
+			    {"parameter": "variable_9",
+			     "ascending": true}
+			     ]
+	    },
 
 		"grouping": {
 			"params":["variable_1", "variable_2"],
