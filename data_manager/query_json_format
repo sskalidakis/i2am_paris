@@ -1,5 +1,4 @@
 {
-	"query_id": query_id,
 	"dataset": "dataset_1",
 	"query_configuration":{
 		"select": ["variable_1", "variable_2"],
@@ -24,22 +23,21 @@
 					"operation": "or"
 					} ,
 
-		"ordering": {
-			"params":[
+		"ordering":[
 			    {"parameter": "variable_8",
 			    "ascending": true},
 			    {"parameter": "variable_9",
 			     "ascending": true}
 			     ]
-	    },
+	    ,
 
 		"grouping": {
 			"params":["variable_1", "variable_2"],
 			"aggregated_params": [
 				{"name": "variable_3",
-				 "agg_func": "sum"},
+				 "agg_func": "Sum"},
 				{"name": "variable_4",
-				 "agg_func": "avg"}
+				 "agg_func": "Avg"}
 				 ]
 			}
 
@@ -49,6 +47,7 @@
 
 
 operation_examples: "< , > , <> , = , between, in "
+Aggregation functions: Sum, Count, Min, Max, Avg
 operands in [] are considered AND
 OR is explicitly stated (works for AND as well)
 KEEP IN MIND! variable names can be from "joined tables" as well,  eg. model__name etc.
