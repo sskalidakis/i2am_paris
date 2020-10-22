@@ -100,10 +100,16 @@ class HarmDataNew(models.Model):
     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     io_status = models.CharField(null=False, default="", max_length=50)
     var_unit = models.CharField(null=False, default="", max_length=20)
-    var_source_info = models.TextField(null=False, default="")
+    #var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
-    var_source_url = models.TextField(null=False, default="")
+    #var_source_url = models.TextField(null=False, default="")
 
+
+class HarmDataSourcesLinks(models.Model):
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    var_source_url = models.TextField(null=False, default="")
+    var_source_info = models.TextField(null=False, default="")
 
 # Guide Datasets
 
