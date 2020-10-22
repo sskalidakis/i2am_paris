@@ -8,10 +8,11 @@ from i2amparis_main.models import Dataset
 
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
-def range_chart_query(query_id):
+def range_chart_query(params):
     from i2amparis_main.models import ResultsComp
     #query_name = Query.objects.get(id=query_id).query_name
     #results = var_harmonisation_on_demand(query_id)
+    print(params['query_configuration']['filter'])
     results = ResultsComp.objects.filter(region_id_id=23, model_id_id=5, scenario_id_id=10, variable_id_id=113).order_by("year")
     return results
 
