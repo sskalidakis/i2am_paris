@@ -115,11 +115,12 @@
                 <div class="desc_text take_up_space" id="var_def"></div>
                 <div class="source_container">
                     <div class="heading">Source</div>
-                    <div class="desc_text take_up_space" id="var_mod_source"></div>
+                    <ul>
+{#                        <a class="desc_text" id="var_mod_source_url" target="_blank" rel="noopener noreferrer"></a>#}
+                    </ul>
+
                 </div>
-                <div class="source_container_url">
-                    <a class="desc_text" id="var_mod_source_url" target="_blank" rel="noopener noreferrer"></a>
-                </div>
+
                 <div class="unit_container">
                     <div class="heading">Unit</div>
                     <div class="desc_text take_up_space" id="var_mod_unit"></div>
@@ -157,9 +158,17 @@
         {% for el in var_mod %}
             <div id={{ el.model }}_{{ el.var }}>
                 <span class="d_var_mod_unit">{{ el.var_unit }}</span>
-                <span class="d_var_mod_source_info">{{ el.var_source_info }}</span>
                 <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
-                <span class="d_var_mod_source_url">{{ el.var_source_url}}</span>
+                <span class="d_var_mod_source_url">
+                    {% for url in el.source_url %}
+                        <span class="source_url_el">{{url.var_source_url}}</span>
+                    {% endfor %}
+                </span>
+                <span class="d_var_mod_source_info">
+                    {% for url in el.source_info %}
+                        <span class="source_info_el">{{url.var_source_info}}</span>
+                    {% endfor %}
+                </span>
             </div>
         {% endfor %}
     </div>

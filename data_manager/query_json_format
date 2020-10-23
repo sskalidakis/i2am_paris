@@ -63,11 +63,11 @@
 						  "operand_2": ['value1', 'value2', 'value3'],
 						  "operation": "in" }
 					],
-					"or":[{
+					"or":[
 						{"operand_1": "variable_3",
 						 "operand_2": 500.
 						 "operation": "<"}
-					}]
+					]
 					} ,
 
 		"ordering":[

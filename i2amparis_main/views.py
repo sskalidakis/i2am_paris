@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
@@ -16,8 +16,9 @@ from django.contrib import messages
 
 
 def landing_page(request):
-    print ('Landing page')
+    print('Landing page')
     return render(request, 'i2amparis_main/landing_page.html')
+
 
 def overview_comparative_assessment_doc(request):
     print('Overview Comparative Assessment')
@@ -38,6 +39,7 @@ def overview_comparative_assessment_doc_national_oeu(request):
     print('Overview Comparative Assessment National O_EU')
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
+
 def paris_reinforce_workspace(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
@@ -48,10 +50,15 @@ def paris_reinforce_workspace(request):
             "model": el.model.name,
             "var": el.variable.var_name,
             "var_unit": el.var_unit,
-            "var_source_info": el.var_source_info,
             "var_timespan": el.var_timespan,
-            "var_source_url": el.var_source_url
         }
+        dict_el["source_info"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
+                                                                         variable__var_name=el.variable.var_name).values(
+            "var_source_info")
+        dict_el["source_url"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
+                                                                         variable__var_name=el.variable.var_name).values(
+            "var_source_url")
+
         var_mod.append(dict_el)
     print(var_mod)
     context = {"models": models,
@@ -59,7 +66,8 @@ def paris_reinforce_workspace(request):
                "var_mod": var_mod}
     return render(request, 'i2amparis_main/paris_reinforce_workspace.html', context)
 
-def detailed_model_doc(request,model=''):
+
+def detailed_model_doc(request, model=''):
     if model == '':
         print('Detailed Model Documentation')
         list_of_models = ModelsInfo.objects.all()
@@ -68,7 +76,7 @@ def detailed_model_doc(request,model=''):
             'model_list': list_of_models,
             'sel_icons': sel_icons
         }
-        return render(request, 'i2amparis_main/detailed_model_documentation_landing_page.html',context)
+        return render(request, 'i2amparis_main/detailed_model_documentation_landing_page.html', context)
     else:
         category = ModelsInfo.objects.get(model_name=model).coverage
         list_of_cat_models = ModelsInfo.objects.filter(coverage=category)
@@ -89,10 +97,11 @@ def detailed_model_doc(request,model=''):
         else:
             menu_cat = 'Other National / Regional Models for countries outside Europe'
 
-        return render(request, 'i2amparis_main/detailed_'+model+'.html',context={'menu_models':model_dict,'coverage':menu_cat})
+        return render(request, 'i2amparis_main/detailed_' + model + '.html',
+                      context={'menu_models': model_dict, 'coverage': menu_cat})
+
 
 def dynamic_doc(request, model=''):
-
     template_format = request.GET.get('format')
     db = countries_data.RetriveDB(model)
     data = db.create_json()
@@ -106,9 +115,9 @@ def dynamic_doc(request, model=''):
         'granularities': db.retrieve_granularity,
         'selected_model_name': ModelsInfo.objects.get(id=db.model_id).model_name,
         'selected_model_title': ModelsInfo.objects.get(id=db.model_id).model_title,
-        'selected_model_description':sel_model_long_description,
+        'selected_model_description': sel_model_long_description,
         'template_format': template_format,
-        'sel_icons':sel_icons
+        'sel_icons': sel_icons
     }
     if template_format is not None:
         template = 'i2amparis_main/dynamic_documentation_final' + template_format + '.html'
@@ -127,7 +136,8 @@ def contact_form(request):
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
             email_text = str(username) + ' submitted his/her feedback on I2AM Paris Platform:' + \
-                         '\nSubject: "' + str(subject) + '"\nMessage: ' + str(message) + '"\n\n Contact e-mail: ' + str(email)
+                         '\nSubject: "' + str(subject) + '"\nMessage: ' + str(message) + '"\n\n Contact e-mail: ' + str(
+                email)
 
             ''' Begin reCAPTCHA validation '''
             recaptcha_response = request.POST.get('g-recaptcha-response')
@@ -153,13 +163,3 @@ def contact_form(request):
             else:
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
                 return JsonResponse({'status': 'NOT_OK'})
-
-
-
-
-
-
-
-
-
-

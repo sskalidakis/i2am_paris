@@ -89,8 +89,8 @@ var sel_var_name = $("#var_name");
 var sel_var_def = $('#var_def');
 var sel_var_cat = $('#var_cat');
 var sel_unit_container = $('.unit_container');
-var sel_source_container = $('.source_container');
-var sel_source_container_url = $('.source_container_url');
+var sel_source_container = $('.source_container li');
+var sel_source_container_whole = $('.source_container');
 var sel_timespan_container = $('.timespan_container');
 
 function show_hide_empty_fields() {
@@ -99,16 +99,11 @@ function show_hide_empty_fields() {
     } else {
         sel_unit_container.show();
     }
-    if (sel_var_mod_source.text() === '') {
-        sel_source_container.hide();
-    } else {
-        sel_source_container.show();
-    }
-    if (sel_var_mod_source_url.text() === '') {
-        sel_source_container_url.hide();
-    } else {
-        sel_source_container_url.show();
-    }
+    // if (sel_source_container.length === 0) {
+    //     sel_source_container_whole.hide();
+    // } else {
+    //     sel_source_container_whole.show();
+    // }
     if (sel_var_mod_timespan.text() === '') {
         sel_timespan_container.hide();
     } else {
@@ -116,7 +111,12 @@ function show_hide_empty_fields() {
     }
 }
 
+function clear_url_sources(){
+    $('.source_container ul li').remove();
+}
+
 sel_model_name.change(function () {
+    clear_url_sources();
     sel_geo_cov.text($('#' + String($(this).val()) + ' .d_model_coverage').text());
     sel_model_type.text($('#' + String($(this).val()) + ' .d_model_type').text());
     sel_model_timestep.text($('#' + String($(this).val()) + ' .d_model_timestep').text());
@@ -125,21 +125,34 @@ sel_model_name.change(function () {
     sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String($(this).find('option:selected').text()));
     sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($(this).find('option:selected').text()));
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
-    sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
-    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url').text();
-    sel_var_mod_source_url.text(temp_mod_url);
-    sel_var_mod_source_url.attr('href', temp_mod_url);
+    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
+    var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
+    if(temp_mod_url.length !== 0){
+        sel_source_container_whole.show();
+    }else{
+        sel_source_container_whole.hide();
+    }
+    temp_mod_url.each(function (index) {
+        $('.source_container ul').append('<li><a href="'+ $(this).text() +'" target="_blank" rel="noopener noreferrer">'+ String(temp_mod_source.eq(index).text()) +'</a></li>');
+    });
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 });
 sel_var_name.change(function () {
+    clear_url_sources();
     sel_var_def.text($('#' + String($(this).val()) + ' .d_var_definition').text());
     sel_var_cat.text($('#' + String($(this).val()) + ' .d_var_category').text());
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
-    sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
-    var temp_var_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url').text();
-    sel_var_mod_source_url.text(temp_var_url);
-    sel_var_mod_source_url.attr('href', temp_var_url);
+    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
+    var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
+    if (temp_mod_url.length !== 0) {
+        sel_source_container_whole.show();
+    } else {
+        sel_source_container_whole.hide();
+    }
+    temp_mod_url.each(function (index) {
+        $('.source_container ul').append('<li><a href="' + $(this).text() + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(index).text()) + '</a></li>');
+    });
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 
@@ -153,4 +166,5 @@ sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + 
 sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String(sel_model_name.find('option:selected').text()));
 sel_var_def.text($('#' + String(sel_var_name.val()) + ' .d_var_definition').text());
 sel_var_cat.text($('#' + String(sel_var_name.val()) + ' .d_var_category').text());
+sel_source_container_whole.hide();
 show_hide_empty_fields();
