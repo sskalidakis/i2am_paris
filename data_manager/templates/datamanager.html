@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>-->
+<!--<link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>-->
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<form>-->
+Select Models:
+<p></p>
+  <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="model">
+      {% for model in models_title %}
+      <option>{{model}}</option>
+      {% endfor %}
+  </select>
+    Select Regions:
+    <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="region">
+      {% for region in regions_title %}
+      <option>{{region}}</option>
+      {% endfor %}
+  </select>
+    Select Scenarios:
+  <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="scenario">
+      {% for scenario in scenarios_title %}
+      <option>{{scenario}}</option>
+      {% endfor %}
+  </select>
+    Select Variables:
+  <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="variable">
+      {% for variable in variables_title %}
+      <option>{{variable}}</option>
+      {% endfor %}
+  </select>
+
+    <p></p>
+    <button onclick="create_query_json()">TEST</button>
+<!--      <input type="submit" onclick="create_query_json()">-->
+<!--</form>-->
+<script>
+    function getSelectValues(select) {
+  // Get selected values in multiple select
+  // argument select is document.getElementById()
+  var result = [];
+  var options = select && select.options;
+  var opt;
+
+  for (var i=0, iLen=options.length; i<iLen; i++) {
+    opt = options[i];
+
+    if (opt.selected) {
+      result.push(opt.value || opt.text);
+    }
+  }
+  return result;
+}
+
+function create_query_json() {
+    const models = getSelectValues(document.getElementById('model'));
+    const scenarios = getSelectValues(document.getElementById('scenario'));
+    const regions = getSelectValues(document.getElementById('region'));
+    const variables = getSelectValues(document.getElementById('variable'));
+    const input_dict = {'model': models, 'scenario': scenarios, 'region': regions, 'variable': variables};
+    var selected = [];
+    var operands = [];
+    for (var i in input_dict) {
+        if (input_dict[i].length > 0) {
+            selected.push(i);
+        }
+    }
+    var and_dict = [];
+    var or_dict = [];
+    for (var j in selected) {
+        var temp = input_dict[selected[j]];
+        if (temp.length > 1){
+            for (var x in temp) {
+                or_dict.push({
+                                'operand_1': selected[j], // TODO here we have the id
+                                'operand_2': temp[x],
+                                'operation': '='
+                                });
+                                }
+        }
+        else {
+            and_dict.push({
+                'operand_1': selected[j], // TODO here we have the id
+                'operand_2': input_dict[selected[j]],
+                'operation': '='
+            });
+        }
+    }
+    const data = {
+        "dataset": "dataset_1",
+        "query_configuration": {
+            "select": selected, // TODO the name in database
+            "filter": {
+                "and": and_dict,
+                "or": or_dict
+            },
+            "ordering": [
+                {
+                    "parameter": "year",
+                    "ascending": true
+                },
+            ]
+            ,
+            "grouping": {},
+        },
+	"additional_app_parameters":{}
+    };
+    console.log(JSON.stringify(data));
+
+
+}
+
+// TODO make ajax request to send data to backend
+</script>
+</body>
+</html>

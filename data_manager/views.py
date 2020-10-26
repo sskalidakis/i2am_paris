@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from data_manager.models import Query
 import json
+from i2amparis_main.models import *
 # Create your views here.
 
 def create_query(request):
@@ -37,3 +38,17 @@ def delete_query(request):
         context = {"status": 400,
                    "message": 'This HTTP method is not supported by the API'}
         return JsonResponse(context)
+
+
+def datamanager_template(request):
+    models_title = list(DataVariablesModels.objects.all().values_list('title', flat=True))
+    variables_title = list(VariablesRes.objects.all().values_list('title', flat=True))
+    regions_title = list(RegionsRes.objects.all().values_list('title', flat=True))
+    scenarios_title = list(ScenariosRes.objects.all().values_list('title', flat=True))
+    context = {
+                'models_title': models_title,
+                'variables_title': variables_title,
+                'regions_title': regions_title,
+                'scenarios_title': scenarios_title
+    }
+    return render(request, 'datamanager.html', context)
