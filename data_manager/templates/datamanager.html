@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
-<!--<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>-->
-<!--<link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<!--<form>-->
+<form>
+    {% csrf_token %}
 Select Models:
 <p></p>
   <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="model" onchange="check_multi_choices()">
@@ -38,7 +39,7 @@ Select Models:
     <p></p>
     <button onclick="sendQuery()">TEST</button>
 <!--      <input type="submit" onclick="create_query_json()">-->
-<!--</form>-->
+</form>
 <script>
 
     function check_multi_choices(){
@@ -126,7 +127,7 @@ function create_query_json() {
         },
 	"additional_app_parameters":{}
     };
-    // console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data));
     return data;
 
 }
@@ -139,7 +140,7 @@ function create_query_json() {
             });
             $.ajax({
                 type: "POST",
-                url: '{% url 'receive_data' %}',
+                url: "{%url 'receive_data' %}",
                 headers: {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
                 success: location.reload(),
                 data: payload,

@@ -51,8 +51,6 @@ def datamanager_template(request):
                 'regions_title': regions_title,
                 'scenarios_title': scenarios_title
     }
-    from  pprint import pprint as pp
-    pp(context)
     return render(request, 'datamanager.html', context)
 
 
@@ -61,3 +59,6 @@ def receive_data(request):
         import json
         from pprint import pprint as pp
         pp(json.loads(request.body))
+        context = {"status": 200,
+                   "message": 'Success'}
+        return JsonResponse(context)
