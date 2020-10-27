@@ -41,10 +41,10 @@ def delete_query(request):
 
 
 def datamanager_template(request):
-    models_title = list(DataVariablesModels.objects.all().values_list('title', flat=True))
-    variables_title = list(VariablesRes.objects.all().values_list('title', flat=True))
-    regions_title = list(RegionsRes.objects.all().values_list('title', flat=True))
-    scenarios_title = list(ScenariosRes.objects.all().values_list('title', flat=True))
+    models_title = {i[0]: i[1] for i in list(DataVariablesModels.objects.all().values_list('title', 'id'))}
+    variables_title = {i[0]: i[1] for i in list(VariablesRes.objects.all().values_list('title', flat=True))}
+    regions_title = {i[0]: i[1] for i in list(RegionsRes.objects.all().values_list('title', flat=True))}
+    scenarios_title = {i[0]: i[1] for i in list(ScenariosRes.objects.all().values_list('title', flat=True))}
     context = {
                 'models_title': models_title,
                 'variables_title': variables_title,

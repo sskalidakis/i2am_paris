@@ -12,26 +12,26 @@
 Select Models:
 <p></p>
   <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="model" onchange="check_multi_choices()">
-      {% for model in models_title %}
-      <option>{{model}}</option>
+      {% for model,id in models_title.items %}
+      <option value="{{id}}">{{model}}</option>
       {% endfor %}
   </select>
     Select Regions:
     <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="region" onchange="check_multi_choices()">
-      {% for region in regions_title %}
-      <option>{{region}}</option>
+      {% for region,id in regions_title.items %}
+      <option value="{{id}}">{{region}}</option>
       {% endfor %}
   </select>
     Select Scenarios:
   <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="scenario" onchange="check_multi_choices()">
-      {% for scenario in scenarios_title %}
-      <option>{{scenario}}</option>
+      {% for scenario,id in scenarios_title.items %}
+      <option value="{{id}}">{{scenario}}</option>
       {% endfor %}
   </select>
     Select Variables:
   <select data-placeholder="Begin typing a name of model..." multiple class="chosen-select" name="test" id="variable" onchange="check_multi_choices()">
-      {% for variable in variables_title %}
-      <option>{{variable}}</option>
+      {% for variable,id in variables_title.items %}
+      <option value="{{id}}">{{variable}}</option>
       {% endfor %}
   </select>
 
