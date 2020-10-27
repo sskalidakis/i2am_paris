@@ -42,13 +42,22 @@ def delete_query(request):
 
 def datamanager_template(request):
     models_title = {i[0]: i[1] for i in list(DataVariablesModels.objects.all().values_list('title', 'id'))}
-    variables_title = {i[0]: i[1] for i in list(VariablesRes.objects.all().values_list('title', flat=True))}
-    regions_title = {i[0]: i[1] for i in list(RegionsRes.objects.all().values_list('title', flat=True))}
-    scenarios_title = {i[0]: i[1] for i in list(ScenariosRes.objects.all().values_list('title', flat=True))}
+    variables_title = {i[0]: i[1] for i in list(VariablesRes.objects.all().values_list('title', 'id'))}
+    regions_title = {i[0]: i[1] for i in list(RegionsRes.objects.all().values_list('title', 'id'))}
+    scenarios_title = {i[0]: i[1] for i in list(ScenariosRes.objects.all().values_list('title', 'id'))}
     context = {
                 'models_title': models_title,
                 'variables_title': variables_title,
                 'regions_title': regions_title,
                 'scenarios_title': scenarios_title
     }
+    from  pprint import pprint as pp
+    pp(context)
     return render(request, 'datamanager.html', context)
+
+
+def receive_data(request):
+    if request.method == 'POST':
+        import json
+        from pprint import pprint as pp
+        pp(json.loads(request.body))

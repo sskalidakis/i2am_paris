@@ -36,7 +36,7 @@ Select Models:
   </select>
 
     <p></p>
-    <button onclick="create_query_json()">TEST</button>
+    <button onclick="sendQuery()">TEST</button>
 <!--      <input type="submit" onclick="create_query_json()">-->
 <!--</form>-->
 <script>
@@ -126,12 +126,27 @@ function create_query_json() {
         },
 	"additional_app_parameters":{}
     };
-    console.log(JSON.stringify(data));
-
+    // console.log(JSON.stringify(data));
+    return data;
 
 }
 
 // TODO make ajax request to send data to backend
+
+    const sendQuery = () => {
+            let payload = JSON.stringify({
+                data: create_query_json()
+            });
+            $.ajax({
+                type: "POST",
+                url: '{% url 'receive_data' %}',
+                headers: {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
+                success: location.reload(),
+                data: payload,
+                dataType: "json",
+            });
+        }
+
 </script>
 </body>
 </html>
