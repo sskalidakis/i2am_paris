@@ -95,7 +95,7 @@ function create_query_json() {
             for (var x in temp) {
                 or_dict.push({
                                 'operand_1': selected[j], // TODO here we have the id
-                                'operand_2': temp[x],
+                                'operand_2': temp[x][0],
                                 'operation': '='
                                 });
                                 }
@@ -103,7 +103,7 @@ function create_query_json() {
         else {
             and_dict.push({
                 'operand_1': selected[j], // TODO here we have the id
-                'operand_2': input_dict[selected[j]],
+                'operand_2': input_dict[selected[j]][0],
                 'operation': '='
             });
         }
