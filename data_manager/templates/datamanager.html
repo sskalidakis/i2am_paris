@@ -142,7 +142,7 @@ function create_query_json() {
                 type: "POST",
                 url: "{%url 'receive_data' %}",
                 headers: {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
-                success: location.reload(),
+                // success: location.reload(),
                 data: payload,
                 dataType: "json",
             });
