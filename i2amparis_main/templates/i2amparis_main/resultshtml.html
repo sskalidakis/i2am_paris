@@ -51,17 +51,17 @@
                         {% endfor %}
                     </select>
                 </label>
-                <div class="heading">Model Geographical Coverage</div>
-                <div class="desc_text take_up_space" id="geo_cov"></div>
-                <div class="heading">Model Type</div>
-                <div class="desc_text take_up_space" id="model_type"></div>
-                <div class="heading"> Model Time Step (Years)</div>
-                <div class="desc_text take_up_space" id="model_timestep"></div>
+{#                <div class="heading">Model Geographical Coverage</div>#}
+{#                <div class="desc_text take_up_space" id="geo_cov"></div>#}
+{#                <div class="heading">Model Type</div>#}
+{#                <div class="desc_text take_up_space" id="model_type"></div>#}
+{#                <div class="heading"> Model Time Step (Years)</div>#}
+{#                <div class="desc_text take_up_space" id="model_timestep"></div>#}
 
             <label for="scenario_name" style="display: block;width: 70%">Scenario
                     <select class="form-control desc_text take_up_space" id="scenario_name">
                         {% for el in scenarios %}
-                            <option value="{{ el.scenario_name }}">{{ el.scenario_title }}</option>
+                            <option value="{{ el.name }}">{{ el.title }}</option>
                         {% endfor %}
                     </select>
                 </label>
@@ -69,7 +69,7 @@
              <label for="region_name" style="display: block;width: 70%">Region
                     <select class="form-control desc_text take_up_space" id="region_name">
                         {% for el in regions %}
-                            <option value="{{ el.region_name }}">{{ el.region_title }}</option>
+                            <option value="{{ el.name }}">{{ el.title }}</option>
                         {% endfor %}
                     </select>
                 </label>
