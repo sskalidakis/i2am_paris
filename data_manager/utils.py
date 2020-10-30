@@ -4,6 +4,8 @@ from django.apps import apps
 from i2amparis_main.models import Dataset
 from data_manager.models import Query
 
+from django.db.models import Q
+
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 
@@ -20,15 +22,12 @@ def query_execute(query_id):
     order_list = extract_orderings(ordering)
     group_by_params, agg_params = extract_groupings(grouping)
     if len(grouping.keys()) == 0:
-        select_data = data_model.objects.only(*select).filter(**filter_list).order_by(*order_list).values(*select)
+        select_data = data_model.objects.only(*select).filter(filter_list).order_by(*order_list).values(*select)
     else:
-        select_data = data_model.objects.values(*group_by_params).annotate(**agg_params).filter(**filter_list).order_by(
+        select_data = data_model.objects.values(*group_by_params).annotate(**agg_params).filter(filter_list).order_by(
             *order_list)
     return select_data
 
-
-def extract_filters(filters):
-    return {"region_id_id": 23, "model_id_id": 5, "scenario_id_id": 10, "variable_id_id": 113}
 
 
 def extract_orderings(ordering):
@@ -68,11 +67,54 @@ def get_query_parameters(query_id):
     '''
     query = Query.objects.get(id=query_id)
     parameters = query.parameters
-    q_params = json.loads(parameters)
+    q_params = json.loads(parameters.replace('\r\n', ''))
     dataset = q_params['dataset']
     select = q_params['query_configuration']['select']
     filters = q_params['query_configuration']['filter']
     ordering = q_params['query_configuration']['ordering']
     grouping = q_params['query_configuration']['grouping']
-    add_params = q_params['additional_parameters']
+    add_params = q_params['additional_app_parameters']
     return dataset, select, filters, ordering, grouping, add_params
+
+
+def extract_filters(filters):
+    exp_and = compute_Q_objects(filters['and'], 'and')
+    print("and expr=", exp_and)
+    exp_or = compute_Q_objects(filters['or'], 'or')
+    print("or expr=", exp_or)
+    import pdb
+    pdb.set_trace()
+    return {exp_and & exp_or}
+
+
+def compute_dict(d):
+    expr = Q()
+    if d['operation'] == ">":
+        expr = (Q(str(d['operand_1']) + '__' + 'gt' + "=" + str(d['operand_2'])))
+    elif d['operation'] == "<":
+        expr = (Q(str(d['operand_1']) + '__' + 'lte' + "=" + str(d['operand_2'])))
+    elif d['operation'] == "between":
+        expr = (Q(str(d['operand_1']) + '__' + 'lte' + "=" + str(d['operand_2'][1])) & Q(
+            str(d['operand_1']) + '__' + 'gte' + "=" + str(d['operand_2'][0])))
+    elif d['operation'] == "=":
+        expr = (Q(str(d['operand_1']) + "=" + str(d['operand_2'])))
+    elif d['operation'] == "in":
+        expr = (Q(str(d['operand_1']) + '__' + 'in' + "=" + str(d['operand_2'])))
+    elif d['operation'] == "or":
+        expr = (Q(str(d['operand_1']) + '|' + str(d['operand_2'])))
+    elif d['operation'] == "and":
+        expr = (Q(str(d['operand_1']) + ',' + str(d['operand_2'])))
+    return expr
+
+
+def compute_Q_objects(param, op):
+    q_objects = Q()
+    for item in param:
+        if op == 'and':
+            q_objects &= compute_dict(item)
+        else:
+            q_objects |= compute_dict(item)
+    return q_objects
+
+
+
