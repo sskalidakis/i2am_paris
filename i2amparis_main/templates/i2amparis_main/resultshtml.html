@@ -1,0 +1,166 @@
+{% load static %}
+<div class="tab-pane" id="results">
+    <div class="container" style="width: 100%; height:100%;">
+        <div class="row" style="margin-top: 6em; height: 130vh">
+            <div class="col-sm-9 col-xs-12" style="height: 100%">
+                <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
+                    <iframe id="viz_iframe" src="" title="Chart"
+                            style="width: 100%; height: 100%;  border:none"></iframe>
+                </div>
+            </div>
+
+
+            <div class="col-sm-3 col-xs-12" style="margin-top: 1.5em">
+                <div class="tooltip-demo">
+                    <h4 style="display: inline-block;background:transparent;box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
+                        data-toggle="tooltip" data-placement="auto"
+                        title="<p>This tool allows select up to all scenarios, up to all regions, up to all models and up to X variables from predefined variable categories that include variables of the same nature (that can be presented on the same chart, e.g. all the “primary energy” sources or emission sets across different sectors) and see the results</p>">
+                        Variable Line Chart
+                    </h4>
+
+                </div>
+                <div style="margin-bottom: 3em;">
+                    <label style="display: block;width: 70%">
+                        Order Columns By:
+                        <select id="col_order" class="form-control">
+                            <option value="default" data-category="">Default</option>
+                            <option value="title" data-category="">Alphabetically</option>
+                            <option value="type" data-category="datasetmodeltypeguides">Model Type</option>
+                            <option value="coverage" data-category="datasetmodelgeoguides">Geographical
+                                Coverage
+                            </option>
+                            <option value="time_steps_in_solution" data-category="datasetmodeltimestepguides">
+                                Time Step
+                            </option>
+                        </select>
+                    </label>
+                    {#                            <label style="display: block;width: 70%">#}
+                    {#                                Order Rows By:#}
+                    {#                                <select id="row_order" class="form-control">#}
+                    {#                                    <option value="default">Default</option>#}
+                    {#                                    <option value="title">Alphabetically</option>#}
+                    {#                                    <option value="category">Variable Category</option>#}
+                    {#                                </select>#}
+                    {#                            </label>#}
+                </div>
+
+                 <label for="model_name" style="display: block;width: 70%">Model Name
+                    <select class="form-control desc_text take_up_space" id="model_name">
+                        {% for el in models %}
+                            <option value="{{ el.model_name }}">{{ el.model_title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <div class="heading">Model Geographical Coverage</div>
+                <div class="desc_text take_up_space" id="geo_cov"></div>
+                <div class="heading">Model Type</div>
+                <div class="desc_text take_up_space" id="model_type"></div>
+                <div class="heading"> Model Time Step (Years)</div>
+                <div class="desc_text take_up_space" id="model_timestep"></div>
+
+            <label for="scenario_name" style="display: block;width: 70%">Scenario
+                    <select class="form-control desc_text take_up_space" id="scenario_name">
+                        {% for el in scenarios %}
+                            <option value="{{ el.scenario_name }}">{{ el.scenario_title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+             <label for="region_name" style="display: block;width: 70%">Region
+                    <select class="form-control desc_text take_up_space" id="region_name">
+                        {% for el in regions %}
+                            <option value="{{ el.region_name }}">{{ el.region_title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+
+                <div class="heading">
+                    <a style="font-weight: bold; " id="model_desc" target="_blank"
+                       rel="noopener noreferrer" href="/detailed_model_doc/">Detailed Model
+                        Documentation
+                        <i class="fa fa-book"></i>
+                    </a>
+                </div>
+                <div class="heading " style="margin-bottom: 1em">
+                    <a style="font-weight: bold; " id="model_dynamic" target="_blank"
+                       rel="noopener noreferrer" href="/dynamic_doc/">Dynamic Model
+                        Documentation
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+
+                {#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
+                {#                <hr>#}
+                {#                <div class="heading">Variable Name</div>#}
+                <label for="var_name" style="display: block;width: 70%">Variable Name
+                    <select class=" form-control desc_text take_up_space" id="var_name">
+                        {% for el in variables %}
+                            <option value="{{ el.var_name }}">{{ el.var_title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <div class="heading"> Category</div>
+                <div class="desc_text take_up_space" id="var_cat"></div>
+                <div class="heading">Variable Definition</div>
+                <div class="desc_text take_up_space" id="var_def"></div>
+                <div class="source_container">
+                    <div class="heading">Source</div>
+                    <ul>
+{#                        <a class="desc_text" id="var_mod_source_url" target="_blank" rel="noopener noreferrer"></a>#}
+                    </ul>
+
+                </div>
+
+                <div class="unit_container">
+                    <div class="heading">Unit</div>
+                    <div class="desc_text take_up_space" id="var_mod_unit"></div>
+                </div>
+                <div class="timespan_container">
+                    <div class="heading">Timespan</div>
+                    <div class="desc_text take_up_space" id="var_mod_timespan"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div id="models_container" style="display: none">
+        {% for model in models %}
+            <div id={{ model.model_name }}>
+                {#                <span id="long_title">{{ model.long_title }}</span>#}
+                <span class="d_model_coverage">{{ model.coverage_title }}</span>
+                <span class="d_model_type">{{ model.type_of_model }}</span>
+                <span class="d_model_timestep">{{ model.time_steps_in_solution }}</span>
+                <span class="d_model_description">{{ model.short_description }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="variables_container" style="display: none">
+        {% for variable in variables %}
+            <div id={{ variable.var_name }}>
+                <span class="d_var_title">{{ variable.var_title }}</span>
+                <span class="d_var_category">{{ variable.var_category }}</span>
+                <span class="d_var_definition">{{ variable.var_definition }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="var_mod_data_container" style="display: none">
+        {% for el in var_mod %}
+            <div id={{ el.model }}_{{ el.var }}>
+                <span class="d_var_mod_unit">{{ el.var_unit }}</span>
+                <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
+                <span class="d_var_mod_source_url">
+                    {% for url in el.source_url %}
+                        <span class="source_url_el">{{url.var_source_url}}</span>
+                    {% endfor %}
+                </span>
+                <span class="d_var_mod_source_info">
+                    {% for url in el.source_info %}
+                        <span class="source_info_el">{{url.var_source_info}}</span>
+                    {% endfor %}
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+</div>
