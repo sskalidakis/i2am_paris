@@ -76,3 +76,5 @@ def get_query_parameters(query_id):
     grouping = q_params['query_configuration']['grouping']
     add_params = q_params['additional_parameters']
     return dataset, select, filters, ordering, grouping, add_params
+
+
