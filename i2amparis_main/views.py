@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
+    RegionsRes
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
@@ -61,9 +62,36 @@ def paris_reinforce_workspace(request):
 
         var_mod.append(dict_el)
     print(var_mod)
+
+
+    scenarios = ScenariosRes.objects.all()
+    varscenarios = []
+    for d in scenarios:
+        temp = {
+            "name": d.name,
+            "title": d.title
+
+        }
+
+        varscenarios.append(temp)
+
+
+    regions = RegionsRes.objects.all()
+    varregions = []
+    for d in regions:
+        temp = {
+            "name": d.name,
+            "title": d.title
+
+        }
+        varregions.append(temp)
+
     context = {"models": models,
                "variables": variables,
-               "var_mod": var_mod}
+               "var_mod": var_mod,
+               "scenarios": varscenarios,
+               "regions": varregions}
+
     return render(request, 'i2amparis_main/paris_reinforce_workspace.html', context)
 
 
