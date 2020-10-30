@@ -40,7 +40,12 @@ def overview_comparative_assessment_doc_national_oeu(request):
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
 
-def paris_reinforce_workspace(request):
+def paris_reinforce_landing(request):
+    context = {}
+    return render(request, 'i2amparis_main/paris_workspace_landing.html', context)
+
+
+def paris_reinforce_harmonisation(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
     var_mod_data = HarmDataNew.objects.all()
@@ -64,7 +69,7 @@ def paris_reinforce_workspace(request):
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
-    return render(request, 'i2amparis_main/paris_reinforce_workspace.html', context)
+    return render(request, 'i2amparis_main/paris_reinforce_harmonisation.html', context)
 
 
 def detailed_model_doc(request, model=''):
