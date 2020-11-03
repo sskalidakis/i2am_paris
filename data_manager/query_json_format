@@ -71,10 +71,8 @@
 					} ,
 
 		"ordering":[
-			    {"parameter": "variable_8",
+			    {"parameter": "year",
 			    "ascending": true},
-			    {"parameter": "variable_9",
-			     "ascending": true}
 			     ]
 	    ,
 
