@@ -2,10 +2,10 @@ from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes, VariablesRes, UnitsRes
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes
 from django.core.mail import send_mail
 from .forms import FeedbackForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core import serializers
 
 import json
@@ -88,6 +88,30 @@ def paris_reinforce_advanced_scientific_module(request):
 
     return render(request, 'i2amparis_main/paris_workspace_scientific_module.html', context)
 
+def tabulardata(request):
+    return render(request, 'i2amparis_main/TabularData.html')
+
+def dummyview(request):
+    dtest= [{"name": "Kostas",
+        "status": "unmarried"
+        }]
+
+    rescomp = ResultsComp.objects.all()
+    varrescomp = []
+    for d in rescomp[0:100]:
+        temp = {
+            "year": str(d.year),
+            "value": str(d.value),
+            "region_id": str(d.region_id.title),
+            "scenario_id": str(d.scenario_id.title),
+            "unit_id": str(d.unit_id.title),
+            "variable_id": str(d.variable_id.title),
+            "model_id": str(d.model_id.title)
+
+        }
+        varrescomp.append(temp)
+        print(temp)
+    return HttpResponse(json.dumps(varrescomp), content_type='application/json; charset=utf-8')
 
 def detailed_model_doc(request, model=''):
     if model == '':

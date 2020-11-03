@@ -21,5 +21,6 @@ urlpatterns = [
     path('paris_workspace_landing', views.paris_reinforce_landing, name='paris_workspace_landing'),
     path('paris_reinforce_harmonisation', views.paris_reinforce_harmonisation, name='paris_reinforce_harmonisation'),
     path('paris_reinforce_scientific_module', views.paris_reinforce_advanced_scientific_module, name='paris_reinforce_advanced_scientific_module'),
-
+    path('dummyview', views.dummyview, name='dummy_view'),
+    path('tabulardata', views.tabulardata, name='tabular_data')
 ]
