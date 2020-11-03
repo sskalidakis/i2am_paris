@@ -20,7 +20,6 @@ urlpatterns = [
     path('contact_form', views.contact_form, name='contact_form'),
     path('paris_workspace_landing', views.paris_reinforce_landing, name='paris_workspace_landing'),
     path('paris_reinforce_harmonisation', views.paris_reinforce_harmonisation, name='paris_reinforce_harmonisation'),
-    # path('', include('visualiser.urls')),
-    # path('', include('feedback_form.urls')),
-    # path('<str:model>', views.dynamic_doc, name='dynamic_doc'),
+    path('paris_reinforce_scientific_module', views.paris_reinforce_advanced_scientific_module, name='paris_reinforce_advanced_scientific_module'),
+
 ]

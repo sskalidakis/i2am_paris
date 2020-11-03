@@ -2,7 +2,7 @@ from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes
+    RegionsRes, VariablesRes, UnitsRes
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse
@@ -72,36 +72,21 @@ def paris_reinforce_harmonisation(request):
                "var_mod": var_mod}
     return render(request, 'i2amparis_main/paris_reinforce_harmonisation.html', context)
 
+
 def paris_reinforce_advanced_scientific_module(request):
     models = ModelsInfo.objects.all().order_by('model_title')
-    scenarios = ScenariosRes.objects.all()
-    varscenarios = []
-    for d in scenarios:
-        temp = {
-            "name": d.name,
-            "title": d.title
-
-        }
-
-        varscenarios.append(temp)
-
-    regions = RegionsRes.objects.all()
-    varregions = []
-    for d in regions:
-        temp = {
-            "name": d.name,
-            "title": d.title
-
-        }
-        varregions.append(temp)
+    scenarios = ScenariosRes.objects.all().order_by('title')
+    regions = RegionsRes.objects.all().order_by('title')
+    variables = VariablesRes.objects.all().order_by('title')
+    units = UnitsRes.objects.all().order_by('title')
 
     context = {"models": models,
                "variables": variables,
-               "var_mod": var_mod,
-               "scenarios": varscenarios,
-               "regions": varregions}
+               "scenarios": scenarios,
+               "regions": regions,
+               "units": units}
 
-    return render(request, 'i2amparis_main/paris_reinforce_workspace.html', context)
+    return render(request, 'i2amparis_main/paris_workspace_scientific_module.html', context)
 
 
 def detailed_model_doc(request, model=''):

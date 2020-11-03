@@ -1,4 +1,4 @@
-{% extends "base_template_harmonisation.html" %}
+{% extends "base_template_scientific_module.html" %}
 {% load static %}
 {% csrf_token %}
 {% block css %}
@@ -49,19 +49,9 @@
 
 {% block content %}
     <div class="tab-content">
-        {% include "i2amparis_main/harmonisation.html" %}
-        <div class="tab-pane" id="harm_tables">
-            <div class="container" style="width: 70%; height:100%;">
-                <div class="row" style="margin-top: 6em;">
-
-                    {% include "i2amparis_main/harm_table_wp5.html" %}
-                    {% include "i2amparis_main/harm_table_wp6.html" %}
-                    {% include "i2amparis_main/harm_table_wp7.html" %}
-
-
-                </div>
-            </div>
-        </div>
+        {% include "i2amparis_main/paris_workspace_sm_intro.html" %}
+        {% include "i2amparis_main/paris_workspace_sm_tool.html" %}
+        {% include "i2amparis_main/paris_workspace_sm_datatables.html" %}
     </div>
 
 {% endblock %}
@@ -75,7 +65,7 @@
             setTimeout(timer, 10);
 
             function timer() {
-                $('a[href="#harm_heatmap"]').tab('show');
+                $('a[href="#scientific_tool"]').tab('show');
             }
 
             $(function () {
@@ -84,7 +74,6 @@
         });
 
     </script>
-    <script src={% static "tools/js/harmonisation_heatmap_js.js" %}></script>
 
 {% endblock %}
 

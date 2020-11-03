@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+{% load static %}
+{% csrf_token %}
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<body class="no-js">
+<!--<![endif]-->
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71499906-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-71499906-6');
+    </script>
+    <!-- BASICS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>I2AM PARIS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href={% static "main_theme/css/isotope.css" %} media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/js/fancybox/jquery.fancybox.css" %} type="text/css"
+          media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap-theme.css" %}>
+    <link href={% static "main_theme/css/responsive-slider.css" %} rel="stylesheet">
+    <link rel="stylesheet" href={% static "main_theme/css/animate.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/style.css" %}>
+
+    <link rel="stylesheet" href={% static "main_theme/css/font-awesome.min.css" %}>
+    <!-- skin -->
+    <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
+    <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
+
+
+
+    <style>
+
+        sup {
+            vertical-align: super;
+            font-size: smaller;
+            position: relative;
+            top: -0.1em;
+        }
+
+        .mylogo {
+            text-align: left;
+        }
+
+
+    </style>
+    {% block css %}
+    {% endblock %}
+    <!-- =======================================================
+      Theme Name: Green
+      Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
+      Author: BootstrapMade
+      Author URL: https://bootstrapmade.com
+    ======================================================= -->
+</head>
+
+{% include "upper_bar_scientific_module.html" %}
+
+{% block content %}
+
+{% endblock %}
+
+{% include "i2amparis_main/pages_footer.html" %}
+<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+
+<script src={% static "main_theme/js/modernizr-2.6.2-respond-1.1.0.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.js" %}></script>
+<script src={% static "main_theme/js/jquery.easing.1.3.js" %}></script>
+<script src={% static "main_theme/js/bootstrap.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.isotope.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.nicescroll.min.js" %}></script>
+<script src={% static "main_theme/js/fancybox/jquery.fancybox.pack.js" %}></script>
+<script src={% static "main_theme/js/skrollr.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.scrollTo.js" %}></script>
+<script src={% static "main_theme/js/jquery.localScroll.js" %}></script>
+<script src={% static "main_theme/js/stellar.js" %}></script>
+<script src={% static "main_theme/js/responsive-slider.js" %}></script>
+<script src={% static "main_theme/js/jquery.appear.js" %}></script>
+<script src={% static "main_theme/js/grid.js" %}></script>
+<script src={% static "main_theme/js/main.js" %}></script>
+<script src={% static "main_theme/js/wow.min.js" %}></script>
+
+<script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
+
+<script>
+    wow = new WOW({}).init();
+</script>
+<script>
+    $(document).ready(function () {
+        $('select').each(function () {
+            var select = $(this);
+            select.multipleSelect(
+                {
+                    filter: true,
+                    showClear: true,
+                    animate: 'fade',
+                    maxHeightUnit: 'row',
+                    maxHeight: 8,
+                    dropWidth:250 ,
+                    onClick: function () {
+                        populate_selects('#' + select.attr('id'))
+                    },
+                    onCheckAll: function () {
+                        populate_selects('#' + select.attr('id'))
+                    },
+                    onUncheckAll: function () {
+                        populate_selects('#' + select.attr('id'))
+                    },
+                });
+        });
+
+
+        function populate_selects(selector) {
+                var sel = $(selector);
+                var others_sel = $('select:not(' + selector + ')');
+                var selected = sel.multipleSelect('getSelects');
+                if (selected.length >= 2) {
+                    others_sel.removeAttr('multiple');
+                    others_sel.multipleSelect('destroy').multipleSelect(
+                        {
+                            filter: true,
+                            showClear: true,
+                            animate: 'fade',
+                            maxHeightUnit: 'row',
+                            maxHeight: 8,
+                            dropWidth: 250,
+                        }
+                    );
+                } else {
+                    update_others_function(selector);
+                }
+
+
+        }
+
+
+        function update_others_function(selector) {
+            var others_sel = $('select:not(' + selector + ')');
+            others_sel.attr('multiple', 'multiple');
+            others_sel.multipleSelect('destroy');
+            (others_sel).each(function () {
+                var other_select = $(this);
+                $(this).multipleSelect(
+                    {
+                        filter: true,
+                        showClear: true,
+                        animate: 'fade',
+                        maxHeightUnit: 'row',
+                        maxHeight: 8,
+                        dropWidth: 250,
+                        onClick: function (){
+                            populate_selects('#'+ other_select.attr('id'))
+                        },
+                        onCheckAll: function () {
+                            populate_selects('#' + other_select.attr('id'))
+                        },
+                        onUncheckAll: function () {
+                            populate_selects('#' + other_select.attr('id'))
+                        },
+                    });
+            });
+
+        }
+
+        {#    beautification additions  #}
+
+        function fix_select_labels() {
+            var select_labels = $('.ms-parent .ms-drop label span')
+            select_labels.attr('position', 'relative');
+            select_labels.attr('bottom', '0.2em');
+            select_labels.attr('left', '0.2em');
+        }
+
+
+    });
+</script>
+
+
+<script>
+    $("#clear-button").click(function () {
+        $('select').multipleSelect('setSelects', []);
+        $('#viz_frame_div').hide();
+
+    });
+
+    $("#run-button").click(function () {
+
+        var model_sel = $('#model_name');
+        var scenario_sel = $('#scenario_name');
+        var region_sel = $('#region_name');
+        var variable_sel = $('#variable_name');
+        var model_full = (model_sel.multipleSelect('getSelects').length === 0);
+        var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
+        var region_full = (region_sel.multipleSelect('getSelects').length === 0);
+        var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
+        if (model_full || scenario_full || region_full || variable_full) {
+            alert('Please, select at least one value from each field.')
+        } else {
+            {% comment %}  {#$("#model_name option").remove();#}
+            $('#viz_frame_div').show()
+            const csrftoken = getCookie('csrftoken');
+            var selected_models = [];
+            selector_models.each(function (index) {
+                selected_models.push($(this).attr('data-link'));
+            });
+            console.log(selected_models);
+
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            });
+            var query = {};
+            query["query_name"] = "scientific_tool_query";
+            var string = "";
+            for (var i = 0; i < selected_models.length; i++) {
+                string = string + '"' + selected_models[i] + '",'
+            }
+            string = string.slice(0, -1);
+            query["parameters"] = '{"model_list":[' + string + ']}';
+            console.log("requested data");
+            $.ajax({
+                url: "request_scientific_tool_data",
+                type: "POST",
+                data: JSON.stringify(selected_models),
+                contentType: 'application/json',
+                success: function (data) {
+                    var i;
+                    var selected_mod = data['selected_models'];
+                    for (i = 0; i < selected_mod.length; i = i + 1) {
+                        $("#model_name").append('<option value="' + selected_mod[i]['model_name'] + '">' + selected_mod[i]['model_title'] + '</option');
+                    }
+                    $("#model_name").trigger('change');
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+            console.log("created query");
+            $.ajax({
+                url: "/data_manager/create_query",
+                type: "POST",
+                data: JSON.stringify(query),
+                contentType: 'application/json',
+                success: function (data) {
+                    $('.viz-container').show();
+                    var query_id = data['query_id']
+                    create_visualisation(query_id);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        {% endcomment %}
+        }
+    });
+
+
+    function create_visualisation(query_id) {
+        var viz_frame = $('#viz_iframe');
+        viz_frame.off();
+        viz_frame.hide();
+        $('#loading_bar').show();
+
+        var data = {
+            "y_var_names": ["var"],
+            "y_axis_title": "Variables",
+            "y_var_units": ["-"],
+            "x_axis_name": "model",
+            "x_axis_title": "Models",
+            "x_axis_unit": "-",
+            "z_axis_name": "status",
+            "z_axis_title": "Value",
+            "z_axis_unit": "-",
+            "min_max_z_value": 0,
+            "color_list_request": ["grey_green", "light_blue", "ice_gray"],
+            "distinct": ["Extractable model output", "Harmonisable model input", "No explicit output or input"],
+            "dataset": query_id,
+            "dataset_type": "query",
+        };
+        var url = '';
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                if (Array.isArray(data[key])) {
+                    for (var j = 0; j < data[key].length; j++) {
+                        url = url + String(key) + '[]' + "=" + String(data[key][j]) + '&'
+                    }
+                } else {
+                    url = url + String(key) + "=" + String(data[key]) + '&'
+                }
+
+            }
+        }
+
+        var complete_url = "/visualiser/show_heat_map_chart?" + url;
+        viz_frame.attr('src', complete_url);
+        viz_frame.on('load', function () {
+            $(this).show();
+            console.log("delete old query");
+            $.ajax({
+                url: "/data_manager/delete_query",
+                type: "POST",
+                data: JSON.stringify(query_id),
+                contentType: 'application/json',
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+
+            $('#loading_bar').hide();
+            $(this).contents().on('click', function () {
+                console.log('select model & var');
+                var col_option = $('iframe').contents().find('#col_clicked').text();
+                var col_val = $('#model_name option')
+                    .filter(function () {
+                        return $.trim($(this).text()) === col_option;
+                    }).val();
+                $('#model_name').val(col_val);
+                $('#model_name').trigger('change');
+                var row_option = $('iframe').contents().find('#row_clicked').text();
+                var row_val = $('#var_name option')
+                    .filter(function () {
+                        return $.trim($(this).text()) === row_option;
+                    }).val();
+                $('#var_name').val(row_val);
+                $('#var_name').trigger('change');
+            })
+        });
+
+    }
+
+
+</script>
+{% block js %}
+
+
+{% endblock %}
+</body>

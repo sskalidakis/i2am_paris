@@ -1,0 +1,103 @@
+{% load static %}
+{% csrf_token %}
+<div class="tab-pane" id="scientific_tool">
+    <div class="container" style="width: 90%; height:100%;">
+        <div class="row" style="margin-top: 8em; height: 130vh">
+
+            <div class="tooltip-demo col-sm-12 col-xs-12 row">
+                <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
+                    data-toggle="tooltip" data-placement="auto"
+                    title="<p>These are the results of the analysis for a selected model, region,
+                                variable(s), scenario in function of time.</p>">
+                    Advanced Scientific Tool
+                </h2>
+            </div>
+            <div class="tooltip-demo col-sm-12 col-xs-12 row">
+                <h5 style="display: inline-block;background:transparent; box-shadow: none;">
+                    Please, select one or more options from the available fields below. Keep in mind that the
+                    selection of multiple values is only allowed for one filed at a time (model, scenario, region or
+                    variables).
+                </h5>
+            </div>
+            <div class="selects-filters row">
+                <div class="col-md-2 col-xs-6">
+                    <label for="model_name" style="display: block;width: 85%">Models
+                        <select class="desc_text take_up_space  " placeholder="Select Model(s)" multiple="multiple"
+                                id="model_name" style="width: 100%">
+                            {% for el in models %}
+                                <option value="{{ el.model_name }}">{{ el.model_title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <label for="scenario_name" style="display: block;width: 85%">Scenarios
+                        <select class="desc_text take_up_space  " multiple="multiple" placeholder="Select Scenario(s)"
+                                id="scenario_name" style="width: 100%">
+                            {% for el in scenarios %}
+                                <option value="{{ el.name }}">{{ el.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <label for="region_name" style="display: block;width: 85%">Regions
+                        <select class="desc_text take_up_space  " multiple="multiple" placeholder="Select Region(s)"
+                                id="region_name" style="width: 100%">
+                            {% for el in regions %}
+                                <option value="{{ el.name }}">{{ el.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <label for="variable_name" style="display: block;width: 85%">Variables
+                        <select class="desc_text take_up_space  " multiple="multiple" placeholder="Select Variable(s)"
+                                id="variable_name" style="width: 100%">
+                            {% for el in variables %}
+                                <option value="{{ el.name }}">{{ el.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <a id="clear-button"
+                       class="button btn btn-default col-md-1 col-xs-6 openbtn content_btn line-btn"
+                       style="background-color: rgba(172,31,0,0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; width: 18%">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <a id="run-button"
+                       class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn content_btn green line-btn"
+                       style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0;height: inherit; line-height: 2.5em;width: 100% ">Run
+                        <i class="fa fa-spinner"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12" style="height: 100%; margin-top: 2em">
+                <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
+                    <iframe id="viz_iframe" src="" title="Results"
+                            style="width: 100%; height: 100%;  border:none"></iframe>
+                    <div id="loading_bar"
+                         style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
+                        <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
+                             src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                        <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">These are the results of the analysis for the selected model, region,
+                                variable(s), scenario in function of time.
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
