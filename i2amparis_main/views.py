@@ -73,7 +73,7 @@ def paris_reinforce_harmonisation(request):
     return render(request, 'i2amparis_main/paris_reinforce_harmonisation.html', context)
 
 
-def paris_reinforce_advanced_scientific_module(request):
+def paris_advanced_scientific_module(request):
     models = ModelsInfo.objects.all().order_by('model_title')
     scenarios = ScenariosRes.objects.all().order_by('title')
     regions = RegionsRes.objects.all().order_by('title')
@@ -88,29 +88,22 @@ def paris_reinforce_advanced_scientific_module(request):
 
     return render(request, 'i2amparis_main/paris_workspace_scientific_module.html', context)
 
-def tabulardata(request):
-    return render(request, 'i2amparis_main/TabularData.html')
 
 def dummyview(request):
-    dtest= [{"name": "Kostas",
-        "status": "unmarried"
-        }]
-
     rescomp = ResultsComp.objects.all()
     varrescomp = []
     for d in rescomp[0:100]:
         temp = {
             "year": str(d.year),
             "value": str(d.value),
-            "region_id": str(d.region_id.title),
-            "scenario_id": str(d.scenario_id.title),
-            "unit_id": str(d.unit_id.title),
-            "variable_id": str(d.variable_id.title),
-            "model_id": str(d.model_id.title)
+            "region": str(d.region.title),
+            "scenario": str(d.scenario.title),
+            "unit": str(d.unit.title),
+            "variable": str(d.variable.title),
+            "model": str(d.model.title)
 
         }
         varrescomp.append(temp)
-        print(temp)
     return HttpResponse(json.dumps(varrescomp), content_type='application/json; charset=utf-8')
 
 def detailed_model_doc(request, model=''):

@@ -8,7 +8,7 @@ import ast
 from django.http import HttpResponse
 
 import i2amparis
-from data_manager.orm_query_manager import heatmap_query, range_chart_query, get_query_parameters
+from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -295,7 +295,7 @@ def show_line_chart(request):
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
-    data = generate_data_for_range_chart(dataset, dataset_type)
+    data = generate_data_for_line_chart(dataset, dataset_type)
     print('Retrieved data for the chart.')
     color_list = define_color_code_list(color_list_request)
     print('Defined chart colors.')
@@ -305,10 +305,10 @@ def show_line_chart(request):
     return line_chart.show_chart()
 
 @csrf_exempt
-def generate_data_for_range_chart(dataset, dataset_type):
+def generate_data_for_line_chart(dataset, dataset_type):
     final_data = []
     if dataset_type == 'file':
-        final_data = range_chart_data_from_file('visualiser/fake_data/' + dataset)
+        final_data = line_chart_data_from_file('visualiser/fake_data/' + dataset)
         print('Retrieved data from file')
     elif dataset_type == 'db':
             dataset = Dataset.objects.get(dataset_name=dataset)
@@ -317,19 +317,9 @@ def generate_data_for_range_chart(dataset, dataset_type):
             variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
             final_data = reformat_chart_data(data, variables)
 
-
     elif dataset_type == 'query':
-        #get from db
-        params = get_query_parameters(104)
-        print("params=", params)
-        data = range_chart_query(params)
-        # ls_graph = []
-        # for resitem in data:
-        #     dict = {"time_0": resitem.year, "val": resitem.value}
-        #     ls_graph.append(dict)
-        #     final_data = ls_graph
+        final_data = line_chart_query(dataset)
 
-    #print("final_data=", final_data)
     return final_data
 
 def reformat_chart_data(data, variables):
@@ -356,7 +346,7 @@ def reformat_chart_data(data, variables):
     return final_data
 
 @csrf_exempt
-def range_chart_data_from_file(dataset):
+def line_chart_data_from_file(dataset):
     final_data = []
     with open(dataset) as f:
         final_data = ast.literal_eval(f.read())

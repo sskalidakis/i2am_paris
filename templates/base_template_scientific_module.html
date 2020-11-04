@@ -43,7 +43,7 @@
     <!-- skin -->
     <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
     <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
 
 
     <style>
@@ -98,7 +98,8 @@
 <script src={% static "main_theme/js/wow.min.js" %}></script>
 
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
-
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src={% static "tools/js/json_query_creator.js" %}></script>
 <script>
     wow = new WOW({}).init();
 </script>
@@ -113,7 +114,7 @@
                     animate: 'fade',
                     maxHeightUnit: 'row',
                     maxHeight: 8,
-                    dropWidth:250 ,
+                    dropWidth: 250,
                     onClick: function () {
                         populate_selects('#' + select.attr('id'))
                     },
@@ -128,24 +129,24 @@
 
 
         function populate_selects(selector) {
-                var sel = $(selector);
-                var others_sel = $('select:not(' + selector + ')');
-                var selected = sel.multipleSelect('getSelects');
-                if (selected.length >= 2) {
-                    others_sel.removeAttr('multiple');
-                    others_sel.multipleSelect('destroy').multipleSelect(
-                        {
-                            filter: true,
-                            showClear: true,
-                            animate: 'fade',
-                            maxHeightUnit: 'row',
-                            maxHeight: 8,
-                            dropWidth: 250,
-                        }
-                    );
-                } else {
-                    update_others_function(selector);
-                }
+            var sel = $(selector);
+            var others_sel = $('select:not(' + selector + ')');
+            var selected = sel.multipleSelect('getSelects');
+            if (selected.length >= 2) {
+                others_sel.removeAttr('multiple');
+                others_sel.multipleSelect('destroy').multipleSelect(
+                    {
+                        filter: true,
+                        showClear: true,
+                        animate: 'fade',
+                        maxHeightUnit: 'row',
+                        maxHeight: 8,
+                        dropWidth: 250,
+                    }
+                );
+            } else {
+                update_others_function(selector);
+            }
 
 
         }
@@ -165,8 +166,8 @@
                         maxHeightUnit: 'row',
                         maxHeight: 8,
                         dropWidth: 250,
-                        onClick: function (){
-                            populate_selects('#'+ other_select.attr('id'))
+                        onClick: function () {
+                            populate_selects('#' + other_select.attr('id'))
                         },
                         onCheckAll: function () {
                             populate_selects('#' + other_select.attr('id'))
@@ -179,6 +180,7 @@
 
         }
 
+
         {#    beautification additions  #}
 
         function fix_select_labels() {
@@ -187,7 +189,6 @@
             select_labels.attr('bottom', '0.2em');
             select_labels.attr('left', '0.2em');
         }
-
 
     });
 </script>
@@ -201,7 +202,6 @@
     });
 
     $("#run-button").click(function () {
-
         var model_sel = $('#model_name');
         var scenario_sel = $('#scenario_name');
         var region_sel = $('#region_name');
@@ -213,46 +213,20 @@
         if (model_full || scenario_full || region_full || variable_full) {
             alert('Please, select at least one value from each field.')
         } else {
-            {% comment %}  {#$("#model_name option").remove();#}
-            $('#viz_frame_div').show()
-            const csrftoken = getCookie('csrftoken');
-            var selected_models = [];
-            selector_models.each(function (index) {
-                selected_models.push($(this).attr('data-link'));
-            });
-            console.log(selected_models);
 
+            {#Token Retrieval#}
+            const csrftoken = getCookie('csrftoken');
             $.ajaxSetup({
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 }
             });
+
+            {# Query creation #}
             var query = {};
             query["query_name"] = "scientific_tool_query";
-            var string = "";
-            for (var i = 0; i < selected_models.length; i++) {
-                string = string + '"' + selected_models[i] + '",'
-            }
-            string = string.slice(0, -1);
-            query["parameters"] = '{"model_list":[' + string + ']}';
-            console.log("requested data");
-            $.ajax({
-                url: "request_scientific_tool_data",
-                type: "POST",
-                data: JSON.stringify(selected_models),
-                contentType: 'application/json',
-                success: function (data) {
-                    var i;
-                    var selected_mod = data['selected_models'];
-                    for (i = 0; i < selected_mod.length; i = i + 1) {
-                        $("#model_name").append('<option value="' + selected_mod[i]['model_name'] + '">' + selected_mod[i]['model_title'] + '</option');
-                    }
-                    $("#model_name").trigger('change');
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
+            query["parameters"] = create_query_json();
+
             console.log("created query");
             $.ajax({
                 url: "/data_manager/create_query",
@@ -261,14 +235,14 @@
                 contentType: 'application/json',
                 success: function (data) {
                     $('.viz-container').show();
-                    var query_id = data['query_id']
+                    var query_id = data['query_id'];
                     create_visualisation(query_id);
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
-        {% endcomment %}
+
         }
     });
 
@@ -280,7 +254,7 @@
         $('#loading_bar').show();
 
         var data = {
-            "y_var_names": ["var"],
+            "y_var_names": ["value"],
             "y_axis_title": "Variables",
             "y_var_units": ["-"],
             "x_axis_name": "model",
@@ -348,6 +322,30 @@
         });
 
     }
+
+    $(document).ready(function () {
+        $.ajax({
+            method: "GET",
+            url: "{% url 'dummy_view' %}",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                $('#example').DataTable({
+                    "data": response,
+                    columns: [
+                        {"data": "year"},
+                        {"data": "value"},
+                        {"data": "region"},
+                        {"data": "scenario"},
+                        {"data": "unit"},
+                        {"data": "variable"},
+                        {"data": "model"}
+                    ]
+                });
+            }
+        });
+    });
 
 
 </script>
