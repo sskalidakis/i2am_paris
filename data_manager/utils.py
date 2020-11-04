@@ -115,6 +115,3 @@ def compute_Q_objects(param, op):
         else:
             q_objects |= compute_dict(item)
     return q_objects
-
-
-

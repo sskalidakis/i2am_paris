@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
-from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks
+from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes
 from django.core.mail import send_mail
 from .forms import FeedbackForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core import serializers
 
 import json
@@ -40,7 +41,12 @@ def overview_comparative_assessment_doc_national_oeu(request):
     return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
 
 
-def paris_reinforce_workspace(request):
+def paris_reinforce_landing(request):
+    context = {}
+    return render(request, 'i2amparis_main/paris_workspace_landing.html', context)
+
+
+def paris_reinforce_harmonisation(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
     var_mod_data = HarmDataNew.objects.all()
@@ -64,8 +70,41 @@ def paris_reinforce_workspace(request):
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
-    return render(request, 'i2amparis_main/paris_reinforce_workspace.html', context)
+    return render(request, 'i2amparis_main/paris_reinforce_harmonisation.html', context)
 
+
+def paris_advanced_scientific_module(request):
+    models = ModelsInfo.objects.all().order_by('model_title')
+    scenarios = ScenariosRes.objects.all().order_by('title')
+    regions = RegionsRes.objects.all().order_by('title')
+    variables = VariablesRes.objects.all().order_by('title')
+    units = UnitsRes.objects.all().order_by('title')
+
+    context = {"models": models,
+               "variables": variables,
+               "scenarios": scenarios,
+               "regions": regions,
+               "units": units}
+
+    return render(request, 'i2amparis_main/paris_workspace_scientific_module.html', context)
+
+
+def dummyview(request):
+    rescomp = ResultsComp.objects.all()
+    varrescomp = []
+    for d in rescomp[0:100]:
+        temp = {
+            "year": str(d.year),
+            "value": str(d.value),
+            "region": str(d.region.title),
+            "scenario": str(d.scenario.title),
+            "unit": str(d.unit.title),
+            "variable": str(d.variable.title),
+            "model": str(d.model.title)
+
+        }
+        varrescomp.append(temp)
+    return HttpResponse(json.dumps(varrescomp), content_type='application/json; charset=utf-8')
 
 def detailed_model_doc(request, model=''):
     if model == '':

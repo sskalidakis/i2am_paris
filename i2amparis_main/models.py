@@ -183,11 +183,11 @@ class UnitsRes(models.Model):
     title = models.CharField(null=False, default="", max_length=100)
 
 class ResultsComp(models.Model):
-    model_id = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-    scenario_id = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
-    region_id = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
-    variable_id = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
-    unit_id = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
     year = models.IntegerField()
     value = models.FloatField()
 

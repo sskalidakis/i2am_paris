@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from data_manager.models import Query
 import json
+from i2amparis_main.models import *
 # Create your views here.
 
 def create_query(request):
@@ -36,4 +37,15 @@ def delete_query(request):
     else:
         context = {"status": 400,
                    "message": 'This HTTP method is not supported by the API'}
+        return JsonResponse(context)
+
+
+
+def receive_data(request):
+    if request.method == 'POST':
+        import json
+        from pprint import pprint as pp
+        pp(json.loads(request.body))
+        context = {"status": 200,
+                   "message": 'Success'}
         return JsonResponse(context)

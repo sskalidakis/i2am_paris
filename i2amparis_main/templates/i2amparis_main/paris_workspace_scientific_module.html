@@ -1,0 +1,84 @@
+{% extends "base_template_scientific_module.html" %}
+{% load static %}
+{% csrf_token %}
+{% block css %}
+
+    <style>
+        .heading {
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .heading a {
+            font-size: 0.9em;
+        }
+
+        .desc_text {
+            font-size: 0.8em;
+        }
+
+        .take_up_space {
+            min-height: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        .text_take_up_space {
+            min-height: 10em;
+            margin-bottom: 1em;
+        }
+
+        td {
+            font-size: 0.8em;
+            background-color: rgba(246, 250, 238, 0.5);
+            color: #2a2a2e;
+        }
+
+        td.light-grey {
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1em;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
+{% endblock %}
+
+{% block content %}
+    <div class="tab-content">
+        {% include "i2amparis_main/paris_workspace_sm_intro.html" %}
+        {% include "i2amparis_main/paris_workspace_sm_tool.html" %}
+        {% include "i2amparis_main/paris_workspace_sm_datatables.html" %}
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+
+    <script>
+        $(document).ready(function () {
+            $('body').tooltip({container: 'body', html: true, selector: '[data-toggle=tooltip]', placement: 'auto'});
+            setTimeout(timer, 10);
+
+            function timer() {
+                $('a[href="#scientific_tool"]').tab('show');
+            }
+
+            $(function () {
+                $('#myTab a:last').tab('show')
+            })
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
