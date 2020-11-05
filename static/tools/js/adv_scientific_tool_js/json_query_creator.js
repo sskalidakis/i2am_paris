@@ -126,18 +126,6 @@ function retrieve_series_info(models, regions, scenarios, variables, multiple_fi
 
 }
 
-const sendQuery = () => {
-    let payload = JSON.stringify({
-        data: create_query_json()
-    });
-    $.ajax({
-        type: "POST",
-        url: "{%url 'receive_data' %}",
-        headers: {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
-        // success: location.reload(),
-        data: payload,
-        dataType: "json",
-    });
-}
+
 
 
