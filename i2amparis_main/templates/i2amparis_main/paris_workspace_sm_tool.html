@@ -15,14 +15,14 @@
             <div class="tooltip-demo col-sm-12 col-xs-12 row">
                 <h5 style="display: inline-block;background:transparent; box-shadow: none;">
                     Please, select one or more options from the available fields below. Keep in mind that the
-                    selection of multiple values is only allowed for one filed at a time (model, scenario, region or
+                    selection of multiple values is only allowed for one field at a time (model, scenario, region or
                     variables).
                 </h5>
             </div>
             <div class="selects-filters row">
                 <div class="col-md-2 col-xs-6">
                     <label for="model_name" style="display: block;width: 85%">Models
-                        <select class="desc_text take_up_space" data-dbname="model" placeholder="Select Model(s)"
+                        <select class="desc_text take_up_space mul-select" data-dbname="model" placeholder="Select Model(s)"
                                 multiple="multiple"
                                 id="model_name" style="width: 100%">
                             {% for el in models %}
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <label for="scenario_name" style="display: block;width: 85%">Scenarios
-                        <select class="desc_text take_up_space" data-dbname="scenario" multiple="multiple"
+                        <select class="desc_text take_up_space mul-select" data-dbname="scenario" multiple="multiple"
                                 placeholder="Select Scenario(s)"
                                 id="scenario_name" style="width: 100%">
                             {% for el in scenarios %}
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <label for="region_name" style="display: block;width: 85%">Regions
-                        <select class="desc_text take_up_space" data-dbname="region" multiple="multiple"
+                        <select class="desc_text take_up_space mul-select" data-dbname="region" multiple="multiple"
                                 placeholder="Select Region(s)"
                                 id="region_name" style="width: 100%">
                             {% for el in regions %}
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <label for="variable_name" style="display: block;width: 85%">Variables
-                        <select class="desc_text take_up_space" data-dbname="variable" multiple="multiple"
+                        <select class="desc_text take_up_space" data-dbname="variable"
                                 placeholder="Select Variable(s)"
                                 id="variable_name" style="width: 100%">
                             {% for el in variables %}

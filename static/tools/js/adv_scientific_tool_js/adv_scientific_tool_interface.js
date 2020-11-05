@@ -47,7 +47,7 @@ $(document).ready(function () {
 
 
     function update_others_function(selector) {
-        var others_sel = $('select:not(' + selector + ')');
+        var others_sel = $('select.mul-select:not(' + selector + ')');
         others_sel.attr('multiple', 'multiple');
         others_sel.multipleSelect('destroy');
         (others_sel).each(function () {
@@ -81,6 +81,7 @@ $("#clear-button").click(function () {
 });
 
 $("#run-button").click(function () {
+    var viz_frame = $('#viz_frame_div');
     var model_sel = $('#model_name');
     var scenario_sel = $('#scenario_name');
     var region_sel = $('#region_name');
@@ -92,7 +93,8 @@ $("#run-button").click(function () {
     if (model_full || scenario_full || region_full || variable_full) {
         alert('Please, select at least one value from each field.')
     } else {
-           /* Token Retrieval*/
+        viz_frame.show();
+        /* Token Retrieval*/
         const csrftoken = getCookie('csrftoken');
         $.ajaxSetup({
             beforeSend: function (xhr) {
@@ -100,11 +102,12 @@ $("#run-button").click(function () {
             }
         });
 
-           /* # Query creation*/
+        /* # Query creation*/
         var query = {};
         query["query_name"] = "scientific_tool_query";
         var json_query_obj = create_query_json();
         query["parameters"] = json_query_obj['data'];
+        var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
         $.ajax({
             url: "/data_manager/create_query",
             type: "POST",
@@ -115,7 +118,7 @@ $("#run-button").click(function () {
                 console.log(data);
                 $('.viz-container').show();
                 var query_id = data['query_id'];
-                create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list']);
+                create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
             },
             error: function (data) {
                 console.log(data);
@@ -126,7 +129,7 @@ $("#run-button").click(function () {
 });
 
 
-function create_visualisation(query_id, val_list, title_list, unit_list) {
+function create_visualisation(query_id, val_list, title_list, unit_list, variable) {
     var viz_frame = $('#viz_iframe');
     viz_frame.off();
     viz_frame.hide();
@@ -134,11 +137,13 @@ function create_visualisation(query_id, val_list, title_list, unit_list) {
 
     var data = {
         "y_var_names": val_list,
-        "y_axis_title": title_list,
+        "y_var_titles": title_list,
         "y_var_units": unit_list,
+        "y_axis_title": String(variable),
         "x_axis_name": "year",
         "x_axis_title": "Year",
         "x_axis_unit": "-",
+        "x_axis_type": "text",
         "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
         "distinct": ["Extractable model output", "Harmonisable model input", "No explicit output or input"],
         "dataset": query_id,
@@ -180,4 +185,10 @@ function create_visualisation(query_id, val_list, title_list, unit_list) {
 
     });
 
+}
+
+function toTitleCase(str) {
+    return str.replace(/(?:^|\s)\w/g, function (match) {
+        return match.toUpperCase();
+    });
 }
