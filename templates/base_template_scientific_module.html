@@ -99,88 +99,15 @@
 
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src={% static "tools/js/json_query_creator.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/json_query_creator.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/adv_scientific_tool_interface.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/cookie_retriever.js" %}></script>
 <script>
     wow = new WOW({}).init();
+
 </script>
+
 <script>
-    $(document).ready(function () {
-        $('select').each(function () {
-            var select = $(this);
-            select.multipleSelect(
-                {
-                    filter: true,
-                    showClear: true,
-                    animate: 'fade',
-                    maxHeightUnit: 'row',
-                    maxHeight: 8,
-                    dropWidth: 250,
-                    onClick: function () {
-                        populate_selects('#' + select.attr('id'))
-                    },
-                    onCheckAll: function () {
-                        populate_selects('#' + select.attr('id'))
-                    },
-                    onUncheckAll: function () {
-                        populate_selects('#' + select.attr('id'))
-                    },
-                });
-        });
-
-
-        function populate_selects(selector) {
-            var sel = $(selector);
-            var others_sel = $('select:not(' + selector + ')');
-            var selected = sel.multipleSelect('getSelects');
-            if (selected.length >= 2) {
-                others_sel.removeAttr('multiple');
-                others_sel.multipleSelect('destroy').multipleSelect(
-                    {
-                        filter: true,
-                        showClear: true,
-                        animate: 'fade',
-                        maxHeightUnit: 'row',
-                        maxHeight: 8,
-                        dropWidth: 250,
-                    }
-                );
-            } else {
-                update_others_function(selector);
-            }
-
-
-        }
-
-
-        function update_others_function(selector) {
-            var others_sel = $('select:not(' + selector + ')');
-            others_sel.attr('multiple', 'multiple');
-            others_sel.multipleSelect('destroy');
-            (others_sel).each(function () {
-                var other_select = $(this);
-                $(this).multipleSelect(
-                    {
-                        filter: true,
-                        showClear: true,
-                        animate: 'fade',
-                        maxHeightUnit: 'row',
-                        maxHeight: 8,
-                        dropWidth: 250,
-                        onClick: function () {
-                            populate_selects('#' + other_select.attr('id'))
-                        },
-                        onCheckAll: function () {
-                            populate_selects('#' + other_select.attr('id'))
-                        },
-                        onUncheckAll: function () {
-                            populate_selects('#' + other_select.attr('id'))
-                        },
-                    });
-            });
-
-        }
-
-
         {#    beautification additions  #}
 
         function fix_select_labels() {
@@ -189,140 +116,12 @@
             select_labels.attr('bottom', '0.2em');
             select_labels.attr('left', '0.2em');
         }
-
-    });
 </script>
 
 
 <script>
-    $("#clear-button").click(function () {
-        $('select').multipleSelect('setSelects', []);
-        $('#viz_frame_div').hide();
 
-    });
-
-    $("#run-button").click(function () {
-        var model_sel = $('#model_name');
-        var scenario_sel = $('#scenario_name');
-        var region_sel = $('#region_name');
-        var variable_sel = $('#variable_name');
-        var model_full = (model_sel.multipleSelect('getSelects').length === 0);
-        var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
-        var region_full = (region_sel.multipleSelect('getSelects').length === 0);
-        var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
-        if (model_full || scenario_full || region_full || variable_full) {
-            alert('Please, select at least one value from each field.')
-        } else {
-
-            {#Token Retrieval#}
-            const csrftoken = getCookie('csrftoken');
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
-                }
-            });
-
-            {# Query creation #}
-            var query = {};
-            query["query_name"] = "scientific_tool_query";
-            query["parameters"] = create_query_json();
-
-            console.log("created query");
-            $.ajax({
-                url: "/data_manager/create_query",
-                type: "POST",
-                data: JSON.stringify(query),
-                contentType: 'application/json',
-                success: function (data) {
-                    $('.viz-container').show();
-                    var query_id = data['query_id'];
-                    create_visualisation(query_id);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-
-        }
-    });
-
-
-    function create_visualisation(query_id) {
-        var viz_frame = $('#viz_iframe');
-        viz_frame.off();
-        viz_frame.hide();
-        $('#loading_bar').show();
-
-        var data = {
-            "y_var_names": ["value"],
-            "y_axis_title": "Variables",
-            "y_var_units": ["-"],
-            "x_axis_name": "model",
-            "x_axis_title": "Models",
-            "x_axis_unit": "-",
-            "z_axis_name": "status",
-            "z_axis_title": "Value",
-            "z_axis_unit": "-",
-            "min_max_z_value": 0,
-            "color_list_request": ["grey_green", "light_blue", "ice_gray"],
-            "distinct": ["Extractable model output", "Harmonisable model input", "No explicit output or input"],
-            "dataset": query_id,
-            "dataset_type": "query",
-        };
-        var url = '';
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                if (Array.isArray(data[key])) {
-                    for (var j = 0; j < data[key].length; j++) {
-                        url = url + String(key) + '[]' + "=" + String(data[key][j]) + '&'
-                    }
-                } else {
-                    url = url + String(key) + "=" + String(data[key]) + '&'
-                }
-
-            }
-        }
-
-        var complete_url = "/visualiser/show_heat_map_chart?" + url;
-        viz_frame.attr('src', complete_url);
-        viz_frame.on('load', function () {
-            $(this).show();
-            console.log("delete old query");
-            $.ajax({
-                url: "/data_manager/delete_query",
-                type: "POST",
-                data: JSON.stringify(query_id),
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-
-            $('#loading_bar').hide();
-            $(this).contents().on('click', function () {
-                console.log('select model & var');
-                var col_option = $('iframe').contents().find('#col_clicked').text();
-                var col_val = $('#model_name option')
-                    .filter(function () {
-                        return $.trim($(this).text()) === col_option;
-                    }).val();
-                $('#model_name').val(col_val);
-                $('#model_name').trigger('change');
-                var row_option = $('iframe').contents().find('#row_clicked').text();
-                var row_val = $('#var_name option')
-                    .filter(function () {
-                        return $.trim($(this).text()) === row_option;
-                    }).val();
-                $('#var_name').val(row_val);
-                $('#var_name').trigger('change');
-            })
-        });
-
-    }
-
+    {#Load datatables#}
     $(document).ready(function () {
         $.ajax({
             method: "GET",
@@ -330,7 +129,6 @@
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                console.log(response);
                 $('#example').DataTable({
                     "data": response,
                     columns: [

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes, ResultsComp, VariablesRes, UnitsRes
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
@@ -74,7 +74,7 @@ def paris_reinforce_harmonisation(request):
 
 
 def paris_advanced_scientific_module(request):
-    models = ModelsInfo.objects.all().order_by('model_title')
+    models = DataVariablesModels.objects.all().order_by('title')
     scenarios = ScenariosRes.objects.all().order_by('title')
     regions = RegionsRes.objects.all().order_by('title')
     variables = VariablesRes.objects.all().order_by('title')

@@ -17,11 +17,8 @@ def line_chart_query(query_id):
        '''
     query_name = Query.objects.get(id=query_id).query_name
     results = []
-    if query_name == 'scentific_tool_query':
+    if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
-    # query_name = Query.objects.get(id=query_id).query_name
-    # print(params['query_configuration']['filter'])
-    # results = ResultsComp.objects.filter(region_id_id=23, model_id_id=5, scenario_id_id=10, variable_id_id=113).order_by("year")
     return results
 
 def heatmap_query(query_id):
@@ -41,21 +38,15 @@ def scentific_tool_query(query_id):
     This method is the execution of the query for creating data for the advanced scientific tool linechart
     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool linechart
     '''
+    app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
+    multiple_field = app_params['additional_app_parameters']['multiple_field']
+    # val_list = app_params['additional_app_parameters']['val_list']
     data = query_execute(query_id)
-    print(data)
-    import pdb
-    pdb.set_trace()
-    #
-    # var_mod = []
-    # for el in results:
-    #     dict_el = {
-    #         "model": el.model.title,
-    #         "var": el.variable.var_title,
-    #         "status": el.io_status,
-    #     }
-    #     var_mod.append(dict_el)
+    final_data = []
+    for d in data:
+        final_data.append({d[multiple_field + '__name']: d['value'], "year": d['year']})
 
-    return data
+    return final_data
 
 
 def var_harmonisation_on_demand(query_id):

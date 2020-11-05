@@ -21,7 +21,7 @@ def query_execute(query_id):
     filter_list = extract_filters(filters)
     order_list = extract_orderings(ordering)
     group_by_params, agg_params = extract_groupings(grouping)
-    if len(grouping.keys()) == 0:
+    if (len(grouping['params']) == 0) and (len(grouping['aggregated_params']) == 0):
         select_data = data_model.objects.only(*select).filter(filter_list).order_by(*order_list).values(*select)
     else:
         select_data = data_model.objects.values(*group_by_params).annotate(**agg_params).filter(filter_list).order_by(
@@ -82,28 +82,32 @@ def extract_filters(filters):
     print("and expr=", exp_and)
     exp_or = compute_Q_objects(filters['or'], 'or')
     print("or expr=", exp_or)
-    import pdb
-    pdb.set_trace()
-    return {exp_and & exp_or}
+    return exp_and & exp_or
 
 
 def compute_dict(d):
-    expr = Q()
+    q_dict = {}
     if d['operation'] == ">":
-        expr = (Q(str(d['operand_1']) + '__' + 'gt' + "=" + str(d['operand_2'])))
+        q_dict = {str(d['operand_1']) + '__' + 'gt': str(d['operand_2'])}
+    elif d['operation'] == ">=":
+        q_dict = {str(d['operand_1']) + '__' + 'gte': str(d['operand_2'])}
     elif d['operation'] == "<":
-        expr = (Q(str(d['operand_1']) + '__' + 'lte' + "=" + str(d['operand_2'])))
+        q_dict = {str(d['operand_1']) + '__' + 'lt': str(d['operand_2'])}
+    elif d['operation'] == "<=":
+        q_dict = {str(d['operand_1']) + '__' + 'lte': str(d['operand_2'])}
     elif d['operation'] == "between":
-        expr = (Q(str(d['operand_1']) + '__' + 'lte' + "=" + str(d['operand_2'][1])) & Q(
-            str(d['operand_1']) + '__' + 'gte' + "=" + str(d['operand_2'][0])))
+        q_dict1 = {str(d['operand_1']) + '__' + 'lte': str(d['operand_2'][1])}
+        q_dict2 = {str(d['operand_1']) + '__' + 'gte': str(d['operand_2'][0])}
+        q_dict = {q_dict1, q_dict2}
     elif d['operation'] == "=":
-        expr = (Q(str(d['operand_1']) + "=" + str(d['operand_2'])))
+        q_dict = {str(d['operand_1']): str(d['operand_2'])}
     elif d['operation'] == "in":
-        expr = (Q(str(d['operand_1']) + '__' + 'in' + "=" + str(d['operand_2'])))
-    elif d['operation'] == "or":
-        expr = (Q(str(d['operand_1']) + '|' + str(d['operand_2'])))
-    elif d['operation'] == "and":
-        expr = (Q(str(d['operand_1']) + ',' + str(d['operand_2'])))
+        q_dict = {str(d['operand_1']) + '__' + 'in': str(d['operand_2'])}
+    # elif d['operation'] == "or":
+    #     expr = (Q(str(d['operand_1']) + '|' + str(d['operand_2'])))
+    # elif d['operation'] == "and":
+    #     expr = (Q(str(d['operand_1']) + ',' + str(d['operand_2'])))
+    expr = (Q(**q_dict))
     return expr
 
 

@@ -72,10 +72,6 @@ class Harmonisation_Variables(models.Model):
 
 
 # Datasets
-# class DatasetVariableHarmonisation(models.Model):
-#     harmonisation_model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-#     harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
-#     harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
 
 
 class DatasetOnDemandVariableHarmonisation(models.Model):
@@ -84,14 +80,6 @@ class DatasetOnDemandVariableHarmonisation(models.Model):
     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     io_status = models.CharField(null=False, default="", max_length=50)
 
-
-# class HarmData(models.Model):
-#     model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
-#     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
-#     io_status = models.CharField(null=False, default="", max_length=50)
-#     var_unit = models.CharField(null=False, default="", max_length=20)
-#     var_source_info = models.TextField(null=False, default="")
-#     var_timespan = models.TextField(null=False, default="")
 
 
 class HarmDataNew(models.Model):
