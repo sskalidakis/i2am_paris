@@ -43,8 +43,16 @@ def scentific_tool_query(query_id):
     # val_list = app_params['additional_app_parameters']['val_list']
     data = query_execute(query_id)
     final_data = []
+    temp_year = 0
+    temp_dict = {}
     for d in data:
-        final_data.append({d[multiple_field + '__name']: d['value'], "year": d['year']})
+        if temp_year != d['year']:
+            if temp_dict != {}:
+                final_data.append(temp_dict)
+            temp_year = d['year']
+            temp_dict = {d[multiple_field + '__name']: d['value'], "year": d['year']}
+        else:
+            temp_dict[d[multiple_field + '__name']] = d['value']
 
     return final_data
 
