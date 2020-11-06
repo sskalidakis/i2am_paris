@@ -52,7 +52,7 @@ function create_query_json() {
             });
         }
     }
-    selected.push('value', 'year')
+    selected.push('value', 'year');
     const query_data = {
         "dataset": "i2amparis_main_resultscomp",
         "query_configuration": {
@@ -103,7 +103,6 @@ function retrieve_series_info(models, regions, scenarios, variables, multiple_fi
         success: function (data) {
             console.log(data);
             instances = data["instances"];
-            console.log(JSON.stringify(query_data));
             for (var i = 0; i < instances.length; i++) {
                 final_val_list.push(instances[i]['series']);
                 final_title_list.push(instances[i]['title']);

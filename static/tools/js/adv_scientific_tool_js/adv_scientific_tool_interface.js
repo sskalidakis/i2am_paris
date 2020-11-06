@@ -78,10 +78,12 @@ $(document).ready(function () {
 $("#clear-button").click(function () {
     $('select').multipleSelect('setSelects', []);
     $('#viz_frame_div').hide();
+    $('#chart_info').show();
 });
 
 $("#run-button").click(function () {
     var viz_frame = $('#viz_frame_div');
+    var chart_info = $('#chart-side-info');
     var model_sel = $('#model_name');
     var scenario_sel = $('#scenario_name');
     var region_sel = $('#region_name');
@@ -94,6 +96,7 @@ $("#run-button").click(function () {
         alert('Please, select at least one value from each field.')
     } else {
         viz_frame.show();
+        chart_info.show();
         /* Token Retrieval*/
         const csrftoken = getCookie('csrftoken');
         $.ajaxSetup({
@@ -107,6 +110,7 @@ $("#run-button").click(function () {
         query["query_name"] = "scientific_tool_query";
         var json_query_obj = create_query_json();
         query["parameters"] = json_query_obj['data'];
+        create_chart_info_text(json_query_obj);
         var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
         $.ajax({
             url: "/data_manager/create_query",
@@ -192,3 +196,28 @@ function toTitleCase(str) {
         return match.toUpperCase();
     });
 }
+
+function create_chart_info_text(query_obj) {
+    $('#updated-chart-info').empty();
+    var field_list = ['model', 'scenario', 'region', 'variable'];
+    var multiple_field = query_obj['multiple_field'];
+    field_list = field_list.filter(e => e !== multiple_field);
+    var dynam_text = '';
+    for (var j=0; j<field_list.length; j++) {
+        dynam_text = dynam_text + '<div>' + '<h4 style="margin-bottom: 0.4em">' + toTitleCase(field_list[j]) + "</h4>" + "<p style=\"margin-bottom: 0.7em\">" + String($('#' + field_list[j] + '_name').multipleSelect('getSelects', 'text')[0]) + '</p></div>';
+    }
+    dynam_text = dynam_text + '<h4 style="margin-bottom: 0.4em">' + toTitleCase(multiple_field) + 's </h4> <ul>';
+    var multiple_values = $('#' + multiple_field + '_name').multipleSelect('getSelects','text');
+    for (j=0; j<multiple_values.length; j++){
+        dynam_text = dynam_text + '<li>' + multiple_values[j] + '</li>'
+    }
+    dynam_text =dynam_text + '</ul>'
+    $(dynam_text).appendTo('#updated-chart-info');
+
+}
+
+//Close-down selects when pressing on the iframe
+
+$('#viz_frame_div').parent().parent().click( function () {
+    $('select.mul-select').multipleSelect('close');
+});

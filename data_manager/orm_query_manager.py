@@ -1,13 +1,8 @@
 import json
 
-from django.http import JsonResponse
-from django.apps import apps
-
 from data_manager.models import Query
 from data_manager.utils import query_execute
-from i2amparis_main.models import Dataset
-from i2amparis_main.models import ResultsComp
-from visualiser.visualiser_settings import DATA_TABLES_APP
+
 
 def line_chart_query(query_id):
     '''
