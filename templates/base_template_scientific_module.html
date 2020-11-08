@@ -102,6 +102,8 @@
 <script src={% static "tools/js/adv_scientific_tool_js/json_query_creator.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/adv_scientific_tool_interface.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/cookie_retriever.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/loaddatatable.js" %}></script>
+
 <script>
     wow = new WOW({}).init();
 
@@ -120,29 +122,9 @@
 
 
 <script>
-
     {#Load datatables#}
     $(document).ready(function () {
-        $.ajax({
-            method: "GET",
-            url: "{% url 'dummy_view' %}",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
-                $('#example').DataTable({
-                    "data": response,
-                    columns: [
-                        {"data": "year"},
-                        {"data": "value"},
-                        {"data": "region"},
-                        {"data": "scenario"},
-                        {"data": "unit"},
-                        {"data": "variable"},
-                        {"data": "model"}
-                    ]
-                });
-            }
-        });
+
     });
 
 

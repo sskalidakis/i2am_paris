@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
+from rest_framework.response import Response
+
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
@@ -59,10 +63,10 @@ def paris_reinforce_harmonisation(request):
             "var_timespan": el.var_timespan,
         }
         dict_el["source_info"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
-                                                                         variable__var_name=el.variable.var_name).values(
+                                                                     variable__var_name=el.variable.var_name).values(
             "var_source_info")
         dict_el["source_url"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
-                                                                         variable__var_name=el.variable.var_name).values(
+                                                                    variable__var_name=el.variable.var_name).values(
             "var_source_url")
 
         var_mod.append(dict_el)
@@ -105,6 +109,45 @@ def dummyview(request):
         }
         varrescomp.append(temp)
     return HttpResponse(json.dumps(varrescomp), content_type='application/json; charset=utf-8')
+
+
+@csrf_exempt
+def getselectview(request):
+    print(request.body)
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    print(body)
+
+    if request.method == 'POST':
+        print("----------------------------------")
+        models = body['model__name']
+        scenarios = body['scenario__name']
+        regions = body['region__name']
+        variables = body['variable__name']
+
+        print("models = ", models)
+        print("scenarios = ", scenarios)
+        print("regions = ", regions)
+        print("variables = ", variables)
+
+        q = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios, region__name__in=regions,
+                                       variable__name__in=variables)
+
+        print("filtered=", q)
+        ls = []
+        for item in q:
+            temp = {
+                "year": item.year,
+                "value": item.value,
+                "region": item.region.name,
+                "scenario": item.scenario.name,
+                "unit": item.unit.name,
+                "variable": item.variable.name,
+                "model": item.model.name
+            }
+            ls.append(temp)
+        return JsonResponse(ls, safe=False)
+
 
 def detailed_model_doc(request, model=''):
     if model == '':

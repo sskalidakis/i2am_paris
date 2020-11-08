@@ -128,7 +128,7 @@ $("#run-button").click(function () {
                 console.log(data);
             }
         });
-
+    getselects();
     }
 });
 
