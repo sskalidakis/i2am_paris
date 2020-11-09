@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
-from rest_framework.response import Response
+
 
 from . import countries_data
 from django.utils.html import format_html
@@ -93,30 +92,12 @@ def paris_advanced_scientific_module(request):
     return render(request, 'i2amparis_main/paris_workspace_scientific_module.html', context)
 
 
-def dummyview(request):
-    rescomp = ResultsComp.objects.all()
-    varrescomp = []
-    for d in rescomp[0:100]:
-        temp = {
-            "year": str(d.year),
-            "value": str(d.value),
-            "region": str(d.region.title),
-            "scenario": str(d.scenario.title),
-            "unit": str(d.unit.title),
-            "variable": str(d.variable.title),
-            "model": str(d.model.title)
-
-        }
-        varrescomp.append(temp)
-    return HttpResponse(json.dumps(varrescomp), content_type='application/json; charset=utf-8')
 
 
 @csrf_exempt
 def getselectview(request):
-    print(request.body)
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    print(body)
 
     if request.method == 'POST':
         print("----------------------------------")
@@ -133,17 +114,16 @@ def getselectview(request):
         q = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios, region__name__in=regions,
                                        variable__name__in=variables)
 
-        print("filtered=", q)
         ls = []
         for item in q:
             temp = {
                 "year": item.year,
                 "value": item.value,
-                "region": item.region.name,
-                "scenario": item.scenario.name,
+                "region": item.region.title,
+                "scenario": item.scenario.title,
                 "unit": item.unit.name,
-                "variable": item.variable.name,
-                "model": item.model.name
+                "variable": item.variable.title,
+                "model": item.model.title
             }
             ls.append(temp)
         return JsonResponse(ls, safe=False)

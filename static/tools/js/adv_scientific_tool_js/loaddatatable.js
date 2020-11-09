@@ -1,15 +1,10 @@
-function getselects() {
-    var sel_model = $('#model_name');
-    var sel_scenario = $('#scenario_name');
-    var sel_region = $('#region_name');
-    var sel_variable = $('#variable_name');
+function getselects(model_sel, scenario_sel, region_sel, variable_sel) {
 
-    const models = sel_model.multipleSelect('getSelects');
-    const scenarios = sel_scenario.multipleSelect('getSelects');
-    const regions = sel_region.multipleSelect('getSelects');
-    const variables = sel_variable.multipleSelect('getSelects');
-    console.log("hello")
-    console.log(models)
+    const models = model_sel.multipleSelect('getSelects');
+    const scenarios = scenario_sel.multipleSelect('getSelects');
+    const regions = region_sel.multipleSelect('getSelects');
+    const variables = variable_sel.multipleSelect('getSelects');
+
     const d = {'model__name': models, 'scenario__name': scenarios, 'region__name': regions, 'variable__name': variables};
     $.ajax({
             url: "/getselectview",
@@ -32,7 +27,6 @@ function getselects() {
                         {"data": "model"}
                     ]
                 });
-                //var query_id = data['query_id'];
             },
             error: function (data) {
                 console.log(data);

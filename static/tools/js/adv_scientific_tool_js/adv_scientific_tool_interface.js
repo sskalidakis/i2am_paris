@@ -128,7 +128,7 @@ $("#run-button").click(function () {
                 console.log(data);
             }
         });
-    getselects();
+    getselects(model_sel, scenario_sel, region_sel, variable_sel);
     }
 });
 
