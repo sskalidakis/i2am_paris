@@ -117,6 +117,7 @@ function clear_url_sources(){
 
 sel_model_name.change(function () {
     clear_url_sources();
+    // var html ="";
     sel_geo_cov.text($('#' + String($(this).val()) + ' .d_model_coverage').text());
     sel_model_type.text($('#' + String($(this).val()) + ' .d_model_type').text());
     sel_model_timestep.text($('#' + String($(this).val()) + ' .d_model_timestep').text());
@@ -127,36 +128,65 @@ sel_model_name.change(function () {
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
     var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
     var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
-    if(temp_mod_url.length !== 0){
+    // var temp_mod_title = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_title span');
+    if(temp_mod_source.length !== 0){
         sel_source_container_whole.show();
     }else{
         sel_source_container_whole.hide();
     }
-    temp_mod_url.each(function (index) {
-        $('.source_container ul').append('<li><a href="'+ $(this).text() +'" target="_blank" rel="noopener noreferrer">'+ String(temp_mod_source.eq(index).text()) +'</a></li>');
-    });
-    sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
-    show_hide_empty_fields();
-});
-sel_var_name.change(function () {
-    clear_url_sources();
-    sel_var_def.text($('#' + String($(this).val()) + ' .d_var_definition').text());
-    sel_var_cat.text($('#' + String($(this).val()) + ' .d_var_category').text());
-    sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
-    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
-    var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
-    if (temp_mod_url.length !== 0) {
-        sel_source_container_whole.show();
-    } else {
-        sel_source_container_whole.hide();
-    }
-    temp_mod_url.each(function (index) {
-        $('.source_container ul').append('<li><a href="' + $(this).text() + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(index).text()) + '</a></li>');
-    });
-    sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
-    show_hide_empty_fields();
 
+    // var titles = temp_mod_title.map(x=> temp_mod_title.eq(x).text());
+    var titles = temp_mod_source.map(x=> temp_mod_source.eq(x).text().split('_')[1]);
+    var titles_unq = [];
+    for (title_idx=0; title_idx < titles.length; title_idx++){
+        var temp_title = titles[title_idx];
+        if (!titles_unq.includes(temp_title)){
+            titles_unq.push(temp_title);
+        }
+    }
+     $('.source_container').empty();
+    for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
+        var temp_source = [];
+        for (let i=0; i< temp_mod_source.length; i++ ){
+            if (temp_mod_source.eq(i).text().split('_')[1] === titles_unq[title_idx2]){
+                if (String(temp_mod_url.eq(i).text()) !="") {
+                    temp_source.push('<li><a href="' + String(temp_mod_url.eq(i).text()) + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(i).text()) + '</a></li>')
+                }
+            }
+
+        }
+        if (temp_source !=[]) {
+            // html += "<li> " + titles_unq[title_idx2] + "<ul> " + temp_source.join(" ") + " </ul> </li>"
+            $('.source_container').append("<li> " + titles_unq[title_idx2] + " <ul> " + temp_source.join(" ") + " </ul> </li>");
+        }
+    }
+    // $('.source_container').append(html);
+    // temp_mod_url.each(function (index) {
+    //     $('.source_container ul').append('<li><a href="'+ $(this).text() +'" target="_blank" rel="noopener noreferrer">'+ String(temp_mod_source.eq(index).text()) +'</a></li>');
+    // });
+    sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
+    show_hide_empty_fields();
 });
+// sel_var_name.change(function () {
+//     clear_url_sources();
+//     sel_var_def.text($('#' + String($(this).val()) + ' .d_var_definition').text());
+//     sel_var_cat.text($('#' + String($(this).val()) + ' .d_var_category').text());
+//     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
+//     var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
+//     var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
+//     if (temp_mod_url.length !== 0) {
+//         sel_source_container_whole.show();
+//     } else {
+//         sel_source_container_whole.hide();
+//     }
+//
+//     temp_mod_url.each(function (index) {
+//         $('.source_container ul').append('<li><a href="' + $(this).text() + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(index).text()) + '</a></li>');
+//     });
+//     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
+//     show_hide_empty_fields();
+//
+// });
 sel_model_desc.attr('href', '/detailed_model_doc/' + String(sel_model_name.val()));
 sel_geo_cov.text($('#' + String(sel_model_name.val()) + ' .d_model_coverage').text());
 sel_model_type.text($('#' + String(sel_model_name.val()) + ' .d_model_type').text());
@@ -168,3 +198,5 @@ sel_var_def.text($('#' + String(sel_var_name.val()) + ' .d_var_definition').text
 sel_var_cat.text($('#' + String(sel_var_name.val()) + ' .d_var_category').text());
 sel_source_container_whole.hide();
 show_hide_empty_fields();
+
+
