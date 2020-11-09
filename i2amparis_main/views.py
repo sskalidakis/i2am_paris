@@ -2,11 +2,12 @@ from django.shortcuts import render
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
 from django.core import serializers
+from django.db.models import Count
 
 import json
 import urllib
@@ -58,13 +59,36 @@ def paris_reinforce_harmonisation(request):
             "var_unit": el.var_unit,
             "var_timespan": el.var_timespan,
         }
-        dict_el["source_info"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
+        # dict_el["source_info"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
+        #                                                                  variable__var_name=el.variable.var_name).values(
+        #     "var_source_info")
+        # dict_el["source_url"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
+        #                                                                  variable__var_name=el.variable.var_name).values(
+        #     "var_source_url")
+        # print(dict_el)
+        temp_sources = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
                                                                          variable__var_name=el.variable.var_name).values(
-            "var_source_info")
-        dict_el["source_url"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
-                                                                         variable__var_name=el.variable.var_name).values(
-            "var_source_url")
-
+            "var_source_info", "var_source_url", "title")
+        titles = set([i['title'] for i in temp_sources])
+        temp_sources_dict = {}
+        for title in titles:
+            temp_data = list(filter(lambda x: x['title'] == title, temp_sources))
+            temp_sources_lst = [{'var_source_url': i['var_source_url'], 'var_source_info':i['var_source_info']} for i in
+                                temp_data]
+            temp_sources_dict[HarmDataSourcesTitles.objects.get(id=title).title] = temp_sources_lst
+        try:
+            # html = ""
+            # for title, v in temp_sources_dict.items():
+            #     temp = []
+            #     for i in v:
+            #         temp.append('<li><a href="{}" target="_blank" rel="noopener noreferrer">{}</a></li>'.format(
+            #             i['var_source_url'], i['var_source_info']))
+            #         print(temp)
+            #     html += " <li>{} <ul>{} </ul> </li> ".format(title, " ".join(temp))
+            # dict_el['source_info'] = html
+            dict_el['source_info'] = temp_sources_dict
+        except:
+            dict_el['source_info'] = []
         var_mod.append(dict_el)
     print(var_mod)
     context = {"models": models,

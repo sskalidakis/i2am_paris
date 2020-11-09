@@ -159,16 +159,39 @@
             <div id={{ el.model }}_{{ el.var }}>
                 <span class="d_var_mod_unit">{{ el.var_unit }}</span>
                 <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
-                <span class="d_var_mod_source_url">
-                    {% for url in el.source_url %}
+{#                ----------------------------------------------------#}
+{#                <span class="d_var_mod_source_info" >#}
+{#                    <span class="source_info_el">{{ el.source_info |safe}}</span>#}
+{#                    </span>#}
+{#                --------------------------------------------------------------#}
+                {% for key_source_data,v in el.source_info.items %}
+                    <span class="d_var_mod_source_url">
+                    {% for url in  v %}
                         <span class="source_url_el">{{url.var_source_url}}</span>
                     {% endfor %}
                 </span>
-                <span class="d_var_mod_source_info">
-                    {% for url in el.source_info %}
-                        <span class="source_info_el">{{url.var_source_info}}</span>
+                    <span class="d_var_mod_source_info">
+                    {% for s_info in v %}
+                        <span class="source_info_el" id="{{ key_source_data }}">{{s_info.var_source_info}}</span>
                     {% endfor %}
                 </span>
+                    <span class="d_var_mod_source_title">
+                    {% for s_info in v %}
+                        <span class="source_info_title">{{ key_source_data }}</span>
+                    {% endfor %}
+                </span>
+                {% endfor %}
+{#            -------------------------------------------------------------------#}
+{#                <span class="d_var_mod_source_url">#}
+{#                    {% for url in el.source_url %}#}
+{#                        <span class="source_url_el">{{url.var_source_url}}</span>#}
+{#                    {% endfor %}#}
+{#                </span>#}
+{#                <span class="d_var_mod_source_info">#}
+{#                    {% for url in el.source_info %}#}
+{#                        <span class="source_info_el">{{url.var_source_info}}</span>#}
+{#                    {% endfor %}#}
+{#                </span>#}
             </div>
         {% endfor %}
     </div>
