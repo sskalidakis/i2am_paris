@@ -172,14 +172,15 @@
                 </span>
                     <span class="d_var_mod_source_info">
                     {% for s_info in v %}
-                        <span class="source_info_el">{{s_info.var_source_info}}_{{ key_source_data }}</span>
+{#                        <span class="source_info_el">{{s_info.var_source_info}}_{{ key_source_data }}</span>#}
+                        <span class="source_info_el">{{s_info.var_source_info}}</span>
                     {% endfor %}
                 </span>
-    {#                    <span class="d_var_mod_source_title">#}
-    {#                    {% for s_info in v %}#}
-    {#                        <span class="source_info_title">{{ key_source_data }}</span>#}
-    {#                    {% endfor %}#}
-    {#                </span>#}
+                        <span class="d_var_mod_source_title">
+                        {% for s_info in v %}
+                            <span class="source_info_title">{{ key_source_data }}</span>
+                        {% endfor %}
+                    </span>
                 {% endfor %}
 {#            -------------------------------------------------------------------#}
 {#                <span class="d_var_mod_source_url">#}

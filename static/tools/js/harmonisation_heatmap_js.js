@@ -128,15 +128,15 @@ sel_model_name.change(function () {
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
     var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
     var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
-    // var temp_mod_title = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_title span');
+    var temp_mod_title = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_title span');
     if(temp_mod_source.length !== 0){
         sel_source_container_whole.show();
     }else{
         sel_source_container_whole.hide();
     }
 
-    // var titles = temp_mod_title.map(x=> temp_mod_title.eq(x).text());
-    var titles = temp_mod_source.map(x=> temp_mod_source.eq(x).text().split('_')[1]);
+    var titles = temp_mod_title.map(x=> temp_mod_title.eq(x).text());
+    // var titles = temp_mod_source.map(x=> temp_mod_source.eq(x).text().split('_')[1]);
     var titles_unq = [];
     for (title_idx=0; title_idx < titles.length; title_idx++){
         var temp_title = titles[title_idx];
@@ -148,7 +148,8 @@ sel_model_name.change(function () {
     for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
         var temp_source = [];
         for (let i=0; i< temp_mod_source.length; i++ ){
-            if (temp_mod_source.eq(i).text().split('_')[1] === titles_unq[title_idx2]){
+            // if (temp_mod_source.eq(i).text().split('_')[1] === titles_unq[title_idx2]){
+            if (temp_mod_title.eq(i).text() === titles_unq[title_idx2]){
                 if (String(temp_mod_url.eq(i).text()) !="") {
                     temp_source.push('<li><a href="' + String(temp_mod_url.eq(i).text()) + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(i).text()) + '</a></li>')
                 }
