@@ -93,11 +93,18 @@ class HarmDataNew(models.Model):
     #var_source_url = models.TextField(null=False, default="")
 
 
+class HarmDataSourcesTitles(models.Model):
+    title = models.TextField(null=True, default="")
+
+
 class HarmDataSourcesLinks(models.Model):
     model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    title = models.ForeignKey(HarmDataSourcesTitles,  on_delete=models.CASCADE)
     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     var_source_url = models.TextField(null=False, default="")
     var_source_info = models.TextField(null=False, default="")
+
+
 
 # Guide Datasets
 

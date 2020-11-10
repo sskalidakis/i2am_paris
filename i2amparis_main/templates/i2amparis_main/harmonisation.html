@@ -61,14 +61,7 @@
                             </option>
                         </select>
                     </label>
-                    {#                            <label style="display: block;width: 70%">#}
-                    {#                                Order Rows By:#}
-                    {#                                <select id="row_order" class="form-control">#}
-                    {#                                    <option value="default">Default</option>#}
-                    {#                                    <option value="title">Alphabetically</option>#}
-                    {#                                    <option value="category">Variable Category</option>#}
-                    {#                                </select>#}
-                    {#                            </label>#}
+
                 </div>
 
                 <label for="model_name" style="display: block;width: 70%">Model Name
@@ -99,9 +92,6 @@
                     </a>
                 </div>
 
-                {#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
-                {#                <hr>#}
-                {#                <div class="heading">Variable Name</div>#}
                 <label for="var_name" style="display: block;width: 70%">Variable Name
                     <select class=" form-control desc_text take_up_space" id="var_name">
                         {% for el in variables %}
@@ -113,13 +103,9 @@
                 <div class="desc_text take_up_space" id="var_cat"></div>
                 <div class="heading">Variable Definition</div>
                 <div class="desc_text take_up_space" id="var_def"></div>
-                <div class="source_container">
-                    <div class="heading">Source</div>
-                    <ul>
+                <ol class="source_container" style="font-size: 0.9em; padding: 0">
 
-                    </ul>
-
-                </div>
+                </ol>
 
                 <div class="unit_container">
                     <div class="heading">Unit</div>
@@ -159,16 +145,25 @@
             <div id={{ el.model }}_{{ el.var }}>
                 <span class="d_var_mod_unit">{{ el.var_unit }}</span>
                 <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
-                <span class="d_var_mod_source_url">
-                    {% for url in el.source_url %}
+
+                {% for key_source_data,v in el.source_info.items %}
+                    <span class="d_var_mod_source_url">
+                    {% for url in  v %}
                         <span class="source_url_el">{{url.var_source_url}}</span>
                     {% endfor %}
                 </span>
-                <span class="d_var_mod_source_info">
-                    {% for url in el.source_info %}
-                        <span class="source_info_el">{{url.var_source_info}}</span>
+                    <span class="d_var_mod_source_info">
+                    {% for s_info in v %}
+                        <span class="source_info_el">{{s_info.var_source_info}}</span>
                     {% endfor %}
                 </span>
+                        <span class="d_var_mod_source_title">
+                        {% for s_info in v %}
+                            <span class="source_info_title">{{ key_source_data }}</span>
+                        {% endfor %}
+                    </span>
+                {% endfor %}
+
             </div>
         {% endfor %}
     </div>
