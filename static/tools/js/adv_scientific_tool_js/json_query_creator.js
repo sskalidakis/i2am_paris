@@ -14,7 +14,7 @@ function create_query_json() {
     var val_list = models;
     var title_list = sel_model.multipleSelect('getSelects', 'text');
 
-    $('select').each(function () {
+    $('select.boot-select').each(function () {
         if ($(this).multipleSelect('getSelects').length > 1) {
             multiple_field = $(this).data('dbname');
             val_list = $(this).multipleSelect('getSelects');

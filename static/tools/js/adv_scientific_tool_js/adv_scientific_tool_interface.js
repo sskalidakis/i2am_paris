@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('select').each(function () {
+    $('select.boot-select').each(function () {
         var select = $(this);
         select.multipleSelect(
             {
@@ -76,7 +76,7 @@ $(document).ready(function () {
 });
 
 $("#clear-button").click(function () {
-    $('select').multipleSelect('setSelects', []);
+    $('select.boot-select').multipleSelect('setSelects', []);
     $('#viz_frame_div').hide();
     $('#chart_info').show();
 });
@@ -88,6 +88,10 @@ $("#run-button").click(function () {
     var scenario_sel = $('#scenario_name');
     var region_sel = $('#region_name');
     var variable_sel = $('#variable_name');
+    console.log(model_sel.multipleSelect('getSelects'));
+    console.log(scenario_sel.multipleSelect('getSelects'));
+    console.log(region_sel.multipleSelect('getSelects'));
+    console.log(variable_sel.multipleSelect('getSelects'));
     var model_full = (model_sel.multipleSelect('getSelects').length === 0);
     var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
     var region_full = (region_sel.multipleSelect('getSelects').length === 0);
@@ -204,9 +208,9 @@ function create_chart_info_text(query_obj) {
     field_list = field_list.filter(e => e !== multiple_field);
     var dynam_text = '';
     for (var j=0; j<field_list.length; j++) {
-        dynam_text = dynam_text + '<div>' + '<h4 style="margin-bottom: 0.4em">' + toTitleCase(field_list[j]) + "</h4>" + "<p style=\"margin-bottom: 0.7em\">" + String($('#' + field_list[j] + '_name').multipleSelect('getSelects', 'text')[0]) + '</p></div>';
+        dynam_text = dynam_text + '<div>' + '<h5 style="margin-bottom: 0.4em; font-weight: 600">' + toTitleCase(field_list[j]) + "</h5>" + "<p style=\"margin-bottom: 0.7em;font-size: 0.9em\">" + String($('#' + field_list[j] + '_name').multipleSelect('getSelects', 'text')[0]) + '</p></div>';
     }
-    dynam_text = dynam_text + '<h4 style="margin-bottom: 0.4em">' + toTitleCase(multiple_field) + 's </h4> <ul>';
+    dynam_text = dynam_text + '<h5 style="margin-bottom: 0.4em">' + toTitleCase(multiple_field) + 's </h5> <ul style="font-size:0.9em">';
     var multiple_values = $('#' + multiple_field + '_name').multipleSelect('getSelects','text');
     for (j=0; j<multiple_values.length; j++){
         dynam_text = dynam_text + '<li>' + multiple_values[j] + '</li>'
@@ -218,6 +222,6 @@ function create_chart_info_text(query_obj) {
 
 //Close-down selects when pressing on the iframe
 
-$('#viz_frame_div').parent().parent().click( function () {
-    $('select.mul-select').multipleSelect('close');
+$('#viz_frame_div iframe').contents().find('body').click( function () {
+    $('select.boot-select').multipleSelect('close');
 });
