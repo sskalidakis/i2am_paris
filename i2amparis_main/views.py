@@ -59,13 +59,7 @@ def paris_reinforce_harmonisation(request):
             "var_unit": el.var_unit,
             "var_timespan": el.var_timespan,
         }
-        # dict_el["source_info"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
-        #                                                                  variable__var_name=el.variable.var_name).values(
-        #     "var_source_info")
-        # dict_el["source_url"] = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
-        #                                                                  variable__var_name=el.variable.var_name).values(
-        #     "var_source_url")
-        # print(dict_el)
+
         temp_sources = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
                                                                          variable__var_name=el.variable.var_name).values(
             "var_source_info", "var_source_url", "title")
@@ -77,15 +71,7 @@ def paris_reinforce_harmonisation(request):
                                 temp_data]
             temp_sources_dict[HarmDataSourcesTitles.objects.get(id=title).title] = temp_sources_lst
         try:
-            # html = ""
-            # for title, v in temp_sources_dict.items():
-            #     temp = []
-            #     for i in v:
-            #         temp.append('<li><a href="{}" target="_blank" rel="noopener noreferrer">{}</a></li>'.format(
-            #             i['var_source_url'], i['var_source_info']))
-            #         print(temp)
-            #     html += " <li>{} <ul>{} </ul> </li> ".format(title, " ".join(temp))
-            # dict_el['source_info'] = html
+
             dict_el['source_info'] = temp_sources_dict
         except:
             dict_el['source_info'] = []

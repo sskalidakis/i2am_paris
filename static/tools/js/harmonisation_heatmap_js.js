@@ -99,11 +99,6 @@ function show_hide_empty_fields() {
     } else {
         sel_unit_container.show();
     }
-    // if (sel_source_container.length === 0) {
-    //     sel_source_container_whole.hide();
-    // } else {
-    //     sel_source_container_whole.show();
-    // }
     if (sel_var_mod_timespan.text() === '') {
         sel_timespan_container.hide();
     } else {
@@ -113,6 +108,7 @@ function show_hide_empty_fields() {
 
 function clear_url_sources(){
     $('.source_container ul li').remove();
+    $('.source_container').empty();
 }
 
 sel_model_name.change(function () {
@@ -136,7 +132,6 @@ sel_model_name.change(function () {
     }
 
     var titles = temp_mod_title.map(x=> temp_mod_title.eq(x).text());
-    // var titles = temp_mod_source.map(x=> temp_mod_source.eq(x).text().split('_')[1]);
     var titles_unq = [];
     for (title_idx=0; title_idx < titles.length; title_idx++){
         var temp_title = titles[title_idx];
@@ -144,11 +139,10 @@ sel_model_name.change(function () {
             titles_unq.push(temp_title);
         }
     }
-     $('.source_container').empty();
-    for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
+    $('.source_container').append("<div class='heading' style='font-size: 1em!important;'>Sources</div>");
+        for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
         var temp_source = [];
         for (let i=0; i< temp_mod_source.length; i++ ){
-            // if (temp_mod_source.eq(i).text().split('_')[1] === titles_unq[title_idx2]){
             if (temp_mod_title.eq(i).text() === titles_unq[title_idx2]){
                 if (String(temp_mod_url.eq(i).text()) !="") {
                     temp_source.push('<li><a href="' + String(temp_mod_url.eq(i).text()) + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(i).text()) + '</a></li>')
@@ -157,14 +151,9 @@ sel_model_name.change(function () {
 
         }
         if (temp_source !=[]) {
-            // html += "<li> " + titles_unq[title_idx2] + "<ul> " + temp_source.join(" ") + " </ul> </li>"
             $('.source_container').append("<li> " + titles_unq[title_idx2] + " <ul> " + temp_source.join(" ") + " </ul> </li>");
         }
     }
-    // $('.source_container').append(html);
-    // temp_mod_url.each(function (index) {
-    //     $('.source_container ul').append('<li><a href="'+ $(this).text() +'" target="_blank" rel="noopener noreferrer">'+ String(temp_mod_source.eq(index).text()) +'</a></li>');
-    // });
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 });
@@ -190,11 +179,10 @@ sel_var_name.change(function () {
             titles_unq.push(temp_title);
         }
     }
-     $('.source_container').empty();
+    $('.source_container').append("<div class='heading' style='font-size:1em!important;'>Sources</div>");
     for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
         var temp_source = [];
         for (let i=0; i< temp_mod_source.length; i++ ){
-            // if (temp_mod_source.eq(i).text().split('_')[1] === titles_unq[title_idx2]){
             if (temp_mod_title.eq(i).text() === titles_unq[title_idx2]){
                 if (String(temp_mod_url.eq(i).text()) !="") {
                     temp_source.push('<li><a href="' + String(temp_mod_url.eq(i).text()) + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(i).text()) + '</a></li>')
@@ -203,13 +191,9 @@ sel_var_name.change(function () {
 
         }
         if (temp_source !=[]) {
-            // html += "<li> " + titles_unq[title_idx2] + "<ul> " + temp_source.join(" ") + " </ul> </li>"
             $('.source_container').append("<li> " + titles_unq[title_idx2] + " <ul> " + temp_source.join(" ") + " </ul> </li>");
         }
     }
-    // temp_mod_url.each(function (index) {
-    //     $('.source_container ul').append('<li><a href="' + $(this).text() + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(index).text()) + '</a></li>');
-    // });
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 
