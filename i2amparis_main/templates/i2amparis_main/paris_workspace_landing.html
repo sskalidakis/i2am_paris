@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12 service-col prw_harm">
                     <div class="">
-                        <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                        <img style="width: 19em" onmouseover="this.src='static/logos/heatmap.png'" onmouseout="this.src='static/logos/heatmap_hover.png'"src={% static "logos/heatmap.png" %}>
                     </div>
                     <h2><a href="paris_reinforce_harmonisation" class="prw_harm">Variable Harmonisation
                         Heatmap</a></h2>
@@ -69,9 +69,9 @@
                         considered as outputs from models, inputs to models or are not represented by the models as any
                         explicit output or input</p>
                 </div>
-                <div class="col-md-6 col-xs-12 service-col prw_scientific_mod">
+                <div class="col-md-6 col-xs-12 service-col prw_scientific_mod" >
                     <div class="">
-                        <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                        <img style="width: 19em" onmouseover="this.src='static/logos/advanced.png'" onmouseout="this.src='static/logos/advanced_hover.png'" src={% static "logos/advanced.png" %} >
                     </div>
                     <h2><a href="paris_reinforce_scientific_module" class="prw_scientific_mod">Where are we headed?
                         (Advanced Scientific Module)</a>
@@ -86,7 +86,8 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12 service-col prw_conclusions">
                     <div class="">
-                        <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                        <img style="width: 19em" onmouseout="this.src='static/logos/means.png'" onmouseover="this.src='static/logos/means_hover.png'" src={% static "logos/means.png" %}   >
+
                     </div>
                     <h2><a href="#" class="prw_conclusions">Cool… what does that mean?</a>
                     </h2>
@@ -96,7 +97,7 @@
                 </div>
                 <div class="col-md-6 col-xs-12 service-col digital_lib">
                     <div class="">
-                        <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                        <img style="width: 19em"  onmouseout="this.src='static/logos/library.png'" onmouseover="this.src='static/logos/library_hover.png'" src={% static "logos/library.png" %}>
                     </div>
                     <h2><a href="#" class="digital_lib">Virtual Library</a>
                     </h2>
@@ -131,8 +132,8 @@
     $(document).on('click', 'div.digital_lib', function (e) {
         $("a.digital_lib")[0].click()
     });
-</script>
 
+</script>
 
 {% endblock %}
 
