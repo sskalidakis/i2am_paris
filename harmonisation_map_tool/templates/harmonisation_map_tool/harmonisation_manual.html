@@ -423,7 +423,7 @@
                     string = string + '"' + selected_models[i] + '",'
                 }
                 string = string.slice(0,-1);
-                query["parameters"] = '{"model_list":[' + string + ']}';
+                query["parameters"] = JSON.parse('{"model_list":[' + string + ']}');
                 console.log("requested_harmonisation_data");
                 $.ajax({
                     url: "request_harmonisation_data",
@@ -443,6 +443,7 @@
                     }
                 });
                 console.log("created query");
+                console.log(query);
                 $.ajax({
                     url: "/data_manager/create_query",
                     type: "POST",
