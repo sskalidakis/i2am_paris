@@ -18,8 +18,8 @@ urlpatterns = [
     path('dynamic_doc/', views.dynamic_doc, name='dynamic_doc'),
     path('dynamic_doc/<str:model>/', views.dynamic_doc, name='dynamic_doc_model'),
     path('contact_form', views.contact_form, name='contact_form'),
-    path('paris_workspace_landing', views.paris_reinforce_landing, name='paris_workspace_landing'),
-    path('paris_reinforce_harmonisation', views.paris_reinforce_harmonisation, name='paris_reinforce_harmonisation'),
-    path('paris_reinforce_scientific_module', views.paris_advanced_scientific_module, name='paris_advanced_scientific_module'),
+    path('pr_wwh_landing', views.paris_reinforce_landing, name='paris_workspace_landing'),
+    path('pr_wwh/harmonisation_table', views.paris_reinforce_harmonisation, name='paris_reinforce_harmonisation'),
+    path('pr_wwh/scientific_module', views.paris_advanced_scientific_module, name='paris_advanced_scientific_module'),
     path('getselectview', views.getselectview, name='getselectview')
 ]
