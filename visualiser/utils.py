@@ -43,7 +43,15 @@ AM_CHARTS_COLOR_CODES_LIST = {
     "black": "#000000",
     "gray": "#b4b4b4",
     "ice_gray": "#CDD4D6",
-    "white": "#FFFFFF"
+    "white": "#FFFFFF",
+    "light_cyan":"#bfe1e7",
+    "dark_green":"#567632",
+    "lighter_grey": "#c0cea1",
+    "deep_red": "#8b0304",
+    "open_green":"#94b663"
+
+    
+
 }
 
 AM_CHARTS_COLOR_HEATMAP_COUPLES = {
