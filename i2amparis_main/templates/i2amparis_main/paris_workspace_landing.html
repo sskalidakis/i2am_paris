@@ -55,11 +55,14 @@
 
 {% block content %}
     <div class="container" style="width: 85%; height:100%;">
-        <div class="row menu-container" style="margin-top: 6em; height: 130vh">
+        <div style="margin-top: 4em;text-align: center" ><img style=" height: 7em;" src={% static "logos/paris_reinforce_logo.png"%}></div>
+        <div class="row menu-container" style="height: 130vh">
             <div class="row">
-                <div class="col-md-6 col-xs-12 service-col prw_harm">
+                <div class="col-md-6 col-xs-12 service-col prw_harm" style="cursor: pointer; padding-bottom: 0">
                     <div class="">
-                        <img style="width: 19em" onmouseover="this.src='static/logos/heatmap.png'" onmouseout="this.src='static/logos/heatmap_hover.png'"src={% static "logos/heatmap.png" %}>
+                        <img style="width: 14em" onmouseover="this.src='static/logos/heatmap.png'"
+                             onmouseout="this.src='static/logos/heatmap_hover.png'"
+                             src={% static "logos/heatmap.png" %}>
                     </div>
                     <h2><a href="paris_reinforce_harmonisation" class="prw_harm">Variable Harmonisation
                         Heatmap</a></h2>
@@ -69,9 +72,11 @@
                         considered as outputs from models, inputs to models or are not represented by the models as any
                         explicit output or input</p>
                 </div>
-                <div class="col-md-6 col-xs-12 service-col prw_scientific_mod" >
+                <div class="col-md-6 col-xs-12 service-col prw_scientific_mod" style="cursor: pointer ;padding-bottom: 0">
                     <div class="">
-                        <img style="width: 19em" onmouseover="this.src='static/logos/advanced.png'" onmouseout="this.src='static/logos/advanced_hover.png'" src={% static "logos/advanced.png" %} >
+                        <img style="width: 14em" onmouseover="this.src='static/logos/advanced.png'"
+                             onmouseout="this.src='static/logos/advanced_hover.png'"
+                             src={% static "logos/advanced.png" %}>
                     </div>
                     <h2><a href="paris_reinforce_scientific_module" class="prw_scientific_mod">Where are we headed?
                         (Advanced Scientific Module)</a>
@@ -84,9 +89,10 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 col-xs-12 service-col prw_conclusions">
+                <div class="col-md-6 col-xs-12 service-col prw_conclusions" style="cursor: pointer; padding-bottom: 0">
                     <div class="">
-                        <img style="width: 19em" onmouseout="this.src='static/logos/means.png'" onmouseover="this.src='static/logos/means_hover.png'" src={% static "logos/means.png" %}   >
+                        <img style="width: 14em" onmouseout="this.src='static/logos/means.png'"
+                             onmouseover="this.src='static/logos/means_hover.png'" src={% static "logos/means.png" %}>
 
                     </div>
                     <h2><a href="#" class="prw_conclusions">Cool… what does that mean?</a>
@@ -95,9 +101,11 @@
                         it
                         and other insightful information. </p>
                 </div>
-                <div class="col-md-6 col-xs-12 service-col digital_lib">
+                <div class="col-md-6 col-xs-12 service-col digital_lib" style="cursor: pointer; padding-bottom: 0">
                     <div class="">
-                        <img style="width: 19em"  onmouseout="this.src='static/logos/library.png'" onmouseover="this.src='static/logos/library_hover.png'" src={% static "logos/library.png" %}>
+                        <img style="width: 14em" onmouseout="this.src='static/logos/library.png'"
+                             onmouseover="this.src='static/logos/library_hover.png'"
+                             src={% static "logos/library.png" %}>
                     </div>
                     <h2><a href="#" class="digital_lib">Virtual Library</a>
                     </h2>
@@ -119,21 +127,21 @@
 
 {% block js %}
 
-<script>
-    $(document).on('click', 'div.prw_harm', function (e) {
-        $("a.prw_harm")[0].click()
-    });
-    $(document).on('click', 'div.prw_scientific_mod', function (e) {
-        $("a.prw_scientific_mod")[0].click()
-    });
-    $(document).on('click', 'div.prw_conclusions', function (e) {
-        $("a.prw_conclusions")[0].click()
-    });
-    $(document).on('click', 'div.digital_lib', function (e) {
-        $("a.digital_lib")[0].click()
-    });
+    <script>
+        $(document).on('click', 'div.prw_harm', function (e) {
+            $("a.prw_harm")[0].click()
+        });
+        $(document).on('click', 'div.prw_scientific_mod', function (e) {
+            $("a.prw_scientific_mod")[0].click()
+        });
+        $(document).on('click', 'div.prw_conclusions', function (e) {
+            $("a.prw_conclusions")[0].click()
+        });
+        $(document).on('click', 'div.digital_lib', function (e) {
+            $("a.digital_lib")[0].click()
+        });
 
-</script>
+    </script>
 
 {% endblock %}
 

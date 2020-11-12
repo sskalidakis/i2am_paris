@@ -1,4 +1,4 @@
-function getselects(model_sel, scenario_sel, region_sel, variable_sel) {
+function populate_datatables(model_sel, scenario_sel, region_sel, variable_sel) {
     $('#example').DataTable().destroy();
     const models = model_sel.multipleSelect('getSelects');
     const scenarios = scenario_sel.multipleSelect('getSelects');
@@ -7,7 +7,7 @@ function getselects(model_sel, scenario_sel, region_sel, variable_sel) {
 
     const d = {'model__name': models, 'scenario__name': scenarios, 'region__name': regions, 'variable__name': variables};
     $.ajax({
-            url: "/getselectview",
+            url: "/populate_scientific_module_datatables",
             type: "POST",
             data: JSON.stringify(d),
             contentType: 'application/json',

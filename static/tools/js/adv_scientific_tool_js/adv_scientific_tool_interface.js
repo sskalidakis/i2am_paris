@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    setTimeout(function () {
+        $("#clear-button").click();
+    }, 10);
+
+
     $('select.boot-select').each(function () {
         var select = $(this);
         select.multipleSelect(
@@ -10,38 +15,66 @@ $(document).ready(function () {
                 maxHeight: 8,
                 dropWidth: 250,
                 onClick: function () {
-                    populate_selects('#' + select.attr('id'))
+                    populate_selects('#' + select.attr('id'));
+                    update_unavailable_select_options();
                 },
                 onCheckAll: function () {
-                    populate_selects('#' + select.attr('id'))
+                    populate_selects('#' + select.attr('id'));
+                    update_unavailable_select_options();
                 },
                 onUncheckAll: function () {
-                    populate_selects('#' + select.attr('id'))
+                    populate_selects('#' + select.attr('id'));
+                    update_unavailable_select_options();
                 },
             });
     });
-
 
     function populate_selects(selector) {
         var sel = $(selector);
         var others_sel = $('select:not(' + selector + ')');
         var selected = sel.multipleSelect('getSelects');
+
         if (selected.length >= 2) {
-            others_sel.removeAttr('multiple');
-            others_sel.multipleSelect('destroy').multipleSelect(
-                {
-                    filter: true,
-                    showClear: true,
-                    animate: 'fade',
-                    maxHeightUnit: 'row',
-                    maxHeight: 8,
-                    dropWidth: 250,
+            others_sel.each(function () {
+                $(this).removeAttr('multiple');
+                if ($(this).multipleSelect('getSelects').length === 0) {
+                    $(this).multipleSelect('destroy').multipleSelect(
+                        {
+                            filter: true,
+                            showClear: true,
+                            animate: 'fade',
+                            maxHeightUnit: 'row',
+                            maxHeight: 8,
+                            dropWidth: 250,
+                            onClick: function () {
+                                update_unavailable_select_options();
+                            }
+                        }
+                    );
+                    $(this).multipleSelect('setSelects', []);
+                } else {
+                    $(this).multipleSelect('destroy').multipleSelect(
+                        {
+                            filter: true,
+                            showClear: true,
+                            animate: 'fade',
+                            maxHeightUnit: 'row',
+                            maxHeight: 8,
+                            dropWidth: 250,
+                            onClick: function () {
+                                update_unavailable_select_options();
+                            }
+
+                        }
+                    );
+
                 }
-            );
+
+            })
+
         } else {
             update_others_function(selector);
         }
-
 
     }
 
@@ -61,16 +94,48 @@ $(document).ready(function () {
                     maxHeight: 8,
                     dropWidth: 250,
                     onClick: function () {
-                        populate_selects('#' + other_select.attr('id'))
+                        populate_selects('#' + other_select.attr('id'));
+                        update_unavailable_select_options();
                     },
                     onCheckAll: function () {
-                        populate_selects('#' + other_select.attr('id'))
+                        populate_selects('#' + other_select.attr('id'));
+                        update_unavailable_select_options();
                     },
                     onUncheckAll: function () {
-                        populate_selects('#' + other_select.attr('id'))
+                        populate_selects('#' + other_select.attr('id'));
+                        update_unavailable_select_options();
                     },
                 });
         });
+
+    }
+
+    function update_unavailable_select_options() {
+        const models = $('#model_name').multipleSelect('getSelects');
+        const scenarios = $('#scenario_name').multipleSelect('getSelects');
+        const regions = $('#region_name').multipleSelect('getSelects');
+        const variables = $('#variable_name').multipleSelect('getSelects');
+
+        const input = {
+            'model__name': models,
+            'scenario__name': scenarios,
+            'region__name': regions,
+            'variable__name': variables
+        };
+
+        $.ajax({
+            url: "/update_scientific_model_selects",
+            type: "POST",
+            data: JSON.stringify(input),
+            contentType: 'application/json',
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log('Cannot update selects content. AJAX Call failed.');
+            }
+        });
+
 
     }
 });
@@ -132,7 +197,7 @@ $("#run-button").click(function () {
                 console.log(data);
             }
         });
-    getselects(model_sel, scenario_sel, region_sel, variable_sel);
+        populate_datatables(model_sel, scenario_sel, region_sel, variable_sel);
     }
 });
 
@@ -207,21 +272,21 @@ function create_chart_info_text(query_obj) {
     var multiple_field = query_obj['multiple_field'];
     field_list = field_list.filter(e => e !== multiple_field);
     var dynam_text = '';
-    for (var j=0; j<field_list.length; j++) {
+    for (var j = 0; j < field_list.length; j++) {
         dynam_text = dynam_text + '<div>' + '<h5 style="margin-bottom: 0.4em; font-weight: 600">' + toTitleCase(field_list[j]) + "</h5>" + "<p style=\"margin-bottom: 0.7em;font-size: 0.9em\">" + String($('#' + field_list[j] + '_name').multipleSelect('getSelects', 'text')[0]) + '</p></div>';
     }
     dynam_text = dynam_text + '<h5 style="margin-bottom: 0.4em">' + toTitleCase(multiple_field) + 's </h5> <ul style="font-size:0.9em">';
-    var multiple_values = $('#' + multiple_field + '_name').multipleSelect('getSelects','text');
-    for (j=0; j<multiple_values.length; j++){
+    var multiple_values = $('#' + multiple_field + '_name').multipleSelect('getSelects', 'text');
+    for (j = 0; j < multiple_values.length; j++) {
         dynam_text = dynam_text + '<li>' + multiple_values[j] + '</li>'
     }
-    dynam_text =dynam_text + '</ul>'
+    dynam_text = dynam_text + '</ul>'
     $(dynam_text).appendTo('#updated-chart-info');
 
 }
 
 //Close-down selects when pressing on the iframe
 
-$('#viz_frame_div iframe').contents().find('body').click( function () {
+$('#viz_frame_div iframe').contents().find('body').click(function () {
     $('select.boot-select').multipleSelect('close');
 });

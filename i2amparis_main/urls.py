@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
     path('main', views.landing_page, name='landing_page'),
-    path('overview_comparative_assessment_doc', views.overview_comparative_assessment_doc, name='overview_comparative_assessment_doc'),
+    path('overview_comparative_assessment_doc', views.overview_comparative_assessment_doc,
+         name='overview_comparative_assessment_doc'),
     path('overview_comparative_assessment_doc/global', views.overview_comparative_assessment_doc_global,
          name='overview_comparative_assessment_doc_global'),
     path('overview_comparative_assessment_doc/national_eu', views.overview_comparative_assessment_doc_national_eu,
@@ -20,6 +21,11 @@ urlpatterns = [
     path('contact_form', views.contact_form, name='contact_form'),
     path('paris_workspace_landing', views.paris_reinforce_landing, name='paris_workspace_landing'),
     path('paris_reinforce_harmonisation', views.paris_reinforce_harmonisation, name='paris_reinforce_harmonisation'),
-    path('paris_reinforce_scientific_module', views.paris_advanced_scientific_module, name='paris_advanced_scientific_module'),
-    path('getselectview', views.getselectview, name='getselectview')
+    path('paris_reinforce_scientific_module', views.paris_advanced_scientific_module,
+         name='paris_advanced_scientific_module'),
+    path('populate_scientific_module_datatables', views.populate_scientific_module_datatables,
+         name='populate_scientific_module_datatables'),
+    path('update_scientific_model_selects', views.update_scientific_model_selects,
+         name='update_scientific_model_selects')
+
 ]
