@@ -15,19 +15,41 @@ $(document).ready(function () {
                 maxHeight: 8,
                 dropWidth: 250,
                 onClick: function () {
+                    update_unavailable_select_options(select.attr('id'));
                     populate_selects('#' + select.attr('id'));
-                    update_unavailable_select_options();
                 },
                 onCheckAll: function () {
+                    update_unavailable_select_options(select.attr('id'));
                     populate_selects('#' + select.attr('id'));
-                    update_unavailable_select_options();
                 },
                 onUncheckAll: function () {
+                    update_unavailable_select_options(select.attr('id'));
                     populate_selects('#' + select.attr('id'));
-                    update_unavailable_select_options();
                 },
             });
     });
+
+    function transform_multiple_select(selector){
+        selector.multipleSelect('destroy').multipleSelect(
+            {
+                filter: true,
+                showClear: true,
+                animate: 'fade',
+                maxHeightUnit: 'row',
+                maxHeight: 8,
+                dropWidth: 250,
+                onClick: function () {
+                    update_unavailable_select_options(selector.attr('id'));
+                },
+                onCheckAll: function () {
+                    update_unavailable_select_options(selector.attr('id'));
+                },
+                onUncheckAll: function () {
+                    update_unavailable_select_options(selector.attr('id'));
+                },
+            }
+        );
+    }
 
     function populate_selects(selector) {
         var sel = $(selector);
@@ -36,40 +58,14 @@ $(document).ready(function () {
 
         if (selected.length >= 2) {
             others_sel.each(function () {
+                var oth_sel = $(this);
                 $(this).removeAttr('multiple');
                 if ($(this).multipleSelect('getSelects').length === 0) {
-                    $(this).multipleSelect('destroy').multipleSelect(
-                        {
-                            filter: true,
-                            showClear: true,
-                            animate: 'fade',
-                            maxHeightUnit: 'row',
-                            maxHeight: 8,
-                            dropWidth: 250,
-                            onClick: function () {
-                                update_unavailable_select_options();
-                            }
-                        }
-                    );
+                    transform_multiple_select(oth_sel);
                     $(this).multipleSelect('setSelects', []);
                 } else {
-                    $(this).multipleSelect('destroy').multipleSelect(
-                        {
-                            filter: true,
-                            showClear: true,
-                            animate: 'fade',
-                            maxHeightUnit: 'row',
-                            maxHeight: 8,
-                            dropWidth: 250,
-                            onClick: function () {
-                                update_unavailable_select_options();
-                            }
-
-                        }
-                    );
-
+                    transform_multiple_select(oth_sel);
                 }
-
             })
 
         } else {
@@ -94,24 +90,25 @@ $(document).ready(function () {
                     maxHeight: 8,
                     dropWidth: 250,
                     onClick: function () {
+                        update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
-                        update_unavailable_select_options();
                     },
                     onCheckAll: function () {
+                        update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
-                        update_unavailable_select_options();
                     },
                     onUncheckAll: function () {
+                        update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
-                        update_unavailable_select_options();
                     },
                 });
         });
 
     }
 
-    function update_unavailable_select_options() {
-        const models = $('#model_name').multipleSelect('getSelects');
+    function update_unavailable_select_options(changed) {
+       // TODO: FIX the bugs in this method to clear the selects correctly
+       /* const models = $('#model_name').multipleSelect('getSelects');
         const scenarios = $('#scenario_name').multipleSelect('getSelects');
         const regions = $('#region_name').multipleSelect('getSelects');
         const variables = $('#variable_name').multipleSelect('getSelects');
@@ -120,7 +117,8 @@ $(document).ready(function () {
             'model__name': models,
             'scenario__name': scenarios,
             'region__name': regions,
-            'variable__name': variables
+            'variable__name': variables,
+            'changed': changed
         };
 
         $.ajax({
@@ -129,12 +127,29 @@ $(document).ready(function () {
             data: JSON.stringify(input),
             contentType: 'application/json',
             success: function (data) {
+                $("option").removeAttr('disabled');
+                var j;
+                for(j = 0; j < data['models'].length; j++){
+                    $("#model_name option[value='"+ data['models'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['scenarios'].length; j++) {
+                    $("#scenario_name option[value='" + data['scenarios'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['regions'].length; j++) {
+                    $("#region_name option[value='" + data['regions'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['variables'].length; j++) {
+                    $("#variable_name option[value='" + data['variables'][j] + "']").attr('disabled', 'disabled');
+                }
 
             },
             error: function (data) {
-                console.log('Cannot update selects content. AJAX Call failed.');
+                console.log('Cannot update disabled selects. AJAX Call failed.');
             }
-        });
+        });*/
 
 
     }

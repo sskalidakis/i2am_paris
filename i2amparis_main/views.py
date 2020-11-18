@@ -112,18 +112,24 @@ def update_scientific_model_selects(request):
         scenarios = body['scenario__name']
         regions = body['region__name']
         variables = body['variable__name']
+        changed = body['changed']
+
+        all_models = [el.name for el in DataVariablesModels.objects.all()]
+        all_scenarios = [el.name for el in ScenariosRes.objects.all()]
+        all_regions = [el.name for el in RegionsRes.objects.all()]
+        all_variables = [el.name for el in VariablesRes.objects.all()]
 
         if len(models) == 0:
-            models = [el.name for el in DataVariablesModels.objects.all()]
+            models = all_models
 
         if len(scenarios) == 0:
-            scenarios = [el.name for el in ScenariosRes.objects.all()]
+            scenarios = all_scenarios
 
         if len(regions) == 0:
-            regions = [el.name for el in RegionsRes.objects.all()]
+            regions = all_regions
 
         if len(variables) == 0:
-            variables = [el.name for el in VariablesRes.objects.all()]
+            variables = all_variables
 
         distinct_choices = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
                                                       region__name__in=regions,
@@ -131,29 +137,26 @@ def update_scientific_model_selects(request):
                                                                                            'scenario__name',
                                                                                            'region__name',
                                                                                            'variable__name').distinct()
-        distinct_choices = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
-                                                      region__name__in=regions,
-                                                      variable__name__in=variables).values('variable__name',
-                                                                                           'scenario__name',
-                                                                                           ).distinct()
-        for el in distinct_choices:
-            print(el)
-
         allowed_models = []
         allowed_scenarios = []
         allowed_variables = []
         allowed_regions = []
-        # for choice in distinct_choices:
-        #     if choice['model__name'] not in allowed_models:
-        #         allowed_models.append(choice['model__name'])
-        #     if choice['scenario__name'] not in allowed_scenarios:
-        #         allowed_scenarios.append(choice['scenario__name'])
-        #     if choice['region__name'] not in allowed_regions:
-        #         allowed_regions.append(choice['region__name'])
-        #     if choice['variable__name'] not in allowed_variables:
-        #         allowed_variables.append(choice['variable__name'])
-        ls = {'models': allowed_models, 'scenarios': allowed_scenarios, 'regions': allowed_regions,
-              'variables': allowed_variables}
+
+        for choice in distinct_choices:
+            if choice['model__name'] not in allowed_models:
+                allowed_models.append(choice['model__name'])
+            if choice['scenario__name'] not in allowed_scenarios:
+                allowed_scenarios.append(choice['scenario__name'])
+            if choice['region__name'] not in allowed_regions:
+                allowed_regions.append(choice['region__name'])
+            if choice['variable__name'] not in allowed_variables:
+                allowed_variables.append(choice['variable__name'])
+
+        
+        ls = {'models': [el for el in all_models if el not in allowed_models],
+              'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
+              'regions': [el for el in all_regions if el not in allowed_regions],
+              'variables': [el for el in all_variables if el not in allowed_variables]}
 
         return JsonResponse(ls, safe=False)
 
