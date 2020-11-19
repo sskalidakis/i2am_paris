@@ -48,7 +48,12 @@ AM_CHARTS_COLOR_CODES_LIST = {
     "dark_green":"#567632",
     "lighter_grey": "#c0cea1",
     "deep_red": "#8b0304",
-    "open_green":"#94b663"
+    "open_green":"#94b663",
+    "green_new":"#31a354",
+    "green_open_new": "#addd8e",
+    "yellow_open_new": "#f7fcb9",
+    "orange_new": "#fdc086",
+    "purple_new": "#beaed4"
 
     
 
