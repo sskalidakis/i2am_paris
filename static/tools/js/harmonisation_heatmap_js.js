@@ -24,10 +24,10 @@ $("#col_order").change(function () {
         // "color_list_request": ["grey_green","dark_blue", "light_blue","lighter_blue", "moody_blue", "ice_gray"],
         "color_list_request": ["green_new", "green_open_new", "yellow_open_new", "orange_new", "purple_new", "white"],
 	    "distinct":[
-		    	"Fully harmonised",
-			"Partially/weakly harmonised",
+		    	"Fully Harmonised",
+			"Partially harmonised",
 			"Checked for consistency",
-			"Not harmonised",
+			"Not harmonized",
 			"Extractable model output",
 			"Not represented in model"
 
