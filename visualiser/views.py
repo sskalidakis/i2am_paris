@@ -8,7 +8,7 @@ import ast
 from django.http import HttpResponse
 
 import i2amparis
-from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query
+from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query, column_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -264,7 +264,7 @@ def get_response_data_XY(request):
             "y_axis_title": request.GET.get("y_axis_title", ""),
             "color_list_request": request.GET.getlist("color_list_request[]", []),
             "use_default_colors": request.GET.get("use_default_colors", "true"),
-            "chart_3d": request.GET.get("chart_3d", ""),
+            "chart_3d": request.GET.get("chart_3d", "false"),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
             "dataset_type": request.GET.get("dataset_type", "file"),
@@ -371,13 +371,29 @@ def show_column_chart(request):
     use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    # data = response_data["dataset"]
-    data = COLUMNCHART_DATA
+
+    dataset = response_data['dataset']
+    dataset_type = response_data['dataset_type']
+
+    data = generate_data_for_column_chart(dataset, dataset_type)
+    print("data in return", data)
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                             'column_chart')
     return column_chart.show_chart()
+
+def generate_data_for_column_chart(dataset, dataset_type):
+    final_data = []
+    query_id= 250
+    print("IN GENERATE DATA")
+    if dataset_type == 'query':
+        print("IN QUERY")
+        print("DATASET=", dataset)
+        final_data = column_chart_query(dataset)
+
+    return final_data
+
 
 
 @csrf_exempt

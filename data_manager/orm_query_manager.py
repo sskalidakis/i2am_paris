@@ -1,5 +1,6 @@
 import json
 
+from data_manager import models
 from data_manager.models import Query
 from data_manager.utils import query_execute
 
@@ -15,6 +16,16 @@ def line_chart_query(query_id):
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
     return results
+
+
+def column_chart_query(query_id):
+    query_name = Query.objects.get(query_id).query_name
+    results = []
+    if query_name == 'quantity_comparison_query':
+        results = quantity_comparison_query(250)
+
+    return results
+
 
 def heatmap_query(query_id):
     '''
@@ -52,6 +63,48 @@ def scentific_tool_query(query_id):
     return final_data
 
 
+def quantity_comparison_query(query_id):
+    # get query parameters
+    app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
+
+    # execute query to get data
+    data = query_execute(query_id)
+
+    # get filter for x axis values
+    xaxisfilter = app_params['query_configuration']['ordering'][0]['parameter']
+    xaxisvals = data.values(xaxisfilter).distinct()
+    xaxisls = []
+    for x in xaxisvals:
+        xaxisls.append(x[xaxisfilter])
+
+    # get or query filters
+    orfilters = app_params['query_configuration']['filter']['or']
+
+    # initialize dictionary for results
+    nd = {}
+    for x in xaxisls:
+        nd[x] = {}
+        d = {}
+        for orf in orfilters:
+            d[orf['operand_2']] = 0
+            nd[x] = d
+
+    # transform data, perform calculations
+    for d in data:
+        for orf in orfilters:
+            nd[d[xaxisfilter]][orf['operand_2']] = nd[d[xaxisfilter]][orf['operand_2']] + d['value']
+
+    # transform dictionary to be returned
+    ls = []
+    for k, v in nd.items():
+        d = {}
+        d[xaxisfilter] = k
+        for kin, vin in v.items():
+            d[kin] = vin
+        ls.append(d)
+    return ls
+
+
 def var_harmonisation_on_demand(query_id):
     '''
     This method is the execution of the query for creating data for the on-demand variable harmonisation heatmap
@@ -65,7 +118,8 @@ def var_harmonisation_on_demand(query_id):
     if 'model_list' in json_params.keys():
         model_list = json_params['model_list']
     # TODO: Create the ordering grouping etc. using the JSON Query format
-    results = DatasetOnDemandVariableHarmonisation.objects.filter(model__name__in=model_list).order_by("variable__order")
+    results = DatasetOnDemandVariableHarmonisation.objects.filter(model__name__in=model_list).order_by(
+        "variable__order")
     var_mod = []
     for el in results:
         dict_el = {
