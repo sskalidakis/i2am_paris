@@ -12,7 +12,7 @@ from data_manager.orm_query_manager import heatmap_query, get_query_parameters, 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
-    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP
+    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, MORE_MAP_HEATMAP_DATA
 
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, Variable, Dataset
 
@@ -844,7 +844,7 @@ def heat_map_on_map(request):
     response_data_xy = get_response_data_XY(request)
     color_list_request = response_data_xy["color_list_request"][0]
     min_max_value = response_data_xy["min_max_y_value"]
-    map_data = HEAT_MAP_DATA_FOR_MAP
+    map_data = MORE_MAP_HEATMAP_DATA
     # map_data = generate_data_for_heat_map()
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
