@@ -21,13 +21,24 @@ $("#col_order").change(function () {
         "z_axis_title": "Value",
         "z_axis_unit": "-",
         "min_max_z_value": 0,
-        "color_list_request": ["grey_green","dark_blue", "light_blue","lighter_blue", "moody_blue", "ice_gray"],
-        "distinct": ["Extractable model output", "Harmonisable model input: not harmonised in first modelling round",
-            "Harmonisable model input: Fully harmonised in first modelling round",
-            "Harmonisable model input: Partially/weakly harmonised in first modelling round",
-            "Harmonisable model input: Checked for consistency in first modelling round",
-            "Not represented in model"
-        ],
+        // "color_list_request": ["grey_green","dark_blue", "light_blue","lighter_blue", "moody_blue", "ice_gray"],
+        "color_list_request": ["green_new", "green_open_new", "yellow_open_new", "orange_new", "purple_new", "white"],
+	    "distinct":[
+		    	"Fully Harmonised",
+			"Partially harmonised",
+			"Checked for consistency",
+			"Not harmonized",
+			"Extractable model output",
+			"Not represented in model"
+
+			],
+//        "distinct": ["Extractable model output",
+//                     "Harmonisable model input: not harmonised",
+//                     "Harmonisable model input: Fully harmonised",
+//                     "Harmonisable model input: Partially/weakly harmonised",
+//                     "Harmonisable model input: Checked for consistency",
+//                     "Not represented in model"
+//        ],
         "dataset": "i2amparis_main_harmdatanew",
         "dataset_type": "db",
     };

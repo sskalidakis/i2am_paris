@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    setTimeout(function () {
+        $("#clear-button").click();
+    }, 10);
+
+
     $('select.boot-select').each(function () {
         var select = $(this);
         select.multipleSelect(
@@ -10,38 +15,62 @@ $(document).ready(function () {
                 maxHeight: 8,
                 dropWidth: 250,
                 onClick: function () {
-                    populate_selects('#' + select.attr('id'))
+                    update_unavailable_select_options(select.attr('id'));
+                    populate_selects('#' + select.attr('id'));
                 },
                 onCheckAll: function () {
-                    populate_selects('#' + select.attr('id'))
+                    update_unavailable_select_options(select.attr('id'));
+                    populate_selects('#' + select.attr('id'));
                 },
                 onUncheckAll: function () {
-                    populate_selects('#' + select.attr('id'))
+                    update_unavailable_select_options(select.attr('id'));
+                    populate_selects('#' + select.attr('id'));
                 },
             });
     });
 
+    function transform_multiple_select(selector){
+        selector.multipleSelect('destroy').multipleSelect(
+            {
+                filter: true,
+                showClear: true,
+                animate: 'fade',
+                maxHeightUnit: 'row',
+                maxHeight: 8,
+                dropWidth: 250,
+                onClick: function () {
+                    update_unavailable_select_options(selector.attr('id'));
+                },
+                onCheckAll: function () {
+                    update_unavailable_select_options(selector.attr('id'));
+                },
+                onUncheckAll: function () {
+                    update_unavailable_select_options(selector.attr('id'));
+                },
+            }
+        );
+    }
 
     function populate_selects(selector) {
         var sel = $(selector);
         var others_sel = $('select:not(' + selector + ')');
         var selected = sel.multipleSelect('getSelects');
+
         if (selected.length >= 2) {
-            others_sel.removeAttr('multiple');
-            others_sel.multipleSelect('destroy').multipleSelect(
-                {
-                    filter: true,
-                    showClear: true,
-                    animate: 'fade',
-                    maxHeightUnit: 'row',
-                    maxHeight: 8,
-                    dropWidth: 250,
+            others_sel.each(function () {
+                var oth_sel = $(this);
+                $(this).removeAttr('multiple');
+                if ($(this).multipleSelect('getSelects').length === 0) {
+                    transform_multiple_select(oth_sel);
+                    $(this).multipleSelect('setSelects', []);
+                } else {
+                    transform_multiple_select(oth_sel);
                 }
-            );
+            })
+
         } else {
             update_others_function(selector);
         }
-
 
     }
 
@@ -61,16 +90,67 @@ $(document).ready(function () {
                     maxHeight: 8,
                     dropWidth: 250,
                     onClick: function () {
-                        populate_selects('#' + other_select.attr('id'))
+                        update_unavailable_select_options(other_select.attr('id'));
+                        populate_selects('#' + other_select.attr('id'));
                     },
                     onCheckAll: function () {
-                        populate_selects('#' + other_select.attr('id'))
+                        update_unavailable_select_options(other_select.attr('id'));
+                        populate_selects('#' + other_select.attr('id'));
                     },
                     onUncheckAll: function () {
-                        populate_selects('#' + other_select.attr('id'))
+                        update_unavailable_select_options(other_select.attr('id'));
+                        populate_selects('#' + other_select.attr('id'));
                     },
                 });
         });
+
+    }
+
+    function update_unavailable_select_options(changed) {
+       // TODO: FIX the bugs in this method to clear the selects correctly
+       /* const models = $('#model_name').multipleSelect('getSelects');
+        const scenarios = $('#scenario_name').multipleSelect('getSelects');
+        const regions = $('#region_name').multipleSelect('getSelects');
+        const variables = $('#variable_name').multipleSelect('getSelects');
+
+        const input = {
+            'model__name': models,
+            'scenario__name': scenarios,
+            'region__name': regions,
+            'variable__name': variables,
+            'changed': changed
+        };
+
+        $.ajax({
+            url: "/update_scientific_model_selects",
+            type: "POST",
+            data: JSON.stringify(input),
+            contentType: 'application/json',
+            success: function (data) {
+                $("option").removeAttr('disabled');
+                var j;
+                for(j = 0; j < data['models'].length; j++){
+                    $("#model_name option[value='"+ data['models'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['scenarios'].length; j++) {
+                    $("#scenario_name option[value='" + data['scenarios'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['regions'].length; j++) {
+                    $("#region_name option[value='" + data['regions'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['variables'].length; j++) {
+                    $("#variable_name option[value='" + data['variables'][j] + "']").attr('disabled', 'disabled');
+                }
+
+            },
+            error: function (data) {
+                console.log('Cannot update disabled selects. AJAX Call failed.');
+            }
+        });*/
+
 
     }
 });
@@ -132,7 +212,7 @@ $("#run-button").click(function () {
                 console.log(data);
             }
         });
-    getselects(model_sel, scenario_sel, region_sel, variable_sel);
+        populate_datatables(model_sel, scenario_sel, region_sel, variable_sel);
     }
 });
 
@@ -207,21 +287,21 @@ function create_chart_info_text(query_obj) {
     var multiple_field = query_obj['multiple_field'];
     field_list = field_list.filter(e => e !== multiple_field);
     var dynam_text = '';
-    for (var j=0; j<field_list.length; j++) {
+    for (var j = 0; j < field_list.length; j++) {
         dynam_text = dynam_text + '<div>' + '<h5 style="margin-bottom: 0.4em; font-weight: 600">' + toTitleCase(field_list[j]) + "</h5>" + "<p style=\"margin-bottom: 0.7em;font-size: 0.9em\">" + String($('#' + field_list[j] + '_name').multipleSelect('getSelects', 'text')[0]) + '</p></div>';
     }
     dynam_text = dynam_text + '<h5 style="margin-bottom: 0.4em">' + toTitleCase(multiple_field) + 's </h5> <ul style="font-size:0.9em">';
-    var multiple_values = $('#' + multiple_field + '_name').multipleSelect('getSelects','text');
-    for (j=0; j<multiple_values.length; j++){
+    var multiple_values = $('#' + multiple_field + '_name').multipleSelect('getSelects', 'text');
+    for (j = 0; j < multiple_values.length; j++) {
         dynam_text = dynam_text + '<li>' + multiple_values[j] + '</li>'
     }
-    dynam_text =dynam_text + '</ul>'
+    dynam_text = dynam_text + '</ul>'
     $(dynam_text).appendTo('#updated-chart-info');
 
 }
 
 //Close-down selects when pressing on the iframe
 
-$('#viz_frame_div iframe').contents().find('body').click( function () {
+$('#viz_frame_div iframe').contents().find('body').click(function () {
     $('select.boot-select').multipleSelect('close');
 });
