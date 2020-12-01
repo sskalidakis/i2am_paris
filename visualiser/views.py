@@ -5,9 +5,7 @@ from django.shortcuts import render
 from django.apps import apps
 import ast
 
-from django.http import HttpResponse
 
-import i2amparis
 from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query, column_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \

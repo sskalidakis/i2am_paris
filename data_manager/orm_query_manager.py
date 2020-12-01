@@ -3,6 +3,7 @@ import json
 from data_manager import models
 from data_manager.models import Query
 from data_manager.utils import query_execute
+import pandas as pd
 
 
 def line_chart_query(query_id):
@@ -19,13 +20,10 @@ def line_chart_query(query_id):
 
 
 def column_chart_query(query_id):
-    print("query id=",query_id)
     query_name = Query.objects.get(id=int(query_id)).query_name
-    print("qname =", query_name)
     results = []
     if query_name == 'quantity_comparison_query':
         results = quantity_comparison_query(250)
-
     return results
 
 
@@ -48,7 +46,6 @@ def scentific_tool_query(query_id):
     '''
     app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
     multiple_field = app_params['additional_app_parameters']['multiple_field']
-    # val_list = app_params['additional_app_parameters']['val_list']
     data = query_execute(query_id)
     final_data = []
     temp_year = 0
@@ -66,46 +63,11 @@ def scentific_tool_query(query_id):
 
 
 def quantity_comparison_query(query_id):
-    # get query parameters
-    app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
-    print(app_params)
-    # execute query to get data
     data = query_execute(query_id)
-
-    # get filter for x axis values
-    xaxisfilter = app_params['query_configuration']['ordering'][0]['parameter']
-    xaxisvals = data.values(xaxisfilter).distinct()
-    xaxisls = []
-    for x in xaxisvals:
-        xaxisls.append(x[xaxisfilter])
-
-    # get or query filters
-    orfilters = app_params['query_configuration']['filter']['or']
-
-    # initialize dictionary for results
-    nd = {}
-    for x in xaxisls:
-        nd[x] = {}
-        d = {}
-        for orf in orfilters:
-            d[orf['operand_2']] = 0
-            nd[x] = d
-
-    # transform data, perform calculations
-    for d in data:
-        for orf in orfilters:
-            nd[d[xaxisfilter]][orf['operand_2']] = nd[d[xaxisfilter]][orf['operand_2']] + d['value']
-
-    # transform dictionary to be returned
-    ls = []
-    for k, v in nd.items():
-        d = {}
-        d[xaxisfilter] = k
-        for kin, vin in v.items():
-            d[kin] = vin
-        ls.append(d)
-    print("list in =",ls)
-    return ls
+    df = pd.DataFrame.from_records(data)
+    final_data = list(df.pivot(index="year", columns="scenario__name", values="value__avg").reset_index().fillna(0).to_dict(
+        'index').values())
+    return final_data
 
 
 def var_harmonisation_on_demand(query_id):
