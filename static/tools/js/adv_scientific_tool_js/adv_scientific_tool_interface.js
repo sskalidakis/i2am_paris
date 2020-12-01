@@ -216,6 +216,59 @@ $("#run-button").click(function () {
     }
 });
 
+$("#run-button_sm").click(function () {
+    console.log("Hello");
+    var viz_frame = $('#viz_frame_div_sm');
+    var chart_info = $('#chart-side-info');
+    var model_sel = $('#model_name_sm');
+    var scenario_sel = $('#scenario_name_sm');
+    //var region_sel = $('#region_name');
+    var variable_sel = $('#variable_name');
+    console.log(model_sel.multipleSelect('getSelects'));
+    console.log(scenario_sel.multipleSelect('getSelects'));
+    console.log(region_sel.multipleSelect('getSelects'));
+    console.log(variable_sel.multipleSelect('getSelects'));
+    //var model_full = (model_sel.multipleSelect('getSelects').length === 0);
+    //var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
+    //var region_full = (region_sel.multipleSelect('getSelects').length === 0);
+    //var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
+
+	viz_frame.show();
+	chart_info.show();
+	/* Token Retrieval*/
+	const csrftoken = getCookie('csrftoken');
+	$.ajaxSetup({
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader('X-CSRFToken', csrftoken);
+		}
+	});
+
+	/* # Query creation
+	var query = {};
+	query["query_name"] = "scientific_tool_query";
+	var json_query_obj = create_query_json();
+	query["parameters"] = json_query_obj['data'];
+	create_chart_info_text(json_query_obj);
+	var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
+	$.ajax({
+		url: "/data_manager/create_query",
+		type: "POST",
+		data: JSON.stringify(query),
+		contentType: 'application/json',
+		success: function (data) {
+			console.log("query created");
+			console.log(data);
+			$('.viz-container').show();
+			var query_id = data['query_id'];
+			create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
+		},
+		error: function (data) {
+			console.log(data);
+		}
+	});
+	populate_datatables(model_sel, scenario_sel, region_sel, variable_sel); */
+
+});
 
 function create_visualisation(query_id, val_list, title_list, unit_list, variable) {
     var viz_frame = $('#viz_iframe');

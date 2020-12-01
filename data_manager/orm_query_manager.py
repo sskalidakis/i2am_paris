@@ -19,7 +19,9 @@ def line_chart_query(query_id):
 
 
 def column_chart_query(query_id):
-    query_name = Query.objects.get(query_id).query_name
+    print("query id=",query_id)
+    query_name = Query.objects.get(id=int(query_id)).query_name
+    print("qname =", query_name)
     results = []
     if query_name == 'quantity_comparison_query':
         results = quantity_comparison_query(250)
@@ -66,7 +68,7 @@ def scentific_tool_query(query_id):
 def quantity_comparison_query(query_id):
     # get query parameters
     app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
-
+    print(app_params)
     # execute query to get data
     data = query_execute(query_id)
 
@@ -102,6 +104,7 @@ def quantity_comparison_query(query_id):
         for kin, vin in v.items():
             d[kin] = vin
         ls.append(d)
+    print("list in =",ls)
     return ls
 
 
