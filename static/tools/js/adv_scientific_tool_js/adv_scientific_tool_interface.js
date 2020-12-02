@@ -2,37 +2,45 @@ $(document).ready(function () {
     setTimeout(function () {
         $("#clear-button").click();
     }, 10);
+    function initialise_sm_selects()
+    {
+        $('select.boot-select').each(function () {
+            var select = $(this);
+            select.multipleSelect('destroy').multipleSelect(
+                {
+                    filter: true,
+                    showClear: true,
+                    animate: 'fade',
+                    maxHeightUnit: 'row',
+                    maxHeight: 8,
+                    dropWidth: 250,
+                    selectAll: false,
+                    onClick: function () {
+                        populate_selects('#' + select.attr('id'));
+                        update_unavailable_select_options(select.attr('id'));
+                    },
 
 
-    $('select.boot-select').each(function () {
-        var select = $(this);
-        select.multipleSelect(
-            {
-                filter: true,
-                showClear: true,
-                animate: 'fade',
-                maxHeightUnit: 'row',
-                maxHeight: 8,
-                dropWidth: 250,
-                onClick: function () {
-                    update_unavailable_select_options(select.attr('id'));
-                    populate_selects('#' + select.attr('id'));
-                },
-                onCheckAll: function () {
-                    update_unavailable_select_options(select.attr('id'));
-                    populate_selects('#' + select.attr('id'));
-                },
-                onUncheckAll: function () {
-                    update_unavailable_select_options(select.attr('id'));
-                    populate_selects('#' + select.attr('id'));
-                },
-            });
-    });
+                   /* onCheckAll: function () {
+                        update_unavailable_select_options(select.attr('id'));
+                        populate_selects('#' + select.attr('id'));
+                    },*/
+                    onUncheckAll: function () {
+                        update_unavailable_select_options(select.attr('id'));
+                        populate_selects('#' + select.attr('id'));
+                    },
+                });
+        });
+    }
+
+    initialise_sm_selects();
+
 
     function transform_multiple_select(selector){
         selector.multipleSelect('destroy').multipleSelect(
             {
                 filter: true,
+                selectAll: false,
                 showClear: true,
                 animate: 'fade',
                 maxHeightUnit: 'row',
@@ -41,9 +49,9 @@ $(document).ready(function () {
                 onClick: function () {
                     update_unavailable_select_options(selector.attr('id'));
                 },
-                onCheckAll: function () {
+               /* onCheckAll: function () {
                     update_unavailable_select_options(selector.attr('id'));
-                },
+                },*/
                 onUncheckAll: function () {
                     update_unavailable_select_options(selector.attr('id'));
                 },
@@ -62,7 +70,7 @@ $(document).ready(function () {
                 $(this).removeAttr('multiple');
                 if ($(this).multipleSelect('getSelects').length === 0) {
                     transform_multiple_select(oth_sel);
-                    $(this).multipleSelect('setSelects', []);
+                    // $(this).multipleSelect('setSelects', []);
                 } else {
                     transform_multiple_select(oth_sel);
                 }
@@ -88,15 +96,16 @@ $(document).ready(function () {
                     animate: 'fade',
                     maxHeightUnit: 'row',
                     maxHeight: 8,
+                    selectAll: false,
                     dropWidth: 250,
                     onClick: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
                     },
-                    onCheckAll: function () {
+                  /*  onCheckAll: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
-                    },
+                    },*/
                     onUncheckAll: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
@@ -108,7 +117,7 @@ $(document).ready(function () {
 
     function update_unavailable_select_options(changed) {
        // TODO: FIX the bugs in this method to clear the selects correctly
-       /* const models = $('#model_name').multipleSelect('getSelects');
+        const models = $('#model_name').multipleSelect('getSelects');
         const scenarios = $('#scenario_name').multipleSelect('getSelects');
         const regions = $('#region_name').multipleSelect('getSelects');
         const variables = $('#variable_name').multipleSelect('getSelects');
@@ -118,7 +127,7 @@ $(document).ready(function () {
             'scenario__name': scenarios,
             'region__name': regions,
             'variable__name': variables,
-            'changed': changed
+            'changed_field': changed
         };
 
         $.ajax({
@@ -127,7 +136,8 @@ $(document).ready(function () {
             data: JSON.stringify(input),
             contentType: 'application/json',
             success: function (data) {
-                $("option").removeAttr('disabled');
+                console.log(data);
+                $("#scientific_tool .boot-select option").removeAttr('disabled');
                 var j;
                 for(j = 0; j < data['models'].length; j++){
                     $("#model_name option[value='"+ data['models'][j] + "']").attr('disabled', 'disabled');
@@ -145,21 +155,26 @@ $(document).ready(function () {
                     $("#variable_name option[value='" + data['variables'][j] + "']").attr('disabled', 'disabled');
                 }
 
+                initialise_sm_selects();
+
             },
             error: function (data) {
                 console.log('Cannot update disabled selects. AJAX Call failed.');
             }
-        });*/
+        });
 
 
     }
+
+    $("#clear-button").click(function () {
+        $('select.boot-select').multipleSelect('setSelects', []);
+        update_unavailable_select_options("clear_all");
+        $('#viz_frame_div').hide();
+        $('#chart_info').show();
+    });
 });
 
-$("#clear-button").click(function () {
-    $('select.boot-select').multipleSelect('setSelects', []);
-    $('#viz_frame_div').hide();
-    $('#chart_info').show();
-});
+
 
 $("#run-button").click(function () {
     var viz_frame = $('#viz_frame_div');
@@ -305,3 +320,4 @@ function create_chart_info_text(query_obj) {
 $('#viz_frame_div iframe').contents().find('body').click(function () {
     $('select.boot-select').multipleSelect('close');
 });
+
