@@ -186,6 +186,14 @@ class ResultsComp(models.Model):
     year = models.IntegerField()
     value = models.FloatField()
 
+class MetaData(models.Model):
+    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    
+
+
 
 
 # Dynamic Documentation Models
