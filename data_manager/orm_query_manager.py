@@ -47,18 +47,10 @@ def scentific_tool_query(query_id):
     app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
     multiple_field = app_params['additional_app_parameters']['multiple_field']
     data = query_execute(query_id)
-    final_data = []
-    temp_year = 0
-    temp_dict = {}
-    for d in data:
-        if temp_year != d['year']:
-            if temp_dict != {}:
-                final_data.append(temp_dict)
-            temp_year = d['year']
-            temp_dict = {d[multiple_field + '__name']: d['value'], "year": d['year']}
-        else:
-            temp_dict[d[multiple_field + '__name']] = d['value']
-
+    df = pd.DataFrame.from_records(data)
+    final_data = list(
+        df.pivot(index="year", columns=multiple_field+"__name", values="value").reset_index().fillna(0).to_dict(
+            'index').values())
     return final_data
 
 
