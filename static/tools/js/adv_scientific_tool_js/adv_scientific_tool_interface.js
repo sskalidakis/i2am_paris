@@ -262,7 +262,7 @@ function create_visualisation(query_id, val_list, title_list, unit_list, variabl
         "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
         "distinct": ["Extractable model output", "Harmonisable model input", "No explicit output or input"],
         "dataset": query_id,
-        "dataset_type": "query",
+        "dataset_type": "query"
     };
     var url = '';
     for (var key in data) {
