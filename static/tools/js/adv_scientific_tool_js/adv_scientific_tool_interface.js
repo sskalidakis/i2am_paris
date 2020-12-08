@@ -2,6 +2,8 @@ $(document).ready(function () {
     setTimeout(function () {
         $("#clear-button").click();
     }, 10);
+
+
     function initialise_sm_selects()
     {
         $('select.boot-select').each(function () {
@@ -15,9 +17,10 @@ $(document).ready(function () {
                     maxHeight: 8,
                     dropWidth: 250,
                     selectAll: false,
+                    placeholder: 'Please select a value',
                     onClick: function () {
-                        populate_selects('#' + select.attr('id'));
                         update_unavailable_select_options(select.attr('id'));
+                        populate_selects('#' + select.attr('id'));
                     },
 
 
@@ -46,17 +49,20 @@ $(document).ready(function () {
                 maxHeightUnit: 'row',
                 maxHeight: 8,
                 dropWidth: 250,
-                onClick: function () {
-                    update_unavailable_select_options(selector.attr('id'));
-                },
-               /* onCheckAll: function () {
-                    update_unavailable_select_options(selector.attr('id'));
-                },*/
-                onUncheckAll: function () {
-                    update_unavailable_select_options(selector.attr('id'));
-                },
+                placeholder: 'Please select a value'
             }
         );
+    }
+
+    function transform_multiple_add_listeners(selector){
+        selector.multipleSelect('refreshOptions', {
+            onClick: function () {
+                update_unavailable_select_options(selector.attr('id'));
+            },
+            onUncheckAll: function () {
+                update_unavailable_select_options(selector.attr('id'));
+            }
+        });
     }
 
     function populate_selects(selector) {
@@ -70,9 +76,11 @@ $(document).ready(function () {
                 $(this).removeAttr('multiple');
                 if ($(this).multipleSelect('getSelects').length === 0) {
                     transform_multiple_select(oth_sel);
-                    // $(this).multipleSelect('setSelects', []);
+                    $(this).multipleSelect('setSelects', []);
+                    transform_multiple_add_listeners($(this));
                 } else {
                     transform_multiple_select(oth_sel);
+                    transform_multiple_add_listeners($(this));
                 }
             })
 
@@ -98,6 +106,7 @@ $(document).ready(function () {
                     maxHeight: 8,
                     selectAll: false,
                     dropWidth: 250,
+                    placeholder:'Please select a value',
                     onClick: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
@@ -129,7 +138,7 @@ $(document).ready(function () {
             'variable__name': variables,
             'changed_field': changed
         };
-
+        console.log('Called for changes in the selects');
         $.ajax({
             url: "/update_scientific_model_selects",
             type: "POST",
@@ -155,7 +164,10 @@ $(document).ready(function () {
                     $("#variable_name option[value='" + data['variables'][j] + "']").attr('disabled', 'disabled');
                 }
 
-                initialise_sm_selects();
+                $('select.boot-select').each(function () {
+                    var select = $(this);
+                    select.multipleSelect('refreshOptions', {})
+                });
 
             },
             error: function (data) {
@@ -320,4 +332,3 @@ function create_chart_info_text(query_obj) {
 $('#viz_frame_div iframe').contents().find('body').click(function () {
     $('select.boot-select').multipleSelect('close');
 });
-

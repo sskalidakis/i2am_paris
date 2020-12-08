@@ -156,33 +156,35 @@ def update_scientific_model_selects(request):
         if changed_field == 'clear_all':
             pass
 
-        if changed_field == 'model_name':
+        elif changed_field == 'model_name':
             kept_models = ResultsComp.objects.filter(scenario__name__in=allowed_scenarios,
                                                         region__name__in=allowed_regions,
                                                         variable__name__in=allowed_variables).values('model__name',
                                                                                                      ).distinct()
             allowed_models = [model['model__name'] for model in kept_models]
-        if changed_field == 'scenario_name':
+        elif changed_field == 'scenario_name':
             kept_scenarios = ResultsComp.objects.filter(model__name__in=allowed_models,
                                                            region__name__in=allowed_regions,
                                                            variable__name__in=allowed_variables).values(
                 'scenario__name',
             ).distinct()
             allowed_scenarios = [scenario['scenario__name'] for scenario in kept_scenarios]
-        if changed_field == 'region_name':
+        elif changed_field == 'region_name':
             kept_regions = ResultsComp.objects.filter(model__name__in=allowed_models,
                                                          scenario__name__in=allowed_scenarios,
                                                          variable__name__in=allowed_variables).values(
                 'region__name',
             ).distinct()
             allowed_regions = [region['region__name'] for region in kept_regions]
-        if changed_field == 'variable_name':
+        elif changed_field == 'variable_name':
             kept_variables = ResultsComp.objects.filter(model__name__in=allowed_models,
                                                          scenario__name__in=allowed_scenarios,
                                                          region__name__in=allowed_regions).values(
                 'variable__name',
             ).distinct()
             allowed_variables = [variable['variable__name'] for variable in kept_variables]
+
+        # ADD PIECE OF CODE FOR THE CASE THAT THE TH MULTIPLE IS SELECTED
 
         ls = {'models': [el for el in all_models if el not in allowed_models],
               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
