@@ -19,10 +19,10 @@
             </div>
             <div class="selects-filters row">
                 <div class="col-md-2 col-xs-6">
-                    <label for="model_name_sm" style="display: block;width: 85%">Models
+                    <label for="model_name_intro_comp" style="display: block;width: 85%">Models
                         <select class="desc_text take_up_space boot-select" data-dbname="model" placeholder="Select Model(s)"
 
-                                id="model_name_sm" style="width: 100%">
+                                id="model_name_intro_comp" style="width: 100%">
                             {% for el in models %}
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
@@ -30,10 +30,10 @@
                     </label>
                 </div>
                 <div class="col-md-2 col-xs-6">
-                    <label for="variable_name_sm" style="display: block;width: 85%">Variables
+                    <label for="variable_name_intro_comp" style="display: block;width: 85%">Variables
                         <select class="desc_text take_up_space boot-select" data-dbname="variable"
                                 placeholder="Select Variable(s)"
-                                id="variable_name_sm" style="width: 100%">
+                                id="variable_name_intro_comp" style="width: 100%">
                             {% for el in variables %}
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
@@ -41,10 +41,10 @@
                     </label>
                 </div>
                 <div class="col-md-2 col-xs-6">
-                    <label for="scenario_name_sm" style="display: block;width: 85%">Scenarios
+                    <label for="scenario_name_intro_comp" style="display: block;width: 85%">Scenarios
                         <select class="desc_text take_up_space mul-select boot-select" data-dbname="scenario" multiple="multiple"
                                 placeholder="Select Scenario(s)"
-                                id="scenario_name_sm" style="width: 100%">
+                                id="scenario_name_intro_comp" style="width: 100%">
                             {% for el in scenarios %}
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
@@ -70,8 +70,8 @@
             </div>
             <div class="row" style="height: 75vh">
                 <div class="col-sm-9 col-xs-12" style="height: 100%; margin-top: 2em">
-                    <div id="viz_frame_div_sm" class="row" style="height: 100%; line-height: 100%;">
-                        <iframe id="viz_iframe_sm" src="" title="Results"
+                    <div id="viz_frame_div_intro_comp" class="row" style="height: 100%; line-height: 100%;">
+                        <iframe id="viz_iframe_intro_comp" src="" title="Results"
                                 style="width: 100%; height: 100%;  border:none"></iframe>
                         <div id="loading_bar"
                              style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <div hidden id="chart-side-info_sm" style="height: 100%; margin-top: 2em" class="col-sm-3 col-xs-12">
+                <div hidden id="chart-side-info_intro_comp" style="height: 100%; margin-top: 2em" class="col-sm-3 col-xs-12">
                     <div class=""><p style="font-size: 0.9em">The chart on the left shows the model analysis results in function of time for:</p>
                         <div id="updated-chart-info">
 
