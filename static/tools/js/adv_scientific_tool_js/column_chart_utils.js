@@ -65,7 +65,7 @@ function create_query_json_column() {
                 },
             ]
             ,
-            "grouping": {"params":["year"], "aggregated_params":[]},
+            "grouping": {"params":["year", "model__name", "scenario__name", "variable__name"], "aggregated_params":[{"name":"value","agg_func": "Avg"}]},
         },
         "additional_app_parameters": {
             "multiple_field": multiple_field,
@@ -76,7 +76,6 @@ function create_query_json_column() {
     };
 
     //Retrieve units
-    console.log("query data=", query_data)
    return retrieve_series_info_column(models, scenarios, variables, multiple_field, query_data);
 
 }
@@ -89,7 +88,7 @@ function retrieve_series_info_column(models, scenarios, variables, multiple_fiel
         "variable_name": variables,
         "multiple": multiple_field   //gia pollaplh variable
     };
-    console.log("units info=", units_info);
+
     var instances = [];
     var final_val_list = [];
     var final_title_list = [];
@@ -100,7 +99,7 @@ function retrieve_series_info_column(models, scenarios, variables, multiple_fiel
         data: JSON.stringify(units_info),
         contentType: 'application/json',
         success: function (data) {
-            console.log("check instances=", data);
+
             instances = data["instances"];
             for (var i = 0; i < instances.length; i++) {
                 final_val_list.push(instances[i]['series']);
@@ -126,10 +125,6 @@ function retrieve_series_info_column(models, scenarios, variables, multiple_fiel
 
 function create_visualisation_col(query_id, val_list, title_list, unit_list, variable) {
     var viz_frame = $('#viz_iframe_intro_comp');
-    console.log("val list=", val_list);
-    console.log("title list=", title_list);
-    console.log("unit list=", unit_list);
-    console.log("variable", variable);
 
     viz_frame.off();
     viz_frame.hide();
@@ -182,7 +177,6 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, var
         }
     }
 
-    console.log("complete url=", url)
     var complete_url = "/visualiser/show_column_chart?" + url;
     viz_frame.attr('src', complete_url);
     viz_frame.on('load', function () {
@@ -197,7 +191,6 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, var
                 console.log(data);
             },
             error: function (data) {
-                console.log(data);
             }
         });
 

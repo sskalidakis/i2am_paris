@@ -23,7 +23,7 @@ def column_chart_query(query_id):
     query_name = Query.objects.get(id=int(query_id)).query_name
     results = []
     if query_name == 'quantity_comparison_query':
-        results = quantity_comparison_query(250)
+        results = quantity_comparison_query(query_id)
     return results
 
 
