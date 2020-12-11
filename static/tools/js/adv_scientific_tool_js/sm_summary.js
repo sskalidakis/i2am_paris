@@ -40,8 +40,9 @@ $("#run-button_sm").click(function () {
 
 	/* Query creation */
 	var query = {};
-	query["query_name"] = "column_chart_query";
+	query["query_name"] = "quantity_comparison_query";
 	var json_query_obj = create_query_json_column(); //DELETE REGION IN NEW FILE JS
+	console.log("query obj=", json_query_obj)
 	query["parameters"] = json_query_obj['data'];
 	console.log("query parameters are:",query["parameters"]);
 	// create_chart_info_text(json_query_obj);

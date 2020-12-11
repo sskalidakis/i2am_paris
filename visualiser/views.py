@@ -381,13 +381,12 @@ def show_column_chart(request):
                             'column_chart')
     return column_chart.show_chart()
 
+@csrf_exempt
 def generate_data_for_column_chart(dataset, dataset_type):
     final_data = []
-    query_id= 250
-    print("IN GENERATE DATA")
+
     if dataset_type == 'query':
-        print("IN QUERY")
-        print("DATASET=", dataset)
+
         final_data = column_chart_query(dataset)
 
     return final_data
