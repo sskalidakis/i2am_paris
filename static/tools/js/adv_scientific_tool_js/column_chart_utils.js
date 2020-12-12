@@ -7,9 +7,17 @@ function create_query_json_column() {
     const scenarios = sel_scenario.multipleSelect('getSelects');
     const variables = sel_variable.multipleSelect('getSelects');
 
+    var aggfunc = $('#agg_func_intro_comp');
+	var aggvar = $('#agg_var_intro_comp');
+	const aggfuncval = aggfunc.multipleSelect('getSelects');
+	const aggvarval = aggvar.multipleSelect('getSelects');
+	console.log("aggfunc=", aggfuncval)
+	console.log("aggvar=", aggvarval)
+
     var multiple_field = "model";
     var val_list = models;
     var title_list = sel_model.multipleSelect('getSelects', 'text');
+
 
     $('select.boot-select').each(function () {
         if ($(this).multipleSelect('getSelects').length > 1) {
@@ -65,7 +73,7 @@ function create_query_json_column() {
                 },
             ]
             ,
-            "grouping": {"params":["year", "model__name", "scenario__name", "variable__name"], "aggregated_params":[{"name":"value","agg_func": "Avg"}]},
+            "grouping": {"params":[aggvarval[0], "model__name", "scenario__name", "variable__name"], "aggregated_params":[{"name":"value","agg_func": aggfuncval[0]}]},
         },
         "additional_app_parameters": {
             "multiple_field": multiple_field,

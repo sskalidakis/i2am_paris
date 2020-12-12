@@ -15,9 +15,10 @@ $("#clear-button").click(function () {
 $("#run-button_sm").click(function () {
     var viz_frame = $('#viz_frame_div_sm');
     var chart_info = $('#chart-side-info_intro_comp');
-    var model_sel = $('#model_name_sm');
-    var scenario_sel = $('#scenario_name_sm');
-    var variable_sel = $('#variable_name');
+    var model_sel = $('#model_name_intro_comp');
+    var scenario_sel = $('#scenario_name_intro_comp');
+    var variable_sel = $('#variable_name_intro_comp');
+
 
 
 	viz_frame.show();
