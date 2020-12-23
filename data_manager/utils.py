@@ -28,7 +28,8 @@ def query_execute(query_id):
         grouped_by_data = group_by_function(group_by_params, agg_params, data_model)
         select_data = grouped_by_data.filter(filter_list).order_by(
             *order_list)
-    return select_data
+    print(filter_list)
+    return select_data, add_params
 
 
 
@@ -65,15 +66,15 @@ def group_by_function(group_by_params, agg_params, data):
     final_data = data.objects.values(*group_by_params)
     for value, agg_func in agg_params.items():
         if agg_func == 'Avg':
-            final_data = final_data.annotate(Avg(value))
+            final_data = final_data.annotate(value=Avg(value))
         elif agg_func == 'Sum':
-            final_data = final_data.annotate(Sum(value))
+            final_data = final_data.annotate(value=Sum(value))
         elif agg_func == 'Max':
-            final_data = final_data.annotate(Max(value))
+            final_data = final_data.annotate(value=Max(value))
         elif agg_func == 'Min':
-            final_data = final_data.annotate(Min(value))
+            final_data = final_data.annotate(value=Min(value))
         elif agg_func == 'Count':
-            final_data = final_data.annotate(Count(value))
+            final_data = final_data.annotate(value=Count(value))
     return final_data
 
 
@@ -138,3 +139,5 @@ def compute_Q_objects(param, op):
         else:
             q_objects |= compute_dict(item)
     return q_objects
+
+

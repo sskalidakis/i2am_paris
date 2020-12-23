@@ -11,21 +11,22 @@ function create_query_json_column() {
 	var aggvar = $('#agg_var_intro_comp');
 	const aggfuncval = aggfunc.multipleSelect('getSelects');
 	const aggvarval = aggvar.multipleSelect('getSelects');
-	console.log("aggfunc=", aggfuncval)
-	console.log("aggvar=", aggvarval)
+    const aggvartitle = aggvar.multipleSelect('getSelects','text');
+	console.log("aggfunc=", aggfuncval);
+	console.log("aggvar=", aggvarval);
 
-    var multiple_field = "model";
-    var val_list = models;
-    var title_list = sel_model.multipleSelect('getSelects', 'text');
+    var multiple_field = "scenario";
+    var val_list = scenarios;
+    var title_list = sel_scenario.multipleSelect('getSelects', 'text');
 
 
-    $('select.boot-select').each(function () {
-        if ($(this).multipleSelect('getSelects').length > 1) {
-            multiple_field = $(this).data('dbname');
-            val_list = $(this).multipleSelect('getSelects');
-            title_list = $(this).multipleSelect('getSelects', 'text');
-        }
-    });
+    // $('select.boot-select').each(function () {
+    //     if ($(this).multipleSelect('getSelects').length > 1) {
+    //         multiple_field = $(this).data('dbname');
+    //         val_list = $(this).multipleSelect('getSelects');
+    //         title_list = $(this).multipleSelect('getSelects', 'text');
+    //     }
+    // });
     if(val_list.length===0){
         val_list = []
     }
@@ -57,7 +58,9 @@ function create_query_json_column() {
             });
         }
     }
+    console.log('new1'+ selected);
     selected.push('value', 'year');
+    console.log('new2' + selected);
     const query_data = {
         "dataset": "i2amparis_main_resultscomp",
         "query_configuration": {
@@ -68,7 +71,7 @@ function create_query_json_column() {
             },
             "ordering": [
                 {
-                    "parameter": "year",
+                    "parameter": aggvarval[0],
                     "ascending": true
                 },
             ]
@@ -78,10 +81,13 @@ function create_query_json_column() {
         "additional_app_parameters": {
             "multiple_field": multiple_field,
             "val_list": val_list,
-            "title_list": title_list
+            "title_list": title_list,
+            "grouping_var": aggvarval[0],
+            "grouping_var_title": aggvartitle[0]
         }
 
     };
+    console.log(query_data);
 
     //Retrieve units
    return retrieve_series_info_column(models, scenarios, variables, multiple_field, query_data);
@@ -94,7 +100,7 @@ function retrieve_series_info_column(models, scenarios, variables, multiple_fiel
         "model_name": models,
         "scenario_name": scenarios,
         "variable_name": variables,
-        "multiple": multiple_field   //gia pollaplh variable
+        "multiple": multiple_field,
     };
 
     var instances = [];
@@ -120,51 +126,41 @@ function retrieve_series_info_column(models, scenarios, variables, multiple_fiel
             console.log(data);
         }
     });
+    var grouping_val;
+    var grouping_var_title;
+    if('grouping_var' in query_data['additional_app_parameters']){
+        grouping_val = query_data['additional_app_parameters']['grouping_var']//the variable that is used for the column grouping
+        grouping_var_title = query_data['additional_app_parameters']['grouping_var_title']//the title of the variable that is used for the column grouping
+    }else{
+        grouping_val = ''
+    }
 
     return {
         "data": query_data,
         "multiple_field": multiple_field,
         "val_list": final_val_list,
         "title_list": final_title_list,
-        "unit_list": final_unit_list
+        "unit_list": final_unit_list,
+        "grouping_var": grouping_val,
+        "grouping_var_title": grouping_var_title
     };
 
 }
 
-function create_visualisation_col(query_id, val_list, title_list, unit_list, variable) {
+function create_visualisation_col(query_id, val_list, title_list, unit_list, grouping_val, grouping_var_title, variable) {
     var viz_frame = $('#viz_iframe_intro_comp');
-
     viz_frame.off();
     viz_frame.hide();
     $('#loading_bar').show();
 
-    //http://localhost:8000/visualiser/show_column_chart?
-    // y_var_names[]=CP_ContEmissionIntensity&
-    // y_var_names[]=CP_GDPPerCapita&
-    // y_var_names[]=NDC_GDPPerCApita&
-    //
-    // y_var_titles[]=CP_ContEmissionIntensity&
-    // y_var_titles[]=CP_GDPPerCapita&y_var_titles[]=NDC_GDPPerCApita&
 
-    // y_var_units[]=people&
-    // y_var_units[]=people&
-    //
-    // x_axis_type=text&
-    // x_axis_name=year&
-    // x_axis_title=Year&y_axis_title=Population&color_list_request[]=blue&
-    //
-    // color_list_request[]=red&
-    // color_list_request[]=green&
-    // use_default_colors=false&
-    //
-    // chart_3d=true&use_default_colors=false&dataset=250&dataset_type=query
     var data = {
         "y_var_names": val_list,
         "y_var_titles": title_list,
         "y_var_units": unit_list,
         "y_axis_title": String(variable),
-        "x_axis_name": "year",
-        "x_axis_title": "Year",
+        "x_axis_name": grouping_val,
+        "x_axis_title":grouping_var_title,
         "x_axis_unit": "-",
         "x_axis_type": "text",
         "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
@@ -206,4 +202,9 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, var
 
     });
 
+}
+
+const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
 }
