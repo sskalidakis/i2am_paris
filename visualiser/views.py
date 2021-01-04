@@ -783,7 +783,7 @@ def heat_map_on_map(request):
     response_data_xy = get_response_data_XY(request)
     color_list_request = response_data_xy["color_list_request"][0]
     min_max_value = response_data_xy["min_max_y_value"]
-    map_data = HEAT_MAP_DATA_FOR_MAP
+    map_data = HEAT_MAP_DATA
     # map_data = generate_data_for_heat_map()
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,

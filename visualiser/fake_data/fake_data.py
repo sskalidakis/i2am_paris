@@ -418,46 +418,170 @@ HEAT_MAP_DATA_FOR_MAP = [{"id": "US", "value": 18}, {"id": "MF", "value": 15}, {
                          {"id": "KP", "value": 17}, {"id": "XK", "value": 13}, {"id": "XX", "value": 13}]
 
 HEAT_MAP_DATA = [
- {
-  "id": "GR",
-  "value": 30
- },
- {
-  "id": "FR",
-  "value": 45
- },
- {
-  "id": "US",
-  "value": 32
- },
- {
-  "id": "SP",
-  "value": 40
- },
- {
-  "id": "IN",
-  "value": 39
- },
- {
-  "id": "IT",
-  "value": 25
- },
- {
-  "id": "GE",
-  "value": 33
- },
- {
-  "id": "PL",
-  "value": 40
- },
- {
-  "id": "CA",
-  "value": 24
- },
- {
-  "id": "RU",
-  "value": 18
- },
+    {
+        "id": "AR",
+        "value": 11
+    },
+    {
+        "id": "AU",
+        "value": 12
+    },
+    {
+        "id": "BR",
+        "value": 23
+    },
+    {
+        "id": "CA",
+        "value": 19
+    },
+    {
+        "id": "CN",
+        "value": 43
+    },
+    {
+        "id": "FR",
+        "value": 46
+    },
+    {
+        "id": "GB",
+        "value": 46
+    },
+    {
+        "id": "IE",
+        "value": 46
+    },
+    {
+        "id": "ES",
+        "value": 46
+    },
+    {
+        "id": "PT",
+        "value": 46
+    },
+    {
+        "id": "IT",
+        "value": 46
+    },
+    {
+        "id": "DE",
+        "value": 46
+    },
+    {
+        "id": "GR",
+        "value": 46
+    },
+    {
+        "id": "CS",
+        "value": 46
+    },
+    {
+        "id": "HR",
+        "value": 46
+    },
+    {
+        "id": "AT",
+        "value": 46
+    },
+    {
+        "id": "FI",
+        "value": 46
+    },
+    {
+        "id": "SE",
+        "value": 46
+    },
+    {
+        "id": "PL",
+        "value": 46
+    },
+    {
+        "id": "BE",
+        "value": 46
+    },
+    {
+        "id": "BG",
+        "value": 46
+    },
+    {
+        "id": "CY",
+        "value": 46
+    },
+    {
+        "id": "CZ",
+        "value": 46
+    },
+    {
+        "id": "EE",
+        "value": 46
+    },
+    {
+        "id": "HU",
+        "value": 46
+    },
+    {
+        "id": "LV",
+        "value": 46
+    },
+    {
+        "id": "LT",
+        "value": 46
+    },
+    {
+        "id": "MT",
+        "value": 46
+    },
+    {
+        "id": "NL",
+        "value": 46
+    },
+    {
+        "id": "RO",
+        "value": 46
+    },
+    {
+        "id": "SK",
+        "value": 46
+    },
+    {
+        "id": "IN",
+        "value": 36
+    },
+    {
+        "id": "ID",
+        "value": 11
+    },
+    {
+        "id": "JP",
+        "value": 16
+    },
+    {
+        "id": "MX",
+        "value": 10
+    },
+    {
+        "id": "KR",
+        "value": 17
+    },
+    {
+        "id": "RU",
+        "value": 25
+    },
+    {
+        "id": "SA",
+        "value": 3
+    },
+    {
+        "id": "ZA",
+        "value": 8
+    },
+    {
+        "id": "TR",
+        "value": 10
+    },
+    {
+        "id": "US",
+        "value": 40
+    },
 
 ]
 
