@@ -20,7 +20,7 @@
             <div class="selects-filters row">
                 <div class="col-md-2 col-xs-6">
                     <label for="model_name_intro_comp" style="display: block;width: 85%">Models
-                        <select class="desc_text take_up_space boot-select" data-dbname="model" placeholder="Select Model(s)"
+                        <select class="desc_text take_up_space boot-select-intro" data-dbname="model" placeholder="Select Model(s)"
 
                                 id="model_name_intro_comp" style="width: 100%">
                             {% for el in models %}
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <label for="variable_name_intro_comp" style="display: block;width: 85%">Variables
-                        <select class="desc_text take_up_space boot-select" data-dbname="variable"
+                        <select class="desc_text take_up_space boot-select-intro" data-dbname="variable"
                                 placeholder="Select Variable(s)"
                                 id="variable_name_intro_comp" style="width: 100%">
                             {% for el in variables %}
@@ -43,7 +43,7 @@
 
                 <div class="col-md-2 col-xs-6">
                     <label for="scenario_name_intro_comp" style="display: block;width: 85%">Scenarios
-                        <select class="desc_text take_up_space mul-select boot-select" data-dbname="scenario" multiple="multiple"
+                        <select class="desc_text take_up_space mul-select boot-select-intro " data-dbname="scenario" multiple="multiple"
                                 placeholder="Select Scenario(s)"
                                 id="scenario_name_intro_comp" style="width: 100%">
                             {% for el in scenarios %}
@@ -56,7 +56,7 @@
 
                 <div class="col-md-2 col-xs-6">
                     <label for="agg_func_intro_comp" style="display: block;width: 85%">Aggregation function
-                        <select class="desc_text take_up_space boot-select" placeholder="Select Agg function"
+                        <select class="desc_text take_up_space boot-select-intro" placeholder="Select Agg function"
 
                                 id="agg_func_intro_comp" style="width: 100%">
                            <option value="Avg" selected>Avg</option>
@@ -69,7 +69,7 @@
 
             <div class="col-md-2 col-xs-6">
                     <label for="agg_var_intro_comp" style="display: block;width: 85%">Aggregation variable
-                        <select class="desc_text take_up_space boot-select"  placeholder="Select Agg var"
+                        <select class="desc_text take_up_space boot-select-intro"  placeholder="Select Agg var"
 
                                 id="agg_var_intro_comp" style="width: 100%">
                            <option value="year" selected>Year</option>
@@ -81,14 +81,14 @@
 
 
                 <div class="col-md-2 col-xs-6">
-                    <a id="clear-button"
+                    <a id="clear-button_intro_comp"
                        class="button btn btn-default col-md-1 col-xs-6 openbtn content_btn line-btn"
                        style="background-color: rgba(172,31,0,0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; width: 18%">
                         <i class="fa fa-trash-o"></i>
                     </a>
                 </div>
                 <div class="col-md-2 col-xs-6">
-                    <a id="run-button_sm"
+                    <a id="run-button_sm_intro_comp"
                        class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn content_btn green line-btn"
                        style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0;height: inherit; line-height: 2.5em;width: 100% ">Run
                         <i class="fa fa-spinner"></i>
@@ -118,7 +118,7 @@
                 </div>
                 <div hidden id="chart-side-info_intro_comp" style="height: 100%; margin-top: 2em" class="col-sm-3 col-xs-12">
                     <div class=""><p style="font-size: 0.9em">The chart on the left shows the model analysis results in function of time for:</p>
-                        <div id="updated-chart-info">
+                        <div id="updated-chart-info_intro_comp">
 
                         </div>
                     </div>

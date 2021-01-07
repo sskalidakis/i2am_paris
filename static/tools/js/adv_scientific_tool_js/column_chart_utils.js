@@ -3,17 +3,35 @@ function create_query_json_column() {
     var sel_scenario = $('#scenario_name_intro_comp');
     var sel_variable = $('#variable_name_intro_comp');
 
-    const models = sel_model.multipleSelect('getSelects');
-    const scenarios = sel_scenario.multipleSelect('getSelects');
-    const variables = sel_variable.multipleSelect('getSelects');
+    const models = new Array(1);
+    models[0] = sel_model.val();
+
+    const scenarios = sel_scenario.val();
+
+    const variables = new Array(1);
+    variables[0] = sel_variable.val();
+
+    console.log("models are:", models);
+    console.log("scenarios are:", scenarios);
+    console.log("variables are:", variables);
 
     var aggfunc = $('#agg_func_intro_comp');
 	var aggvar = $('#agg_var_intro_comp');
-	const aggfuncval = aggfunc.multipleSelect('getSelects');
-	const aggvarval = aggvar.multipleSelect('getSelects');
-    const aggvartitle = aggvar.multipleSelect('getSelects','text');
+
+	const aggfuncval = new Array(1);
+	aggfuncval[0] = aggfunc.val();
+
+	const aggvarval =  new Array(1);
+	aggvarval[0] = aggvar.val();
+
+
+	var e = document.getElementById("agg_var_intro_comp");
+	const aggvartitle = new Array(1);
+	aggvartitle[0] = e.options[e.selectedIndex].text;;
+
 	console.log("aggfunc=", aggfuncval);
 	console.log("aggvar=", aggvarval);
+	console.log("aggvartitle=", aggvartitle);
 
     var multiple_field = "scenario";
     var val_list = scenarios;

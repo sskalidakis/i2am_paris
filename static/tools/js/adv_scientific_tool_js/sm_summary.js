@@ -1,19 +1,45 @@
 $(document).ready(function () {
     setTimeout(function () {
-        $("#clear-button").click();
+        $("#clear-button_intro_comp").click();
     }, 10);
 
+    $('select.boot-select-intro').each(function () {
+        var select = $(this);
+        select.multipleSelect(
+            {
+                filter: true,
+                showClear: true,
+                animate: 'fade',
+                maxHeightUnit: 'row',
+                maxHeight: 8,
+                dropWidth: 250//,
+                // onClick: function () {
+                //     update_unavailable_select_options(select.attr('id'));
+                //     populate_selects('#' + select.attr('id'));
+                // },
+                // onCheckAll: function () {
+                //     update_unavailable_select_options(select.attr('id'));
+                //     populate_selects('#' + select.attr('id'));
+                // },
+                // onUncheckAll: function () {
+                //     update_unavailable_select_options(select.attr('id'));
+                //     populate_selects('#' + select.attr('id'));
+                // },
+            });
+    });
+
+
 });
 
-$("#clear-button").click(function () {
-    $('select.boot-select').multipleSelect('setSelects', []);
-    $('#viz_frame_div').hide();
-    $('#chart_info').show();
+$("#clear-button_intro_comp").click(function () {
+    $('select.boot-select-intro').multipleSelect('setSelects', []);
+    $('#viz_frame_div_intro_comp').hide();
+    $('#chart-side-info_intro_comp').show();
 });
 
 
-$("#run-button_sm").click(function () {
-    var viz_frame = $('#viz_frame_div_sm');
+$("#run-button_sm_intro_comp").click(function () {
+    var viz_frame = $('#viz_frame_div_intro_comp');
     var chart_info = $('#chart-side-info_intro_comp');
     var model_sel = $('#model_name_intro_comp');
     var scenario_sel = $('#scenario_name_intro_comp');
@@ -37,8 +63,8 @@ $("#run-button_sm").click(function () {
 
     query["parameters"] = json_query_obj['data'];
 
-    var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
-
+    //var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
+    const variable_selection = "Year";
     $.ajax({
         url: "/data_manager/create_query",
         type: "POST",
@@ -58,7 +84,7 @@ $("#run-button_sm").click(function () {
 
 });
 
-$('#viz_frame_div iframe').contents().find('body').click(function () {
-    $('select.boot-select').multipleSelect('close');
-});
+// $('#viz_frame_div_intro_comp iframe').contents().find('body').click(function () {
+//     $('select.boot-select').multipleSelect('close');
+// });
 
