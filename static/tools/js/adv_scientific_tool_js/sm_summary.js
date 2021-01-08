@@ -49,7 +49,7 @@ $("#run-button_sm_intro_comp").click(function () {
     var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
     var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
     var agg_func_full = (agg_func_sel.multipleSelect('getSelects').length === 0);
-    if (model_full || scenario_full || variable_full) {
+    if (model_full || scenario_full || variable_full || agg_func_full) {
         alert('Please, fill in the required fields.')
     } else {
 
