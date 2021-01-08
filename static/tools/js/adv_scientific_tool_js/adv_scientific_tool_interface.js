@@ -57,24 +57,18 @@ $(document).ready(function () {
         var selected = sel.multipleSelect('getSelects');
 
         if (selected.length >= 2) {
-            console.log("Other selectors=", others_sel);
             others_sel.each(function () {
                 var oth_sel = $(this);
-                console.log("other sel=",oth_sel);
                 $(this).removeAttr('multiple');
-                console.log("After remove");
                 if ($(this).multipleSelect('getSelects').length === 0) {
-                    console.log("in if");
                     transform_multiple_select(oth_sel);
                     $(this).multipleSelect('setSelects', []);
                 } else {
-                    console.log("In transform");
                     transform_multiple_select(oth_sel);
                 }
             })
 
         } else {
-            console.log("In update");
             update_others_function(selector);
         }
 
@@ -82,13 +76,11 @@ $(document).ready(function () {
 
 
     function update_others_function(selector) {
-        console.log("Updating selectors");
         var others_sel = $('select.mul-select:not(' + selector + ')');
         others_sel.attr('multiple', 'multiple');
         others_sel.multipleSelect('destroy');
         (others_sel).each(function () {
             var other_select = $(this);
-            console.log(other_select);
             $(this).multipleSelect(
                 {
                     filter: true,

@@ -11,12 +11,10 @@ function create_query_json_column() {
     const variables = new Array(1);
     variables[0] = sel_variable.val();
 
-    console.log("models are:", models);
-    console.log("scenarios are:", scenarios);
-    console.log("variables are:", variables);
 
     var aggfunc = $('#agg_func_intro_comp');
-	var aggvar = $('#agg_var_intro_comp');
+	// var aggvar = $('#agg_var_intro_comp');
+    var aggvar = $('input[name="agg_var_input"]:checked');
 
 	const aggfuncval = new Array(1);
 	aggfuncval[0] = aggfunc.val();
@@ -25,13 +23,8 @@ function create_query_json_column() {
 	aggvarval[0] = aggvar.val();
 
 
-	var e = document.getElementById("agg_var_intro_comp");
 	const aggvartitle = new Array(1);
-	aggvartitle[0] = e.options[e.selectedIndex].text;;
-
-	console.log("aggfunc=", aggfuncval);
-	console.log("aggvar=", aggvarval);
-	console.log("aggvartitle=", aggvartitle);
+	aggvartitle[0] = aggvar.parent().text().trim();
 
     var multiple_field = "scenario";
     var val_list = scenarios;
@@ -76,9 +69,7 @@ function create_query_json_column() {
             });
         }
     }
-    console.log('new1'+ selected);
     selected.push('value', 'year');
-    console.log('new2' + selected);
     const query_data = {
         "dataset": "i2amparis_main_resultscomp",
         "query_configuration": {
@@ -166,6 +157,12 @@ function retrieve_series_info_column(models, scenarios, variables, multiple_fiel
 }
 
 function create_visualisation_col(query_id, val_list, title_list, unit_list, grouping_val, grouping_var_title, variable) {
+    var x_unit;
+    if(grouping_val==='year'){
+        x_unit = 'year'
+    }else{
+        x_unit = '-'
+    }
     var viz_frame = $('#viz_iframe_intro_comp');
     viz_frame.off();
     viz_frame.hide();
@@ -179,7 +176,7 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, gro
         "y_axis_title": String(variable),
         "x_axis_name": grouping_val,
         "x_axis_title":grouping_var_title,
-        "x_axis_unit": "-",
+        "x_axis_unit": x_unit,
         "x_axis_type": "text",
         "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
         "dataset": query_id,
@@ -225,4 +222,4 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, gro
 const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
-}
+};

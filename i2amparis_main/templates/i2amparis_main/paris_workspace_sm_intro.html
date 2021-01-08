@@ -4,97 +4,116 @@
     <div class="container" style="width: 90%; height:100%;">
         <div class="row" style="margin-top: 8em; height: 90vh">
 
-              <div class="tooltip-demo col-sm-12 col-xs-12 row">
+            <div class="tooltip-demo col-sm-12 col-xs-12 row">
                 <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
                     data-toggle="tooltip" data-placement="auto"
-                    title="<p>These are the results of the analysis for a selected model, region,
-                                variable(s), scenario in function of time.</p>">
-                    Column Chart
+                    title="<p>These are the results of the analysis for a selected model,
+                                variable and different scenarios grouped by time (years) or by region.</p>">
+                    Cross-scenario Quantity Comparison
                 </h2>
             </div>
             <div class="tooltip-demo col-sm-12 col-xs-12 row">
                 <h5 style="display: inline-block;background:transparent; box-shadow: none;">
-                    Please, select one or more options from the available fields below. One model, one variable, can be selected and multiple scenarios.
+                    Please, select one or more options from the available fields below. One model, one variable, can be
+                    selected and multiple scenarios.
                 </h5>
             </div>
             <div class="selects-filters row">
-                <div class="col-md-2 col-xs-6">
-                    <label for="model_name_intro_comp" style="display: block;width: 85%">Models
-                        <select class="desc_text take_up_space boot-select-intro" data-dbname="model" placeholder="Select Model(s)"
+                <div class="col-md-8 col-xs-12">
+                    <div class="col-md-3 col-xs-6">
+                        <label for="model_name_intro_comp" style="display: block;width: 85%">Models
+                            <select class="desc_text take_up_space boot-select-intro" data-dbname="model"
+                                    placeholder="Select Model(s)"
 
-                                id="model_name_intro_comp" style="width: 100%">
-                            {% for el in models %}
-                                <option value="{{ el.name }}">{{ el.title }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
+                                    id="model_name_intro_comp" style="width: 100%">
+                                {% for el in models %}
+                                    <option value="{{ el.name }}">{{ el.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <label for="variable_name_intro_comp" style="display: block;width: 85%">Variables
+                            <select class="desc_text take_up_space boot-select-intro" data-dbname="variable"
+                                    placeholder="Select Variable(s)"
+                                    id="variable_name_intro_comp" style="width: 100%">
+                                {% for el in variables %}
+                                    <option value="{{ el.name }}">{{ el.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <label for="scenario_name_intro_comp" style="display: block;width: 85%">Scenarios
+                            <select class="desc_text take_up_space boot-select-intro " data-dbname="scenario"
+                                    multiple="multiple"
+                                    placeholder="Select Scenario(s)"
+                                    id="scenario_name_intro_comp" style="width: 100%">
+                                {% for el in scenarios %}
+                                    <option value="{{ el.name }}">{{ el.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </div>
+
+
+                    <div class="col-md-3 col-xs-6">
+                        <label for="agg_var_intro_comp" style="display: block;">Aggregation Variable
+                            <div class="btn-group" data-toggle="buttons" id="agg_var_intro_comp">
+                                <label class="btn btn-primary active"
+                                       style="border-top-left-radius: 5px ; border-bottom-left-radius: 5px">
+                                    <input type="radio" name="agg_var_input" id="year" value="year" checked>Time
+                                </label>
+                                <label class="btn btn-primary"
+                                       style="border-top-right-radius: 5px ; border-bottom-right-radius: 5px">
+                                    <input type="radio" name="agg_var_input" id="region_id" value="region_id"> Region
+                                </label>
+                            </div>
+                        </label>
+
+                    </div>
+
+                    <div class="col-md-9 col-xs-6"></div>
+                    <div class="col-md-3 col-xs-6">
+                        <label for="agg_func_intro_comp" style="display: block;width: 85%">
+                            <select class="desc_text take_up_space boot-select-intro"
+                                    placeholder="Select Aggregation function"
+
+                                    id="agg_func_intro_comp" style="width: 100%">
+                                <option value="Avg" selected>Average</option>
+                                <option value="Sum">Sum</option>
+                                <option value="Max">Maximum</option>
+                                <option value="Min">Minimum</option>
+                            </select>
+                        </label>
+                    </div>
+
                 </div>
-                <div class="col-md-2 col-xs-6">
-                    <label for="variable_name_intro_comp" style="display: block;width: 85%">Variables
-                        <select class="desc_text take_up_space boot-select-intro" data-dbname="variable"
-                                placeholder="Select Variable(s)"
-                                id="variable_name_intro_comp" style="width: 100%">
-                            {% for el in variables %}
-                                <option value="{{ el.name }}">{{ el.title }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                </div>
+                <div class="col-md-4 col-xs-12">
 
-                <div class="col-md-2 col-xs-6">
-                    <label for="scenario_name_intro_comp" style="display: block;width: 85%">Scenarios
-                        <select class="desc_text take_up_space mul-select boot-select-intro " data-dbname="scenario" multiple="multiple"
-                                placeholder="Select Scenario(s)"
-                                id="scenario_name_intro_comp" style="width: 100%">
-                            {% for el in scenarios %}
-                                <option value="{{ el.name }}">{{ el.title }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div style="position:relative;top:1em">
+                            <a id="clear-button_intro_comp"
+                               class="button btn btn-default openbtn content_btn "
+                               style="background-color: rgba(172,31,0,0.8);color: white;">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </div>
 
-
-                <div class="col-md-2 col-xs-6">
-                    <label for="agg_func_intro_comp" style="display: block;width: 85%">Aggregation function
-                        <select class="desc_text take_up_space boot-select-intro" placeholder="Select Agg function"
-
-                                id="agg_func_intro_comp" style="width: 100%">
-                           <option value="Avg" selected>Avg</option>
-                          <option value="Sum">Sum</option>
-                          <option value="Max">Max</option>
-                          <option value="Min">Min</option>
-                        </select>
-                    </label>
-                </div>
-
-            <div class="col-md-2 col-xs-6">
-                    <label for="agg_var_intro_comp" style="display: block;width: 85%">Aggregation variable
-                        <select class="desc_text take_up_space boot-select-intro"  placeholder="Select Agg var"
-
-                                id="agg_var_intro_comp" style="width: 100%">
-                           <option value="year" selected>Year</option>
-                          <option value="region_id">Region</option>
-
-                        </select>
-                    </label>
-                </div>
-
-
-                <div class="col-md-2 col-xs-6">
-                    <a id="clear-button_intro_comp"
-                       class="button btn btn-default col-md-1 col-xs-6 openbtn content_btn line-btn"
-                       style="background-color: rgba(172,31,0,0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; width: 18%">
-                        <i class="fa fa-trash-o"></i>
-                    </a>
-                </div>
-                <div class="col-md-2 col-xs-6">
-                    <a id="run-button_sm_intro_comp"
-                       class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn content_btn green line-btn"
-                       style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0;height: inherit; line-height: 2.5em;width: 100% ">Run
-                        <i class="fa fa-spinner"></i>
-                    </a>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div style="position:relative;top:1em">
+                            <a id="run-button_sm_intro_comp"
+                               class="button btn btn-default openbtn content_btn green"
+                               style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0;height: inherit; line-height: 2.5em;width: 100% ">Run
+                                <i class="fa fa-spinner"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="row" style="height: 75vh">
                 <div class="col-sm-9 col-xs-12" style="height: 100%; margin-top: 2em">
                     <div id="viz_frame_div_intro_comp" class="row" style="height: 100%; line-height: 100%;">
@@ -106,9 +125,8 @@
                                  src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
                             <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
                                 <div class="col-sm-2"></div>
-                                <div class="col-sm-8">These are the results of the analysis for the selected model,
-                                    region,
-                                    variable(s), scenario in function of time.
+                                <div class="col-sm-8">These are the results of the analysis for a selected model,
+                                    variable and different scenarios grouped by time (years) or by region.
                                 </div>
                                 <div class="col-sm-2"></div>
                             </div>
@@ -116,8 +134,9 @@
                         </div>
                     </div>
                 </div>
-                <div hidden id="chart-side-info_intro_comp" style="height: 100%; margin-top: 2em" class="col-sm-3 col-xs-12">
-                    <div class=""><p style="font-size: 0.9em">The chart on the left shows the model analysis results in function of time for:</p>
+                <div hidden id="chart-side-info_intro_comp" style="height: 100%; margin-top: 2em"
+                     class="col-sm-3 col-xs-12">
+                    <div class=""><p style="font-size: 0.9em">The chart on the left shows the model analysis results grouped by year or region for:</p>
                         <div id="updated-chart-info_intro_comp">
 
                         </div>
