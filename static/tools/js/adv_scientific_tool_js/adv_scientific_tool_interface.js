@@ -67,7 +67,7 @@ $(document).ready(function () {
 
     function populate_selects(selector) {
         var sel = $(selector);
-        var others_sel = $('select:not(' + selector + ')');
+        var others_sel = $('select.boot-select:not(' + selector + ')');
         var selected = sel.multipleSelect('getSelects');
 
         if (selected.length >= 2) {
@@ -242,6 +242,7 @@ $("#run-button").click(function () {
         populate_datatables(model_sel, scenario_sel, region_sel, variable_sel);
     }
 });
+
 
 
 function create_visualisation(query_id, val_list, title_list, unit_list, variable) {

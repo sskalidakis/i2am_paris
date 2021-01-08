@@ -1,5 +1,6 @@
 import json
 from django.apps import apps
+from django.db.models import Avg, Sum, Max, Min, Count
 
 from i2amparis_main.models import Dataset
 from data_manager.models import Query
@@ -24,9 +25,11 @@ def query_execute(query_id):
     if (len(grouping['params']) == 0) and (len(grouping['aggregated_params']) == 0):
         select_data = data_model.objects.only(*select).filter(filter_list).order_by(*order_list).values(*select)
     else:
-        select_data = data_model.objects.values(*group_by_params).annotate(**agg_params).filter(filter_list).order_by(
+        grouped_by_data = group_by_function(group_by_params, agg_params, data_model)
+        select_data = grouped_by_data.filter(filter_list).order_by(
             *order_list)
-    return select_data
+    print(filter_list)
+    return select_data, add_params
 
 
 
@@ -54,9 +57,26 @@ def extract_groupings(grouping):
     group_by_params = grouping['params']
     agg_params = {}
     for el in grouping['aggregated_params']:
-        agg_params[el['name'] + str(el['agg_func'])] = "{agg_func}({var_name})".format(agg_func=el['agg_func'],
-                                                                                     var_name=el['name'])
+        # agg_params[el['name'] + str(el['agg_func'])] = "{agg_func}('{var_name}')".format(agg_func=el['agg_func'],
+        #                                                                              var_name=el['name'])
+        agg_params[el['name']] = str(el['agg_func'])
     return group_by_params, agg_params
+
+def group_by_function(group_by_params, agg_params, data):
+    final_data = data.objects.values(*group_by_params)
+    for value, agg_func in agg_params.items():
+        if agg_func == 'Avg':
+            final_data = final_data.annotate(value=Avg(value))
+        elif agg_func == 'Sum':
+            final_data = final_data.annotate(value=Sum(value))
+        elif agg_func == 'Max':
+            final_data = final_data.annotate(value=Max(value))
+        elif agg_func == 'Min':
+            final_data = final_data.annotate(value=Min(value))
+        elif agg_func == 'Count':
+            final_data = final_data.annotate(value=Count(value))
+    return final_data
+
 
 
 def get_query_parameters(query_id):
@@ -119,3 +139,5 @@ def compute_Q_objects(param, op):
         else:
             q_objects |= compute_dict(item)
     return q_objects
+
+

@@ -19,4 +19,6 @@ urlpatterns = [
     path('parallel_coordinates_chart', views.parallel_coordinates_chart, name='parallel_coordinates_chart'),
     path('thermometer_chart', views.thermometer_chart, name='thermometer_chart'),
     path('parallel_coordinates_chart2', views.parallel_coordinates_chart2, name='parallel_coordinates_chart2')
+
+
 ]
