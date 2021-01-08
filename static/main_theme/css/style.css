@@ -444,7 +444,7 @@ i.service-icon:hover {
 
 .service-col {
   padding: 40px 20px;
-  margin: 0 10px;
+  /*margin: 0 10px;*/
   background-color: none;
   -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;

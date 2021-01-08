@@ -3,10 +3,10 @@ import logging
 import sys
 from django.shortcuts import render
 from django.apps import apps
+import ast
 
-from django.http import HttpResponse
 
-from data_manager.orm_query_manager import heatmap_query
+from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query, column_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -21,7 +21,7 @@ from visualiser.utils import *
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 import json
-
+from django.views.decorators.clickjacking import xframe_options_exempt
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
@@ -262,7 +262,7 @@ def get_response_data_XY(request):
             "y_axis_title": request.GET.get("y_axis_title", ""),
             "color_list_request": request.GET.getlist("color_list_request[]", []),
             "use_default_colors": request.GET.get("use_default_colors", "true"),
-            "chart_3d": request.GET.get("chart_3d", ""),
+            "chart_3d": request.GET.get("chart_3d", "false"),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
             "dataset_type": request.GET.get("dataset_type", "file"),
@@ -275,9 +275,10 @@ def get_response_data_XY(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_line_chart(request):
     response_data = get_response_data_XY(request)
-    print(response_data)
+    print('Retrieved request parameters.')
     y_var_names = response_data['y_var_names']
     y_var_titles = response_data['y_var_titles']
     y_var_units = response_data['y_var_units']
@@ -291,19 +292,67 @@ def show_line_chart(request):
     chart_3d = ""
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
-
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    # data = generate_data_for_range_chart()
-    data = FAKE_DATA
+    dataset_type = response_data['dataset_type']
+    data = generate_data_for_line_chart(dataset, dataset_type)
+    print('Retrieved data for the chart.')
     color_list = define_color_code_list(color_list_request)
-
+    print('Defined chart colors.')
     line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                           x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                           'line_chart')
     return line_chart.show_chart()
 
+@csrf_exempt
+def generate_data_for_line_chart(dataset, dataset_type):
+    final_data = []
+    if dataset_type == 'file':
+        final_data = line_chart_data_from_file('visualiser/fake_data/' + dataset)
+        print('Retrieved data from file')
+    elif dataset_type == 'db':
+            dataset = Dataset.objects.get(dataset_name=dataset)
+            data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
+            data = data_table.objects.all()
+            variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
+            final_data = reformat_chart_data(data, variables)
+
+    elif dataset_type == 'query':
+        final_data = line_chart_query(dataset)
+
+    return final_data
+
+def reformat_chart_data(data, variables):
+    """
+    This method is used for reformatting the data to the suitable format
+    :param data: The data records retrieved from the database
+    :param variables: The specific variables whose columns are going to be used in the chart
+    :return: Data in a suitable format for the heatmap chart
+    """
+
+    final_data = []
+
+    for el in data:
+        dictionary = {}
+        for var in variables:
+            if var.variable_table_name is None:
+                dictionary[var.var_name] = getattr(el, var.var_name)
+            else:
+                var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
+                var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
+                value = var_table_obj.title
+                dictionary[var.var_name] = value
+        final_data.append(dictionary)
+    return final_data
 
 @csrf_exempt
+def line_chart_data_from_file(dataset):
+    final_data = []
+    with open(dataset) as f:
+        final_data = ast.literal_eval(f.read())
+    return final_data
+
+
+@csrf_exempt
+@xframe_options_exempt
 def show_column_chart(request):
     # Use get_response_data_XY to get the same variables
     response_data = get_response_data_XY(request)
@@ -320,16 +369,31 @@ def show_column_chart(request):
     use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    # data = response_data["dataset"]
-    data = COLUMNCHART_DATA
+
+    dataset = response_data['dataset']
+    dataset_type = response_data['dataset_type']
+
+    data = generate_data_for_column_chart(dataset, dataset_type, x_axis_name)
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                             'column_chart')
     return column_chart.show_chart()
 
+@csrf_exempt
+def generate_data_for_column_chart(dataset, dataset_type, index):
+    final_data = []
+
+    if dataset_type == 'query':
+
+        final_data = column_chart_query(dataset) #had index here
+
+    return final_data
+
+
 
 @csrf_exempt
+@xframe_options_exempt
 def show_pie_chart(request):
     response_data = get_response_data_XY(request)
     variable_name = response_data["y_var_names"]
@@ -354,6 +418,7 @@ def show_pie_chart(request):
     return pie_chart.show_chart()
 
 
+@xframe_options_exempt
 def show_radar_chart(request):
     response_data = get_response_data_XY(request)
     variable_name = response_data["y_var_names"]
@@ -376,6 +441,7 @@ def show_radar_chart(request):
     return radar_chart.show_chart()
 
 
+@xframe_options_exempt
 def show_range_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -399,6 +465,7 @@ def show_range_chart(request):
     return range_chart.show_chart()
 
 
+@xframe_options_exempt
 def show_bar_range_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -422,6 +489,7 @@ def show_bar_range_chart(request):
     return bar_range_chart.show_chart()
 
 
+@xframe_options_exempt
 def show_stacked_column_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -447,6 +515,7 @@ def show_stacked_column_chart(request):
     return stacked_column_chart.show_chart()
 
 
+@xframe_options_exempt
 def show_bar_heat_map(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -527,7 +596,7 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
             log.error(e)
             return e, 400
 
-        final_data = reformat_heatmap_data(data, variables)
+        final_data = reformat_chart_data(data, variables)
         # If guides/ranges are used, the dataset of the guides has to be declared explicitly in the request
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
         col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
@@ -557,7 +626,7 @@ def heatmap_categorisation(categorisation_dataset):
 
 def heatmap_chart_data_from_file(dataset):
     '''
-    This methdo is used for reading data from a file
+    This method is used for reading data from a file
     :param dataset: the name(path) of a file that is going to be used
     :return: Data in a suitable format for the heatmap chart
     '''
@@ -573,26 +642,26 @@ def heatmap_chart_data_from_file(dataset):
     return final_data
 
 
-def reformat_heatmap_data(data, variables):
-    """
-    This method is used for reformatting the data to the suitable format
-    :param data: The data records retrieved from the database
-    :param variables: The specific variables whose columns are going to be used in the chart
-    :return: Data in a suitable format for the heatmap chart
-    """
-    final_data = []
-    for el in data:
-        dictionary = {}
-        for var in variables:
-            if var.variable_table_name is None:
-                dictionary[var.var_name] = getattr(el, var.var_name)
-            else:
-                var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
-                var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
-                value = var_table_obj.title
-                dictionary[var.var_name] = value
-        final_data.append(dictionary)
-    return final_data
+# def reformat_heatmap_data(data, variables):
+#     """
+#     This method is used for reformatting the data to the suitable format
+#     :param data: The data records retrieved from the database
+#     :param variables: The specific variables whose columns are going to be used in the chart
+#     :return: Data in a suitable format for the heatmap chart
+#     """
+#     final_data = []
+#     for el in data:
+#         dictionary = {}
+#         for var in variables:
+#             if var.variable_table_name is None:
+#                 dictionary[var.var_name] = getattr(el, var.var_name)
+#             else:
+#                 var_table = apps.get_model(DATA_TABLES_APP, var.variable_table_name)
+#                 var_table_obj = var_table.objects.get(id=getattr(el, var.var_name).id)
+#                 value = var_table_obj.title
+#                 dictionary[var.var_name] = value
+#         final_data.append(dictionary)
+#     return final_data
 
 
 def heatmap_ordering_method(col_ordering, data, row_ordering):
@@ -632,6 +701,7 @@ def heatmap_ordering(order, variables, var_position):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_heat_map_chart(request):
     '''
     This is the method for creating the necessary content for the creation of the heatmap visualisation
@@ -687,6 +757,7 @@ def get_response_flow_diagram(request):
     return json_response
 
 
+@xframe_options_exempt
 def sankey_diagram(request):
     """
     As input we will take a dict with key the begin and value a list with first element end and second the value
@@ -706,6 +777,7 @@ def sankey_diagram(request):
     return sankey_diagram.show_chart()
 
 
+@xframe_options_exempt
 def chord_diagram(request):
     """
     As in put we will take a dict with key the begin and value a list with first element end and second the value
@@ -725,6 +797,7 @@ def chord_diagram(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def get_response_parallel_coordinates_chart(request):
     if request.method == "GET":
         json_response = {

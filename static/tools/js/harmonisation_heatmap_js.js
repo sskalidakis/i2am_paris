@@ -21,13 +21,24 @@ $("#col_order").change(function () {
         "z_axis_title": "Value",
         "z_axis_unit": "-",
         "min_max_z_value": 0,
-        "color_list_request": ["grey_green","dark_blue", "light_blue","lighter_blue", "moody_blue", "ice_gray"],
-        "distinct": ["Extractable model output", "Harmonisable model input: not harmonised in first modelling round",
-            "Harmonisable model input: Fully harmonised in first modelling round",
-            "Harmonisable model input: Partially/weakly harmonised in first modelling round",
-            "Harmonisable model input: Checked for consistency in first modelling round",
-            "Not represented in model"
-        ],
+        // "color_list_request": ["grey_green","dark_blue", "light_blue","lighter_blue", "moody_blue", "ice_gray"],
+        "color_list_request": ["green_new", "green_open_new", "yellow_open_new", "orange_new", "purple_new", "white"],
+	    "distinct":[
+		    	"Fully Harmonised",
+			"Partially harmonised",
+			"Checked for consistency",
+			"Not harmonized",
+			"Extractable model output",
+			"Not represented in model"
+
+			],
+//        "distinct": ["Extractable model output",
+//                     "Harmonisable model input: not harmonised",
+//                     "Harmonisable model input: Fully harmonised",
+//                     "Harmonisable model input: Partially/weakly harmonised",
+//                     "Harmonisable model input: Checked for consistency",
+//                     "Not represented in model"
+//        ],
         "dataset": "i2amparis_main_harmdatanew",
         "dataset_type": "db",
     };
@@ -89,8 +100,8 @@ var sel_var_name = $("#var_name");
 var sel_var_def = $('#var_def');
 var sel_var_cat = $('#var_cat');
 var sel_unit_container = $('.unit_container');
-var sel_source_container = $('.source_container');
-var sel_source_container_url = $('.source_container_url');
+var sel_source_container = $('.source_container li');
+var sel_source_container_whole = $('.source_container');
 var sel_timespan_container = $('.timespan_container');
 
 function show_hide_empty_fields() {
@@ -99,16 +110,6 @@ function show_hide_empty_fields() {
     } else {
         sel_unit_container.show();
     }
-    if (sel_var_mod_source.text() === '') {
-        sel_source_container.hide();
-    } else {
-        sel_source_container.show();
-    }
-    if (sel_var_mod_source_url.text() === '') {
-        sel_source_container_url.hide();
-    } else {
-        sel_source_container_url.show();
-    }
     if (sel_var_mod_timespan.text() === '') {
         sel_timespan_container.hide();
     } else {
@@ -116,7 +117,14 @@ function show_hide_empty_fields() {
     }
 }
 
+function clear_url_sources(){
+    $('.source_container ul li').remove();
+    $('.source_container').empty();
+}
+
 sel_model_name.change(function () {
+    clear_url_sources();
+    // var html ="";
     sel_geo_cov.text($('#' + String($(this).val()) + ' .d_model_coverage').text());
     sel_model_type.text($('#' + String($(this).val()) + ' .d_model_type').text());
     sel_model_timestep.text($('#' + String($(this).val()) + ' .d_model_timestep').text());
@@ -125,21 +133,78 @@ sel_model_name.change(function () {
     sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + String($(this).find('option:selected').text()));
     sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String($(this).find('option:selected').text()));
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
-    sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
-    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url').text();
-    sel_var_mod_source_url.text(temp_mod_url);
-    sel_var_mod_source_url.attr('href', temp_mod_url);
+    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
+    var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
+    var temp_mod_title = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_title span');
+    if(temp_mod_source.length !== 0){
+        sel_source_container_whole.show();
+    }else{
+        sel_source_container_whole.hide();
+    }
+
+    var titles = temp_mod_title.map(x=> temp_mod_title.eq(x).text());
+    var titles_unq = [];
+    for (title_idx=0; title_idx < titles.length; title_idx++){
+        var temp_title = titles[title_idx];
+        if (!titles_unq.includes(temp_title)){
+            titles_unq.push(temp_title);
+        }
+    }
+    $('.source_container').append("<div class='heading' style='font-size: 1em!important;'>Sources</div>");
+        for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
+        var temp_source = [];
+        for (let i=0; i< temp_mod_source.length; i++ ){
+            if (temp_mod_title.eq(i).text() === titles_unq[title_idx2]){
+                if (String(temp_mod_url.eq(i).text()) !="") {
+                    temp_source.push('<li><a href="' + String(temp_mod_url.eq(i).text()) + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(i).text()) + '</a></li>')
+                }
+            }
+
+        }
+        if (temp_source !=[]) {
+            $('.source_container').append("<li> " + titles_unq[title_idx2] + " <ul> " + temp_source.join(" ") + " </ul> </li>");
+        }
+    }
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 });
 sel_var_name.change(function () {
+    clear_url_sources();
     sel_var_def.text($('#' + String($(this).val()) + ' .d_var_definition').text());
     sel_var_cat.text($('#' + String($(this).val()) + ' .d_var_category').text());
     sel_var_mod_unit.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_unit').text());
-    sel_var_mod_source.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info').text());
-    var temp_var_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url').text();
-    sel_var_mod_source_url.text(temp_var_url);
-    sel_var_mod_source_url.attr('href', temp_var_url);
+    var temp_mod_url = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_url span');
+    var temp_mod_source = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_info span');
+    var temp_mod_title = $('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_source_title span');
+    if (temp_mod_url.length !== 0) {
+        sel_source_container_whole.show();
+    } else {
+        sel_source_container_whole.hide();
+    }
+    var titles = temp_mod_title.map(x=> temp_mod_title.eq(x).text());
+    // var titles = temp_mod_source.map(x=> temp_mod_source.eq(x).text().split('_')[1]);
+    var titles_unq = [];
+    for (title_idx=0; title_idx < titles.length; title_idx++){
+        var temp_title = titles[title_idx];
+        if (!titles_unq.includes(temp_title)){
+            titles_unq.push(temp_title);
+        }
+    }
+    $('.source_container').append("<div class='heading' style='font-size:1em!important;'>Sources</div>");
+    for (title_idx2=0; title_idx2<titles_unq.length; title_idx2++){
+        var temp_source = [];
+        for (let i=0; i< temp_mod_source.length; i++ ){
+            if (temp_mod_title.eq(i).text() === titles_unq[title_idx2]){
+                if (String(temp_mod_url.eq(i).text()) !="") {
+                    temp_source.push('<li><a href="' + String(temp_mod_url.eq(i).text()) + '" target="_blank" rel="noopener noreferrer">' + String(temp_mod_source.eq(i).text()) + '</a></li>')
+                }
+            }
+
+        }
+        if (temp_source !=[]) {
+            $('.source_container').append("<li> " + titles_unq[title_idx2] + " <ul> " + temp_source.join(" ") + " </ul> </li>");
+        }
+    }
     sel_var_mod_timespan.text($('#' + String(sel_model_name.val()) + '_' + String(sel_var_name.val()) + ' .d_var_mod_timespan').text());
     show_hide_empty_fields();
 
@@ -153,4 +218,7 @@ sel_model_desc.html("<i class=\"fa fa-book\"></i> Detailed Documentation of " + 
 sel_model_dynamic.html("<i class=\"fa fa-search\"></i> Dynamic Documentation of " + String(sel_model_name.find('option:selected').text()));
 sel_var_def.text($('#' + String(sel_var_name.val()) + ' .d_var_definition').text());
 sel_var_cat.text($('#' + String(sel_var_name.val()) + ' .d_var_category').text());
+sel_source_container_whole.hide();
 show_hide_empty_fields();
+
+

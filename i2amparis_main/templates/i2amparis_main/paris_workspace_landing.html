@@ -1,0 +1,152 @@
+{% extends "base_template_harmonisation_manual.html" %}
+{% load static %}
+{% csrf_token %}
+{% block css %}
+
+    <style>
+        .heading {
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .heading a {
+            font-size: 0.9em;
+        }
+
+        .desc_text {
+            font-size: 0.8em;
+        }
+
+        .take_up_space {
+            min-height: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        .text_take_up_space {
+            min-height: 10em;
+            margin-bottom: 1em;
+        }
+
+        td {
+            font-size: 0.8em;
+            background-color: rgba(246, 250, 238, 0.5);
+            color: #2a2a2e;
+        }
+
+        td.light-grey {
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1em;
+        }
+
+        .service-col {
+            text-align: center;
+            height: 100%;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
+    <link rel="stylesheet" href={% static "model_list_css.css" %}>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="width: 85%; height:100%;">
+        <div style="margin-top: 4em;text-align: center" ><img style=" height: 7em;" src={% static "logos/paris_reinforce_logo.png"%}></div>
+        <div class="row menu-container" style="height: 130vh">
+            <div class="row">
+                <div class="col-md-6 col-xs-12 service-col prw_harm" style="cursor: pointer; padding-bottom: 0">
+                    <div class="">
+                        <img style="width: 14em" onmouseover="this.src='static/logos/heatmap.png'"
+                             onmouseout="this.src='static/logos/heatmap_hover.png'"
+                             src={% static "logos/heatmap.png" %}>
+                    </div>
+                    <h2><a href="pr_wwh/harmonisation_table" class="prw_harm">Variable Harmonisation
+                        Heatmap</a></h2>
+                    <p>A heatmap that indicates how different variables are handled across the models within the
+                        Paris Reinforce consortium. The rows present the different socio and techno
+                        economic variables. The columns indicate the 16 PR models. Variables are either
+                        considered as outputs from models, inputs to models or are not represented by the models as any
+                        explicit output or input</p>
+                </div>
+                <div class="col-md-6 col-xs-12 service-col prw_scientific_mod" style="cursor: pointer ;padding-bottom: 0">
+                    <div class="">
+                        <img style="width: 14em" onmouseover="this.src='static/logos/advanced.png'"
+                             onmouseout="this.src='static/logos/advanced_hover.png'"
+                             src={% static "logos/advanced.png" %}>
+                    </div>
+                    <h2><a href="pr_wwh/scientific_module" class="prw_scientific_mod">Where are we headed?
+                        (Advanced Scientific Module)</a>
+                    </h2>
+                    <p>These are the results produced by the analysis made using the models of the Paris Reinforce
+                        project used in scientific research and this service provides tools to explore the available
+                        data.</p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-xs-12 service-col prw_conclusions" style="cursor: pointer; padding-bottom: 0">
+                    <div class="">
+                        <img style="width: 14em" onmouseout="this.src='static/logos/means.png'"
+                             onmouseover="this.src='static/logos/means_hover.png'" src={% static "logos/means.png" %}>
+
+                    </div>
+                    <h2><a href="#" class="prw_conclusions">Cool… what does that mean?</a>
+                    </h2>
+                    <p>This section presents the outcome of the analysis process along with meaningful conclusions about
+                        it
+                        and other insightful information. </p>
+                </div>
+                <div class="col-md-6 col-xs-12 service-col digital_lib" style="cursor: pointer; padding-bottom: 0">
+                    <div class="">
+                        <img style="width: 14em" onmouseout="this.src='static/logos/library.png'"
+                             onmouseover="this.src='static/logos/library_hover.png'"
+                             src={% static "logos/library.png" %}>
+                    </div>
+                    <h2><a href="#" class="digital_lib">Virtual Library</a>
+                    </h2>
+                    <p>This section essentially includes scientific publications, policy briefs, databases
+                        (probably direct download links, input data sources information i.e. IEA WorldBank EDGAR etc.)
+                        relevant to Paris Reinforce workspace run.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block js %}
+
+    <script>
+        $(document).on('click', 'div.prw_harm', function (e) {
+            $("a.prw_harm")[0].click()
+        });
+        $(document).on('click', 'div.prw_scientific_mod', function (e) {
+            $("a.prw_scientific_mod")[0].click()
+        });
+        $(document).on('click', 'div.prw_conclusions', function (e) {
+            $("a.prw_conclusions")[0].click()
+        });
+        $(document).on('click', 'div.digital_lib', function (e) {
+            $("a.digital_lib")[0].click()
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+

@@ -2,6 +2,9 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from data_manager.models import Query
 import json
+from i2amparis_main.models import *
+
+
 # Create your views here.
 
 def create_query(request):
@@ -12,7 +15,7 @@ def create_query(request):
     '''
     if request.method == 'POST':
         query_info = json.loads(request.body)
-        new_query = Query(query_name=query_info['query_name'], parameters=query_info['parameters'])
+        new_query = Query(query_name=query_info['query_name'], parameters=json.dumps(query_info['parameters']))
         new_query.save()
         context = {"query_name": new_query.query_name, "query_id": new_query.id}
         return JsonResponse(context)
@@ -36,4 +39,67 @@ def delete_query(request):
     else:
         context = {"status": 400,
                    "message": 'This HTTP method is not supported by the API'}
+        return JsonResponse(context)
+
+
+def retrieve_series_info(request):
+    if request.method == 'POST':
+        unit_info = json.loads(request.body)
+        if 'region_name' in unit_info:
+            try:
+                units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                                   scenario__name__in=unit_info['scenario_name'],
+                                                   region__name__in=unit_info['region_name'],
+                                                   variable__name__in=unit_info['variable_name']
+                                                   ).values(unit_info['multiple'] + '__name',
+                                                            unit_info['multiple'] + '__title',
+                                                            'unit__name').distinct()
+                instances = []
+                for obj in units:
+                    instances.append(
+                        {"series": obj[unit_info['multiple'] + '__name'],
+                         "title": obj[unit_info['multiple'] + '__title'],
+                         "unit": obj['unit__name']}
+                    )
+                context = {"instances": instances}
+            except Exception as e:
+                print('Cannot retrieve unit for the selected combination')
+                print(e)
+                context = {}
+            return JsonResponse(context)
+        else:
+            try:
+                units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                                   scenario__name__in=unit_info['scenario_name'],
+
+                                                   variable__name__in=unit_info['variable_name']
+                                                   ).values(unit_info['multiple'] + '__name',
+                                                            unit_info['multiple'] + '__title',
+                                                            'unit__name').distinct()
+                instances = []
+                for obj in units:
+                    instances.append(
+                        {"series": obj[unit_info['multiple'] + '__name'],
+                         "title": obj[unit_info['multiple'] + '__title'],
+                         "unit": obj['unit__name']}
+                    )
+                context = {"instances": instances}
+            except Exception as e:
+                print('Cannot retrieve unit for the selected combination')
+                print(e)
+                context = {}
+            return JsonResponse(context)
+    else:
+        context = {"status": 400,
+                   "message": 'This HTTP method is not supported by the API'}
+        return JsonResponse(context)
+
+
+def receive_data(request):
+    if request.method == 'POST':
+        import json
+        from pprint import pprint as pp
+        pp(json.loads(request.body))
+        context = {"status": 200,
+                   "message": 'Success'}
         return JsonResponse(context)

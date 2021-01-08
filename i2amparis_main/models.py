@@ -72,10 +72,6 @@ class Harmonisation_Variables(models.Model):
 
 
 # Datasets
-# class DatasetVariableHarmonisation(models.Model):
-#     harmonisation_model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-#     harmonisation_variable = models.ForeignKey(DataVariablesHarmonisation, on_delete=models.CASCADE)
-#     harmonisation_io_status = models.CharField(null=False, default="", max_length=50)
 
 
 class DatasetOnDemandVariableHarmonisation(models.Model):
@@ -85,14 +81,6 @@ class DatasetOnDemandVariableHarmonisation(models.Model):
     io_status = models.CharField(null=False, default="", max_length=50)
 
 
-# class HarmData(models.Model):
-#     model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
-#     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
-#     io_status = models.CharField(null=False, default="", max_length=50)
-#     var_unit = models.CharField(null=False, default="", max_length=20)
-#     var_source_info = models.TextField(null=False, default="")
-#     var_timespan = models.TextField(null=False, default="")
-
 
 class HarmDataNew(models.Model):
     # used in the paris reinforce workspace
@@ -100,9 +88,22 @@ class HarmDataNew(models.Model):
     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     io_status = models.CharField(null=False, default="", max_length=50)
     var_unit = models.CharField(null=False, default="", max_length=20)
-    var_source_info = models.TextField(null=False, default="")
+    #var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
+    #var_source_url = models.TextField(null=False, default="")
+
+
+class HarmDataSourcesTitles(models.Model):
+    title = models.TextField(null=True, default="")
+
+
+class HarmDataSourcesLinks(models.Model):
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    title = models.ForeignKey(HarmDataSourcesTitles,  on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     var_source_url = models.TextField(null=False, default="")
+    var_source_info = models.TextField(null=False, default="")
+
 
 
 # Guide Datasets
@@ -141,7 +142,7 @@ class Dataset(models.Model):
     dataset_date_creation = models.DateTimeField(auto_now_add=True)
     dataset_date_update = models.DateTimeField(auto_now=True)
     dataset_django_model = models.CharField(null=False, default="", max_length=50)
-
+    #string name of sql table
 
 class Variable(models.Model):
     var_name = models.CharField(null=False, default="", max_length=50)
@@ -157,31 +158,31 @@ class Variable(models.Model):
 
 
 class ScenariosRes(models.Model):
-    scenario = models.CharField(null=False, default="", max_length=50)
 
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class RegionsRes(models.Model):
     """
     Regions of results
     """
-    region = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class VariablesRes(models.Model):
-    variable = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class UnitsRes(models.Model):
-    unit = models.CharField(null=False, default="", max_length=50)
-
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
 
 class ResultsComp(models.Model):
-    # resultsyears_id = models.ForeignKey(ResultsYears, on_delete=models.CASCADE)
-    model_id = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
-    scenario_id = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
-    region_id = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
-    variable_id = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
-    unit_id = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
     year = models.IntegerField()
     value = models.FloatField()
 

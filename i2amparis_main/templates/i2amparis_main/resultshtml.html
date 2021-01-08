@@ -1,31 +1,11 @@
 {% load static %}
-<div class="tab-pane" id="harm_heatmap">
+<div class="tab-pane" id="results">
     <div class="container" style="width: 100%; height:100%;">
         <div class="row" style="margin-top: 6em; height: 130vh">
             <div class="col-sm-9 col-xs-12" style="height: 100%">
                 <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
-                    <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart"
+                    <iframe id="viz_iframe" src="" title="Chart"
                             style="width: 100%; height: 100%;  border:none"></iframe>
-                    <div id="loading_bar"
-                         style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
-                        <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
-                             src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
-                        <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-8">This heatmap indicates how
-                                different variables are handled across the models within the
-                                Paris Reinforce consortium. The rows present the different socio and techno
-                                economic
-                                variables. The columns indicate the 16 PR models. Variables are either
-                                considered as outputs
-                                from models, inputs to models or are not represented by the models as any
-                                explicit output or
-                                input
-                            </div>
-                            <div class="col-sm-2"></div>
-                        </div>
-                        <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
-                    </div>
                 </div>
             </div>
 
@@ -34,17 +14,10 @@
                 <div class="tooltip-demo">
                     <h4 style="display: inline-block;background:transparent;box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
                         data-toggle="tooltip" data-placement="auto"
-                        title="<p>This heatmap indicates how different variables are handled across the models within the Paris Reinforce consortium. The rows present the different socio and techno economic variables. The columns indicate the 16 PR models. Variables are either considered as outputs from models, inputs to models or are not represented by the models as any explicit output or input</p>">
-                        Variable Harmonisation Heatmap
+                        title="<p>This tool allows select up to all scenarios, up to all regions, up to all models and up to X variables from predefined variable categories that include variables of the same nature (that can be presented on the same chart, e.g. all the “primary energy” sources or emission sets across different sectors) and see the results</p>">
+                        Variable Line Chart
                     </h4>
-                    <div style="margin-bottom: 1em">You can also create on-demand variable harmonisation
-                        heatmaps
-                        <a target="_blank"
-                           rel="noopener noreferrer"
-                           style="font-weight: bold"
-                           href="/harmonisation_map_tool/harmonisation_manual">here
-                        </a>.
-                    </div>
+
                 </div>
                 <div style="margin-bottom: 3em;">
                     <label style="display: block;width: 70%">
@@ -61,22 +34,47 @@
                             </option>
                         </select>
                     </label>
-
+                    {#                            <label style="display: block;width: 70%">#}
+                    {#                                Order Rows By:#}
+                    {#                                <select id="row_order" class="form-control">#}
+                    {#                                    <option value="default">Default</option>#}
+                    {#                                    <option value="title">Alphabetically</option>#}
+                    {#                                    <option value="category">Variable Category</option>#}
+                    {#                                </select>#}
+                    {#                            </label>#}
                 </div>
 
-                <label for="model_name" style="display: block;width: 70%">Model Name
+                 <label for="model_name" style="display: block;width: 70%">Model Name
                     <select class="form-control desc_text take_up_space" id="model_name">
                         {% for el in models %}
                             <option value="{{ el.model_name }}">{{ el.model_title }}</option>
                         {% endfor %}
                     </select>
                 </label>
-                <div class="heading">Model Geographical Coverage</div>
-                <div class="desc_text take_up_space" id="geo_cov"></div>
-                <div class="heading">Model Type</div>
-                <div class="desc_text take_up_space" id="model_type"></div>
-                <div class="heading"> Model Time Step (Years)</div>
-                <div class="desc_text take_up_space" id="model_timestep"></div>
+{#                <div class="heading">Model Geographical Coverage</div>#}
+{#                <div class="desc_text take_up_space" id="geo_cov"></div>#}
+{#                <div class="heading">Model Type</div>#}
+{#                <div class="desc_text take_up_space" id="model_type"></div>#}
+{#                <div class="heading"> Model Time Step (Years)</div>#}
+{#                <div class="desc_text take_up_space" id="model_timestep"></div>#}
+
+            <label for="scenario_name" style="display: block;width: 70%">Scenario
+                    <select class="form-control desc_text take_up_space" id="scenario_name">
+                        {% for el in scenarios %}
+                            <option value="{{ el.name }}">{{ el.title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+             <label for="region_name" style="display: block;width: 70%">Region
+                    <select class="form-control desc_text take_up_space" id="region_name">
+                        {% for el in regions %}
+                            <option value="{{ el.name }}">{{ el.title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+
                 <div class="heading">
                     <a style="font-weight: bold; " id="model_desc" target="_blank"
                        rel="noopener noreferrer" href="/detailed_model_doc/">Detailed Model
@@ -92,6 +90,9 @@
                     </a>
                 </div>
 
+                {#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
+                {#                <hr>#}
+                {#                <div class="heading">Variable Name</div>#}
                 <label for="var_name" style="display: block;width: 70%">Variable Name
                     <select class=" form-control desc_text take_up_space" id="var_name">
                         {% for el in variables %}
@@ -103,9 +104,13 @@
                 <div class="desc_text take_up_space" id="var_cat"></div>
                 <div class="heading">Variable Definition</div>
                 <div class="desc_text take_up_space" id="var_def"></div>
-                <ol class="source_container" style="font-size: 0.9em; padding: 0">
+                <div class="source_container">
+                    <div class="heading">Source</div>
+                    <ul>
+{#                        <a class="desc_text" id="var_mod_source_url" target="_blank" rel="noopener noreferrer"></a>#}
+                    </ul>
 
-                </ol>
+                </div>
 
                 <div class="unit_container">
                     <div class="heading">Unit</div>
@@ -145,25 +150,16 @@
             <div id={{ el.model }}_{{ el.var }}>
                 <span class="d_var_mod_unit">{{ el.var_unit }}</span>
                 <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
-
-                {% for key_source_data,v in el.source_info.items %}
-                    <span class="d_var_mod_source_url">
-                    {% for url in  v %}
+                <span class="d_var_mod_source_url">
+                    {% for url in el.source_url %}
                         <span class="source_url_el">{{url.var_source_url}}</span>
                     {% endfor %}
                 </span>
-                    <span class="d_var_mod_source_info">
-                    {% for s_info in v %}
-                        <span class="source_info_el">{{s_info.var_source_info}}</span>
+                <span class="d_var_mod_source_info">
+                    {% for url in el.source_info %}
+                        <span class="source_info_el">{{url.var_source_info}}</span>
                     {% endfor %}
                 </span>
-                        <span class="d_var_mod_source_title">
-                        {% for s_info in v %}
-                            <span class="source_info_title">{{ key_source_data }}</span>
-                        {% endfor %}
-                    </span>
-                {% endfor %}
-
             </div>
         {% endfor %}
     </div>

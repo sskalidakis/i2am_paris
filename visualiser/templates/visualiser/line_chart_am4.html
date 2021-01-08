@@ -13,6 +13,7 @@
 
             // Add data
             chart.data = {{ chart_data|safe }};
+            console.log(chart.data);
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var x_axis_type = "{{ x_axis_type }}";
             var x_axis_title = "{{x_axis_title}}";
@@ -25,14 +26,13 @@
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
-            console.log(use_default_colors);
-            console.log(color_list);
 
             // Create axes
             if (x_axis_type === "time") {
                 xAxis = chart.xAxes.push(new am4charts.DateAxis());
             } else if (x_axis_type === "text") {
                 xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                xAxis.dataFields.category = "year";
             } else {
                 xAxis = chart.xAxes.push(new am4charts.ValueAxis());
             }
@@ -52,10 +52,10 @@
             var series=[];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name , y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }else{
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name , y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }
             }
@@ -85,7 +85,6 @@
 
             function create_series(setNameOfX, myVar, fillColor, xAxisType, myVarTitle, myVarUnit) {
                 <!-- Set the range  between open and close and set and the close-->
-                console.log(fillColor);
                 var series = chart.series.push(new am4charts.LineSeries());
 
                 series.name = myVarTitle;
@@ -93,7 +92,7 @@
                 if (xAxisType === "time") {
                     series.dataFields.dateX = setNameOfX;
                 } else if (xAxisType === "text") {
-                    series.dataFields.categoryX
+                    series.dataFields.categoryX = setNameOfX;
                 } else {
                     series.dataFields.valueX = setNameOfX;
                 }
@@ -110,7 +109,7 @@
                 series.tooltip.getFillFromObject = false;
                 series.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
                 //legend shows value dynamically
-                series.legendSettings.labelText = "{name} (" + myVarUnit + "):";
+                series.legendSettings.labelText = "{name}";
                 series.legendSettings.itemValueText = "[bold]{valueY}[/bold]";
                 series.fill = am4core.color(fillColor);
                 series.stroke = am4core.color(fillColor);
