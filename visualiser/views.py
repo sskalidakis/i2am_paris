@@ -394,10 +394,8 @@ def show_column_chart(request):
 @csrf_exempt
 def generate_data_for_column_chart(dataset, dataset_type, index):
     final_data = []
-
     if dataset_type == 'query':
-
-        final_data = column_chart_query(dataset) #had index here
+        final_data = column_chart_query(dataset)
 
     return final_data
 

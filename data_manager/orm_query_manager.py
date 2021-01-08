@@ -63,7 +63,8 @@ def quantity_comparison_query(query_id):
     df = pd.DataFrame.from_records(data)
     grouping_val = add_params['grouping_var']
     var_table_name = Variable.objects.get(var_name=grouping_val).variable_table_name
-
+    if df.empty:
+        return []
     if var_table_name is None:
         final_data = list(df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
             'index').values())

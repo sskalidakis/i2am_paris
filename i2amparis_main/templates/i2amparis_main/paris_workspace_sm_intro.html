@@ -20,8 +20,8 @@
             </div>
             <div class="selects-filters row">
                 <div class="col-md-8 col-xs-12">
-                    <div class="col-md-3 col-xs-6">
-                        <label for="model_name_intro_comp" style="display: block;width: 85%">Models
+                    <div class="col-md-3 col-xs-6 form-group">
+                        <label for="model_name_intro_comp" style="display: block;width: 85%">Models</label>
                             <select class="desc_text take_up_space boot-select-intro" data-dbname="model"
                                     placeholder="Select Model(s)"
 
@@ -30,10 +30,9 @@
                                     <option value="{{ el.name }}">{{ el.title }}</option>
                                 {% endfor %}
                             </select>
-                        </label>
                     </div>
-                    <div class="col-md-3 col-xs-6">
-                        <label for="variable_name_intro_comp" style="display: block;width: 85%">Variables
+                    <div class="col-md-3 col-xs-6 form-group">
+                        <label for="variable_name_intro_comp" style="display: block;width: 85%">Variables</label>
                             <select class="desc_text take_up_space boot-select-intro" data-dbname="variable"
                                     placeholder="Select Variable(s)"
                                     id="variable_name_intro_comp" style="width: 100%">
@@ -41,11 +40,10 @@
                                     <option value="{{ el.name }}">{{ el.title }}</option>
                                 {% endfor %}
                             </select>
-                        </label>
                     </div>
 
-                    <div class="col-md-3 col-xs-6">
-                        <label for="scenario_name_intro_comp" style="display: block;width: 85%">Scenarios
+                    <div class="col-md-3 col-xs-6 form-group">
+                        <label for="scenario_name_intro_comp" style="display: block;width: 85%">Scenarios</label>
                             <select class="desc_text take_up_space boot-select-intro " data-dbname="scenario"
                                     multiple="multiple"
                                     placeholder="Select Scenario(s)"
@@ -54,7 +52,6 @@
                                     <option value="{{ el.name }}">{{ el.title }}</option>
                                 {% endfor %}
                             </select>
-                        </label>
                     </div>
 
 
@@ -75,8 +72,8 @@
                     </div>
 
                     <div class="col-md-9 col-xs-6"></div>
-                    <div class="col-md-3 col-xs-6">
-                        <label for="agg_func_intro_comp" style="display: block;width: 85%">
+                    <div class="col-md-3 col-xs-6 form-group">
+                        <label for="agg_func_intro_comp" style="display: block;width: 85%"></label>
                             <select class="desc_text take_up_space boot-select-intro"
                                     placeholder="Select Aggregation function"
 
@@ -86,7 +83,6 @@
                                 <option value="Max">Maximum</option>
                                 <option value="Min">Minimum</option>
                             </select>
-                        </label>
                     </div>
 
                 </div>
@@ -134,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-                <div hidden id="chart-side-info_intro_comp" style="height: 100%; margin-top: 2em"
+                <div  id="chart-side-info_intro_comp" style="height: 100%; margin-top: 2em; display: none"
                      class="col-sm-3 col-xs-12">
                     <div class=""><p style="font-size: 0.9em">The chart on the left shows the model analysis results grouped by year or region for:</p>
                         <div id="updated-chart-info_intro_comp">
