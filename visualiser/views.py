@@ -10,7 +10,7 @@ from data_manager.orm_query_manager import heatmap_query, get_query_parameters, 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
-    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP
+    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, MORE_MAP_HEATMAP_DATA
 
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, Variable, Dataset
 
@@ -172,6 +172,9 @@ class XY_chart:
         elif self.chart_type == 'radar_chart':
             return render(self.request, 'visualiser/radar_chart.html',
                           self.content)
+        elif self.chart_type == 'stacked_area_chart':
+            return render(self.request, 'visualiser/stacked_area_chart.html',
+                          self.content)
 
 
 class FlowChart:
@@ -267,6 +270,7 @@ def get_response_data_XY(request):
             "dataset": request.GET.get("dataset", ""),
             "dataset_type": request.GET.get("dataset_type", "file"),
             "distinct": request.GET.getlist("distinct[]", []),
+            "stacked": request.GET.get("stacked", "false")
 
         }
     else:
@@ -293,13 +297,20 @@ def show_line_chart(request):
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
+    stacked = response_data['stacked']
     data = generate_data_for_line_chart(dataset, dataset_type)
     print('Retrieved data for the chart.')
     color_list = define_color_code_list(color_list_request)
     print('Defined chart colors.')
-    line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                          x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
-                          'line_chart')
+    if stacked == 'false':
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                              'line_chart')
+    else:
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value,
+                              'stacked_area_chart')
     return line_chart.show_chart()
 
 @csrf_exempt
@@ -383,10 +394,8 @@ def show_column_chart(request):
 @csrf_exempt
 def generate_data_for_column_chart(dataset, dataset_type, index):
     final_data = []
-
     if dataset_type == 'query':
-
-        final_data = column_chart_query(dataset) #had index here
+        final_data = column_chart_query(dataset)
 
     return final_data
 
@@ -856,7 +865,7 @@ def heat_map_on_map(request):
     response_data_xy = get_response_data_XY(request)
     color_list_request = response_data_xy["color_list_request"][0]
     min_max_value = response_data_xy["min_max_y_value"]
-    map_data = HEAT_MAP_DATA
+    map_data = MORE_MAP_HEATMAP_DATA
     # map_data = generate_data_for_heat_map()
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,

@@ -34,7 +34,7 @@ $(document).ready(function () {
 $("#clear-button_intro_comp").click(function () {
     $('select.boot-select-intro').multipleSelect('setSelects', []);
     $('#viz_frame_div_intro_comp').hide();
-    $('#chart-side-info_intro_comp').show();
+    $('#chart-side-info_intro_comp').hide();
 });
 
 
@@ -49,7 +49,7 @@ $("#run-button_sm_intro_comp").click(function () {
     var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
     var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
     var agg_func_full = (agg_func_sel.multipleSelect('getSelects').length === 0);
-    if (model_full || scenario_full || variable_full) {
+    if (model_full || scenario_full || variable_full || agg_func_full) {
         alert('Please, fill in the required fields.')
     } else {
 
@@ -70,9 +70,8 @@ $("#run-button_sm_intro_comp").click(function () {
         var json_query_obj = create_query_json_column(); //DELETE REGION IN NEW FILE JS
 
         query["parameters"] = json_query_obj['data'];
-
-        //var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
-        const variable_selection = "Year";
+        create_comp_info_text(json_query_obj);
+        const variable_selection = variable_sel.multipleSelect('getSelects','text')[0];
         $.ajax({
             url: "/data_manager/create_query",
             type: "POST",

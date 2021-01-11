@@ -43,6 +43,7 @@
 
 
     </style>
+
     <link rel="stylesheet" href={% static "doc_css.css" %}>
     <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
 {% endblock %}
@@ -73,6 +74,26 @@
             })
         });
 
+
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('select.sum-boot-select').each(function () {
+                var select = $(this);
+                select.multipleSelect(
+                    {
+                        filter: true,
+                        showClear: true,
+                        animate: 'fade',
+                        maxHeightUnit: 'row',
+                        maxHeight: 8,
+                        dropWidth: 250,
+                        selectAll: false,
+                    });
+            });
+        });
     </script>
 
 {% endblock %}

@@ -95,7 +95,9 @@
 <script src={% static "main_theme/js/jquery.appear.js" %}></script>
 <script src={% static "main_theme/js/grid.js" %}></script>
 <script src={% static "main_theme/js/main.js" %}></script>
+
 <script src={% static "main_theme/js/wow.min.js" %}></script>
+
 
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -106,31 +108,26 @@
 <script src={% static "tools/js/adv_scientific_tool_js/sm_summary.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/column_chart_utils.js" %}></script>
 
+
+
+
 <script>
     wow = new WOW({}).init();
 
 </script>
 
-<script>
+{#<script>#}
         {#    beautification additions  #}
-
-        function fix_select_labels() {
-            var select_labels = $('.ms-parent .ms-drop label span')
-            select_labels.attr('position', 'relative');
-            select_labels.attr('bottom', '0.2em');
-            select_labels.attr('left', '0.2em');
-        }
-</script>
-
-
-<script>
-    {#Load datatables#}
-    $(document).ready(function () {
-
-    });
+{##}
+{#        function fix_select_labels() {#}
+{#            var select_labels = $('.ms-parent .ms-drop label span')#}
+{#            select_labels.attr('position', 'relative');#}
+{#            select_labels.attr('bottom', '0.2em');#}
+{#            select_labels.attr('left', '0.2em');#}
+{#        }#}
+{#</script>#}
 
 
-</script>
 {% block js %}
 
 

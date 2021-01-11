@@ -112,7 +112,7 @@ def update_scientific_model_selects(request):
         scenarios = body['scenario__name']
         regions = body['region__name']
         variables = body['variable__name']
-        changed = body['changed']
+        changed_field = body['changed_field']
 
         all_models = [el.name for el in DataVariablesModels.objects.all()]
         all_scenarios = [el.name for el in ScenariosRes.objects.all()]
@@ -137,6 +137,7 @@ def update_scientific_model_selects(request):
                                                                                            'scenario__name',
                                                                                            'region__name',
                                                                                            'variable__name').distinct()
+
         allowed_models = []
         allowed_scenarios = []
         allowed_variables = []
@@ -152,12 +153,48 @@ def update_scientific_model_selects(request):
             if choice['variable__name'] not in allowed_variables:
                 allowed_variables.append(choice['variable__name'])
 
-        
+        if changed_field == 'clear_all':
+            pass
+
+        elif changed_field == 'model_name':
+            kept_models = ResultsComp.objects.filter(scenario__name__in=allowed_scenarios,
+                                                        region__name__in=allowed_regions,
+                                                        variable__name__in=allowed_variables).values('model__name',
+                                                                                                     ).distinct()
+            allowed_models = [model['model__name'] for model in kept_models]
+        elif changed_field == 'scenario_name':
+            kept_scenarios = ResultsComp.objects.filter(model__name__in=allowed_models,
+                                                           region__name__in=allowed_regions,
+                                                           variable__name__in=allowed_variables).values(
+                'scenario__name',
+            ).distinct()
+            allowed_scenarios = [scenario['scenario__name'] for scenario in kept_scenarios]
+        elif changed_field == 'region_name':
+            kept_regions = ResultsComp.objects.filter(model__name__in=allowed_models,
+                                                         scenario__name__in=allowed_scenarios,
+                                                         variable__name__in=allowed_variables).values(
+                'region__name',
+            ).distinct()
+            allowed_regions = [region['region__name'] for region in kept_regions]
+        elif changed_field == 'variable_name':
+            kept_variables = ResultsComp.objects.filter(model__name__in=allowed_models,
+                                                         scenario__name__in=allowed_scenarios,
+                                                         region__name__in=allowed_regions).values(
+                'variable__name',
+            ).distinct()
+            allowed_variables = [variable['variable__name'] for variable in kept_variables]
+
+        # ADD PIECE OF CODE FOR THE CASE THAT THE TH MULTIPLE IS SELECTED
+
         ls = {'models': [el for el in all_models if el not in allowed_models],
               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
               'regions': [el for el in all_regions if el not in allowed_regions],
               'variables': [el for el in all_variables if el not in allowed_variables]}
-
+        print('Changed field: ', changed_field)
+        print('{}/ {} - Allowed models:{}'.format(len(allowed_models), len(all_models), allowed_models))
+        print('{}/ {} - Allowed scenarios:{}'.format(len(allowed_scenarios), len(all_scenarios), allowed_scenarios))
+        print('{}/ {} - Allowed regions:{}'.format(len(allowed_regions), len(all_regions), allowed_regions))
+        print('{}/ {} - Allowed variables:{}'.format(len(allowed_variables), len(allowed_variables), allowed_variables))
         return JsonResponse(ls, safe=False)
 
 

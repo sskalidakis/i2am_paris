@@ -20,8 +20,8 @@
                 </h5>
             </div>
             <div class="selects-filters row">
-                <div class="col-md-2 col-xs-6">
-                    <label for="model_name" style="display: block;width: 85%">Models
+                <div class="col-md-2 col-xs-6 form-group">
+                    <label for="model_name" style="display: block;width: 85%">Models</label>
                         <select class="desc_text take_up_space mul-select boot-select" data-dbname="model" placeholder="Select Model(s)"
                                 multiple="multiple"
                                 id="model_name" style="width: 100%">
@@ -29,10 +29,11 @@
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
                         </select>
-                    </label>
+
                 </div>
-                <div class="col-md-2 col-xs-6">
-                    <label for="scenario_name" style="display: block;width: 85%">Scenarios
+
+                <div class="col-md-2 col-xs-6 form-group">
+                    <label for="scenario_name" style="display: block;width: 85%">Scenarios</label>
                         <select class="desc_text take_up_space mul-select boot-select" data-dbname="scenario" multiple="multiple"
                                 placeholder="Select Scenario(s)"
                                 id="scenario_name" style="width: 100%">
@@ -40,10 +41,9 @@
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
                         </select>
-                    </label>
                 </div>
-                <div class="col-md-2 col-xs-6">
-                    <label for="region_name" style="display: block;width: 85%">Regions
+                <div class="col-md-2 col-xs-6 form-group">
+                    <label for="region_name" style="display: block;width: 85%">Regions </label>
                         <select class="desc_text take_up_space mul-select boot-select" data-dbname="region" multiple="multiple"
                                 placeholder="Select Region(s)"
                                 id="region_name" style="width: 100%">
@@ -51,10 +51,9 @@
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
                         </select>
-                    </label>
                 </div>
-                <div class="col-md-2 col-xs-6">
-                    <label for="variable_name" style="display: block;width: 85%">Variables
+                <div class="col-md-2 col-xs-6 form-group">
+                    <label for="variable_name" style="display: block;width: 85%">Variables </label>
                         <select class="desc_text take_up_space boot-select" data-dbname="variable"
                                 placeholder="Select Variable(s)"
                                 id="variable_name" style="width: 100%">
@@ -62,7 +61,7 @@
                                 <option value="{{ el.name }}">{{ el.title }}</option>
                             {% endfor %}
                         </select>
-                    </label>
+
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <a id="clear-button"

@@ -223,3 +223,29 @@ const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
 };
+
+function toTitleCase(str) {
+    return str.replace(/(?:^|\s)\w/g, function (match) {
+        return match.toUpperCase();
+    });
+}
+
+function create_comp_info_text(query_obj) {
+
+    $('#updated-chart-info_intro_comp').empty();
+    var field_list = ['model', 'variable', 'scenario'];
+    var multiple_field = query_obj['multiple_field'];
+    field_list = field_list.filter(e => e !== multiple_field);
+    var dynam_text = '';
+    for (var j = 0; j < field_list.length; j++) {
+        dynam_text = dynam_text + '<div>' + '<h5 style="margin-bottom: 0.4em; font-weight: 600">' + toTitleCase(field_list[j]) + "</h5>" + "<p style=\"margin-bottom: 0.7em;font-size: 0.9em\">" + String($('#' + field_list[j] + '_name_intro_comp').multipleSelect('getSelects', 'text')[0]) + '</p></div>';
+    }
+    dynam_text = dynam_text + '<h5 style="margin-bottom: 0.4em">' + toTitleCase(multiple_field) + 's </h5> <ul style="font-size:0.9em">';
+    var multiple_values = $('#' + multiple_field + '_name_intro_comp').multipleSelect('getSelects', 'text');
+    for (j = 0; j < multiple_values.length; j++) {
+        dynam_text = dynam_text + '<li>' + multiple_values[j] + '</li>'
+    }
+    dynam_text = dynam_text + '</ul>'
+    $(dynam_text).appendTo('#updated-chart-info_intro_comp');
+
+}

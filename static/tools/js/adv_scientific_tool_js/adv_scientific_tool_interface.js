@@ -4,51 +4,65 @@ $(document).ready(function () {
     }, 10);
 
 
-    $('select.boot-select').each(function () {
-        var select = $(this);
-        select.multipleSelect(
-            {
-                filter: true,
-                showClear: true,
-                animate: 'fade',
-                maxHeightUnit: 'row',
-                maxHeight: 8,
-                dropWidth: 250,
-                onClick: function () {
-                    update_unavailable_select_options(select.attr('id'));
-                    populate_selects('#' + select.attr('id'));
-                },
-                onCheckAll: function () {
-                    update_unavailable_select_options(select.attr('id'));
-                    populate_selects('#' + select.attr('id'));
-                },
-                onUncheckAll: function () {
-                    update_unavailable_select_options(select.attr('id'));
-                    populate_selects('#' + select.attr('id'));
-                },
-            });
-    });
+    function initialise_sm_selects()
+    {
+        $('select.boot-select').each(function () {
+            var select = $(this);
+            select.multipleSelect('destroy').multipleSelect(
+                {
+                    filter: true,
+                    showClear: true,
+                    animate: 'fade',
+                    maxHeightUnit: 'row',
+                    maxHeight: 8,
+                    dropWidth: 250,
+                    selectAll: false,
+                    placeholder: 'Please select a value',
+                    onClick: function () {
+                        update_unavailable_select_options(select.attr('id'));
+                        populate_selects('#' + select.attr('id'));
+                    },
+
+
+                   /* onCheckAll: function () {
+                        update_unavailable_select_options(select.attr('id'));
+                        populate_selects('#' + select.attr('id'));
+                    },*/
+                    onUncheckAll: function () {
+                        update_unavailable_select_options(select.attr('id'));
+                        populate_selects('#' + select.attr('id'));
+                    },
+                });
+        });
+    }
+
+    initialise_sm_selects();
+
 
     function transform_multiple_select(selector){
         selector.multipleSelect('destroy').multipleSelect(
             {
                 filter: true,
+                selectAll: false,
                 showClear: true,
                 animate: 'fade',
                 maxHeightUnit: 'row',
                 maxHeight: 8,
                 dropWidth: 250,
-                onClick: function () {
-                    update_unavailable_select_options(selector.attr('id'));
-                },
-                onCheckAll: function () {
-                    update_unavailable_select_options(selector.attr('id'));
-                },
-                onUncheckAll: function () {
-                    update_unavailable_select_options(selector.attr('id'));
-                },
+                placeholder: 'Please select a value'
             }
         );
+    }
+
+    function transform_multiple_add_listeners(selector){
+        selector.multipleSelect('refreshOptions', {
+            onClick: function () {
+                update_unavailable_select_options(selector.attr('id'));
+            },
+            onUncheckAll: function () {
+                update_unavailable_select_options(selector.attr('id'));
+            }
+        });
     }
 
     function populate_selects(selector) {
@@ -63,8 +77,10 @@ $(document).ready(function () {
                 if ($(this).multipleSelect('getSelects').length === 0) {
                     transform_multiple_select(oth_sel);
                     $(this).multipleSelect('setSelects', []);
+                    transform_multiple_add_listeners($(this));
                 } else {
                     transform_multiple_select(oth_sel);
+                    transform_multiple_add_listeners($(this));
                 }
             })
 
@@ -88,15 +104,17 @@ $(document).ready(function () {
                     animate: 'fade',
                     maxHeightUnit: 'row',
                     maxHeight: 8,
+                    selectAll: false,
                     dropWidth: 250,
+                    placeholder:'Please select a value',
                     onClick: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
                     },
-                    onCheckAll: function () {
+                  /*  onCheckAll: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
-                    },
+                    },*/
                     onUncheckAll: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
@@ -108,7 +126,7 @@ $(document).ready(function () {
 
     function update_unavailable_select_options(changed) {
        // TODO: FIX the bugs in this method to clear the selects correctly
-       /* const models = $('#model_name').multipleSelect('getSelects');
+        const models = $('#model_name').multipleSelect('getSelects');
         const scenarios = $('#scenario_name').multipleSelect('getSelects');
         const regions = $('#region_name').multipleSelect('getSelects');
         const variables = $('#variable_name').multipleSelect('getSelects');
@@ -118,16 +136,17 @@ $(document).ready(function () {
             'scenario__name': scenarios,
             'region__name': regions,
             'variable__name': variables,
-            'changed': changed
+            'changed_field': changed
         };
-
+        console.log('Called for changes in the selects');
         $.ajax({
             url: "/update_scientific_model_selects",
             type: "POST",
             data: JSON.stringify(input),
             contentType: 'application/json',
             success: function (data) {
-                $("option").removeAttr('disabled');
+                console.log(data);
+                $("#scientific_tool .boot-select option").removeAttr('disabled');
                 var j;
                 for(j = 0; j < data['models'].length; j++){
                     $("#model_name option[value='"+ data['models'][j] + "']").attr('disabled', 'disabled');
@@ -145,21 +164,29 @@ $(document).ready(function () {
                     $("#variable_name option[value='" + data['variables'][j] + "']").attr('disabled', 'disabled');
                 }
 
+                $('select.boot-select').each(function () {
+                    var select = $(this);
+                    select.multipleSelect('refreshOptions', {})
+                });
+
             },
             error: function (data) {
                 console.log('Cannot update disabled selects. AJAX Call failed.');
             }
-        });*/
+        });
 
 
     }
+
+    $("#clear-button").click(function () {
+        $('select.boot-select').multipleSelect('setSelects', []);
+        update_unavailable_select_options("clear_all");
+        $('#viz_frame_div').hide();
+        $('#chart_info').show();
+    });
 });
 
-$("#clear-button").click(function () {
-    $('select.boot-select').multipleSelect('setSelects', []);
-    $('#viz_frame_div').hide();
-    $('#chart_info').show();
-});
+
 
 $("#run-button").click(function () {
     var viz_frame = $('#viz_frame_div');
@@ -234,9 +261,8 @@ function create_visualisation(query_id, val_list, title_list, unit_list, variabl
         "x_axis_unit": "-",
         "x_axis_type": "text",
         "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
-        "distinct": ["Extractable model output", "Harmonisable model input", "No explicit output or input"],
         "dataset": query_id,
-        "dataset_type": "query",
+        "dataset_type": "query"
     };
     var url = '';
     for (var key in data) {
