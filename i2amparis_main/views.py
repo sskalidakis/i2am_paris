@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
 from django.core import serializers
-from django.db.models import Count
+from django.db.models import Avg, Sum, Max, Min, Count, F
 
 import json
 import urllib
@@ -158,28 +158,28 @@ def update_scientific_model_selects(request):
 
         elif changed_field == 'model_name':
             kept_models = ResultsComp.objects.filter(scenario__name__in=allowed_scenarios,
-                                                        region__name__in=allowed_regions,
-                                                        variable__name__in=allowed_variables).values('model__name',
-                                                                                                     ).distinct()
+                                                     region__name__in=allowed_regions,
+                                                     variable__name__in=allowed_variables).values('model__name',
+                                                                                                  ).distinct()
             allowed_models = [model['model__name'] for model in kept_models]
         elif changed_field == 'scenario_name':
             kept_scenarios = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                           region__name__in=allowed_regions,
-                                                           variable__name__in=allowed_variables).values(
+                                                        region__name__in=allowed_regions,
+                                                        variable__name__in=allowed_variables).values(
                 'scenario__name',
             ).distinct()
             allowed_scenarios = [scenario['scenario__name'] for scenario in kept_scenarios]
         elif changed_field == 'region_name':
             kept_regions = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                         scenario__name__in=allowed_scenarios,
-                                                         variable__name__in=allowed_variables).values(
+                                                      scenario__name__in=allowed_scenarios,
+                                                      variable__name__in=allowed_variables).values(
                 'region__name',
             ).distinct()
             allowed_regions = [region['region__name'] for region in kept_regions]
         elif changed_field == 'variable_name':
             kept_variables = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                         scenario__name__in=allowed_scenarios,
-                                                         region__name__in=allowed_regions).values(
+                                                        scenario__name__in=allowed_scenarios,
+                                                        region__name__in=allowed_regions).values(
                 'variable__name',
             ).distinct()
             allowed_variables = [variable['variable__name'] for variable in kept_variables]
@@ -199,21 +199,15 @@ def update_scientific_model_selects(request):
 
 
 @csrf_exempt
-def populate_scientific_module_datatables(request):
+def populate_detailed_analysis_datatables(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
     if request.method == 'POST':
-        print("----------------------------------")
         models = body['model__name']
         scenarios = body['scenario__name']
         regions = body['region__name']
         variables = body['variable__name']
-
-        print("models = ", models)
-        print("scenarios = ", scenarios)
-        print("regions = ", regions)
-        print("variables = ", variables)
 
         q = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios, region__name__in=regions,
                                        variable__name__in=variables)
@@ -231,6 +225,46 @@ def populate_scientific_module_datatables(request):
             }
             ls.append(temp)
         return JsonResponse(ls, safe=False)
+
+
+@csrf_exempt
+def populate_comparative_analysis_datatables(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    if request.method == 'POST':
+        models = body['model__name']
+        scenarios = body['scenario__name']
+        variables = body['variable__name']
+        agg_var = body['agg_var']
+        agg_func = body['agg_func']
+
+        if agg_var == 'region_id':
+            agg_var = 'region__title'
+        final_data = []
+        if agg_var == 'year':
+            final_data = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
+                                                    variable__name__in=variables).values("model__title",
+                                                                                         "scenario__title",
+                                                                                         "variable__title", "year")
+        elif agg_var == 'region__title':
+            final_data = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
+                                                    variable__name__in=variables).values("model__title",
+                                                                                         "scenario__title",
+                                                                                         "variable__title",
+                                                                                         "region__title")
+        if agg_func == 'Avg':
+            final_data = final_data.annotate(value=Avg('value'), unit=Max('unit__title'))
+        elif agg_func == 'Sum':
+            final_data = final_data.annotate(value=Sum('value'), unit=Max('unit__title'))
+        elif agg_func == 'Max':
+            final_data = final_data.annotate(value=Max('value'), unit=Max('unit__title'))
+        elif agg_func == 'Min':
+            final_data = final_data.annotate(value=Min('value'), unit=Max('unit__title'))
+        elif agg_func == 'Count':
+            final_data = final_data.annotate(value=Count('value'), unit=Max('unit__title'))
+
+        return JsonResponse({'agg_var': agg_var, 'final_data': list(final_data)}, safe=False)
 
 
 def detailed_model_doc(request, model=''):

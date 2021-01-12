@@ -45,6 +45,7 @@ $("#run-button_sm_intro_comp").click(function () {
     var scenario_sel = $('#scenario_name_intro_comp');
     var variable_sel = $('#variable_name_intro_comp');
     var agg_func_sel = $('#agg_func_intro_comp');
+    var agg_var = $('input[name="agg_var_input"]:checked');
     var model_full = (model_sel.multipleSelect('getSelects').length === 0);
     var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
     var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
@@ -67,8 +68,7 @@ $("#run-button_sm_intro_comp").click(function () {
         /* Query creation */
         var query = {};
         query["query_name"] = "quantity_comparison_query";
-        var json_query_obj = create_query_json_column(); //DELETE REGION IN NEW FILE JS
-
+        var json_query_obj = create_query_json_column();
         query["parameters"] = json_query_obj['data'];
         create_comp_info_text(json_query_obj);
         const variable_selection = variable_sel.multipleSelect('getSelects','text')[0];
@@ -83,11 +83,12 @@ $("#run-button_sm_intro_comp").click(function () {
                 $('.viz-container').show();
                 var query_id = data['query_id'];
                 create_visualisation_col(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], json_query_obj['grouping_var'], json_query_obj['grouping_var_title'], variable_selection);
-            }, //CREATE NEW FUNCTION THAT CALL COLUMN CHART QUERY
+            },
             error: function (data) {
                 console.log(data);
             }
         });
+        populate_comparative_datatables(model_sel, scenario_sel, variable_sel, agg_var, agg_func_sel);
     }
 
 });

@@ -166,7 +166,7 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, gro
     var viz_frame = $('#viz_iframe_intro_comp');
     viz_frame.off();
     viz_frame.hide();
-    $('#loading_bar').show();
+    $('#quantity_loading_bar').show();
 
 
     var data = {
@@ -213,7 +213,7 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, gro
             }
         });
 
-        $('#loading_bar').hide();
+        $('#quantity_loading_bar').hide();
 
     });
 

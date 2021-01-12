@@ -5,11 +5,11 @@
         <div class="row" style="margin-top: 8em; height: 90vh">
 
             <div class="tooltip-demo col-sm-12 col-xs-12 row">
-                <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
+                <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; cursor: help;"
                     data-toggle="tooltip" data-placement="auto"
                     title="<p>These are the results of the analysis for a selected model, region,
                                 variable(s), scenario in function of time.</p>">
-                    Advanced Scientific Tool
+                    Detailed Configurable Analysis
                 </h2>
             </div>
             <div class="tooltip-demo col-sm-12 col-xs-12 row">
@@ -84,7 +84,7 @@
                         <iframe id="viz_iframe" src="" title="Results"
                                 style="width: 100%; height: 100%;  border:none"></iframe>
                         <div id="loading_bar"
-                             style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
+                             style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em;">
                             <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
                                  src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
                             <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
@@ -112,4 +112,7 @@
         </div>
 
     </div>
+    {% include "i2amparis_main/paris_workspace_detailed_configurable_analysis_datatables.html" %}
 </div>
+
+
