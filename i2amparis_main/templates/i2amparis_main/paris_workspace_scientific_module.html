@@ -50,7 +50,7 @@
 
 {% block content %}
     <div class="tab-content">
-        {% include "i2amparis_main/paris_workspace_introductory_page.html" %}
+        {% include "i2amparis_main/paris_workspace_intro_page.html" %}
         {% include "i2amparis_main/paris_workspace_detailed_configurable_analysis.html" %}
         {% include "i2amparis_main/paris_workspace_comparative_analysis.html" %}
     </div>
@@ -78,23 +78,6 @@
     </script>
 
 
-    <script>
-        $(document).ready(function () {
-            $('select.sum-boot-select').each(function () {
-                var select = $(this);
-                select.multipleSelect(
-                    {
-                        filter: true,
-                        showClear: true,
-                        animate: 'fade',
-                        maxHeightUnit: 'row',
-                        maxHeight: 8,
-                        dropWidth: 250,
-                        selectAll: false,
-                    });
-            });
-        });
-    </script>
 
 {% endblock %}
 

@@ -59,6 +59,14 @@
             text-align: left;
         }
 
+        sub {
+            vertical-align: sub;
+            font-size: 0.6em;
+        }
+        h2 {
+            z-index: -1000!important;
+        }
+
 
     </style>
     {% block css %}
@@ -101,13 +109,14 @@
 
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src={% static "tools/js/adv_scientific_tool_js/json_query_creator.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/adv_scientific_tool_interface.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/detailed_json_query_creator.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/detailed_configurable_analysis.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/cookie_retriever.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/loaddatatable.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/load_datatable_detailed_conf.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/load_datatable_comparative.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/sm_summary.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/column_chart_utils.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/comparative_analysis_interface.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/comparative_json_query_creator.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface.js" %}></script>
 
 
 

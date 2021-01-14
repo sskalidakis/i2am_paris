@@ -4,8 +4,7 @@ $(document).ready(function () {
     }, 10);
 
 
-    function initialise_sm_selects()
-    {
+    function initialise_sm_selects() {
         $('select.boot-select').each(function () {
             var select = $(this);
             select.multipleSelect('destroy').multipleSelect(
@@ -24,10 +23,10 @@ $(document).ready(function () {
                     },
 
 
-                   /* onCheckAll: function () {
-                        update_unavailable_select_options(select.attr('id'));
-                        populate_selects('#' + select.attr('id'));
-                    },*/
+                    /* onCheckAll: function () {
+                         update_unavailable_select_options(select.attr('id'));
+                         populate_selects('#' + select.attr('id'));
+                     },*/
                     onUncheckAll: function () {
                         update_unavailable_select_options(select.attr('id'));
                         populate_selects('#' + select.attr('id'));
@@ -39,7 +38,7 @@ $(document).ready(function () {
     initialise_sm_selects();
 
 
-    function transform_multiple_select(selector){
+    function transform_multiple_select(selector) {
         selector.multipleSelect('destroy').multipleSelect(
             {
                 filter: true,
@@ -54,7 +53,7 @@ $(document).ready(function () {
         );
     }
 
-    function transform_multiple_add_listeners(selector){
+    function transform_multiple_add_listeners(selector) {
         selector.multipleSelect('refreshOptions', {
             onClick: function () {
                 update_unavailable_select_options(selector.attr('id'));
@@ -106,15 +105,15 @@ $(document).ready(function () {
                     maxHeight: 8,
                     selectAll: false,
                     dropWidth: 250,
-                    placeholder:'Please select a value',
+                    placeholder: 'Please select a value',
                     onClick: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
                     },
-                  /*  onCheckAll: function () {
-                        update_unavailable_select_options(other_select.attr('id'));
-                        populate_selects('#' + other_select.attr('id'));
-                    },*/
+                    /*  onCheckAll: function () {
+                          update_unavailable_select_options(other_select.attr('id'));
+                          populate_selects('#' + other_select.attr('id'));
+                      },*/
                     onUncheckAll: function () {
                         update_unavailable_select_options(other_select.attr('id'));
                         populate_selects('#' + other_select.attr('id'));
@@ -125,7 +124,7 @@ $(document).ready(function () {
     }
 
     function update_unavailable_select_options(changed) {
-       // TODO: FIX the bugs in this method to clear the selects correctly
+
         const models = $('#model_name').multipleSelect('getSelects');
         const scenarios = $('#scenario_name').multipleSelect('getSelects');
         const regions = $('#region_name').multipleSelect('getSelects');
@@ -138,7 +137,7 @@ $(document).ready(function () {
             'variable__name': variables,
             'changed_field': changed
         };
-        console.log('Called for changes in the selects');
+
         $.ajax({
             url: "/update_scientific_model_selects",
             type: "POST",
@@ -148,8 +147,8 @@ $(document).ready(function () {
                 console.log(data);
                 $("#scientific_tool .boot-select option").removeAttr('disabled');
                 var j;
-                for(j = 0; j < data['models'].length; j++){
-                    $("#model_name option[value='"+ data['models'][j] + "']").attr('disabled', 'disabled');
+                for (j = 0; j < data['models'].length; j++) {
+                    $("#model_name option[value='" + data['models'][j] + "']").attr('disabled', 'disabled');
                 }
 
                 for (j = 0; j < data['scenarios'].length; j++) {
@@ -187,7 +186,6 @@ $(document).ready(function () {
 });
 
 
-
 $("#run-button").click(function () {
     var viz_frame = $('#viz_frame_div');
     var chart_info = $('#chart-side-info');
@@ -217,32 +215,36 @@ $("#run-button").click(function () {
         });
 
         /* # Query creation*/
-        var query = {};
-        query["query_name"] = "scientific_tool_query";
-        var json_query_obj = create_query_json();
-        query["parameters"] = json_query_obj['data'];
-        create_chart_info_text(json_query_obj);
-        var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
-        $.ajax({
-            url: "/data_manager/create_query",
-            type: "POST",
-            data: JSON.stringify(query),
-            contentType: 'application/json',
-            success: function (data) {
-                console.log("query created");
-                console.log(data);
-                $('.viz-container').show();
-                var query_id = data['query_id'];
-                create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-        populate_datatables(model_sel, scenario_sel, region_sel, variable_sel);
+        var jq_obj = create_query_json();
+        retrieve_series_info(model_sel, scenario_sel, region_sel, variable_sel, jq_obj);
+
     }
 });
 
+function start_qc_v_process(model_sel, scenario_sel, region_sel, variable_sel, json_query_obj) {
+    var query = {};
+    query["query_name"] = "scientific_tool_query";
+    query["parameters"] = json_query_obj['data'];
+    create_chart_info_text(json_query_obj);
+    var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
+    $.ajax({
+        url: "/data_manager/create_query",
+        type: "POST",
+        data: JSON.stringify(query),
+        contentType: 'application/json',
+        success: function (data) {
+            console.log("query created");
+            console.log(data);
+            $('.viz-container').show();
+            var query_id = data['query_id'];
+            create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+    populate_datatables(model_sel, scenario_sel, region_sel, variable_sel);
+}
 
 
 function create_visualisation(query_id, val_list, title_list, unit_list, variable) {
