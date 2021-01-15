@@ -20,6 +20,8 @@ def line_chart_query(query_id):
     results = []
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
+    if query_name == 'fossil_energy_co2_query':
+        results = fossil_energy_co2_query(query_id)
     return results
 
 
@@ -29,6 +31,23 @@ def column_chart_query(query_id):
     if query_name == 'quantity_comparison_query':
         results = quantity_comparison_query(query_id)
     return results
+
+
+def fossil_energy_co2_query(query_id):
+    '''
+    This method is the execution of the query for creating data for the intro page of the advanced scientific tool fossil_energy_co2 linechart
+    :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool linechart
+    '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    else:
+        df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
+        final_data = list(
+            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+                'index').values())
+        return final_data
 
 
 def heatmap_query(query_id):
@@ -53,7 +72,7 @@ def scentific_tool_query(query_id):
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
     final_data = list(
-        df.pivot(index="year", columns=multiple_field+"__name", values="value").reset_index().fillna(0).to_dict(
+        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
             'index').values())
     return final_data
 
@@ -66,8 +85,9 @@ def quantity_comparison_query(query_id):
     if df.empty:
         return []
     if var_table_name is None:
-        final_data = list(df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
-            'index').values())
+        final_data = list(
+            df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
+                'index').values())
     else:
 
         grouping_var_table = apps.get_model(DATA_TABLES_APP, var_table_name)
@@ -82,7 +102,6 @@ def quantity_comparison_query(query_id):
             joined_df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(
                 0).to_dict(
                 'index').values())
-
 
     return final_data
 

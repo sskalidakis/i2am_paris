@@ -79,57 +79,38 @@ def retrieve_series_info(request):
                    "message": 'This HTTP method is not supported by the API'}
         return JsonResponse(context)
 
-#
-# def retrieve_series_info(request):
-#     if request.method == 'POST':
-#         unit_info = json.loads(request.body)
-#         if 'region_name' in unit_info:
-#             try:
-#                 units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
-#                                                    scenario__name__in=unit_info['scenario_name'],
-#                                                    region__name__in=unit_info['region_name'],
-#                                                    variable__name__in=unit_info['variable_name']
-#                                                    ).values(unit_info['multiple'] + '__name',
-#                                                             unit_info['multiple'] + '__title',
-#                                                             'unit__name').distinct()
-#                 instances = []
-#                 for obj in units:
-#                     instances.append(
-#                         {"series": obj[unit_info['multiple'] + '__name'],
-#                          "title": obj[unit_info['multiple'] + '__title'],
-#                          "unit": obj['unit__name']}
-#                     )
-#                 context = {"instances": instances}
-#             except Exception as e:
-#                 print('Cannot retrieve unit for the selected combination')
-#                 print(e)
-#                 context = {}
-#         else:
-#             try:
-#                 units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
-#                                                    scenario__name__in=unit_info['scenario_name'],
-#                                                    variable__name__in=unit_info['variable_name']
-#                                                    ).values(unit_info['multiple'] + '__name',
-#                                                             unit_info['multiple'] + '__title',
-#                                                             'unit__name').distinct()
-#                 instances = []
-#                 for obj in units:
-#                     instances.append(
-#                         {"series": obj[unit_info['multiple'] + '__name'],
-#                          "title": obj[unit_info['multiple'] + '__title'],
-#                          "unit": obj['unit__name']}
-#                     )
-#                 context = {"instances": instances}
-#             except Exception as e:
-#                 print('Cannot retrieve unit for the selected combination')
-#                 print(e)
-#                 context = {}
-#         print('context: ', context)
-#         return JsonResponse(context)
-#     else:
-#         context = {"status": 400,
-#                    "message": 'This HTTP method is not supported by the API'}
-#         return JsonResponse(context)
+
+def retrieve_series_info_fossil_energy_co2(request):
+    if request.method == 'POST':
+        unit_info = json.loads(request.body)
+        try:
+            units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                               scenario__name__in=unit_info['scenario_name'],
+                                               variable__name=unit_info['variable_name']
+                                               ).values('model__name',
+                                                        'model__title',
+                                                        'scenario__name',
+                                                        'scenario__title',
+                                                        'unit__name').distinct()
+            instances = []
+            for obj in units:
+                instances.append(
+                    {"series": "{}_{}".format(obj['model__name'], obj['scenario__name']),
+                     "title": "{}- {}".format(obj['model__title'], obj['scenario__title']),
+                     "unit": obj['unit__name']}
+                )
+            context = {"instances": instances}
+
+        except Exception as e:
+            print('Cannot retrieve unit for the selected combination')
+            print(e)
+            context = {}
+        print('context: ', context)
+        return JsonResponse(context)
+    else:
+        context = {"status": 400,
+                   "message": 'This HTTP method is not supported by the API'}
+        return JsonResponse(context)
 
 
 def receive_data(request):

@@ -62,6 +62,7 @@ def extract_groupings(grouping):
         agg_params[el['name']] = str(el['agg_func'])
     return group_by_params, agg_params
 
+
 def group_by_function(group_by_params, agg_params, data):
     final_data = data.objects.values(*group_by_params)
     for value, agg_func in agg_params.items():
@@ -76,7 +77,6 @@ def group_by_function(group_by_params, agg_params, data):
         elif agg_func == 'Count':
             final_data = final_data.annotate(value=Count(value))
     return final_data
-
 
 
 def get_query_parameters(query_id):
