@@ -10,7 +10,7 @@ from data_manager.orm_query_manager import heatmap_query, get_query_parameters, 
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
-    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, MORE_MAP_HEATMAP_DATA
+    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, MORE_MAP_HEATMAP_DATA, SANKEYCHORD_DATA_3
 
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, Variable, Dataset
 
@@ -781,7 +781,7 @@ def sankey_diagram(request):
     # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
     # data = SANKEYCHORD_DATA
-    data = SANKEYCHORD_DATA_2
+    data = SANKEYCHORD_DATA_3
     sankey_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 

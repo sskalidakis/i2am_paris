@@ -86,7 +86,8 @@ def retrieve_series_info_fossil_energy_co2(request):
         try:
             units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
                                                scenario__name__in=unit_info['scenario_name'],
-                                               variable__name=unit_info['variable_name']
+                                               variable__name__in=unit_info['variable_name'],
+                                               region__name__in=unit_info['region_name']
                                                ).values('model__name',
                                                         'model__title',
                                                         'scenario__name',

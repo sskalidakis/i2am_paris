@@ -85,7 +85,7 @@ function start_qc_v_column_process(model_sel, scenario_sel, variable_sel, agg_va
         data: JSON.stringify(query),
         contentType: 'application/json',
         success: function (data) {
-            console.log("query created");
+            console.log("Comparative Analysis Query created");
             $('.viz-container').show();
             var query_id = data['query_id'];
             create_visualisation_col(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], json_query_obj['grouping_var'], json_query_obj['grouping_var_title'], variable_selection);
@@ -141,16 +141,16 @@ function create_visualisation_col(query_id, val_list, title_list, unit_list, gro
     viz_frame.attr('src', complete_url);
     viz_frame.on('load', function () {
         $(this).show();
-        console.log("delete old query");
         $.ajax({
             url: "/data_manager/delete_query",
             type: "POST",
             data: JSON.stringify(query_id),
             contentType: 'application/json',
             success: function (data) {
-                console.log(data);
+                console.log("Comparative Analysis Temporary Query Deleted");
             },
             error: function (data) {
+                console.log(data)
             }
         });
 

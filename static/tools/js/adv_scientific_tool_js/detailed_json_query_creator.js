@@ -108,7 +108,6 @@ function retrieve_series_info(model_sel, scenario_sel, region_sel, variable_sel,
         data: JSON.stringify(units_info),
         contentType: 'application/json',
         success: function (data) {
-            console.log(data);
             instances = data["instances"];
             for (var i = 0; i < instances.length; i++) {
                 final_val_list.push(instances[i]['series']);

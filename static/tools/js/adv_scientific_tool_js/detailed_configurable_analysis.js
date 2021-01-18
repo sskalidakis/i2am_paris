@@ -144,7 +144,6 @@ $(document).ready(function () {
             data: JSON.stringify(input),
             contentType: 'application/json',
             success: function (data) {
-                console.log(data);
                 $("#scientific_tool .boot-select option").removeAttr('disabled');
                 var j;
                 for (j = 0; j < data['models'].length; j++) {
@@ -193,10 +192,6 @@ $("#run-button").click(function () {
     var scenario_sel = $('#scenario_name');
     var region_sel = $('#region_name');
     var variable_sel = $('#variable_name');
-    console.log(model_sel.multipleSelect('getSelects'));
-    console.log(scenario_sel.multipleSelect('getSelects'));
-    console.log(region_sel.multipleSelect('getSelects'));
-    console.log(variable_sel.multipleSelect('getSelects'));
     var model_full = (model_sel.multipleSelect('getSelects').length === 0);
     var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
     var region_full = (region_sel.multipleSelect('getSelects').length === 0);
@@ -233,8 +228,7 @@ function start_qc_v_process(model_sel, scenario_sel, region_sel, variable_sel, j
         data: JSON.stringify(query),
         contentType: 'application/json',
         success: function (data) {
-            console.log("query created");
-            console.log(data);
+            console.log("Detailed Configurable Analysis query created");
             $('.viz-container').show();
             var query_id = data['query_id'];
             create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
@@ -284,14 +278,13 @@ function create_visualisation(query_id, val_list, title_list, unit_list, variabl
     viz_frame.attr('src', complete_url);
     viz_frame.on('load', function () {
         $(this).show();
-        console.log("delete old query");
         $.ajax({
             url: "/data_manager/delete_query",
             type: "POST",
             data: JSON.stringify(query_id),
             contentType: 'application/json',
             success: function (data) {
-                console.log(data);
+                console.log("Detailed Configurable Analysis Temporary Query Deleted");
             },
             error: function (data) {
                 console.log(data);

@@ -1,35 +1,19 @@
 $(document).ready(function () {
-    $('select.sum-boot-select').each(function () {
-        var select = $(this);
-        select.multipleSelect(
-            {
-                filter: true,
-                showClear: true,
-                animate: 'fade',
-                maxHeightUnit: 'row',
-                maxHeight: 8,
-                dropWidth: 250,
-            });
+
+    $("#global_primary_energy-clear-button").click(function () {
+        $('#global_primary_energy select.sum-boot-select').multipleSelect('setSelects', []);
+        $('#global_primary_energy_viz_frame_div').hide();
     });
 
-    $("#fossil_energy_co2-clear-button").click(function () {
-        $('#fossil_energy_co2 select.sum-boot-select').multipleSelect('setSelects', []);
-        $('#fossil_energy_co2_viz_frame_div').hide();
-    });
-
-    $("#fossil_energy_co2-run-button").click(function () {
-        var viz_frame = $('#fossil_energy_co2_viz_frame_div');
-        var model_sel = $('#fossil_energy_co2_model_name');
-        var scenario_sel = $('#fossil_energy_co2_scenario_name');
-        var region_sel = $('#fossil_energy_co2_region_name');
-        var variable = 'Emissions|CO2|Energy';
-        console.log(model_sel.multipleSelect('getSelects'));
-        console.log(scenario_sel.multipleSelect('getSelects'));
-        console.log(region_sel.multipleSelect('getSelects'));
+    $("#global_primary_energy-run-button").click(function () {
+        var viz_frame = $('#global_primary_energy_viz_frame_div');
+        var model_sel = $('#global_primary_energy_model_name');
+        var scenario_sel = $('#global_primary_energy_scenario_name');
+        var variable_sel = $('#global_primary_energy_variable_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
         var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
-        var region_full = (region_sel.multipleSelect('getSelects').length === 0);
-        if (model_full || scenario_full || region_full) {
+        var variable_full = (variable_sel.multipleSelect('getSelects').length === 0);
+        if (model_full || scenario_full || variable_full) {
             alert('Please, select at least one value from each field to update the visualisation.')
         } else {
             viz_frame.show();
@@ -42,15 +26,16 @@ $(document).ready(function () {
             });
 
             /* # Query creation*/
-            var jq_obj = create_fossil_energy_co2_query();
-            retrieve_series_info_fossil_energy_co2(model_sel, scenario_sel, region_sel, variable, jq_obj);
+            var jq_obj = create_global_primary_energy_query();
+            console.log('Global Primary Energy JSON Query Created');
+            retrieve_series_info_global_primary_energy(jq_obj);
 
         }
     });
 
-    function start_qc_v_fossil_energy_co2_process(model_sel, scenario_sel, region_sel, variable, json_query_obj){
+    function start_qc_v_global_primary_energy_process(json_query_obj, variable){
         var query = {};
-        query["query_name"] = "fossil_energy_co2_query";
+        query["query_name"] = "global_primary_energy_query";
         query["parameters"] = json_query_obj['data'];
         // var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
         $.ajax({
@@ -59,11 +44,9 @@ $(document).ready(function () {
             data: JSON.stringify(query),
             contentType: 'application/json',
             success: function (data) {
-                console.log("query created");
-                console.log(data);
-                $('.viz-container').show();
+                console.log('Global Primary Energy Query Saved in DB');
                 var query_id = data['query_id'];
-                create_visualisation_fossil_energy_co2(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable);
+                create_visualisation_global_primary_energy(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable);
             },
             error: function (data) {
                 console.log(data);
@@ -72,17 +55,17 @@ $(document).ready(function () {
     }
 
 
-    function create_visualisation_fossil_energy_co2(query_id, val_list, title_list, unit_list, variable) {
-        var viz_frame = $('#fossil_energy_co2_viz_iframe');
+    function create_visualisation_global_primary_energy(query_id, val_list, title_list, unit_list, variable) {
+        var viz_frame = $('#global_primary_energy_viz_iframe');
         viz_frame.off();
         viz_frame.hide();
-        $('#fossil_energy_co2_loading_bar').show();
+        $('#global_primary_energy_loading_bar').show();
 
         var data = {
             "y_var_names": val_list,
             "y_var_titles": title_list,
             "y_var_units": unit_list,
-            "y_axis_title": String(variable),
+            "y_axis_title": 'Global '+String(variable[0]),
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
@@ -104,46 +87,46 @@ $(document).ready(function () {
 
             }
         }
-
+        console.log('Global Primary Energy Ready to launch visualisation');
         var complete_url = "/visualiser/show_line_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
+            console.log('Global Primary Energy Visualisation Completed');
             $(this).show();
-            console.log("delete old query");
             $.ajax({
                 url: "/data_manager/delete_query",
                 type: "POST",
                 data: JSON.stringify(query_id),
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log(data);
+                    console.log("Global Primary Energy Temporary Query Deleted");
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
 
-            $('#fossil_energy_co2_loading_bar').hide();
+            $('#global_primary_energy_loading_bar').hide();
 
         });
 
     }
 
-    function create_fossil_energy_co2_query() {
-        var sel_model = $('#fossil_energy_co2_model_name');
-        var sel_scenario = $('#fossil_energy_co2_scenario_name');
-        var sel_region = $('#fossil_energy_co2_region_name');
-        var variable = ['Emissions|CO2|Energy'];
+    function create_global_primary_energy_query() {
+        var sel_model = $('#global_primary_energy_model_name');
+        var sel_scenario = $('#global_primary_energy_scenario_name');
+        var sel_variable = $('#global_primary_energy_variable_name');
+        var regions = ['World'];
 
         const models = sel_model.multipleSelect('getSelects');
         const scenarios = sel_scenario.multipleSelect('getSelects');
-        const regions = sel_region.multipleSelect('getSelects');
+        const variables = sel_variable.multipleSelect('getSelects');
 
         const input_dict = {
             'model__name': models,
             'scenario__name': scenarios,
             'region__name': regions,
-            'variable__name': variable
+            'variable__name': variables
         };
         var selected = [];
         for (var i in input_dict) {
@@ -196,19 +179,20 @@ $(document).ready(function () {
 
         return {
             "models": models,
-            "regions": regions,
+            "variables": variables,
             "scenarios": scenarios,
+            "regions": regions,
             "query_data": query_data
         }
 
     }
 
-    function retrieve_series_info_fossil_energy_co2(model_sel, region_sel, scenario_sel, variable, jq_obj) {
+    function retrieve_series_info_global_primary_energy(jq_obj) {
         const units_info = {
             "model_name": jq_obj["models"],
-            "region_name": jq_obj["regions"],
+            "variable_name": jq_obj["variables"],
             "scenario_name": jq_obj["scenarios"],
-            "variable_name": variable,
+            "region_name": jq_obj["regions"],
         };
         var instances = [];
         var final_val_list = [];
@@ -220,7 +204,7 @@ $(document).ready(function () {
             data: JSON.stringify(units_info),
             contentType: 'application/json',
             success: function (data) {
-                console.log(data);
+                console.log('Global Primary Energy Unit Info Retrieved');
                 instances = data["instances"];
                 for (var i = 0; i < instances.length; i++) {
                     final_val_list.push(instances[i]['series']);
@@ -233,7 +217,7 @@ $(document).ready(function () {
                     "title_list": final_title_list,
                     "unit_list": final_unit_list
                 };
-                start_qc_v_fossil_energy_co2_process(model_sel, scenario_sel, region_sel, variable, json_object)
+                start_qc_v_global_primary_energy_process(json_object, jq_obj['variables'])
 
             },
             error: function (data) {
@@ -243,6 +227,6 @@ $(document).ready(function () {
 
     }
 
-    $("#fossil_energy_co2-run-button").trigger('click');
+    $("#global_primary_energy-run-button").trigger('click');
 });
 

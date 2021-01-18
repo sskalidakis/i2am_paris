@@ -96,7 +96,6 @@ function create_query_json_column() {
         }
 
     };
-    console.log(query_data);
 
     return {
         "models": models,
