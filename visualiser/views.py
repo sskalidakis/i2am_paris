@@ -396,7 +396,6 @@ def generate_data_for_column_chart(dataset, dataset_type, index):
     final_data = []
     if dataset_type == 'query':
         final_data = column_chart_query(dataset)
-
     return final_data
 
 
@@ -513,7 +512,10 @@ def show_stacked_column_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-    data = COLUMNCHART_DATA
+
+    dataset = response_data_xy['dataset']
+    dataset_type = response_data_xy['dataset_type']
+    data = generate_data_for_column_chart(dataset, dataset_type, x_axis_name)
     print(data)
     color_list = define_color_code_list(color_list_request)
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,

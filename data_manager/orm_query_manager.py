@@ -1,7 +1,7 @@
 import json
 
 from data_manager import models
-from i2amparis_main.models import Variable
+from i2amparis_main.models import Variable, ModelsInfo
 from data_manager.models import Query
 from data_manager.utils import query_execute
 import pandas as pd
@@ -20,8 +20,9 @@ def line_chart_query(query_id):
     results = []
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
-    if query_name == 'fossil_energy_co2_query':
-        results = fossil_energy_co2_query(query_id)
+    elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
+                        'global_ccs_2_query', 'global_primary_energy_query']:
+        results = model_scenario_intro_page_query(query_id)
     return results
 
 
@@ -30,12 +31,40 @@ def column_chart_query(query_id):
     results = []
     if query_name == 'quantity_comparison_query':
         results = quantity_comparison_query(query_id)
+    elif query_name == 'primary_energy_by_fuel_avg_models_query':
+        results = primary_energy_by_fuel_avg_query(query_id, 'model_id')
+    elif query_name == 'primary_energy_by_fuel_avg_scenarios_query':
+        results = primary_energy_by_fuel_avg_query(query_id, 'scenario_id')
     return results
 
 
-def fossil_energy_co2_query(query_id):
+def primary_energy_by_fuel_avg_query(query_id, grouping_val):
     '''
-    This method is the execution of the query for creating data for the intro page of the advanced scientific tool fossil_energy_co2 linechart
+     This method is the execution of the query for creating data for the intro page of the advanced scientific tool for column charts that show global primary energy per model averaged across scenarios
+     :param grouping_val: This variable shows whether the grouping is done accross models or scenarios
+     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool columnchart
+     '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+
+    grouping_var_data = ModelsInfo.objects.all().values()
+    grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title']].rename(
+        columns={'id': grouping_val})
+
+    joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
+    joined_df.drop(grouping_val, axis=1, inplace=True)
+    joined_df = joined_df.rename(columns={'title': grouping_val})
+    final_data = list(
+        joined_df.pivot(index=grouping_val, columns="variable__name", values="value").reset_index().fillna(
+            0).to_dict(
+            'index').values())
+
+    return final_data
+
+
+def model_scenario_intro_page_query(query_id):
+    '''
+    This method is the execution of the query for creating data for the intro page of the advanced scientific tool for all charts that use scenario_model series
     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool linechart
     '''
     data, add_params = query_execute(query_id)
