@@ -113,7 +113,7 @@ $(document).ready(function () {
     function create_global_approximate_temperature_query() {
         var sel_model = $('#global_approximate_temperature_model_name');
         var sel_scenario = $('#global_approximate_temperature_scenario_name');
-        var variables = ['Approximate_Temperature'];
+        var variables = ['Temperature|Global Mean'];
         var regions = ['World'];
 
         const models = sel_model.multipleSelect('getSelects');

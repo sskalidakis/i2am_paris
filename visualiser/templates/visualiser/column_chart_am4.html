@@ -38,6 +38,10 @@
             categoryAxis.title.fontWeight = 600;
             categoryAxis.title.marginTop = 10;
             categoryAxis.title.marginBottom = 20;
+            categoryAxis.renderer.labels.template.rotation = 45;
+            categoryAxis.renderer.labels.template.verticalCenter = "middle";
+            categoryAxis.renderer.labels.template.horizontalCenter = "left";
+            categoryAxis.renderer.labels.template.fontSize = '0.9em';
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.fontWeight = 600 ;
@@ -77,7 +81,7 @@
 
             // Add scrollbar
             chart.scrollbarX = new am4charts.XYChartScrollbar();
-            chart.scrollbarX.series.push(series[0]);
+            {#chart.scrollbarX.series.push(series[0]);#}
 
             function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title,
                                    x_axis_name, chart_3d) {

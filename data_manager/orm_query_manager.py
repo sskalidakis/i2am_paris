@@ -1,7 +1,7 @@
 import json
 
 from data_manager import models
-from i2amparis_main.models import Variable, ModelsInfo
+from i2amparis_main.models import Variable, ModelsInfo, ScenariosRes
 from data_manager.models import Query
 from data_manager.utils import query_execute
 import pandas as pd
@@ -41,25 +41,34 @@ def column_chart_query(query_id):
 def primary_energy_by_fuel_avg_query(query_id, grouping_val):
     '''
      This method is the execution of the query for creating data for the intro page of the advanced scientific tool for column charts that show global primary energy per model averaged across scenarios
-     :param grouping_val: This variable shows whether the grouping is done accross models or scenarios
+     :param grouping_val: This variable shows whether the grouping is done across models or scenarios
      :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool columnchart
      '''
+    if grouping_val == 'model_id':
+        record_title = 'model_title'
+        grouping_var_data = ModelsInfo.objects.all().values()
+    else:
+        record_title = 'title'
+        grouping_var_data = ScenariosRes.objects.all().values()
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    else:
+        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', record_title]].rename(
+            columns={'id': grouping_val, record_title: 'title'})
 
-    grouping_var_data = ModelsInfo.objects.all().values()
-    grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title']].rename(
-        columns={'id': grouping_val})
+        joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
 
-    joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
-    joined_df.drop(grouping_val, axis=1, inplace=True)
-    joined_df = joined_df.rename(columns={'title': grouping_val})
-    final_data = list(
-        joined_df.pivot(index=grouping_val, columns="variable__name", values="value").reset_index().fillna(
-            0).to_dict(
-            'index').values())
+        joined_df.drop(grouping_val, axis=1, inplace=True)
+        joined_df = joined_df.rename(columns={'title': grouping_val})
 
-    return final_data
+        joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
+        final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(0)
+        # final_df['zero'] = 0
+        final_data = list(final_df.to_dict('index').values())
+
+        return final_data
 
 
 def model_scenario_intro_page_query(query_id):
@@ -69,6 +78,7 @@ def model_scenario_intro_page_query(query_id):
     '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
+
     if df.empty:
         return []
     else:
@@ -118,14 +128,13 @@ def quantity_comparison_query(query_id):
             df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
                 'index').values())
     else:
-
         grouping_var_table = apps.get_model(DATA_TABLES_APP, var_table_name)
         grouping_var_data = grouping_var_table.objects.all().values()
         grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title']].rename(
             columns={'id': grouping_val})
 
         joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
-        joined_df.drop('region_id', axis=1, inplace=True)
+        joined_df.drop(grouping_val, axis=1, inplace=True)
         joined_df = joined_df.rename(columns={'title': grouping_val})
         final_data = list(
             joined_df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(

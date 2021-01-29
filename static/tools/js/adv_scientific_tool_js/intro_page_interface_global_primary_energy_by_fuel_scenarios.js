@@ -13,6 +13,7 @@ $(document).ready(function () {
         /* # Query creation*/
         var jq_obj = create_global_primary_energy_by_fuel_2_query();
         console.log('Global Primary Energy by Fuel 2 JSON Query Created');
+        console.log(jq_obj);
         start_qc_v_global_primary_energy_by_fuel_2_process(jq_obj);
 
 
@@ -20,7 +21,7 @@ $(document).ready(function () {
 
     function start_qc_v_global_primary_energy_by_fuel_2_process(json_query_obj) {
         var query = {};
-        query["query_name"] = "global_primary_energy_by_fuel_avg_scenarios_query";
+        query["query_name"] = "primary_energy_by_fuel_avg_scenarios_query";
         query["parameters"] = json_query_obj['query_data'];
         $.ajax({
             url: "/data_manager/create_query",
@@ -46,16 +47,18 @@ $(document).ready(function () {
         $('#global_primary_energy_by_fuel_2_loading_bar').show();
 
         var data = {
-            //TODO: Fix titles and names in the request
-            "y_var_names": ['CurPol_CarbonPrice', 'CurPol_EmmissionIntensity', 'NDC_CarbonPrice', 'NDC_EmmissionIntensity'],
-            "y_var_titles": ['CurPol_CarbonPrice', 'CurPol_EmmissionIntensity', 'NDC_CarbonPrice', 'NDC_EmmissionIntensity'],
+            "y_var_names": ['PR_CurPol_CP_Primary Energy|Wind', 'PR_CurPol_CP_Primary Energy|Solar', 'PR_CurPol_CP_Primary Energy|Hydro', 'PR_CurPol_CP_Primary Energy|Nuclear', 'PR_CurPol_CP_Primary Energy|Biomass', 'PR_CurPol_CP_Primary Energy|Gas', 'PR_CurPol_CP_Primary Energy|Oil', 'PR_CurPol_CP_Primary Energy|Coal', 'PR_CurPol_EI_Primary Energy|Wind', 'PR_CurPol_EI_Primary Energy|Solar', 'PR_CurPol_EI_Primary Energy|Hydro', 'PR_CurPol_EI_Primary Energy|Nuclear', 'PR_CurPol_EI_Primary Energy|Biomass', 'PR_CurPol_EI_Primary Energy|Gas', 'PR_CurPol_EI_Primary Energy|Oil', 'PR_CurPol_EI_Primary Energy|Coal', 'PR_NDC_CP_Primary Energy|Wind', 'PR_NDC_CP_Primary Energy|Solar', 'PR_NDC_CP_Primary Energy|Hydro', 'PR_NDC_CP_Primary Energy|Nuclear', 'PR_NDC_CP_Primary Energy|Biomass', 'PR_NDC_CP_Primary Energy|Gas', 'PR_NDC_CP_Primary Energy|Oil', 'PR_NDC_CP_Primary Energy|Coal', 'PR_NDC_EI_Primary Energy|Wind', 'PR_NDC_EI_Primary Energy|Solar', 'PR_NDC_EI_Primary Energy|Hydro', 'PR_NDC_EI_Primary Energy|Nuclear', 'PR_NDC_EI_Primary Energy|Biomass', 'PR_NDC_EI_Primary Energy|Gas', 'PR_NDC_EI_Primary Energy|Oil', 'PR_NDC_EI_Primary Energy|Coal'],
+            "y_var_titles": ['Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal'],
             "y_var_units": ['EJ/y'],
             "y_axis_title": 'Global Primary Energy by Fuel',
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "cat_axis_names": ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'],
+            "cat_axis_titles": ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'],
+            "use_default_colors": false,
+            "color_list_request": ["light_blue", "gold", "blue", "casual_green", "ceramic", "petrol_blue", "red", "dark_gray"],
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -73,7 +76,7 @@ $(document).ready(function () {
             }
         }
         console.log('Global Primary Energy Ready to launch visualisation');
-        var complete_url = "/visualiser/show_stacked_column_chart?" + url;
+        var complete_url = "/visualiser/show_stacked_clustered_column_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
             console.log('Global Primary Energy by Fuel 2 Visualisation Completed');
@@ -100,7 +103,7 @@ $(document).ready(function () {
     function create_global_primary_energy_by_fuel_2_query() {
         var regions = ['World'];
         //TODO: fix the names of the scenarios and the variables
-        var scenarios = ['CurPol_CarbonPrice','CurPol_EmmissionIntensity', 'NDC_CarbonPrice', 'NDC_EmmissionIntensity'];
+        var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'];
         var variables = ['Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal'];
         var agg_func = 'Avg';
         var agg_var = 'scenario_id';
@@ -150,7 +153,7 @@ $(document).ready(function () {
                 ]
                 ,
                 "grouping": {
-                    "params": [agg_var, "variable__name", "year"],
+                    "params": [agg_var, "variable__name", "year", "region__name"],
                     "aggregated_params": [{"name": "value", "agg_func": agg_func}]
                 },
 

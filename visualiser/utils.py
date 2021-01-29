@@ -45,6 +45,7 @@ AM_CHARTS_COLOR_CODES_LIST = {
     "cyan": "#4b9e91",
     "black": "#000000",
     "gray": "#b4b4b4",
+    "dark_gray": "#3a3b3c",
     "ice_gray": "#CDD4D6",
     "white": "#FFFFFF",
     "light_cyan": "#bfe1e7",

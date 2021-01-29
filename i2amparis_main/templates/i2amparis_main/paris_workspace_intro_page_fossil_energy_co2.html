@@ -11,10 +11,11 @@
         </h2>
     </div>
     <div class="row">
-        <div class="tooltip-demo col-md-4 col-xs-12">
+        <div class="tooltip-demo col-md-3 col-xs-12">
             <p style="display: inline-block;background:transparent; box-shadow: none;">
                 The chart on the right will present the Fossil Energy CO<sub>2</sub> Emissions to 2100 for all selected
-                models, scenarios and region.
+                models, scenarios and region. Only three of our models (TIAM, GCAM, MUSE) run to 2100, 42 runs to 2045,
+                ICES, GEMINI-E3 and E3ME run to 2050.
             </p>
             <div class="form-group sum-selects-filters col-md-12 col-xs-12">
                 <label for="fossil_energy_co2_model_name">Models</label>
@@ -41,10 +42,10 @@
                         placeholder="Select Scenario(s)"
                         multiple="multiple"
                         id="fossil_energy_co2_scenario_name" style="width: 100%">
-                    <option value="CurPol_ContEmissionIntensity" selected="selected">CurPol_ContEmissionIntensity</option>
-                    <option value="CurPol_CarbonPrice" selected="selected">CurPol_CarbonPrice</option>
-                    <option value="NDC_ContEmissionIntensity" selected="selected">NDC_ContEmissionIntensity</option>
-                    <option value="NDC_CarbonPrice" selected="selected">NDC_CarbonPrice</option>
+                    <option value="PR_CurPol_EI" selected="selected">PR_CurPol_EI</option>
+                    <option value="PR_CurPol_CP" selected="selected">PR_CurPol_CP</option>
+                    <option value="PR_NDC_EI" selected="selected">PR_NDC_EI</option>
+                    <option value="PR_NDC_CP" selected="selected">PR_NDC_CP</option>
                     {#                            {% for el in models %}#}
                     {#                                <option value="{{ el.name }}">{{ el.title }}</option>#}
                     {#                            {% endfor %}#}
@@ -84,7 +85,7 @@
         </div>
 
 
-        <div class="row col-sm-8 col-xs-12" style="height: 75vh">
+        <div class="row col-sm-9 col-xs-12" style="height: 75vh">
             <div style="height: 100%;">
                 <div id="fossil_energy_co2_frame_div" class="row" style="height: 100%; line-height: 100%;">
                     <iframe id="fossil_energy_co2_viz_iframe" src="" title="Results"

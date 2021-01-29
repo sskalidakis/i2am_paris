@@ -69,6 +69,12 @@ function create_query_json_column() {
             });
         }
     }
+    and_dict.push({
+        'operand_1': 'region__name',
+        'operand_2': ['EU', 'R5OECD90+EU', 'R5ROWO', 'R5REF', 'R5LAM', 'R5MAF', 'R5ASIA', 'MEX', 'BLR', 'KOR', 'IND', 'HRV', 'LBY', 'CAN', 'SVN', 'LUX', 'GBR', 'THA', 'BGR', 'ECU', 'ETH', 'NOR', 'ESP', 'PAK', 'RUS', 'PER', 'JPN', 'MEA', 'CHE', 'EST', 'BEL', 'IRQ', 'KWT', 'AZE', 'SWE', 'SAU', 'TUR', 'COL', 'AUT', 'UGA', 'FRA', 'AGO', 'CHN', 'GHA', 'GRC', 'ITA', 'DZA', 'PRT', 'QAT', 'HUN', 'MKD', 'USA', 'KEN', 'NGA', 'ARG', 'MOZ', 'LVA', 'VEN', 'BOL', 'CHL', 'UKR', 'NLD', 'GAB', 'ZAF', 'KAZ', 'IRN', 'ARE', 'NZL', 'DEU', 'UZB', 'TKM', 'BRA', 'LTU', 'FIN', 'DNK', 'POL', 'SVK', 'BGD', 'EGY', 'MLT', 'VNM', 'IRL', 'CZE', 'CYP', 'AUS', 'TWN', 'ROU', 'MYS', 'ISL', 'IDN'],
+        'operation': 'in'
+
+    });
     selected.push('value', 'year');
     const query_data = {
         "dataset": "i2amparis_main_resultscomp",

@@ -15,7 +15,10 @@
             <p style="display: inline-block;background:transparent; box-shadow: none;">
                 The chart on the right will present the Global Carbon Capture & Storage in Current Policies Scenarios &
                 Current Policies Scenarios with a Carbon Price Only to 2030 for the selected models
-                and scenarios.
+                and scenarios. Only three models include CurPol_CPO scenarios and CCS. CurPol scenarios reach the same
+                level of emissions in 2030 as the CurPol_CP scenarios using economy-wide carbon prices to reach the same
+                levels of emissions in each region as CurPol_CP scenrios. Any other current policies are removed from
+                CurPol_CPO scenarios.
             </p>
             <div class="form-group sum-selects-filters col-md-12 col-xs-12">
                 <label for="global_ccs_2_model_name">Models</label>
@@ -38,8 +41,8 @@
                         placeholder="Select Scenario(s)"
                         multiple="multiple"
                         id="global_ccs_2_scenario_name" style="width: 100%">
-                    <option value="CurPol_CarbonPrice" selected="selected">CurPol_CarbonPrice</option>
-                    <option value="CurPol_CarbonPrice" selected="selected">CurPol_CarbonPrice_Only</option>
+                    <option value="PR_CurPol_CP" selected="selected">PR_CurPol_CP</option>
+                    <option value="PR_CurPol_CPO" selected="selected">PR_CurPol_CPO</option>
 
                     {#                            {% for el in models %}#}
                     {#                                <option value="{{ el.name }}">{{ el.title }}</option>#}

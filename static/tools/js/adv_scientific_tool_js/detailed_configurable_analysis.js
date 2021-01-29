@@ -138,7 +138,7 @@ $(document).ready(function () {
             'changed_field': changed
         };
 
-        $.ajax({
+        /*$.ajax({
             url: "/update_scientific_model_selects",
             type: "POST",
             data: JSON.stringify(input),
@@ -171,7 +171,7 @@ $(document).ready(function () {
             error: function (data) {
                 console.log('Cannot update disabled selects. AJAX Call failed.');
             }
-        });
+        });*/
 
 
     }

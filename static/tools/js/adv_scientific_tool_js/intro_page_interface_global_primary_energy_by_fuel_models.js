@@ -12,6 +12,7 @@ $(document).ready(function () {
         });
         /* # Query creation*/
         var jq_obj = create_global_primary_energy_by_fuel_1_query();
+        console.log(jq_obj);
         console.log('Global Primary Energy by Fuel 1 JSON Query Created');
         start_qc_v_global_primary_energy_by_fuel_1_process(jq_obj);
 
@@ -20,7 +21,7 @@ $(document).ready(function () {
 
     function start_qc_v_global_primary_energy_by_fuel_1_process(json_query_obj) {
         var query = {};
-        query["query_name"] = "global_primary_energy_by_fuel_avg_models_query";
+        query["query_name"] = "primary_energy_by_fuel_avg_models_query";
         query["parameters"] = json_query_obj['query_data'];
         $.ajax({
             url: "/data_manager/create_query",
@@ -46,15 +47,18 @@ $(document).ready(function () {
         $('#global_primary_energy_by_fuel_1_loading_bar').show();
 
         var data = {
-            "y_var_names": ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'],
-            "y_var_titles": ['42', 'E3EME', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'TIAM'],
+            "y_var_names": ['42_Primary Energy|Wind', '42_Primary Energy|Solar', '42_Primary Energy|Hydro', '42_Primary Energy|Nuclear', '42_Primary Energy|Biomass', '42_Primary Energy|Gas', '42_Primary Energy|Oil', '42_Primary Energy|Coal', 'E3EME_Primary Energy|Wind', 'E3EME_Primary Energy|Solar', 'E3EME_Primary Energy|Hydro', 'E3EME_Primary Energy|Nuclear', 'E3EME_Primary Energy|Biomass', 'E3EME_Primary Energy|Gas', 'E3EME_Primary Energy|Oil', 'E3EME_Primary Energy|Coal', 'GCAM_Primary Energy|Wind', 'GCAM_Primary Energy|Solar', 'GCAM_Primary Energy|Hydro', 'GCAM_Primary Energy|Nuclear', 'GCAM_Primary Energy|Biomass', 'GCAM_Primary Energy|Gas', 'GCAM_Primary Energy|Oil', 'GCAM_Primary Energy|Coal', 'Gemini-E3_Primary Energy|Wind', 'Gemini-E3_Primary Energy|Solar', 'Gemini-E3_Primary Energy|Hydro', 'Gemini-E3_Primary Energy|Nuclear', 'Gemini-E3_Primary Energy|Biomass', 'Gemini-E3_Primary Energy|Gas', 'Gemini-E3_Primary Energy|Oil', 'Gemini-E3_Primary Energy|Coal', 'ICES_Primary Energy|Wind', 'ICES_Primary Energy|Solar', 'ICES_Primary Energy|Hydro', 'ICES_Primary Energy|Nuclear', 'ICES_Primary Energy|Biomass', 'ICES_Primary Energy|Gas', 'ICES_Primary Energy|Oil', 'ICES_Primary Energy|Coal', 'MUSE_Primary Energy|Wind', 'MUSE_Primary Energy|Solar', 'MUSE_Primary Energy|Hydro', 'MUSE_Primary Energy|Nuclear', 'MUSE_Primary Energy|Biomass', 'MUSE_Primary Energy|Gas', 'MUSE_Primary Energy|Oil', 'MUSE_Primary Energy|Coal', 'TIAM_Primary Energy|Wind', 'TIAM_Primary Energy|Solar', 'TIAM_Primary Energy|Hydro', 'TIAM_Primary Energy|Nuclear', 'TIAM_Primary Energy|Biomass', 'TIAM_Primary Energy|Gas', 'TIAM_Primary Energy|Oil', 'TIAM_Primary Energy|Coal'],
+            "y_var_titles": ['Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal', 'Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal'],
             "y_var_units": ['EJ/y'],
             "y_axis_title": 'Global Primary Energy by Fuel',
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "cat_axis_names": ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'],
+            "cat_axis_titles": ['42', 'E3EME', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'TIAM'],
+            "use_default_colors": false,
+            "color_list_request": ["light_blue", "gold", "blue", "casual_green", "ceramic", "petrol_blue", "red", "dark_gray"],
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -72,7 +76,7 @@ $(document).ready(function () {
             }
         }
         console.log('Global Primary Energy Ready to launch visualisation');
-        var complete_url = "/visualiser/show_stacked_column_chart?" + url;
+        var complete_url = "/visualiser/show_stacked_clustered_column_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
             console.log('Global Primary Energy by Fuel 1 Visualisation Completed');
@@ -148,7 +152,7 @@ $(document).ready(function () {
                 ]
                 ,
                 "grouping": {
-                    "params": [agg_var, "variable__name", "year"],
+                    "params": [agg_var, "variable__name", "year", "region__name"],
                     "aggregated_params": [{"name": "value", "agg_func": agg_func}]
                 },
 

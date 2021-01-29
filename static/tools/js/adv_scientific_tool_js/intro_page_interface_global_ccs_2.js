@@ -113,7 +113,7 @@ $(document).ready(function () {
     function create_global_ccs_2_query() {
         var sel_model = $('#global_ccs_2_model_name');
         var sel_scenario = $('#global_ccs_2_scenario_name');
-        var variables = ['Carbon_Capture_Storage'];
+        var variables = ['Carbon Sequestration|CCS'];
         var regions = ['World'];
 
         const models = sel_model.multipleSelect('getSelects');

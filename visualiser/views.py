@@ -5,7 +5,6 @@ from django.shortcuts import render
 from django.apps import apps
 import ast
 
-
 from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query, column_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
@@ -213,6 +212,68 @@ class FlowChart:
             return render(self.request, 'visualiser/sankey_diagram.html', self.content)
 
 
+class StackedClusteredColumnChart:
+    '''
+    This class is used for creating complex stacked & clustered column charts
+    '''
+
+    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_var_names, y_var_titles,
+                 y_axis_units, cat_axis_names, cat_axis_titles, chart_data, color_list,use_default_colors, chart_type):
+        """
+        :param request: Contains all request data needed to render the HTML page. (Request Object)
+        :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
+        :param x_axis_title: The title of the variable of the X-Axis as displayed in the user interfaces (String)
+        :param x_sec_axis: True if second X-Axis exists (otherwies false) (String)
+        :param x_axis_unit: The unit of the selected variable of the X-Axis (String)
+        :param y_var_names: The unique name of the selected variable of the Y-Axis as used in the code (String)
+        :param y_var_titles: The titles of the variables of the Y-Axis as displayed in the user interfaces (String)
+        :param y_axis_units: The unit of the selected variable of the Y-Axis (String)
+        :param cat_axis_names: The name of the category variables of the x-Axis as used in the code (String)
+        :param cat_axis_titles: The title of the variable of the Z-Axis as displayed in the user interfaces (String)
+        :param chart_data: A JSON object in the appropriate format  that contains the data that will displayed. (JSON Object)
+        :param use_default_colors: Use default colors or colors from color_list
+        :param color_list: List of colours (for each series) or a colour couple (for heatmaps. If one color is given in
+                a heatmap, then the couple is created using white as the other colour). (List of Strings)
+                Colours: “light_blue, blue, violet, purple, fuchsia, red, ceramic, light_brown, mustard, gold,
+                light_green, green, cyan, black, gray, white”
+                Colour couples: "blue_red, green_red, beige_purple, purple_orange, cyan_green, yellow_gold, skin_red,
+                grey_darkblue, lightblue_green"
+
+        :param chart_type: The type of the chart. Options : heat_map_chart
+
+        """
+        self.x_axis_name = x_axis_name
+        self.x_axis_title = x_axis_title
+        self.x_axis_unit = x_axis_unit
+        self.x_sec_axis = x_sec_axis
+        self.y_var_names = y_var_names
+        self.y_var_titles = y_var_titles
+        self.y_axis_units = y_axis_units
+        self.cat_axis_names = cat_axis_names
+        self.cat_axis_titles = cat_axis_titles
+        self.chart_data = chart_data
+        self.request = request
+        self.chart_type = chart_type
+        self.color_list = color_list
+        self.use_default_colors = use_default_colors
+
+        self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
+                        'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
+                        'y_var_titles': self.y_var_titles, 'y_var_units': self.y_axis_units,
+                        'y_var_names': self.y_var_names, 'cat_axis_names': self.cat_axis_names,
+                        'cat_axis_titles': self.cat_axis_titles,
+                        'color_list': self.color_list, 'use_default_colors': self.use_default_colors,
+                        'chart_data': self.chart_data}
+
+    def show_chart(self):
+        """
+        :return: Returns visualisation HTML.
+        """
+        if self.chart_type == 'stacked_clustered_chart':
+            return render(self.request, 'visualiser/stacked_clustered_chart.html',
+                          self.content)
+
+
 class MapChart:
     """
     This class contains all map visualisations
@@ -304,7 +365,8 @@ def show_line_chart(request):
     print('Defined chart colors.')
     if stacked == 'false':
         line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                              x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                              x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value,
                               'line_chart')
     else:
         line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
@@ -313,6 +375,7 @@ def show_line_chart(request):
                               'stacked_area_chart')
     return line_chart.show_chart()
 
+
 @csrf_exempt
 def generate_data_for_line_chart(dataset, dataset_type):
     final_data = []
@@ -320,16 +383,17 @@ def generate_data_for_line_chart(dataset, dataset_type):
         final_data = line_chart_data_from_file('visualiser/fake_data/' + dataset)
         print('Retrieved data from file')
     elif dataset_type == 'db':
-            dataset = Dataset.objects.get(dataset_name=dataset)
-            data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
-            data = data_table.objects.all()
-            variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
-            final_data = reformat_chart_data(data, variables)
+        dataset = Dataset.objects.get(dataset_name=dataset)
+        data_table = apps.get_model(DATA_TABLES_APP, dataset.dataset_django_model)
+        data = data_table.objects.all()
+        variables = Variable.objects.filter(dataset_relation=dataset.id).order_by('id')
+        final_data = reformat_chart_data(data, variables)
 
     elif dataset_type == 'query':
         final_data = line_chart_query(dataset)
 
     return final_data
+
 
 def reformat_chart_data(data, variables):
     """
@@ -353,6 +417,7 @@ def reformat_chart_data(data, variables):
                 dictionary[var.var_name] = value
         final_data.append(dictionary)
     return final_data
+
 
 @csrf_exempt
 def line_chart_data_from_file(dataset):
@@ -391,13 +456,13 @@ def show_column_chart(request):
                             'column_chart')
     return column_chart.show_chart()
 
+
 @csrf_exempt
 def generate_data_for_column_chart(dataset, dataset_type, index):
     final_data = []
     if dataset_type == 'query':
         final_data = column_chart_query(dataset)
     return final_data
-
 
 
 @csrf_exempt
@@ -568,6 +633,15 @@ def get_response_heat_map(request):
         json_response = json.loads(request.body)
         print(json_response)
     return json_response
+
+
+def create_stacked_clustered_data(dataset, dataset_type):
+    final_data = []
+    if dataset_type == 'query':
+        final_data = column_chart_query(dataset)
+    elif dataset_type == 'dataframe':
+        pass
+    return final_data
 
 
 def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_dataset, col_order, row_order,
@@ -751,6 +825,37 @@ def show_heat_map_chart(request):
                                min_max_z_value, distinct, row_ranges, col_ranges, 'heat_map_chart')
 
     return heat_map_chart.show_chart()
+
+
+@csrf_exempt
+@xframe_options_exempt
+def show_stacked_clustered_chart(request):
+    '''
+    This is the method for creating the necessary content for the creation of the stacked-clustered column chart visualisation
+    :return: A heatmap visualisation
+    '''
+    response_data_xy = get_response_data_XY(request)
+    y_var_names = response_data_xy['y_var_names']
+    y_axis_units = response_data_xy['y_var_units'][0]
+    x_axis_name = response_data_xy['x_axis_name']
+    x_axis_title = response_data_xy['x_axis_title']
+    x_axis_unit = response_data_xy['x_axis_unit']
+    x_sec_axis = response_data_xy['x_sec_axis']
+    y_var_titles = response_data_xy['y_var_titles']
+    cat_axis_names = request.GET.getlist("cat_axis_names[]", [])
+    cat_axis_titles = request.GET.getlist("cat_axis_titles[]", [])
+    dataset = response_data_xy['dataset']
+    dataset_type = response_data_xy['dataset_type']
+
+    use_default_colors = response_data_xy['use_default_colors']
+    color_list = define_color_code_list(response_data_xy['color_list_request'])
+    data = create_stacked_clustered_data(dataset, dataset_type)
+    stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis,
+                                                          y_var_names, y_var_titles, y_axis_units, cat_axis_names,
+                                                          cat_axis_titles, data, color_list, use_default_colors,
+                                                          'stacked_clustered_chart')
+
+    return stacked_clustered_chart.show_chart()
 
 
 @csrf_exempt
