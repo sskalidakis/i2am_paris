@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
@@ -131,12 +131,12 @@ def update_scientific_model_selects(request):
         if len(variables) == 0:
             variables = all_variables
 
-        distinct_choices = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
-                                                      region__name__in=regions,
-                                                      variable__name__in=variables).values('model__name',
-                                                                                           'scenario__name',
-                                                                                           'region__name',
-                                                                                           'variable__name').distinct()
+        distinct_choices = PRWMetaData.objects.filter(model_name__in=models, scenario_name__in=scenarios,
+                                                      region_name__in=regions,
+                                                      variable_name__in=variables).values('model_name',
+                                                                                           'scenario_name',
+                                                                                           'region_name',
+                                                                                           'variable_name')
 
         allowed_models = []
         allowed_scenarios = []
@@ -144,45 +144,45 @@ def update_scientific_model_selects(request):
         allowed_regions = []
 
         for choice in distinct_choices:
-            if choice['model__name'] not in allowed_models:
-                allowed_models.append(choice['model__name'])
-            if choice['scenario__name'] not in allowed_scenarios:
-                allowed_scenarios.append(choice['scenario__name'])
-            if choice['region__name'] not in allowed_regions:
-                allowed_regions.append(choice['region__name'])
-            if choice['variable__name'] not in allowed_variables:
-                allowed_variables.append(choice['variable__name'])
+            if choice['model_name'] not in allowed_models:
+                allowed_models.append(choice['model_name'])
+            if choice['scenario_name'] not in allowed_scenarios:
+                allowed_scenarios.append(choice['scenario_name'])
+            if choice['region_name'] not in allowed_regions:
+                allowed_regions.append(choice['region_name'])
+            if choice['variable_name'] not in allowed_variables:
+                allowed_variables.append(choice['variable_name'])
 
         if changed_field == 'clear_all':
             pass
 
         elif changed_field == 'model_name':
-            kept_models = ResultsComp.objects.filter(scenario__name__in=allowed_scenarios,
-                                                     region__name__in=allowed_regions,
-                                                     variable__name__in=allowed_variables).values('model__name',
-                                                                                                  ).distinct()
-            allowed_models = [model['model__name'] for model in kept_models]
+            kept_models = PRWMetaData.objects.filter(scenario_name__in=allowed_scenarios,
+                                                     region_name__in=allowed_regions,
+                                                     variable_name__in=allowed_variables).values('model_name',
+                                                                                                  )
+            allowed_models = [model['model_name'] for model in kept_models]
         elif changed_field == 'scenario_name':
-            kept_scenarios = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                        region__name__in=allowed_regions,
-                                                        variable__name__in=allowed_variables).values(
-                'scenario__name',
-            ).distinct()
-            allowed_scenarios = [scenario['scenario__name'] for scenario in kept_scenarios]
+            kept_scenarios = PRWMetaData.objects.filter(model_name__in=allowed_models,
+                                                        region_name__in=allowed_regions,
+                                                        variable_name__in=allowed_variables).values(
+                'scenario_name',
+            )
+            allowed_scenarios = [scenario['scenario_name'] for scenario in kept_scenarios]
         elif changed_field == 'region_name':
-            kept_regions = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                      scenario__name__in=allowed_scenarios,
-                                                      variable__name__in=allowed_variables).values(
-                'region__name',
-            ).distinct()
-            allowed_regions = [region['region__name'] for region in kept_regions]
+            kept_regions = PRWMetaData.objects.filter(model_name__in=allowed_models,
+                                                      scenario_name__in=allowed_scenarios,
+                                                      variable_name__in=allowed_variables).values(
+                'region_name',
+            )
+            allowed_regions = [region['region_name'] for region in kept_regions]
         elif changed_field == 'variable_name':
-            kept_variables = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                        scenario__name__in=allowed_scenarios,
-                                                        region__name__in=allowed_regions).values(
-                'variable__name',
-            ).distinct()
-            allowed_variables = [variable['variable__name'] for variable in kept_variables]
+            kept_variables = PRWMetaData.objects.filter(model_name__in=allowed_models,
+                                                        scenario_name__in=allowed_scenarios,
+                                                        region_name__in=allowed_regions).values(
+                'variable_name',
+            )
+            allowed_variables = [variable['variable_name'] for variable in kept_variables]
 
         # ADD PIECE OF CODE FOR THE CASE THAT THE TH MULTIPLE IS SELECTED
 
@@ -191,10 +191,10 @@ def update_scientific_model_selects(request):
               'regions': [el for el in all_regions if el not in allowed_regions],
               'variables': [el for el in all_variables if el not in allowed_variables]}
         print('Changed field: ', changed_field)
-        print('{}/ {} - Allowed models:{}'.format(len(allowed_models), len(all_models), allowed_models))
-        print('{}/ {} - Allowed scenarios:{}'.format(len(allowed_scenarios), len(all_scenarios), allowed_scenarios))
-        print('{}/ {} - Allowed regions:{}'.format(len(allowed_regions), len(all_regions), allowed_regions))
-        print('{}/ {} - Allowed variables:{}'.format(len(allowed_variables), len(allowed_variables), allowed_variables))
+        # print('{}/ {} - Allowed models:{}'.format(len(allowed_models), len(all_models), allowed_models))
+        # print('{}/ {} - Allowed scenarios:{}'.format(len(allowed_scenarios), len(all_scenarios), allowed_scenarios))
+        # print('{}/ {} - Allowed regions:{}'.format(len(allowed_regions), len(all_regions), allowed_regions))
+        # print('{}/ {} - Allowed variables:{}'.format(len(allowed_variables), len(allowed_variables), allowed_variables))
         return JsonResponse(ls, safe=False)
 
 
