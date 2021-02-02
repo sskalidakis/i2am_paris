@@ -268,6 +268,7 @@ $(document).ready(function () {
         $('#chart-side-info').hide();
         $('#viz_frame_div').hide();
         $('#chart_info').show();
+        $('#example').DataTable().clear().draw();
     });
 });
 

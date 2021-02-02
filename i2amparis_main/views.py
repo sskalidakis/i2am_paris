@@ -155,9 +155,10 @@ def update_scientific_model_selects(request):
                 allowed_regions = all_regions
             else:
                 distinct_regions = []
-                for scenario in scenarios:
-                    distinct_regions.append(
-                        PRWMetaData.objects.filter(model_name__in=models, scenario_name=scenario).values('region_name').distinct())
+                for model in models:
+                    for scenario in scenarios:
+                        distinct_regions.append(
+                            PRWMetaData.objects.filter(model_name=model, scenario_name=scenario).values('region_name').distinct())
                 final_regions = distinct_regions[0]
                 for region_list in distinct_regions:
                     final_regions = final_regions.intersection(region_list)
@@ -174,10 +175,12 @@ def update_scientific_model_selects(request):
                 allowed_regions = [el for el in all_scenarios if el not in fe_all_regions]
             else:
                 distinct_variables = []
-                for region in regions:
-                    distinct_variables.append(
-                        PRWMetaData.objects.filter(model_name__in=models, scenario_name__in=scenarios, region_name=region).values(
-                            'variable_name').distinct())
+                for model in models:
+                    for scenario in scenarios:
+                        for region in regions:
+                            distinct_variables.append(
+                                PRWMetaData.objects.filter(model_name=model, scenario_name=scenario, region_name=region).values(
+                                    'variable_name').distinct())
                 final_variables = distinct_variables[0]
                 for variable_list in distinct_variables:
                     final_variables = final_variables.intersection(variable_list)
