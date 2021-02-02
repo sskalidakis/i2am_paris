@@ -78,19 +78,26 @@ function create_query_json() {
 
     };
 
-    //Retrieve units
-   return retrieve_series_info(models, regions, scenarios, variables, multiple_field, query_data);
+   return {
+       "models":models,
+       "regions": regions,
+       "scenarios": scenarios,
+       "variables": variables,
+       "multiple_field": multiple_field,
+       "query_data": query_data
+   }
 
 }
 
-function retrieve_series_info(models, regions, scenarios, variables, multiple_field,query_data){
+function retrieve_series_info(model_sel, scenario_sel, region_sel, variable_sel, jq_obj){
     const units_info = {
-        "model_name": models,
-        "region_name": regions,
-        "scenario_name": scenarios,
-        "variable_name": variables,
-        "multiple": multiple_field
+        "model_name": jq_obj["models"],
+        "region_name": jq_obj["regions"],
+        "scenario_name": jq_obj["scenarios"],
+        "variable_name": jq_obj["variables"],
+        "multiple": jq_obj["multiple_field"]
     };
+
     var instances = [];
     var final_val_list = [];
     var final_title_list = [];
@@ -101,13 +108,20 @@ function retrieve_series_info(models, regions, scenarios, variables, multiple_fi
         data: JSON.stringify(units_info),
         contentType: 'application/json',
         success: function (data) {
-            console.log(data);
             instances = data["instances"];
             for (var i = 0; i < instances.length; i++) {
                 final_val_list.push(instances[i]['series']);
                 final_title_list.push(instances[i]['title']);
                 final_unit_list.push(instances[i]['unit']);
             }
+            var json_object = {
+                "data": jq_obj['query_data'],
+                "multiple_field": jq_obj["multiple_field"],
+                "val_list": final_val_list,
+                "title_list": final_title_list,
+                "unit_list": final_unit_list
+            };
+            start_qc_v_process(model_sel, scenario_sel, region_sel, variable_sel, json_object);
 
         },
         error: function (data) {
@@ -115,13 +129,6 @@ function retrieve_series_info(models, regions, scenarios, variables, multiple_fi
         }
     });
 
-    return {
-        "data": query_data,
-        "multiple_field": multiple_field,
-        "val_list": final_val_list,
-        "title_list": final_title_list,
-        "unit_list": final_unit_list
-    };
 
 }
 

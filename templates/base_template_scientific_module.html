@@ -59,6 +59,17 @@
             text-align: left;
         }
 
+        sub {
+            vertical-align: sub;
+            font-size: 0.6em;
+        }
+
+        .disabled-select{
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+
 
     </style>
     {% block css %}
@@ -95,19 +106,25 @@
 <script src={% static "main_theme/js/jquery.appear.js" %}></script>
 <script src={% static "main_theme/js/grid.js" %}></script>
 <script src={% static "main_theme/js/main.js" %}></script>
-
 <script src={% static "main_theme/js/wow.min.js" %}></script>
 
 
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src={% static "tools/js/adv_scientific_tool_js/json_query_creator.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/adv_scientific_tool_interface.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/detailed_json_query_creator.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/detailed_configurable_analysis.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/cookie_retriever.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/loaddatatable.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/sm_summary.js" %}></script>
-<script src={% static "tools/js/adv_scientific_tool_js/column_chart_utils.js" %}></script>
-
+<script src={% static "tools/js/adv_scientific_tool_js/load_datatable_detailed_conf.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/load_datatable_comparative.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/comparative_analysis_interface.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/comparative_json_query_creator.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_fossil_energy_co2.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_ccs_1.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_ccs_2.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_approximate_temperature.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_models.js" %}></script>
+<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_scenarios.js" %}></script>
 
 
 
@@ -116,16 +133,6 @@
 
 </script>
 
-{#<script>#}
-        {#    beautification additions  #}
-{##}
-{#        function fix_select_labels() {#}
-{#            var select_labels = $('.ms-parent .ms-drop label span')#}
-{#            select_labels.attr('position', 'relative');#}
-{#            select_labels.attr('bottom', '0.2em');#}
-{#            select_labels.attr('left', '0.2em');#}
-{#        }#}
-{#</script>#}
 
 
 {% block js %}

@@ -4,12 +4,12 @@ from django.views.decorators.csrf import csrf_exempt
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
 from django.core import serializers
-from django.db.models import Count
+from django.db.models import Avg, Sum, Max, Min, Count, F
 
 import json
 import urllib
@@ -87,7 +87,7 @@ def paris_reinforce_harmonisation(request):
 
 
 def paris_advanced_scientific_module(request):
-    models = DataVariablesModels.objects.all().order_by('title')
+    models = DataVariablesModels.objects.filter(name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
     scenarios = ScenariosRes.objects.all().order_by('title')
     regions = RegionsRes.objects.all().order_by('title')
     variables = VariablesRes.objects.all().order_by('title')
@@ -113,107 +113,116 @@ def update_scientific_model_selects(request):
         regions = body['region__name']
         variables = body['variable__name']
         changed_field = body['changed_field']
+        fe_all_scenarios = body['fe_all_scenarios']
+        fe_all_regions = body['fe_all_regions']
+        fe_all_variables = body['fe_all_variables']
 
-        all_models = [el.name for el in DataVariablesModels.objects.all()]
-        all_scenarios = [el.name for el in ScenariosRes.objects.all()]
-        all_regions = [el.name for el in RegionsRes.objects.all()]
-        all_variables = [el.name for el in VariablesRes.objects.all()]
-
-        if len(models) == 0:
-            models = all_models
-
-        if len(scenarios) == 0:
-            scenarios = all_scenarios
-
-        if len(regions) == 0:
-            regions = all_regions
-
-        if len(variables) == 0:
-            variables = all_variables
-
-        distinct_choices = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
-                                                      region__name__in=regions,
-                                                      variable__name__in=variables).values('model__name',
-                                                                                           'scenario__name',
-                                                                                           'region__name',
-                                                                                           'variable__name').distinct()
-
-        allowed_models = []
-        allowed_scenarios = []
-        allowed_variables = []
-        allowed_regions = []
-
-        for choice in distinct_choices:
-            if choice['model__name'] not in allowed_models:
-                allowed_models.append(choice['model__name'])
-            if choice['scenario__name'] not in allowed_scenarios:
-                allowed_scenarios.append(choice['scenario__name'])
-            if choice['region__name'] not in allowed_regions:
-                allowed_regions.append(choice['region__name'])
-            if choice['variable__name'] not in allowed_variables:
-                allowed_variables.append(choice['variable__name'])
+        all_models = [el['name'] for el in DataVariablesModels.objects.filter(
+            name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
+        all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
+        all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
+        all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
 
         if changed_field == 'clear_all':
-            pass
-
+            allowed_models = all_models
+            allowed_scenarios = all_scenarios
+            allowed_variables = all_variables
+            allowed_regions = all_regions
         elif changed_field == 'model_name':
-            kept_models = ResultsComp.objects.filter(scenario__name__in=allowed_scenarios,
-                                                        region__name__in=allowed_regions,
-                                                        variable__name__in=allowed_variables).values('model__name',
-                                                                                                     ).distinct()
-            allowed_models = [model['model__name'] for model in kept_models]
+            if len(models) == 0:
+                allowed_models = all_models
+                allowed_scenarios = all_scenarios
+                allowed_variables = all_variables
+                allowed_regions = all_regions
+            else:
+                distinct_scenarios = []
+                for model in models:
+                    distinct_scenarios.append(
+                        PRWMetaData.objects.filter(model_name=model).values('scenario_name').distinct())
+                final_scenarios = distinct_scenarios[0]
+                for scenario_list in distinct_scenarios:
+                    final_scenarios = final_scenarios.intersection(scenario_list)
+                print('common scenarios', final_scenarios)
+                allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
+                allowed_models = all_models
+                allowed_variables = all_variables
+                allowed_regions = all_regions
         elif changed_field == 'scenario_name':
-            kept_scenarios = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                           region__name__in=allowed_regions,
-                                                           variable__name__in=allowed_variables).values(
-                'scenario__name',
-            ).distinct()
-            allowed_scenarios = [scenario['scenario__name'] for scenario in kept_scenarios]
+            if len(scenarios) == 0:
+                allowed_models = models
+                allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+                allowed_variables = all_variables
+                allowed_regions = all_regions
+            else:
+                distinct_regions = []
+                for model in models:
+                    for scenario in scenarios:
+                        distinct_regions.append(
+                            PRWMetaData.objects.filter(model_name=model, scenario_name=scenario).values('region_name').distinct())
+                final_regions = distinct_regions[0]
+                for region_list in distinct_regions:
+                    final_regions = final_regions.intersection(region_list)
+                print('common regions', final_regions)
+                allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+                allowed_models = models
+                allowed_variables = all_variables
+                allowed_regions = [el['region_name'] for el in final_regions]
         elif changed_field == 'region_name':
-            kept_regions = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                         scenario__name__in=allowed_scenarios,
-                                                         variable__name__in=allowed_variables).values(
-                'region__name',
-            ).distinct()
-            allowed_regions = [region['region__name'] for region in kept_regions]
+            if len(regions) == 0:
+                allowed_models = models
+                allowed_scenarios = scenarios
+                allowed_variables = all_variables
+                allowed_regions = [el for el in all_scenarios if el not in fe_all_regions]
+            else:
+                distinct_variables = []
+                for model in models:
+                    for scenario in scenarios:
+                        for region in regions:
+                            distinct_variables.append(
+                                PRWMetaData.objects.filter(model_name=model, scenario_name=scenario, region_name=region).values(
+                                    'variable_name').distinct())
+                final_variables = distinct_variables[0]
+                for variable_list in distinct_variables:
+                    final_variables = final_variables.intersection(variable_list)
+                print('common variables', final_variables)
+                allowed_scenarios = scenarios
+                allowed_models = models
+                allowed_variables = [el['variable_name'] for el in final_variables]
+                allowed_regions = [el for el in all_regions if el not in fe_all_regions]
         elif changed_field == 'variable_name':
-            kept_variables = ResultsComp.objects.filter(model__name__in=allowed_models,
-                                                         scenario__name__in=allowed_scenarios,
-                                                         region__name__in=allowed_regions).values(
-                'variable__name',
-            ).distinct()
-            allowed_variables = [variable['variable__name'] for variable in kept_variables]
+            if len(regions) == 0:
+                allowed_models = models
+                allowed_scenarios = scenarios
+                allowed_variables = [el for el in all_variables if el not in fe_all_variables]
+                allowed_regions = regions
+            else:
+                allowed_scenarios = scenarios
+                allowed_models = models
+                allowed_variables = [el for el in all_variables if el not in fe_all_variables]
+                allowed_regions = regions
 
-        # ADD PIECE OF CODE FOR THE CASE THAT THE TH MULTIPLE IS SELECTED
 
         ls = {'models': [el for el in all_models if el not in allowed_models],
               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
               'regions': [el for el in all_regions if el not in allowed_regions],
               'variables': [el for el in all_variables if el not in allowed_variables]}
+
         print('Changed field: ', changed_field)
-        print('{}/ {} - Allowed models:{}'.format(len(allowed_models), len(all_models), allowed_models))
-        print('{}/ {} - Allowed scenarios:{}'.format(len(allowed_scenarios), len(all_scenarios), allowed_scenarios))
-        print('{}/ {} - Allowed regions:{}'.format(len(allowed_regions), len(all_regions), allowed_regions))
-        print('{}/ {} - Allowed variables:{}'.format(len(allowed_variables), len(allowed_variables), allowed_variables))
+
         return JsonResponse(ls, safe=False)
 
 
+
 @csrf_exempt
-def populate_scientific_module_datatables(request):
+def populate_detailed_analysis_datatables(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
     if request.method == 'POST':
-        print("----------------------------------")
         models = body['model__name']
         scenarios = body['scenario__name']
         regions = body['region__name']
         variables = body['variable__name']
-
-        print("models = ", models)
-        print("scenarios = ", scenarios)
-        print("regions = ", regions)
-        print("variables = ", variables)
 
         q = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios, region__name__in=regions,
                                        variable__name__in=variables)
@@ -231,6 +240,46 @@ def populate_scientific_module_datatables(request):
             }
             ls.append(temp)
         return JsonResponse(ls, safe=False)
+
+
+@csrf_exempt
+def populate_comparative_analysis_datatables(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    if request.method == 'POST':
+        models = body['model__name']
+        scenarios = body['scenario__name']
+        variables = body['variable__name']
+        agg_var = body['agg_var']
+        agg_func = body['agg_func']
+
+        if agg_var == 'region_id':
+            agg_var = 'region__title'
+        final_data = []
+        if agg_var == 'year':
+            final_data = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
+                                                    variable__name__in=variables).values("model__title",
+                                                                                         "scenario__title",
+                                                                                         "variable__title", "year")
+        elif agg_var == 'region__title':
+            final_data = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
+                                                    variable__name__in=variables).values("model__title",
+                                                                                         "scenario__title",
+                                                                                         "variable__title",
+                                                                                         "region__title")
+        if agg_func == 'Avg':
+            final_data = final_data.annotate(value=Avg('value'), unit=Max('unit__title'))
+        elif agg_func == 'Sum':
+            final_data = final_data.annotate(value=Sum('value'), unit=Max('unit__title'))
+        elif agg_func == 'Max':
+            final_data = final_data.annotate(value=Max('value'), unit=Max('unit__title'))
+        elif agg_func == 'Min':
+            final_data = final_data.annotate(value=Min('value'), unit=Max('unit__title'))
+        elif agg_func == 'Count':
+            final_data = final_data.annotate(value=Count('value'), unit=Max('unit__title'))
+
+        return JsonResponse({'agg_var': agg_var, 'final_data': list(final_data)}, safe=False)
 
 
 def detailed_model_doc(request, model=''):

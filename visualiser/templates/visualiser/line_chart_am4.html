@@ -63,6 +63,13 @@
             //Add Legend
             chart.legend = new am4charts.Legend();
             chart.legend.useDefaultMarker = true;
+            if (y_var_names.length>12) {
+                chart.legend.position = "right";
+                chart.legend.maxHeight = 530;
+                chart.legend.maxWidth = 500;
+                chart.legend.scrollable = true;
+                {#chart.legend.itemContainers.template.paddingLeft= 10;#}
+            }
             var marker = chart.legend.markers.template.children.getIndex(0);
             marker.cornerRadius(5, 5, 5, 5);
             marker.strokeWidth = 2;
@@ -99,7 +106,7 @@
                 series.yAxis = valueAxis;
                 series.strokeWidth = 2;
                 series.minBulletDistance = 10;
-                series.tooltipText = String(myVarTitle) + ": {valueY.value} " + myVarUnit;
+                series.tooltipText = String(myVarTitle) + ": {valueY.formatNumber('#.00')} " + myVarUnit;
                 series.tooltip.pointerOrientation = "vertical";
                 series.tooltip.background.cornerRadius = 20;
                 series.tooltip.background.fillOpacity = 0.8;
@@ -110,7 +117,7 @@
                 series.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
                 //legend shows value dynamically
                 series.legendSettings.labelText = "{name}";
-                series.legendSettings.itemValueText = "[bold]{valueY}[/bold]";
+                series.legendSettings.itemValueText = "[bold]{valueY.formatNumber('#.00')}[/bold]";
                 series.fill = am4core.color(fillColor);
                 series.stroke = am4core.color(fillColor);
                 //Smoothed Lines

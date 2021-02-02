@@ -186,12 +186,11 @@ class ResultsComp(models.Model):
     year = models.IntegerField()
     value = models.FloatField()
 
-class MetaData(models.Model):
-    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
-    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
-    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
-    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
-    
+class PRWMetaData(models.Model):
+    model_name = models.CharField(null=False, default="", max_length=50)
+    scenario_name = models.CharField(null=False, default="", max_length=50)
+    region_name = models.CharField(null=False, default="", max_length=50)
+    variable_name = models.CharField(null=False, default="", max_length=50)
 
 
 

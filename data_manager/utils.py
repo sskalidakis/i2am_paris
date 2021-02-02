@@ -25,8 +25,9 @@ def query_execute(query_id):
     if (len(grouping['params']) == 0) and (len(grouping['aggregated_params']) == 0):
         select_data = data_model.objects.only(*select).filter(filter_list).order_by(*order_list).values(*select)
     else:
-        grouped_by_data = group_by_function(group_by_params, agg_params, data_model)
-        select_data = grouped_by_data.filter(filter_list).order_by(
+        filtered_data = data_model.objects.filter(filter_list)
+        grouped_by_data = group_by_function(group_by_params, agg_params, filtered_data)
+        select_data = grouped_by_data.order_by(
             *order_list)
     print(filter_list)
     return select_data, add_params
@@ -62,8 +63,9 @@ def extract_groupings(grouping):
         agg_params[el['name']] = str(el['agg_func'])
     return group_by_params, agg_params
 
+
 def group_by_function(group_by_params, agg_params, data):
-    final_data = data.objects.values(*group_by_params)
+    final_data = data.values(*group_by_params)
     for value, agg_func in agg_params.items():
         if agg_func == 'Avg':
             final_data = final_data.annotate(value=Avg(value))
@@ -76,7 +78,6 @@ def group_by_function(group_by_params, agg_params, data):
         elif agg_func == 'Count':
             final_data = final_data.annotate(value=Count(value))
     return final_data
-
 
 
 def get_query_parameters(query_id):
@@ -122,7 +123,7 @@ def compute_dict(d):
     elif d['operation'] == "=":
         q_dict = {str(d['operand_1']): str(d['operand_2'])}
     elif d['operation'] == "in":
-        q_dict = {str(d['operand_1']) + '__' + 'in': str(d['operand_2'])}
+        q_dict = {str(d['operand_1']) + '__' + 'in': d['operand_2']}
     # elif d['operation'] == "or":
     #     expr = (Q(str(d['operand_1']) + '|' + str(d['operand_2'])))
     # elif d['operation'] == "and":

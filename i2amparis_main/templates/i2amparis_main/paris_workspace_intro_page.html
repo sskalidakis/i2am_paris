@@ -1,0 +1,19 @@
+{% load static %}
+{% csrf_token %}
+<div class="tab-pane" id="intro_summary">
+    <div class="container" style="width: 90%; height:100%;">
+        {% include "i2amparis_main/paris_workspace_intro_page_fossil_energy_co2.html" %}
+        {% include "i2amparis_main/paris_workspace_intro_page_global_primary_energy.html" %}
+        {% include "i2amparis_main/paris_workspace_intro_page_global_primary_energy_by_fuel.html" %}
+        {% include "i2amparis_main/paris_workspace_intro_page_global_ccs_1.html" %}
+        {% include "i2amparis_main/paris_workspace_intro_page_global_ccs_2.html" %}
+        {% include "i2amparis_main/paris_workspace_intro_page_global_approximate_temperature.html" %}
+
+    </div>
+</div>
+
+{% block js %}
+
+
+
+{% endblock %}

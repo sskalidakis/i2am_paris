@@ -1352,6 +1352,34 @@ SANKEYCHORD_DATA = [
     {"from": "H", "to": "J", "value": 9}
 ]
 
+SANKEYCHORD_DATA_3=[
+    {"from": "Data Collection", "to": "Prevention & Preparedness", "value": 30},
+    {"from": "Data Collection", "to": "Detection & Response", "value": 30},
+    {"from": "Data Collection", "to": "Restoration & Adaptation", "value": 30},
+    {"from": "Decision Support Systems", "to": "Prevention & Preparedness", "value": 30},
+    {"from": "Decision Support Systems", "to": "Detection & Response", "value": 30},
+    {"from": "Decision Support Systems", "to": "Restoration & Adaptation", "value": 30},
+    {"from": "Emergency Communication", "to": "Prevention & Preparedness", "value": 10},
+    {"from": "Emergency Communication", "to": "Detection & Response", "value": 30},
+    {"from": "Emergency Communication", "to": "Restoration & Adaptation", "value": 10},
+    {"from": "Long-term Impact on Climate Change", "to": "Prevention & Preparedness", "value": 30},
+    {"from": "Long-term Impact on Climate Change", "to": "Detection & Response", "value": 20},
+    {"from": "Long-term Impact on Climate Change", "to": "Restoration & Adaptation", "value": 30},
+    {"from": "Prevention & Preparedness", "to": "Environmental Dimension", "value": 25},
+    {"from": "Prevention & Preparedness", "to": "Cultural & Socio-economic Dimension", "value": 25},
+    {"from": "Prevention & Preparedness", "to": "Health & Safety/Security Dimension", "value": 25},
+    {"from": "Prevention & Preparedness", "to": "Climate Change Mitigation & Adaptation Dimension", "value": 25},
+    {"from": "Detection & Response", "to": "Environmental Dimension", "value": 25},
+    {"from": "Detection & Response", "to": "Cultural & Socio-economic Dimension", "value": 25},
+    {"from": "Detection & Response", "to": "Health & Safety/Security Dimension", "value": 40},
+    {"from": "Detection & Response", "to": "Climate Change Mitigation & Adaptation Dimension", "value": 20},
+    {"from": "Restoration & Adaptation", "to": "Environmental Dimension", "value": 25},
+    {"from": "Restoration & Adaptation", "to": "Cultural & Socio-economic Dimension", "value": 25},
+    {"from": "Restoration & Adaptation", "to": "Health & Safety/Security Dimension", "value": 25},
+    {"from": "Restoration & Adaptation", "to": "Climate Change Mitigation & Adaptation Dimension", "value": 25},
+
+]
+
 SANKEYCHORD_DATA_2 = [
                         {"from":"Solar", "to":"Electricity grid", "value":4},
                         {"from":"Solar", "to":"Buildings", "value":14},

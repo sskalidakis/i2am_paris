@@ -1,7 +1,7 @@
 import json
 
 from data_manager import models
-from i2amparis_main.models import Variable
+from i2amparis_main.models import Variable, ModelsInfo, ScenariosRes
 from data_manager.models import Query
 from data_manager.utils import query_execute
 import pandas as pd
@@ -20,6 +20,9 @@ def line_chart_query(query_id):
     results = []
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
+    elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
+                        'global_ccs_2_query', 'global_primary_energy_query']:
+        results = model_scenario_intro_page_query(query_id)
     return results
 
 
@@ -28,7 +31,62 @@ def column_chart_query(query_id):
     results = []
     if query_name == 'quantity_comparison_query':
         results = quantity_comparison_query(query_id)
+    elif query_name == 'primary_energy_by_fuel_avg_models_query':
+        results = primary_energy_by_fuel_avg_query(query_id, 'model_id')
+    elif query_name == 'primary_energy_by_fuel_avg_scenarios_query':
+        results = primary_energy_by_fuel_avg_query(query_id, 'scenario_id')
     return results
+
+
+def primary_energy_by_fuel_avg_query(query_id, grouping_val):
+    '''
+     This method is the execution of the query for creating data for the intro page of the advanced scientific tool for column charts that show global primary energy per model averaged across scenarios
+     :param grouping_val: This variable shows whether the grouping is done across models or scenarios
+     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool columnchart
+     '''
+    if grouping_val == 'model_id':
+        record_title = 'model_title'
+        grouping_var_data = ModelsInfo.objects.all().values()
+    else:
+        record_title = 'title'
+        grouping_var_data = ScenariosRes.objects.all().values()
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    else:
+        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', record_title]].rename(
+            columns={'id': grouping_val, record_title: 'title'})
+
+        joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
+
+        joined_df.drop(grouping_val, axis=1, inplace=True)
+        joined_df = joined_df.rename(columns={'title': grouping_val})
+
+        joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
+        final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(0)
+        # final_df['zero'] = 0
+        final_data = list(final_df.to_dict('index').values())
+
+        return final_data
+
+
+def model_scenario_intro_page_query(query_id):
+    '''
+    This method is the execution of the query for creating data for the intro page of the advanced scientific tool for all charts that use scenario_model series
+    :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool linechart
+    '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+
+    if df.empty:
+        return []
+    else:
+        df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
+        final_data = list(
+            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+                'index').values())
+        return final_data
 
 
 def heatmap_query(query_id):
@@ -52,8 +110,10 @@ def scentific_tool_query(query_id):
     multiple_field = app_params['additional_app_parameters']['multiple_field']
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
     final_data = list(
-        df.pivot(index="year", columns=multiple_field+"__name", values="value").reset_index().fillna(0).to_dict(
+        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
             'index').values())
     return final_data
 
@@ -66,23 +126,22 @@ def quantity_comparison_query(query_id):
     if df.empty:
         return []
     if var_table_name is None:
-        final_data = list(df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
-            'index').values())
+        final_data = list(
+            df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
+                'index').values())
     else:
-
         grouping_var_table = apps.get_model(DATA_TABLES_APP, var_table_name)
         grouping_var_data = grouping_var_table.objects.all().values()
         grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title']].rename(
             columns={'id': grouping_val})
 
         joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
-        joined_df.drop('region_id', axis=1, inplace=True)
+        joined_df.drop(grouping_val, axis=1, inplace=True)
         joined_df = joined_df.rename(columns={'title': grouping_val})
         final_data = list(
             joined_df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(
                 0).to_dict(
                 'index').values())
-
 
     return final_data
 

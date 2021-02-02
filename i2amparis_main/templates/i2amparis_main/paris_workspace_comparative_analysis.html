@@ -1,10 +1,10 @@
 {% load static %}
 {% csrf_token %}
-<div class="tab-pane" id="intro_summary">
+<div class="tab-pane" id="comparative_tool">
     <div class="container" style="width: 90%; height:100%;">
         <div class="row" style="margin-top: 8em; height: 90vh">
 
-            <div class="tooltip-demo col-sm-12 col-xs-12 row">
+            <div class="tooltip-demo col-sm-12 col-xs-12 ">
                 <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
                     data-toggle="tooltip" data-placement="auto"
                     title="<p>These are the results of the analysis for a selected model,
@@ -12,11 +12,11 @@
                     Cross-scenario Quantity Comparison
                 </h2>
             </div>
-            <div class="tooltip-demo col-sm-12 col-xs-12 row">
-                <h5 style="display: inline-block;background:transparent; box-shadow: none;">
+            <div class="tooltip-demo col-sm-12 col-xs-12 ">
+                <p style="display: inline-block;background:transparent; box-shadow: none;">
                     Please, select one or more options from the available fields below. One model, one variable, can be
                     selected and multiple scenarios.
-                </h5>
+                </p>
             </div>
             <div class="selects-filters row">
                 <div class="col-md-8 col-xs-12">
@@ -64,7 +64,7 @@
                                 </label>
                                 <label class="btn btn-primary"
                                        style="border-top-right-radius: 5px ; border-bottom-right-radius: 5px">
-                                    <input type="radio" name="agg_var_input" id="region_id" value="region_id"> Region
+                                    <input type="radio" name="agg_var_input" id="region_id" value="region_id"> Country
                                 </label>
                             </div>
                         </label>
@@ -115,7 +115,7 @@
                     <div id="viz_frame_div_intro_comp" class="row" style="height: 100%; line-height: 100%;">
                         <iframe id="viz_iframe_intro_comp" src="" title="Results"
                                 style="width: 100%; height: 100%;  border:none"></iframe>
-                        <div id="loading_bar"
+                        <div id="quantity_loading_bar"
                              style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
                             <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
                                  src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
@@ -142,4 +142,5 @@
 
         </div>
     </div>
+    {% include "i2amparis_main/paris_workspace_comparative_analysis_datatables.html" %}
 </div>
