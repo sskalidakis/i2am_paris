@@ -110,6 +110,8 @@ def scentific_tool_query(query_id):
     multiple_field = app_params['additional_app_parameters']['multiple_field']
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
     final_data = list(
         df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
             'index').values())

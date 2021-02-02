@@ -188,14 +188,9 @@ class ResultsComp(models.Model):
 
 class PRWMetaData(models.Model):
     model_name = models.CharField(null=False, default="", max_length=50)
-    model_title = models.CharField(null=False, default="", max_length=50)
     scenario_name = models.CharField(null=False, default="", max_length=50)
-    scenario_title = models.CharField(null=False, default="", max_length=50)
     region_name = models.CharField(null=False, default="", max_length=50)
-    region_title = models.CharField(null=False, default="", max_length=50)
     variable_name = models.CharField(null=False, default="", max_length=50)
-    variable_title = models.CharField(null=False, default="", max_length=50)
-    
 
 
 
