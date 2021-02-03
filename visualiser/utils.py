@@ -434,3 +434,9 @@ def define_color_code_list(color_list_request):
             color_list.append(AM_CHARTS_COLOR_CODES_LIST[color])
     return color_list
 
+def clean_dictionary_list_from_zero_values(list):
+    clean_final_data = []
+    for el in list:
+        clean_final_data.append({x: y for x, y in el.items() if y != 0})
+    return clean_final_data
+

@@ -26,16 +26,18 @@
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
+            var chart_3d = {{ chart_3d }};
 
             // Create axes
             if (x_axis_type === "time") {
                 xAxis = chart.xAxes.push(new am4charts.DateAxis());
             } else if (x_axis_type === "text") {
                 xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-                xAxis.dataFields.category = "year";
+                xAxis.dataFields.category = x_axis_name;
             } else {
                 xAxis = chart.xAxes.push(new am4charts.ValueAxis());
             }
+            chart.numberFormatter.numberFormat = "####.##";
             xAxis.renderer.minGridDistance = 50;
             xAxis.title.text = x_axis_title + " (" + x_axis_unit + ")" ;
             xAxis.title.fontWeight = 600;
@@ -123,14 +125,15 @@
                 //Smoothed Lines
                 series.tensionX = 0.9;
 
-
-                //Create Gradient
-                series.fillOpacity = 1;
-                let fillModifier = new am4core.LinearGradientModifier();
-                fillModifier.opacities = [0.3, 0];
-                fillModifier.offsets = [0, 0.5];
-                fillModifier.gradient.rotation = 90;
-                series.segments.template.fillModifier = fillModifier;
+                if (chart_3d) {
+                    //Create Gradient
+                    series.fillOpacity = 1;
+                    let fillModifier = new am4core.LinearGradientModifier();
+                    fillModifier.opacities = [0.3, 0];
+                    fillModifier.offsets = [0, 0.5];
+                    fillModifier.gradient.rotation = 90;
+                    series.segments.template.fillModifier = fillModifier;
+                }
                 return series
 
 

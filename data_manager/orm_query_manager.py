@@ -7,6 +7,7 @@ from data_manager.utils import query_execute
 import pandas as pd
 from django.apps import apps
 
+from visualiser.utils import clean_dictionary_list_from_zero_values
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 
@@ -67,8 +68,9 @@ def primary_energy_by_fuel_avg_query(query_id, grouping_val):
         final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(0)
         # final_df['zero'] = 0
         final_data = list(final_df.to_dict('index').values())
+        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
 
-        return final_data
+        return clean_final_data
 
 
 def model_scenario_intro_page_query(query_id):
@@ -86,7 +88,8 @@ def model_scenario_intro_page_query(query_id):
         final_data = list(
             df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
                 'index').values())
-        return final_data
+        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        return clean_final_data
 
 
 def heatmap_query(query_id):
@@ -115,7 +118,8 @@ def scentific_tool_query(query_id):
     final_data = list(
         df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
             'index').values())
-    return final_data
+    clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+    return clean_final_data
 
 
 def quantity_comparison_query(query_id):
@@ -142,8 +146,9 @@ def quantity_comparison_query(query_id):
             joined_df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(
                 0).to_dict(
                 'index').values())
+    clean_final_data = clean_dictionary_list_from_zero_values(final_data)
 
-    return final_data
+    return clean_final_data
 
 
 def var_harmonisation_on_demand(query_id):

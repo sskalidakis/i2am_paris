@@ -354,7 +354,7 @@ def show_line_chart(request):
     y_axis_title = response_data['y_axis_title']
     color_list_request = response_data['color_list_request']
     use_default_colors = response_data['use_default_colors']
-    chart_3d = ""
+    chart_3d = response_data['chart_3d']
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']

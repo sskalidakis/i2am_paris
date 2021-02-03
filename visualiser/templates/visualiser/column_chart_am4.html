@@ -42,7 +42,7 @@
             categoryAxis.renderer.labels.template.verticalCenter = "middle";
             categoryAxis.renderer.labels.template.horizontalCenter = "left";
             categoryAxis.renderer.labels.template.fontSize = '0.9em';
-
+            chart.numberFormatter.numberFormat = "####.##";
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.fontWeight = 600 ;
             valueAxis.renderer.labels.template.adapter.add("text", function (text) {

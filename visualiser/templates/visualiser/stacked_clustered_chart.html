@@ -38,7 +38,7 @@
         categoryAxis.renderer.labels.template.horizontalCenter = "left";
         {#categoryAxis.renderer.labels.template.marginTop = 30;#}
         categoryAxis.renderer.labels.template.fontSize = '0.7em';
-
+        chart.numberFormatter.numberFormat = "####.##";
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.title.fontWeight = 600;
 
