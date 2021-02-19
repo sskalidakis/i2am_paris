@@ -27,6 +27,7 @@
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
             var chart_3d = {{ chart_3d }};
+            chart.exporting.menu = new am4core.ExportMenu();
 
             // Create axes
             if (x_axis_type === "time") {
@@ -123,7 +124,7 @@
                 series.fill = am4core.color(fillColor);
                 series.stroke = am4core.color(fillColor);
                 //Smoothed Lines
-                series.tensionX = 0.9;
+                {#series.tensionX = 0.9;#}
 
                 if (chart_3d) {
                     //Create Gradient
