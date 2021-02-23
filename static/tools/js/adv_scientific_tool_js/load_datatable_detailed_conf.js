@@ -24,8 +24,11 @@ function populate_datatables(model_sel, scenario_sel, region_sel, variable_sel) 
                         {"data": "unit"},
                         {"data": "variable"},
                         {"data": "model"}
-                    ]
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['csvHtml5']
                 });
+                $(".buttons-csv span").text("Export to CSV");
             },
             error: function (data) {
                 console.log(data);
