@@ -103,7 +103,7 @@ def paris_advanced_scientific_module(request):
 
 
 @csrf_exempt
-def update_scientific_model_selects(request):
+def update_scientific_model_selects_strict(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
@@ -211,6 +211,116 @@ def update_scientific_model_selects(request):
 
         return JsonResponse(ls, safe=False)
 
+
+@csrf_exempt
+def update_scientific_model_selects_basic(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    if request.method == 'POST':
+        models = body['model__name']
+        scenarios = body['scenario__name']
+        regions = body['region__name']
+        variables = body['variable__name']
+        changed_field = body['changed_field']
+        fe_all_scenarios = body['fe_all_scenarios']
+        fe_all_regions = body['fe_all_regions']
+        fe_all_variables = body['fe_all_variables']
+
+        all_models = [el['name'] for el in DataVariablesModels.objects.filter(
+            name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
+        all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
+        all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
+        all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
+
+        if changed_field == 'clear_all':
+            allowed_models = all_models
+            allowed_scenarios = all_scenarios
+            allowed_variables = all_variables
+            allowed_regions = all_regions
+        elif changed_field == 'model_name':
+            if len(models) == 0:
+                allowed_models = all_models
+                allowed_scenarios = all_scenarios
+                allowed_variables = all_variables
+                allowed_regions = all_regions
+            else:
+                distinct_scenarios = []
+                for model in models:
+                    distinct_scenarios.append(
+                        PRWMetaData.objects.filter(model_name=model).values('scenario_name').distinct())
+                final_scenarios = distinct_scenarios[0]
+                for scenario_list in distinct_scenarios:
+                    final_scenarios = (final_scenarios | scenario_list).distinct()
+                print('common scenarios', final_scenarios)
+                allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
+                allowed_models = all_models
+                allowed_variables = all_variables
+                allowed_regions = all_regions
+        elif changed_field == 'scenario_name':
+            if len(scenarios) == 0:
+                allowed_models = models
+                allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+                allowed_variables = all_variables
+                allowed_regions = all_regions
+            else:
+                distinct_regions = []
+                for model in models:
+                    for scenario in scenarios:
+                        distinct_regions.append(
+                            PRWMetaData.objects.filter(model_name=model, scenario_name=scenario).values(
+                                'region_name').distinct())
+                final_regions = distinct_regions[0]
+                for region_list in distinct_regions:
+                    final_regions = (final_regions | region_list).distinct()
+                print('common regions', final_regions)
+                allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+                allowed_models = models
+                allowed_variables = all_variables
+                allowed_regions = [el['region_name'] for el in final_regions]
+        elif changed_field == 'region_name':
+            if len(regions) == 0:
+                allowed_models = models
+                allowed_scenarios = scenarios
+                allowed_variables = all_variables
+                allowed_regions = [el for el in all_scenarios if el not in fe_all_regions]
+            else:
+                distinct_variables = []
+                for model in models:
+                    for scenario in scenarios:
+                        for region in regions:
+                            distinct_variables.append(
+                                PRWMetaData.objects.filter(model_name=model, scenario_name=scenario,
+                                                           region_name=region).values(
+                                    'variable_name').distinct())
+                final_variables = distinct_variables[0]
+                for variable_list in distinct_variables:
+                    final_variables = (final_variables | variable_list).distinct()
+                print('common variables', final_variables)
+                allowed_scenarios = scenarios
+                allowed_models = models
+                allowed_variables = [el['variable_name'] for el in final_variables]
+                allowed_regions = [el for el in all_regions if el not in fe_all_regions]
+        elif changed_field == 'variable_name':
+            if len(regions) == 0:
+                allowed_models = models
+                allowed_scenarios = scenarios
+                allowed_variables = [el for el in all_variables if el not in fe_all_variables]
+                allowed_regions = regions
+            else:
+                allowed_scenarios = scenarios
+                allowed_models = models
+                allowed_variables = [el for el in all_variables if el not in fe_all_variables]
+                allowed_regions = regions
+
+        ls = {'models': [el for el in all_models if el not in allowed_models],
+              'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
+              'regions': [el for el in all_regions if el not in allowed_regions],
+              'variables': [el for el in all_variables if el not in allowed_variables]}
+
+        print('Changed field: ', changed_field)
+
+        return JsonResponse(ls, safe=False)
 
 
 @csrf_exempt

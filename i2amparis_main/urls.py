@@ -26,6 +26,8 @@ urlpatterns = [
          name='populate_detailed_analysis_datatables'),
     path('populate_comparative_analysis_datatables', views.populate_comparative_analysis_datatables,
          name='populate_comparative_analysis_datatables'),
-    path('update_scientific_model_selects', views.update_scientific_model_selects,
-         name='update_scientific_model_selects')
+    path('update_scientific_model_selects_strict', views.update_scientific_model_selects_strict,
+         name='update_scientific_model_selects_strict'),
+    path('update_scientific_model_selects_basic', views.update_scientific_model_selects_basic,
+         name='update_scientific_model_selects_basic')
 ]

@@ -16,6 +16,7 @@ $(document).ready(function () {
             $('#detailed_configurable_progress_text').text('Please select Scenario(s) . . .');
             $('#dca_progress_bar div').css('width','25%');
             $('#dca_progress_bar div').attr('aria-valuenow', '25');
+            $('#detailed_filtering').addClass("disabled_radio");
 
         }else{
             alert('Please select at least one model before moving on.')
@@ -171,6 +172,9 @@ $(document).ready(function () {
         const regions = $('#region_name').multipleSelect('getSelects');
         const variables = $('#variable_name').multipleSelect('getSelects');
 
+        var filtering = $('input[name="detailed_filtering_input"]:checked').val();
+
+
         const input = {
             'model__name': models,
             'scenario__name': scenarios,
@@ -183,7 +187,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: "/update_scientific_model_selects",
+            url: "/update_scientific_model_selects_" + filtering,
             type: "POST",
             data: JSON.stringify(input),
             contentType: 'application/json',
@@ -264,6 +268,7 @@ $(document).ready(function () {
         $('select.boot-select').multipleSelect('setSelects', []);
         $('select.boot-select:not("#variable_name")').attr('multiple', 'multiple');
         update_unavailable_select_options("clear_all");
+        $('#detailed_filtering').removeClass("disabled_radio");
         initialise_sm_selects();
         $('#chart-side-info').hide();
         $('#viz_frame_div').hide();
