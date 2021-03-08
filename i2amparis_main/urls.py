@@ -29,5 +29,9 @@ urlpatterns = [
     path('update_scientific_model_selects_strict', views.update_scientific_model_selects_strict,
          name='update_scientific_model_selects_strict'),
     path('update_scientific_model_selects_basic', views.update_scientific_model_selects_basic,
-         name='update_scientific_model_selects_basic')
+         name='update_scientific_model_selects_basic'),
+    path('update_comparative_selects_strict', views.update_comparative_selects_strict,
+         name='update_comparative_selects_strict'),
+    path('update_comparative_selects_basic', views.update_comparative_selects_basic,
+         name='update_comparative_selects_basic')
 ]

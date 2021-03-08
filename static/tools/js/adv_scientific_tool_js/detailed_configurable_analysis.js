@@ -57,7 +57,7 @@ $(document).ready(function () {
             $('#dca_progress_bar div').attr('aria-valuenow', '75');
 
         } else {
-            alert('Please select at least one scenario before moving on.')
+            alert('Please select at least one region before moving on.')
         }
     });
 

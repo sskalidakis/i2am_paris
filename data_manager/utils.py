@@ -77,6 +77,9 @@ def group_by_function(group_by_params, agg_params, data):
             final_data = final_data.annotate(value=Min(value))
         elif agg_func == 'Count':
             final_data = final_data.annotate(value=Count(value))
+        elif agg_func == 'default':
+            final_data = final_data.annotate(value=Avg(value))
+    #         TODO: Need to extract the default aggrgation function from db
     return final_data
 
 

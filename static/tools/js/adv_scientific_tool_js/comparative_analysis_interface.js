@@ -1,41 +1,179 @@
 $(document).ready(function () {
     setTimeout(function () {
         $("#clear-button_intro_comp").click();
+        $('#agg_func_intro_comp').multipleSelect('setSelects', ['default']);
     }, 10);
 
-    $('select.boot-select-intro').each(function () {
-        var select = $(this);
-        select.multipleSelect(
-            {
-                filter: true,
-                showClear: true,
-                animate: 'fade',
-                maxHeightUnit: 'row',
-                maxHeight: 8,
-                dropWidth: 250//,
-                // onClick: function () {
-                //     update_unavailable_select_options(select.attr('id'));
-                //     populate_selects('#' + select.attr('id'));
-                // },
-                // onCheckAll: function () {
-                //     update_unavailable_select_options(select.attr('id'));
-                //     populate_selects('#' + select.attr('id'));
-                // },
-                // onUncheckAll: function () {
-                //     update_unavailable_select_options(select.attr('id'));
-                //     populate_selects('#' + select.attr('id'));
-                // },
-            });
+
+    $('#ca-model-next-btn').on('click', function () {
+        if ($('#model_name_intro_comp').multipleSelect('getSelects').length > 0) {
+            $('#ca-model-next-btn').parent().hide();
+            $('#model_name_intro_comp').parent().find('.boot-select-intro').addClass('disabled-select');
+            $('#model_name_intro_comp').parent().find('label').addClass('disabled-select');
+            $('.clear-sel-button-intro-comp[data-sel_clear="model_name_intro_comp"]').addClass('disabled-select');
+            $('#ca-variable-next-btn').parent().show();
+            $('#variable_name_intro_comp').parent().find('.boot-select-intro').removeClass('disabled-select');
+            $('#variable_name_intro_comp').parent().find('label').removeClass('disabled-select');
+            $('.clear-sel-button-intro-comp[data-sel_clear="variable_name_intro_comp"]').removeClass('disabled-select');
+            $('#comparative_progress_text').text('Please select a Variable . . .');
+            $('#ca_progress_bar div').css('width', '33%');
+            $('#ca_progress_bar div').attr('aria-valuenow', '33');
+            $('#comparative_filtering').addClass("disabled_radio");
+
+        } else {
+            alert('Please select at least one model before moving on.')
+        }
+    });
+
+
+
+    $('#ca-variable-next-btn').on('click', function () {
+        if ($('#variable_name_intro_comp').multipleSelect('getSelects').length > 0) {
+            $('#ca-variable-next-btn').parent().hide();
+            $('#run-button_sm_intro_comp').parent().removeClass('disabled-select');
+            $('#scenario_name_intro_comp').parent().find('.boot-select-intro').removeClass('disabled-select');
+            $('#scenario_name_intro_comp').parent().find('label').removeClass('disabled-select');
+            $('.clear-sel-button-intro-comp[data-sel_clear="scenario_name_intro_comp"]').removeClass('disabled-select');
+            $('#variable_name_intro_comp').parent().find('.boot-select-intro').addClass('disabled-select');
+            $('#variable_name_intro_comp').parent().find('label').addClass('disabled-select');
+            $('.clear-sel-button-intro-comp[data-sel_clear="variable_name_intro_comp"]').addClass('disabled-select');
+            $('#comparative_progress_text').text('Please select one or more Scenarios . . .');
+            $('#ca_progress_bar div').css('width', '66%');
+            $('#ca_progress_bar div').attr('aria-valuenow', '66');
+
+        } else {
+            alert('Please select at least one variable before moving on.')
+        }
+    });
+
+    function initialise_sm_comp_selects() {
+        $('select.boot-select-intro').each(function () {
+            var select = $(this);
+            select.multipleSelect('destroy').multipleSelect(
+                {
+                    filter: true,
+                    showClear: false,
+                    animate: 'fade',
+                    maxHeightUnit: 'row',
+                    maxHeight: 8,
+                    dropWidth: 250,
+                    selectAll: false,
+                    onClick: function () {
+                        update_unavailable_select_options_comp(select.attr('id'));
+                    },
+
+                });
+        });
+    }
+
+    initialise_sm_comp_selects();
+
+    $(".clear-sel-button-intro-comp").click(function () {
+        var clear_sel = $(this).data("sel_clear");
+        $('select.boot-select-intro#' + clear_sel).multipleSelect('setSelects', []);
+        update_unavailable_select_options_comp(clear_sel);
+    });
+
+    var fe_comp_all_scenarios = [];
+    var fe_comp_all_regions = [];
+    var fe_comp_all_variables = [];
+
+    function update_unavailable_select_options_comp(changed) {
+
+        const models = $('#model_name_intro_comp').multipleSelect('getSelects');
+        const scenarios = $('#scenario_name_intro_comp').multipleSelect('getSelects');
+        const variables = $('#variable_name_intro_comp').multipleSelect('getSelects');
+
+        var filtering = $('input[name="comparative_filtering_input"]:checked').val();
+
+
+        const input = {
+            'model__name': models,
+            'scenario__name': scenarios,
+            'variable__name': variables,
+            'changed_field': changed,
+            'fe_all_scenarios': fe_comp_all_scenarios,
+            'fe_all_regions': fe_comp_all_regions,
+            'fe_all_variables': fe_comp_all_variables
+        };
+
+        $.ajax({
+            url: "/update_comparative_selects_" + filtering,
+            type: "POST",
+            data: JSON.stringify(input),
+            contentType: 'application/json',
+            success: function (data) {
+                fe_comp_all_variables = data['variables'];
+                fe_comp_all_scenarios = data['scenarios'];
+                $("#comparative_tool .boot-select-intro option").removeAttr('disabled');
+                var j;
+                for (j = 0; j < data['models'].length; j++) {
+                    $("#model_name_intro_comp option[value='" + data['models'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['scenarios'].length; j++) {
+                    $("#scenario_name_intro_comp option[value='" + data['scenarios'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                for (j = 0; j < data['variables'].length; j++) {
+                    $("#variable_name_intro_comp option[value='" + data['variables'][j] + "']").attr('disabled', 'disabled');
+                }
+
+                $('select.boot-select-intro').each(function () {
+                    var select = $(this);
+                    select.multipleSelect('refreshOptions', {})
+                });
+
+            },
+            error: function (data) {
+                console.log('Cannot update disabled selects. AJAX Call failed.');
+            }
+        });
+
+
+    }
+
+    $("#clear-button_intro_comp").click(function () {
+
+        fe_comp_all_scenarios = [];
+        fe_comp_all_regions = [];
+        fe_comp_all_variables = [];
+        $('#ca-variable-next-btn').parent().hide();
+        $('#ca-model-next-btn').parent().hide();
+        $('#run-button_sm_intro_comp').parent().addClass('disabled-select');
+        $('#model_name_intro_comp').parent().find('.boot-select-intro').removeClass('disabled-select');
+        $('#model_name_intro_comp').parent().find('label').removeClass('disabled-select');
+        $('.clear-sel-button-intro-comp[data-sel_clear="model_name_intro_comp"]').removeClass('disabled-select');
+        $('#ca-model-next-btn').parent().show();
+
+        $('#variable_name_intro_comp').parent().find('.boot-select-intro').addClass('disabled-select');
+        $('#variable_name_intro_comp').parent().find('label').addClass('disabled-select');
+        $('.clear-sel-button-intro-comp[data-sel_clear="variable_name_intro_comp"]').addClass('disabled-select');
+        $('#scenario_name_intro_comp').parent().find('.boot-select-intro').addClass('disabled-select');
+        $('#scenario_name_intro_comp').parent().find('label').addClass('disabled-select');
+        $('.clear-sel-button-intro-comp[data-sel_clear="scenario_name_intro_comp"]').addClass('disabled-select');
+        $('#comparative_progress_text').text('Please select a Model . . .');
+        $('#ca_progress_bar div').css('width', '2%');
+        $('#ca_progress_bar div').attr('aria-valuenow', '2');
+        $('select.boot-select-intro').not('#agg_func_intro_comp').multipleSelect('setSelects', []);
+        update_unavailable_select_options_comp("clear_all");
+        $('#comparative_filtering').removeClass("disabled_radio");
+        initialise_sm_comp_selects();
+        $('#chart-side-info_intro_comp').hide();
+        $('#viz_frame_div_intro_comp').hide();
+        $('#updated-chart-info_intro_comp').show();
+        $('#comparative_tables').DataTable().clear().draw();
+
+
+        $('select.boot-select-intro').not('#agg_func_intro_comp').multipleSelect('setSelects', []);
+        $('#viz_frame_div_intro_comp').hide();
+        $('#chart-side-info_intro_comp').hide();
     });
 
 
 });
 
-$("#clear-button_intro_comp").click(function () {
-    $('select.boot-select-intro').multipleSelect('setSelects', []);
-    $('#viz_frame_div_intro_comp').hide();
-    $('#chart-side-info_intro_comp').hide();
-});
+
 
 
 $("#run-button_sm_intro_comp").click(function () {
@@ -53,8 +191,8 @@ $("#run-button_sm_intro_comp").click(function () {
     if (model_full || scenario_full || variable_full || agg_func_full) {
         alert('Please, fill in the required fields.')
     } else {
-
-
+        $('#ca_progress_bar div').css('width', '100%');
+        $('#ca_progress_bar div').attr('aria-valuenow', '100');
         viz_frame.show();
         chart_info.show();
         /* Token Retrieval */
