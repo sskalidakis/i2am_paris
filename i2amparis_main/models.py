@@ -168,10 +168,12 @@ class RegionsRes(models.Model):
     """
     name = models.CharField(null=False, default="", max_length=50)
     title = models.CharField(null=False, default="", max_length=100)
+    reg_type = models.IntegerField(null=False, default=0)
 
 class VariablesRes(models.Model):
     name = models.CharField(null=False, default="", max_length=50)
     title = models.CharField(null=False, default="", max_length=100)
+    agg_func = models.CharField(null=False, default="", max_length=20)
 
 class UnitsRes(models.Model):
     name = models.CharField(null=False, default="", max_length=50)

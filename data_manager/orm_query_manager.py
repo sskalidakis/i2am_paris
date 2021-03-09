@@ -136,18 +136,16 @@ def quantity_comparison_query(query_id):
     else:
         grouping_var_table = apps.get_model(DATA_TABLES_APP, var_table_name)
         grouping_var_data = grouping_var_table.objects.all().values()
-        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title']].rename(
+        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title','reg_type']].rename(
             columns={'id': grouping_val})
 
         joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
         joined_df.drop(grouping_val, axis=1, inplace=True)
         joined_df = joined_df.rename(columns={'title': grouping_val})
-        final_data = list(
-            joined_df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(
-                0).to_dict(
-                'index').values())
+        pivoted_df = joined_df.pivot(index=[grouping_val, 'reg_type'], columns=["scenario__name"], values="value").sort_values('reg_type').reset_index()
+        pivoted_df.drop('reg_type', axis=1, inplace=True)
+        final_data = list(pivoted_df.fillna(0).to_dict('index').values())
     clean_final_data = clean_dictionary_list_from_zero_values(final_data)
-
     return clean_final_data
 
 

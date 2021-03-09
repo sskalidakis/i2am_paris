@@ -31,13 +31,14 @@ function create_query_json_column() {
     var title_list = sel_scenario.multipleSelect('getSelects', 'text');
 
 
-    // $('select.boot-select').each(function () {
-    //     if ($(this).multipleSelect('getSelects').length > 1) {
-    //         multiple_field = $(this).data('dbname');
-    //         val_list = $(this).multipleSelect('getSelects');
-    //         title_list = $(this).multipleSelect('getSelects', 'text');
-    //     }
-    // });
+    //ordering
+    var ordering;
+    if (aggvarval[0]==='year'){
+        ordering = 'year'
+    }else if(aggvarval[0]==='region_id'){
+        ordering='region__reg_type'
+    }
+
     if(val_list.length===0){
         val_list = []
     }
@@ -95,9 +96,10 @@ function create_query_json_column() {
             },
             "ordering": [
                 {
-                    "parameter": aggvarval[0],
+                    "parameter": ordering,
                     "ascending": true
                 },
+
             ]
             ,
             "grouping": {"params":[aggvarval[0], "model__name", "scenario__name", "variable__name"], "aggregated_params":[{"name":"value","agg_func": aggfuncval[0]}]},
