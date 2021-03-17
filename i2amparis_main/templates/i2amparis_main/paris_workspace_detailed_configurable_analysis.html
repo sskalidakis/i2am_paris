@@ -69,7 +69,7 @@
                 </div>
 
             </div>
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12" disabled="disabled">
                 <div class="col-xs-12 col-md-3">
                     <select class="desc_text take_up_space sdg-select" placeholder="Select an SDG"
                             id="sdg_select" style="width: 100%;">
@@ -204,6 +204,24 @@
                     <p>Please select Model(s) . . .</p>
                 </div>
             </div>
+            <div class="btn-group col-xs-12 col-md-12" data-toggle="buttons" id="visualisation_type_selection"
+                 style="display: block; margin-bottom: 1em; margin-top: 1em">
+                <label class="btn btn-primary active col-md-2 col-xs-6"
+                       style="border-radius: 5px; margin: 2px">
+                    <input type="radio" name="visualisation_input" id="linechart" value="show_line_chart"
+                           checked>Line Chart
+                </label>
+                <label class="btn btn-primary col-md-2 col-xs-6"
+                       style="border-radius: 5px ;margin: 2px">
+                    <input type="radio" name="visualisation_input" id="columnchart" value="show_column_chart">
+                    Column Chart
+                </label>
+                <label class="btn btn-primary col-md-2 col-xs-6"
+                       style="border-radius: 5px; margin: 2px">
+                    <input type="radio" name="visualisation_input" id="piechart" value="show_pie_chart">
+                    Pie Chart
+                </label>
+            </div>
 
 
             <div class="row" style="height: 75vh">
@@ -245,6 +263,14 @@
                     data-toggle="collapse" data-target="#legend_detailed">
                 Show Legend
             </button>
+        </div>
+        <div class="col-md-3 col-xs-12 form-group" style="display: none">
+            <select class="hidden-var-container" style="width: 100%">
+                {% for el in variables %}
+                    <option value="{{ el.name }}">{{ el.title }}</option>
+                {% endfor %}
+            </select>
+
         </div>
 
         {% include "i2amparis_main/prw_wawh_tools_scenario_region_legend.html" %}

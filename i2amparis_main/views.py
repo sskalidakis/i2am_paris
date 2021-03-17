@@ -4,7 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
-    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData
+    RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData, SdgsCat, \
+    VaraiblesSdgsRes
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
@@ -316,148 +317,6 @@ def update_scientific_model_selects_basic(request):
         return JsonResponse(ls, safe=False)
 
 
-#
-# @csrf_exempt
-# def update_comparative_selects_strict(request):
-#     body_unicode = request.body.decode('utf-8')
-#     body = json.loads(body_unicode)
-#
-#     if request.method == 'POST':
-#         models = body['model__name']
-#         variables = body['variable__name']
-#         changed_field = body['changed_field']
-#         fe_all_scenarios = body['fe_all_scenarios']
-#         fe_all_variables = body['fe_all_variables']
-#
-#         all_models = [el['name'] for el in DataVariablesModels.objects.filter(
-#             name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
-#         all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
-#         all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
-#
-#         if changed_field == 'clear_all':
-#             allowed_models = all_models
-#             allowed_scenarios = all_scenarios
-#             allowed_variables = all_variables
-#         elif changed_field == 'model_name_intro_comp':
-#             if len(models) == 0:
-#                 allowed_models = all_models
-#                 allowed_scenarios = all_scenarios
-#                 allowed_variables = all_variables
-#             else:
-#                 distinct_variables = []
-#                 for model in models:
-#                     distinct_variables.append(
-#                         PRWMetaData.objects.filter(model_name=model).values('variable_name').distinct())
-#                 final_variables = distinct_variables[0]
-#                 for variable_list in distinct_variables:
-#                     final_variables = final_variables.intersection(variable_list)
-#                 print('common variables', final_variables)
-#                 allowed_variables = [el['variable_name'] for el in final_variables]
-#                 allowed_models = all_models
-#                 allowed_scenarios = all_scenarios
-#         elif changed_field == 'variable_name_intro_comp':
-#             if len(variables) == 0:
-#                 allowed_models = models
-#                 allowed_variables = [el for el in all_variables if el not in fe_all_variables]
-#                 allowed_scenarios = all_scenarios
-#             else:
-#                 distinct_scenarios = []
-#                 for model in models:
-#                     for variable in variables:
-#                         distinct_scenarios.append(
-#                             PRWMetaData.objects.filter(model_name=model, variable_name=variable).values(
-#                                 'scenario_name').distinct())
-#                 final_scenarios = distinct_scenarios[0]
-#                 for scenario_list in distinct_scenarios:
-#                     final_scenarios = final_scenarios.intersection(scenario_list)
-#                 print('common scenarios', final_scenarios)
-#                 allowed_variables = [el for el in all_variables if el not in fe_all_variables]
-#                 allowed_models = models
-#                 allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
-#         elif changed_field == 'scenario_name_intro_comp':
-#
-#             allowed_models = models
-#             allowed_variables = variables
-#             allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
-#
-#         ls = {'models': [el for el in all_models if el not in allowed_models],
-#               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
-#               'variables': [el for el in all_variables if el not in allowed_variables]}
-#
-#         print('Changed field: ', changed_field)
-#
-#         return JsonResponse(ls, safe=False)
-#
-# @csrf_exempt
-# def update_comparative_selects_basic(request):
-#     body_unicode = request.body.decode('utf-8')
-#     body = json.loads(body_unicode)
-#
-#     if request.method == 'POST':
-#         models = body['model__name']
-#         variables = body['variable__name']
-#         changed_field = body['changed_field']
-#         fe_all_scenarios = body['fe_all_scenarios']
-#         fe_all_variables = body['fe_all_variables']
-#
-#         all_models = [el['name'] for el in DataVariablesModels.objects.filter(
-#             name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
-#         all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
-#         all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
-#
-#         if changed_field == 'clear_all':
-#             allowed_models = all_models
-#             allowed_scenarios = all_scenarios
-#             allowed_variables = all_variables
-#         elif changed_field == 'model_name_intro_comp':
-#             if len(models) == 0:
-#                 allowed_models = all_models
-#                 allowed_scenarios = all_scenarios
-#                 allowed_variables = all_variables
-#             else:
-#                 distinct_variables = []
-#                 for model in models:
-#                     distinct_variables.append(
-#                         PRWMetaData.objects.filter(model_name=model).values('variable_name').distinct())
-#                 final_variables = distinct_variables[0]
-#                 for variable_list in distinct_variables:
-#                     final_variables = (final_variables | variable_list).distinct()
-#                 print('common variables', final_variables)
-#                 allowed_variables = [el['variable_name'] for el in final_variables]
-#                 allowed_models = all_models
-#                 allowed_scenarios = all_scenarios
-#         elif changed_field == 'variable_name_intro_comp':
-#             if len(variables) == 0:
-#                 allowed_models = models
-#                 allowed_variables = [el for el in all_variables if el not in fe_all_variables]
-#                 allowed_scenarios = all_scenarios
-#             else:
-#                 distinct_scenarios = []
-#                 for model in models:
-#                     for variable in variables:
-#                         distinct_scenarios.append(
-#                             PRWMetaData.objects.filter(model_name=model, variable_name=variable).values(
-#                                 'scenario_name').distinct())
-#                 final_scenarios = distinct_scenarios[0]
-#                 for scenario_list in distinct_scenarios:
-#                     final_scenarios = (final_scenarios | scenario_list).distinct()
-#                 print('common scenarios', final_scenarios)
-#                 allowed_variables = [el for el in all_variables if el not in fe_all_variables]
-#                 allowed_models = models
-#                 allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
-#         elif changed_field == 'scenario_name_intro_comp':
-#
-#             allowed_models = models
-#             allowed_variables = variables
-#             allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
-#
-#         ls = {'models': [el for el in all_models if el not in allowed_models],
-#               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
-#               'variables': [el for el in all_variables if el not in allowed_variables]}
-#
-#         print('Changed field: ', changed_field)
-#
-#         return JsonResponse(ls, safe=False)
 
 
 @csrf_exempt
@@ -489,46 +348,19 @@ def populate_detailed_analysis_datatables(request):
         return JsonResponse(ls, safe=False)
 
 
-@csrf_exempt
-def populate_comparative_analysis_datatables(request):
+def get_sdg_variables(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-
+    ls = []
     if request.method == 'POST':
-        models = body['model__name']
-        scenarios = body['scenario__name']
-        variables = body['variable__name']
-        agg_var = body['agg_var']
-        agg_func = body['agg_func']
+        sdg = body['sdg_name']
+        variables = VaraiblesSdgsRes.objects.filter(sdg__sdgs_cat=sdg)
+        for var in variables:
+            ls.append({'variable_name': var.variable.name, "variable_title": var.variable.title})
+    return JsonResponse(ls, safe=False)
 
-        if agg_var == 'region_id':
-            agg_var = 'region__title'
-        final_data = []
-        if agg_var == 'year':
-            final_data = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
-                                                    variable__name__in=variables).values("model__title",
-                                                                                         "scenario__title",
-                                                                                         "variable__title", "year")
-        elif agg_var == 'region__title':
-            final_data = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
-                                                    variable__name__in=variables).values("model__title",
-                                                                                         "scenario__title",
-                                                                                         "variable__title",
-                                                                                         "region__title")
-        if agg_func == 'Avg':
-            final_data = final_data.annotate(value=Avg('value'), unit=Max('unit__title'))
-        elif agg_func == 'Sum':
-            final_data = final_data.annotate(value=Sum('value'), unit=Max('unit__title'))
-        elif agg_func == 'Max':
-            final_data = final_data.annotate(value=Max('value'), unit=Max('unit__title'))
-        elif agg_func == 'Min':
-            final_data = final_data.annotate(value=Min('value'), unit=Max('unit__title'))
-        elif agg_func == 'Count':
-            final_data = final_data.annotate(value=Count('value'), unit=Max('unit__title'))
-        elif agg_func == 'default':
-            final_data = final_data.annotate(value=Avg('value'), unit=Max('unit__title'))
-        # TODO: Extract the correct aggregation function from db
-        return JsonResponse({'agg_var': agg_var, 'final_data': list(final_data)}, safe=False)
+
+
 
 
 def detailed_model_doc(request, model=''):

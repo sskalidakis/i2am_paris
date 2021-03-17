@@ -2,7 +2,7 @@ $(document).ready(function () {
 
 
     $('#dca-var-next-btn').on('click', function () {
-        if ($('#variable_name').multipleSelect('getSelects').length > 0){
+        if ($('#variable_name').multipleSelect('getSelects').length > 0) {
             $('#dca-var-next-btn').parent().hide();
             $('#variable_name').parent().find('.boot-select').addClass('disabled-select');
             $('#variable_name').parent().find('label').addClass('disabled-select');
@@ -12,11 +12,15 @@ $(document).ready(function () {
             $('#region_name').parent().find('label').removeClass('disabled-select');
             $('.clear-sel-button[data-sel_clear="region_name"]').removeClass('disabled-select');
             $('#detailed_configurable_progress_text').text('Please select Region(s) . . .');
-            $('#dca_progress_bar div').css('width','25%');
+            $('#dca_progress_bar div').css('width', '25%');
             $('#dca_progress_bar div').attr('aria-valuenow', '25');
             $('#detailed_filtering').addClass("disabled_radio");
+            $('#sdg_filtering').addClass("disabled_radio");
+            var sdg_select = $('#sdg_select');
+            sdg_select.attr('disabled', 'disabled');
+            sdg_select.multipleSelect('refreshOptions', {});
 
-        }else{
+        } else {
             alert('Please select a variable before moving on.')
         }
     });
@@ -60,8 +64,6 @@ $(document).ready(function () {
     });
 
 
-
-
     function initialise_sm_selects() {
         $('select.boot-select').each(function () {
             var select = $(this);
@@ -84,6 +86,35 @@ $(document).ready(function () {
         });
     }
 
+    function reset_all_variables() {
+        $('select.sdg-select').multipleSelect('setSelects', []);
+        var sdg_select = $('#sdg_select');
+        sdg_select.attr('disabled', 'disabled');
+        sdg_select.multipleSelect('refreshOptions', {});
+        sdg_select.multipleSelect('setSelects', []);
+        var variable_select = $('#variable_name');
+        variable_select.multipleSelect('setSelects', []);
+        variable_select.find('option').remove();
+        $(".hidden-var-container").children().clone().appendTo("#variable_name");
+        variable_select.multipleSelect('refreshOptions', {});
+        variable_select.multipleSelect('setSelects', []);
+    }
+
+
+    function initialise_sdg_variables() {
+        $('select.sdg-select').multipleSelect('setSelects', []);
+        var sdg_select = $('#sdg_select');
+        sdg_select.attr('disabled', 'disabled');
+        sdg_select.multipleSelect('refreshOptions', {});
+        $(document).on('change', 'input:radio[id="sdg_variables"]', function (event) {
+            sdg_select.removeAttr('disabled');
+            sdg_select.multipleSelect('refreshOptions', {});
+        });
+        $(document).on('change', 'input:radio[id="all_variables"]', function (event) {
+            reset_all_variables();
+        });
+    }
+
 
     initialise_sm_selects();
     $('select.sdg-select').each(function () {
@@ -99,11 +130,45 @@ $(document).ready(function () {
                 selectAll: false,
                 placeholder: 'Please select an SDG',
                 onClick: function () {
-                    // populate_variables(select.attr('id'));
+                    populate_variables();
                 },
 
             });
     });
+    initialise_sdg_variables();
+
+
+    function populate_variables() {
+        var sdg_select = $('#sdg_select');
+        var variable_select = $('#variable_name');
+        variable_select.multipleSelect('setSelects', []);
+        variable_select.find('option').remove();
+        var selected_sdg = sdg_select.multipleSelect('getSelects');
+        const input = {
+            'sdg_name': selected_sdg[0]
+        };
+        $.ajax({
+            url: "/get_sdg_variables",
+            type: "POST",
+            data: JSON.stringify(input),
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                var options = '';
+                for (var i = 0; i < data.length; i++) {
+                    options = options + '<option value="' + data[i]['variable_name'] + '">' + data[i]['variable_title'] + '</option>'
+                }
+                variable_select.append(options);
+                variable_select.multipleSelect('refreshOptions', {});
+                variable_select.multipleSelect('setSelects', []);
+
+            },
+            error: function (data) {
+                console.log('Cannot update variable select AJAX Call failed.');
+            }
+        });
+
+    }
 
 
     function transform_multiple_select(selector) {
@@ -181,9 +246,11 @@ $(document).ready(function () {
         });
 
     }
+
     var fe_all_scenarios = [];
     var fe_all_regions = [];
     var fe_all_models = [];
+
     function update_unavailable_select_options(changed) {
 
         const models = $('#model_name').multipleSelect('getSelects');
@@ -192,7 +259,6 @@ $(document).ready(function () {
         const variables = $('#variable_name').multipleSelect('getSelects');
 
         var filtering = $('input[name="detailed_filtering_input"]:checked').val();
-
 
         const input = {
             'model__name': models,
@@ -250,8 +316,8 @@ $(document).ready(function () {
         var clear_sel = $(this).data("sel_clear");
         $('select.boot-select#' + clear_sel).multipleSelect('setSelects', []);
         var mul_selected = false;
-        $('select.boot-select:not(#' + clear_sel + '):not("#variable_name")').each(function (){
-            if ($(this).multipleSelect('getSelects').length >=2){
+        $('select.boot-select:not(#' + clear_sel + '):not("#variable_name")').each(function () {
+            if ($(this).multipleSelect('getSelects').length >= 2) {
                 mul_selected = true;
             }
         });
@@ -289,6 +355,11 @@ $(document).ready(function () {
         update_unavailable_select_options("clear_all");
         $('#detailed_filtering').removeClass("disabled_radio");
         initialise_sm_selects();
+
+        $('#sdg_filtering').removeClass("disabled_radio");
+        reset_all_variables();
+        $("#all_variables").prop("checked", true).trigger("click");
+
         $('#chart-side-info').hide();
         $('#viz_frame_div').hide();
         $('#chart_info').show();
@@ -308,7 +379,7 @@ $("#run-button").click(function () {
     if (variable_empty) {
         alert('Please, select a variable to complete the visualisation.')
     } else {
-        $('#detailed_configurable_progress_text').text('Visualisation is being created. You can select another variable to be visualised, or completely clear the selected fields.');
+        $('#detailed_configurable_progress_text').text('You can choose among different types of visualisation, select another model or combination of models or completely clear the selected fields.');
         $('#dca_progress_bar div').css('width', '100%');
         $('#dca_progress_bar div').attr('aria-valuenow', '100');
         $('.viz-container').show();
@@ -385,8 +456,9 @@ function create_visualisation(query_id, val_list, title_list, unit_list, variabl
 
         }
     }
+    var viz_selection = $('input[name="visualisation_input"]:checked').val();
 
-    var complete_url = "/visualiser/show_line_chart?" + url;
+    var complete_url = "/visualiser/"+ viz_selection +"?" + url;
     viz_frame.attr('src', complete_url);
     viz_frame.on('load', function () {
         $(this).show();

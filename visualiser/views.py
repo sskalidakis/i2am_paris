@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.apps import apps
 import ast
 
-from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query, column_chart_query
+from data_manager.orm_query_manager import heatmap_query, get_query_parameters, line_chart_query, column_chart_query, \
+    pie_chart_query
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -449,7 +450,7 @@ def show_column_chart(request):
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
 
-    data = generate_data_for_column_chart(dataset, dataset_type, x_axis_name)
+    data = generate_data_for_column_chart(dataset, dataset_type)
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
@@ -458,10 +459,18 @@ def show_column_chart(request):
 
 
 @csrf_exempt
-def generate_data_for_column_chart(dataset, dataset_type, index):
+def generate_data_for_column_chart(dataset, dataset_type):
     final_data = []
     if dataset_type == 'query':
         final_data = column_chart_query(dataset)
+    return final_data
+
+
+@csrf_exempt
+def generate_data_for_pie_chart(dataset, dataset_type):
+    final_data = []
+    if dataset_type == 'query':
+        final_data = pie_chart_query(dataset)
     return final_data
 
 
@@ -481,7 +490,9 @@ def show_pie_chart(request):
     min_max_y_value = response_data["min_max_y_value"]
     chart_3d = response_data["chart_3d"]
     use_default_colors = response_data["use_default_colors"]
-    data = PIE_CHART_DATA
+    dataset = response_data['dataset']
+    dataset_type = response_data['dataset_type']
+    data = generate_data_for_pie_chart(dataset, dataset_type)
     color_list = define_color_code_list(color_list_request)
 
     pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
@@ -580,7 +591,7 @@ def show_stacked_column_chart(request):
 
     dataset = response_data_xy['dataset']
     dataset_type = response_data_xy['dataset_type']
-    data = generate_data_for_column_chart(dataset, dataset_type, x_axis_name)
+    data = generate_data_for_column_chart(dataset, dataset_type)
     print(data)
     color_list = define_color_code_list(color_list_request)
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,

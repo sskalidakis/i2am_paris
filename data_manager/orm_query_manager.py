@@ -30,12 +30,20 @@ def line_chart_query(query_id):
 def column_chart_query(query_id):
     query_name = Query.objects.get(id=int(query_id)).query_name
     results = []
-    if query_name == 'quantity_comparison_query':
-        results = quantity_comparison_query(query_id)
+    if query_name == 'scientific_tool_query':
+        results = scentific_tool_query(query_id)
     elif query_name == 'primary_energy_by_fuel_avg_models_query':
         results = primary_energy_by_fuel_avg_query(query_id, 'model_id')
     elif query_name == 'primary_energy_by_fuel_avg_scenarios_query':
         results = primary_energy_by_fuel_avg_query(query_id, 'scenario_id')
+    return results
+
+
+def pie_chart_query(query_id):
+    query_name = Query.objects.get(id=int(query_id)).query_name
+    results = []
+    if query_name == 'scientific_tool_query':
+        results = scentific_tool_query(query_id)
     return results
 
 
