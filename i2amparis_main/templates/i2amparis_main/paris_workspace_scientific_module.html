@@ -41,10 +41,31 @@
             font-size: 1em;
         }
 
-        .disabled_radio{
+        .disabled_radio {
             pointer-events: none;
             opacity: 0.5;
         }
+
+        .init_load_bar_text {
+            animation: blinker 1.5s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .init_load_bar {
+            animation: wavy 1s linear infinite;
+        }
+
+        @keyframes wavy {
+            50% {
+                opacity: 0.7;
+            }
+        }
+
 
     </style>
 
@@ -53,11 +74,23 @@
 {% endblock %}
 
 {% block content %}
+   {% comment %} <div id="init_load_container" style="text-align: center; margin-top:15em; height: 100%">
+        <img class="init_load_bar" style="width: 15%" src="{% static "gifs/spinner.gif" %}">
+        <div class="row" style="font-size: 1.5em ; margin-left: 2em; margin-right: 2em;line-height: 2em">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8 init_load_bar_text" style="margin-top: 1.5em">Initialising Paris Reinforce
+                Workspace<br>Please, wait <br><br>
+                <span style="font-size: 0.8em!important;">This may take a few seconds . . . </span>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>{% endcomment %}
 
+{#    <div style="display: none" class="tab-content">#}
     <div class="tab-content">
 {#        {% include "i2amparis_main/paris_workspace_intro_page.html" %}#}
         {% include "i2amparis_main/paris_workspace_detailed_configurable_analysis.html" %}
-        {% include "i2amparis_main/paris_workspace_comparative_analysis.html" %}
+        {#        {% include "i2amparis_main/paris_workspace_comparative_analysis.html" %}#}
     </div>
 
 
@@ -68,13 +101,8 @@
 
     <script>
         $(document).ready(function () {
-            $('body').tooltip({container: 'body', html: true, selector: '[data-toggle=tooltip]', placement: 'auto'});
-            setTimeout(timer, 10);
 
-            function timer() {
-                $('a[href="#intro_summary"]').tab('show');
-                $('a[href="#fossil_energy_co2"]').tab('show');
-            }
+            $('body').tooltip({container: 'body', html: true, selector: '[data-toggle=tooltip]', placement: 'auto'});
 
             $(function () {
                 $('#myTab a:last').tab('show');

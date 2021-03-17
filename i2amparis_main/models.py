@@ -35,168 +35,6 @@ class ModelsInfo(models.Model):
         return self.model_name
 
 
-
-
-# Data Variable Tables
-class DataVariablesModels(models.Model):
-    """
-    Models for data model
-    """
-    name = models.TextField()
-    title = models.TextField(default="")
-    type = models.TextField()
-    time_horizon = models.IntegerField()
-    time_steps_in_solution = models.IntegerField(default=0)
-    ordering = models.IntegerField(default=0)
-    coverage = models.TextField(default="")
-    coverage_title = models.TextField(default="")
-
-
-class DataVariablesHarmonisation(models.Model):
-    """HarmVariables for data model"""
-    name = models.CharField(null=False, default="", max_length=50)
-    title = models.CharField(null=False, default="", max_length=50)
-    category = models.CharField(null=False, default="", max_length=50)
-    order = models.IntegerField(null=False, default=1)
-
-
-# Data Used only for the harmonisation Heatmap Application
-class Harmonisation_Variables(models.Model):
-    """Variables for harmonisation table"""
-    var_name = models.CharField(null=False, default="", max_length=50)
-    var_title = models.CharField(null=False, default="", max_length=50)
-    var_category = models.CharField(null=False, default="", max_length=50)
-    var_definition = models.TextField(null=False, default="")
-    model_relation = models.ManyToManyField(DataVariablesModels, through='HarmDataNew')
-    order = models.IntegerField(null=False, default=1)
-
-
-# Datasets
-
-
-class DatasetOnDemandVariableHarmonisation(models.Model):
-    # used in the on-demand variable harmonisation heatmap
-    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
-    io_status = models.CharField(null=False, default="", max_length=50)
-
-
-
-class HarmDataNew(models.Model):
-    # used in the paris reinforce workspace
-    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
-    io_status = models.CharField(null=False, default="", max_length=50)
-    var_unit = models.CharField(null=False, default="", max_length=20)
-    #var_source_info = models.TextField(null=False, default="")
-    var_timespan = models.TextField(null=False, default="")
-    #var_source_url = models.TextField(null=False, default="")
-
-
-class HarmDataSourcesTitles(models.Model):
-    title = models.TextField(null=True, default="")
-
-
-class HarmDataSourcesLinks(models.Model):
-    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
-    title = models.ForeignKey(HarmDataSourcesTitles,  on_delete=models.CASCADE)
-    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
-    var_source_url = models.TextField(null=False, default="")
-    var_source_info = models.TextField(null=False, default="")
-
-
-
-# Guide Datasets
-
-class DatasetVariableHarmonisationGuides(models.Model):
-    guide_from = models.CharField(null=False, default="", max_length=50)
-    guide_to = models.CharField(null=False, default="", max_length=50)
-    value = models.CharField(null=False, default="", max_length=50)
-
-
-class DatasetModelGeoGuides(models.Model):
-    guide_from = models.CharField(null=False, default="", max_length=50)
-    guide_to = models.CharField(null=False, default="", max_length=50)
-    value = models.CharField(null=False, default="", max_length=50)
-
-
-class DatasetModelTypeGuides(models.Model):
-    guide_from = models.CharField(null=False, default="", max_length=50)
-    guide_to = models.CharField(null=False, default="", max_length=50)
-    value = models.CharField(null=False, default="", max_length=50)
-
-
-class DatasetModelTimestepGuides(models.Model):
-    guide_from = models.CharField(null=False, default="", max_length=50)
-    guide_to = models.CharField(null=False, default="", max_length=50)
-    value = models.CharField(null=False, default="", max_length=50)
-
-
-# Data Model
-class Dataset(models.Model):
-    """dataset name is the name of table containing the data of the specific dataset"""
-    dataset_name = models.CharField(null=False, default="", max_length=50)
-    dataset_title = models.CharField(null=False, default="", max_length=50)
-    dataset_description = models.TextField(null=False, default="")
-    dataset_provider = models.CharField(null=False, default="", max_length=50)
-    dataset_date_creation = models.DateTimeField(auto_now_add=True)
-    dataset_date_update = models.DateTimeField(auto_now=True)
-    dataset_django_model = models.CharField(null=False, default="", max_length=50)
-    #string name of sql table
-
-class Variable(models.Model):
-    var_name = models.CharField(null=False, default="", max_length=50)
-    var_title = models.CharField(null=False, default="", max_length=50)
-    var_category = models.CharField(null=False, default="", max_length=50)
-    var_definition = models.TextField(null=False, default="")
-    var_unit = models.CharField(null=False, default="", max_length=50)
-    dataset_relation = models.ForeignKey(Dataset, null=False, on_delete=models.CASCADE)
-    variable_table_name = models.CharField(null=True, max_length=50)
-
-
-# Results Models
-
-
-class ScenariosRes(models.Model):
-
-    name = models.CharField(null=False, default="", max_length=50)
-    title = models.CharField(null=False, default="", max_length=100)
-
-class RegionsRes(models.Model):
-    """
-    Regions of results
-    """
-    name = models.CharField(null=False, default="", max_length=50)
-    title = models.CharField(null=False, default="", max_length=100)
-    reg_type = models.IntegerField(null=False, default=0)
-
-class VariablesRes(models.Model):
-    name = models.CharField(null=False, default="", max_length=50)
-    title = models.CharField(null=False, default="", max_length=100)
-    agg_func = models.CharField(null=False, default="", max_length=20)
-
-class UnitsRes(models.Model):
-    name = models.CharField(null=False, default="", max_length=50)
-    title = models.CharField(null=False, default="", max_length=100)
-
-class ResultsComp(models.Model):
-    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
-    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
-    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
-    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
-    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
-    year = models.IntegerField()
-    value = models.FloatField()
-
-class PRWMetaData(models.Model):
-    model_name = models.CharField(null=False, default="", max_length=50)
-    scenario_name = models.CharField(null=False, default="", max_length=50)
-    region_name = models.CharField(null=False, default="", max_length=50)
-    variable_name = models.CharField(null=False, default="", max_length=50)
-
-
-
-
 # Dynamic Documentation Models
 
 class Regions(models.Model):
@@ -384,6 +222,174 @@ class PoliciesStates(models.Model):
     model_id = models.ForeignKey(ModelsInfo,
                                  on_delete=models.CASCADE)
     state = models.TextField()
+
+# Data Variable Tables
+class DataVariablesModels(models.Model):
+    """
+    Models for data model
+    """
+    name = models.TextField()
+    title = models.TextField(default="")
+    type = models.TextField()
+    time_horizon = models.IntegerField()
+    time_steps_in_solution = models.IntegerField(default=0)
+    ordering = models.IntegerField(default=0)
+    coverage = models.TextField(default="")
+    coverage_title = models.TextField(default="")
+
+
+class DataVariablesHarmonisation(models.Model):
+    """HarmVariables for data model"""
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=50)
+    category = models.CharField(null=False, default="", max_length=50)
+    order = models.IntegerField(null=False, default=1)
+
+
+# Data Used only for the harmonisation Heatmap Application
+class Harmonisation_Variables(models.Model):
+    """Variables for harmonisation table"""
+    var_name = models.CharField(null=False, default="", max_length=50)
+    var_title = models.CharField(null=False, default="", max_length=50)
+    var_category = models.CharField(null=False, default="", max_length=50)
+    var_definition = models.TextField(null=False, default="")
+    model_relation = models.ManyToManyField(DataVariablesModels, through='HarmDataNew')
+    order = models.IntegerField(null=False, default=1)
+
+
+# Datasets
+
+
+class DatasetOnDemandVariableHarmonisation(models.Model):
+    # used in the on-demand variable harmonisation heatmap
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    io_status = models.CharField(null=False, default="", max_length=50)
+
+
+
+class HarmDataNew(models.Model):
+    # used in the paris reinforce workspace
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    io_status = models.CharField(null=False, default="", max_length=50)
+    var_unit = models.CharField(null=False, default="", max_length=20)
+    #var_source_info = models.TextField(null=False, default="")
+    var_timespan = models.TextField(null=False, default="")
+    #var_source_url = models.TextField(null=False, default="")
+
+
+class HarmDataSourcesTitles(models.Model):
+    title = models.TextField(null=True, default="")
+
+
+class HarmDataSourcesLinks(models.Model):
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    title = models.ForeignKey(HarmDataSourcesTitles,  on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    var_source_url = models.TextField(null=False, default="")
+    var_source_info = models.TextField(null=False, default="")
+
+
+
+# Guide Datasets
+
+class DatasetVariableHarmonisationGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetModelGeoGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetModelTypeGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+class DatasetModelTimestepGuides(models.Model):
+    guide_from = models.CharField(null=False, default="", max_length=50)
+    guide_to = models.CharField(null=False, default="", max_length=50)
+    value = models.CharField(null=False, default="", max_length=50)
+
+
+# Data Model
+class Dataset(models.Model):
+    """dataset name is the name of table containing the data of the specific dataset"""
+    dataset_name = models.CharField(null=False, default="", max_length=50)
+    dataset_title = models.CharField(null=False, default="", max_length=50)
+    dataset_description = models.TextField(null=False, default="")
+    dataset_provider = models.CharField(null=False, default="", max_length=50)
+    dataset_date_creation = models.DateTimeField(auto_now_add=True)
+    dataset_date_update = models.DateTimeField(auto_now=True)
+    dataset_django_model = models.CharField(null=False, default="", max_length=50)
+    #string name of sql table
+
+class Variable(models.Model):
+    var_name = models.CharField(null=False, default="", max_length=50)
+    var_title = models.CharField(null=False, default="", max_length=50)
+    var_category = models.CharField(null=False, default="", max_length=50)
+    var_definition = models.TextField(null=False, default="")
+    var_unit = models.CharField(null=False, default="", max_length=50)
+    dataset_relation = models.ForeignKey(Dataset, null=False, on_delete=models.CASCADE)
+    variable_table_name = models.CharField(null=True, max_length=50)
+
+
+# Results Models
+
+
+class ScenariosRes(models.Model):
+
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
+
+class RegionsRes(models.Model):
+    """
+    Regions of results
+    """
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
+    reg_type = models.IntegerField(null=False, default=0)
+    models.IntegerField(null=False, default=0)
+
+
+
+class VariablesRes(models.Model):
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
+    agg_func = models.CharField(null=False, default="", max_length=20)
+    ordering = models.IntegerField(null=False, default=0)
+
+class UnitsRes(models.Model):
+    name = models.CharField(null=False, default="", max_length=50)
+    title = models.CharField(null=False, default="", max_length=100)
+
+
+class VaraiblesSdgsRes(models.Model):
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    sdg = models.ForeignKey(SdgsCat, on_delete=models.CASCADE)
+
+class ResultsComp(models.Model):
+    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    value = models.FloatField()
+
+class PRWMetaData(models.Model):
+    model_name = models.CharField(null=False, default="", max_length=50)
+    scenario_name = models.CharField(null=False, default="", max_length=50)
+    region_name = models.CharField(null=False, default="", max_length=50)
+    variable_name = models.CharField(null=False, default="", max_length=50)
+
+
 
 
 # Feedback Form Models

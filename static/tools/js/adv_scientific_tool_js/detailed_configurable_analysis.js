@@ -1,65 +1,65 @@
 $(document).ready(function () {
-    setTimeout(function () {
-        $("#clear-button").click();
-    }, 10);
 
-    $('#dca-model-next-btn').on('click', function () {
-        if ($('#model_name').multipleSelect('getSelects').length > 0){
-            $('#dca-model-next-btn').parent().hide();
-            $('#model_name').parent().find('.boot-select').addClass('disabled-select');
-            $('#model_name').parent().find('label').addClass('disabled-select');
-            $('.clear-sel-button[data-sel_clear="model_name"]').addClass('disabled-select');
-            $('#dca-scenario-next-btn').parent().show();
-            $('#scenario_name').parent().find('.boot-select').removeClass('disabled-select');
-            $('#scenario_name').parent().find('label').removeClass('disabled-select');
-            $('.clear-sel-button[data-sel_clear="scenario_name"]').removeClass('disabled-select');
-            $('#detailed_configurable_progress_text').text('Please select Scenario(s) . . .');
+
+    $('#dca-var-next-btn').on('click', function () {
+        if ($('#variable_name').multipleSelect('getSelects').length > 0){
+            $('#dca-var-next-btn').parent().hide();
+            $('#variable_name').parent().find('.boot-select').addClass('disabled-select');
+            $('#variable_name').parent().find('label').addClass('disabled-select');
+            $('.clear-sel-button[data-sel_clear="variable_name"]').addClass('disabled-select');
+            $('#dca-region-next-btn').parent().show();
+            $('#region_name').parent().find('.boot-select').removeClass('disabled-select');
+            $('#region_name').parent().find('label').removeClass('disabled-select');
+            $('.clear-sel-button[data-sel_clear="region_name"]').removeClass('disabled-select');
+            $('#detailed_configurable_progress_text').text('Please select Region(s) . . .');
             $('#dca_progress_bar div').css('width','25%');
             $('#dca_progress_bar div').attr('aria-valuenow', '25');
             $('#detailed_filtering').addClass("disabled_radio");
 
         }else{
-            alert('Please select at least one model before moving on.')
-        }
-    });
-
-    $('#dca-scenario-next-btn').on('click', function () {
-        if ($('#scenario_name').multipleSelect('getSelects').length > 0) {
-            $('#dca-scenario-next-btn').parent().hide();
-            $('#dca-region-next-btn').parent().show();
-            $('#region_name').parent().find('.boot-select').removeClass('disabled-select');
-            $('#region_name').parent().find('label').removeClass('disabled-select');
-            $('.clear-sel-button[data-sel_clear="region_name"]').removeClass('disabled-select');
-            $('#scenario_name').parent().find('.boot-select').addClass('disabled-select');
-            $('#scenario_name').parent().find('label').addClass('disabled-select');
-            $('.clear-sel-button[data-sel_clear="scenario_name"]').addClass('disabled-select');
-            $('#detailed_configurable_progress_text').text('Please select Region(s) . . .');
-            $('#dca_progress_bar div').css('width', '50%');
-            $('#dca_progress_bar div').attr('aria-valuenow', '50');
-
-        } else {
-            alert('Please select at least one scenario before moving on.')
+            alert('Please select a variable before moving on.')
         }
     });
 
     $('#dca-region-next-btn').on('click', function () {
         if ($('#region_name').multipleSelect('getSelects').length > 0) {
             $('#dca-region-next-btn').parent().hide();
+            $('#dca-scenario-next-btn').parent().show();
             $('#run-button').parent().removeClass('disabled-select');
-            $('#variable_name').parent().find('.boot-select').removeClass('disabled-select');
-            $('#variable_name').parent().find('label').removeClass('disabled-select');
-            $('.clear-sel-button[data-sel_clear="variable_name"]').removeClass('disabled-select');
+            $('#scenario_name').parent().find('.boot-select').removeClass('disabled-select');
+            $('#scenario_name').parent().find('label').removeClass('disabled-select');
+            $('.clear-sel-button[data-sel_clear="scenario_name"]').removeClass('disabled-select');
             $('#region_name').parent().find('.boot-select').addClass('disabled-select');
             $('#region_name').parent().find('label').addClass('disabled-select');
             $('.clear-sel-button[data-sel_clear="region_name"]').addClass('disabled-select');
-            $('#detailed_configurable_progress_text').text('Please select a Variable . . .');
-            $('#dca_progress_bar div').css('width', '75%');
-            $('#dca_progress_bar div').attr('aria-valuenow', '75');
+            $('#detailed_configurable_progress_text').text('Please select Scenario(s) . . .');
+            $('#dca_progress_bar div').css('width', '50%');
+            $('#dca_progress_bar div').attr('aria-valuenow', '50');
 
         } else {
             alert('Please select at least one region before moving on.')
         }
     });
+
+    $('#dca-scenario-next-btn').on('click', function () {
+        if ($('#scenario_name').multipleSelect('getSelects').length > 0) {
+            $('#dca-scenario-next-btn').parent().hide();
+            $('#model_name').parent().find('.boot-select').removeClass('disabled-select');
+            $('#model_name').parent().find('label').removeClass('disabled-select');
+            $('.clear-sel-button[data-sel_clear="model_name"]').removeClass('disabled-select');
+            $('#scenario_name').parent().find('.boot-select').addClass('disabled-select');
+            $('#scenario_name').parent().find('label').addClass('disabled-select');
+            $('.clear-sel-button[data-sel_clear="scenario_name"]').addClass('disabled-select');
+            $('#detailed_configurable_progress_text').text('Please select Model(s) . . .');
+            $('#dca_progress_bar div').css('width', '75%');
+            $('#dca_progress_bar div').attr('aria-valuenow', '75');
+
+        } else {
+            alert('Please select at least one scenario before moving on.')
+        }
+    });
+
+
 
 
     function initialise_sm_selects() {
@@ -84,7 +84,26 @@ $(document).ready(function () {
         });
     }
 
+
     initialise_sm_selects();
+    $('select.sdg-select').each(function () {
+        var select = $(this);
+        select.multipleSelect(
+            {
+                filter: true,
+                showClear: false,
+                animate: 'fade',
+                maxHeightUnit: 'row',
+                maxHeight: 8,
+                dropWidth: 250,
+                selectAll: false,
+                placeholder: 'Please select an SDG',
+                onClick: function () {
+                    // populate_variables(select.attr('id'));
+                },
+
+            });
+    });
 
 
     function transform_multiple_select(selector) {
@@ -164,7 +183,7 @@ $(document).ready(function () {
     }
     var fe_all_scenarios = [];
     var fe_all_regions = [];
-    var fe_all_variables = [];
+    var fe_all_models = [];
     function update_unavailable_select_options(changed) {
 
         const models = $('#model_name').multipleSelect('getSelects');
@@ -183,7 +202,7 @@ $(document).ready(function () {
             'changed_field': changed,
             'fe_all_scenarios': fe_all_scenarios,
             'fe_all_regions': fe_all_regions,
-            'fe_all_variables': fe_all_variables
+            'fe_all_models': fe_all_models
         };
 
         $.ajax({
@@ -192,7 +211,7 @@ $(document).ready(function () {
             data: JSON.stringify(input),
             contentType: 'application/json',
             success: function (data) {
-                fe_all_variables = data['variables'];
+                fe_all_models = data['models'];
                 fe_all_scenarios = data['scenarios'];
                 fe_all_regions = data['regions'];
                 $("#scientific_tool .boot-select option").removeAttr('disabled');
@@ -245,24 +264,24 @@ $(document).ready(function () {
     $("#clear-button").click(function () {
         fe_all_scenarios = [];
         fe_all_regions = [];
-        fe_all_variables = [];
+        fe_all_models = [];
         $('#dca-scenario-next-btn').parent().hide();
         $('#dca-region-next-btn').parent().hide();
         $('#run-button').parent().addClass('disabled-select');
-        $('#model_name').parent().find('.boot-select').removeClass('disabled-select');
-        $('#model_name').parent().find('label').removeClass('disabled-select');
-        $('.clear-sel-button[data-sel_clear="model_name"]').removeClass('disabled-select');
-        $('#dca-model-next-btn').parent().show();
-        $('#variable_name').parent().find('.boot-select').addClass('disabled-select');
-        $('#variable_name').parent().find('label').addClass('disabled-select');
-        $('.clear-sel-button[data-sel_clear="variable_name"]').addClass('disabled-select');
+        $('#model_name').parent().find('.boot-select').addClass('disabled-select');
+        $('#model_name').parent().find('label').addClass('disabled-select');
+        $('.clear-sel-button[data-sel_clear="model_name"]').addClass('disabled-select');
+        $('#dca-var-next-btn').parent().show();
+        $('#variable_name').parent().find('.boot-select').removeClass('disabled-select');
+        $('#variable_name').parent().find('label').removeClass('disabled-select');
+        $('.clear-sel-button[data-sel_clear="variable_name"]').removeClass('disabled-select');
         $('#region_name').parent().find('.boot-select').addClass('disabled-select');
         $('#region_name').parent().find('label').addClass('disabled-select');
         $('.clear-sel-button[data-sel_clear="region_name"]').addClass('disabled-select');
         $('#scenario_name').parent().find('.boot-select').addClass('disabled-select');
         $('#scenario_name').parent().find('label').addClass('disabled-select');
         $('.clear-sel-button[data-sel_clear="scenario_name"]').addClass('disabled-select');
-        $('#detailed_configurable_progress_text').text('Please select Model(s) . . .');
+        $('#detailed_configurable_progress_text').text('Please select a Variable . . .');
         $('#dca_progress_bar div').css('width', '2%');
         $('#dca_progress_bar div').attr('aria-valuenow', '2');
         $('select.boot-select').multipleSelect('setSelects', []);

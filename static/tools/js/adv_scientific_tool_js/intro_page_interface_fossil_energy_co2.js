@@ -112,6 +112,8 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 success: function (data) {
                     console.log("Fossil Temporary Query Deleted");
+                    document_ready_counter = document_ready_counter + 1 ;
+                    check_document_ready(document_ready_counter);
                 },
                 error: function (data) {
                     console.log(data);

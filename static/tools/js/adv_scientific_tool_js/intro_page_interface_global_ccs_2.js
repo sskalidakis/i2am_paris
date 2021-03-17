@@ -89,6 +89,8 @@ $(document).ready(function () {
         var complete_url = "/visualiser/show_line_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
+            document_ready_counter = document_ready_counter + 1;
+            check_document_ready(document_ready_counter);
             console.log('Global CCS 2 Visualisation Completed');
             $(this).show();
             $.ajax({
