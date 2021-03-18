@@ -267,7 +267,7 @@
         <div class="col-md-3 col-xs-12 form-group" style="display: none">
             <select class="hidden-var-container" style="width: 100%">
                 {% for el in variables %}
-                    <option value="{{ el.name }}">{{ el.title }}</option>
+                    <option value="{{ el.name }}" data-type="{{ el.agg_func }}">{{ el.title }}</option>
                 {% endfor %}
             </select>
 

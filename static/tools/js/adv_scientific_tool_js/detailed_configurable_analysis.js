@@ -19,6 +19,13 @@ $(document).ready(function () {
             var sdg_select = $('#sdg_select');
             sdg_select.attr('disabled', 'disabled');
             sdg_select.multipleSelect('refreshOptions', {});
+        //    Disable unavailable visualisations
+            var selected_var = $('#variable_name').multipleSelect('getSelects')[0];
+            var var_type = $('.hidden-var-container option[value="'+ selected_var +'"]').attr('data-type');
+            if (var_type!='sum') {
+                $('#visualisation_type_selection #piechart').parent().addClass("disabled-select");
+                $("#visualisation_type_selection #linechart ").prop("checked", true).trigger("click");
+            }
 
         } else {
             alert('Please select a variable before moving on.')
@@ -370,6 +377,7 @@ $(document).ready(function () {
         $('#sdg_filtering').removeClass("disabled_radio");
         reset_all_variables();
         $("#all_variables").prop("checked", true).trigger("click");
+        $('#visualisation_type_selection #piechart').parent().removeClass("disabled-select");
 
         $('#chart-side-info').hide();
         $('#viz_frame_div').hide();

@@ -47,6 +47,23 @@ def pie_chart_query(query_id):
     return results
 
 
+def scentific_tool_query_agg(query_id):
+    '''
+    This method is the execution of the query for creating data for the advanced scientific tool piechart
+    :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool piechart
+    '''
+    app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
+    multiple_field = app_params['additional_app_parameters']['multiple_field']
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    final_data = list(
+        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
+            'index').values())
+    clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+    return clean_final_data
+
 def primary_energy_by_fuel_avg_query(query_id, grouping_val):
     '''
      This method is the execution of the query for creating data for the intro page of the advanced scientific tool for column charts that show global primary energy per model averaged across scenarios
