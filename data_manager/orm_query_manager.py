@@ -43,7 +43,7 @@ def pie_chart_query(query_id):
     query_name = Query.objects.get(id=int(query_id)).query_name
     results = []
     if query_name == 'scientific_tool_query':
-        results = scentific_tool_query(query_id)
+        results = scentific_tool_query_agg(query_id)
     return results
 
 
