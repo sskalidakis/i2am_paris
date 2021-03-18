@@ -75,7 +75,7 @@
 
 {% block content %}
     <div id="init_load_container" style="text-align: center; margin-top:15em; height: 100%">
-        <img class="init_load_bar" style="width: 15%" src="{% static "gifs/spinner.gif" %}">
+        <img class="init_load_bar" style="width: 5%" src="{% static "gifs/spinner.gif" %}">
         <div class="row" style="font-size: 1.5em ; margin-left: 2em; margin-right: 2em;line-height: 2em">
             <div class="col-sm-2"></div>
             <div class="col-sm-8 init_load_bar_text" style="margin-top: 1.5em">Initialising Paris Reinforce
@@ -103,10 +103,6 @@
 
             $('body').tooltip({container: 'body', html: true, selector: '[data-toggle=tooltip]', placement: 'auto'});
 
-            $(function () {
-                $('#myTab a:last').tab('show');
-                $('#mySumTab a:last').tab('show');
-            })
         });
 
 

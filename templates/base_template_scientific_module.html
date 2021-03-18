@@ -44,7 +44,8 @@
     <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
     <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css"/>
 
     <style>
 
@@ -64,11 +65,10 @@
             font-size: 0.6em;
         }
 
-        .disabled-select{
+        .disabled-select {
             pointer-events: none;
             opacity: 0.5;
         }
-
 
 
     </style>
@@ -120,15 +120,10 @@ function check_document_ready(counter) {
     if (counter >= 6) {
         $('#init_load_container').hide();
         $('.tab-content').show();
-        setTimeout(function () {
-            $("#clear-button").click();
-        }, 100);
-        setTimeout(timer, 500);
-        function timer() {
-            $('a[href="#intro_summary"]').tab('show');
-            $('a[href="#fossil_energy_co2"]').tab('show');
-        }
-
+        $('#myTab a:last').tab('show');
+        $('#mySumTab a:last').tab('show');
+        $('#myTab a:first').tab('show');
+        $('#mySumTab a:first').tab('show');
     } else {
         if (counter === 1) {
             $('.init_load_bar_text span').text('Initialising Components')
@@ -162,7 +157,6 @@ function check_document_ready(counter) {
 <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_approximate_temperature.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_models.js" %}></script>
 <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_scenarios.js" %}></script>
-
 
 
 <script>

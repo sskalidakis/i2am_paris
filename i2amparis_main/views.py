@@ -89,9 +89,9 @@ def paris_reinforce_harmonisation(request):
 
 def paris_advanced_scientific_module(request):
     models = DataVariablesModels.objects.filter(name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
-    scenarios = ScenariosRes.objects.all().order_by('title')
-    regions = RegionsRes.objects.all().order_by('title')
-    variables = VariablesRes.objects.all().order_by('title')
+    scenarios = ScenariosRes.objects.exclude(name='PR_CurPol_CPO').order_by('title')
+    regions = RegionsRes.objects.all().order_by('reg_type')
+    variables = VariablesRes.objects.all().order_by('ordering')
     units = UnitsRes.objects.all().order_by('title')
 
     context = {"models": models,
@@ -130,7 +130,7 @@ def update_scientific_model_selects_strict(request):
             allowed_variables = all_variables
             allowed_regions = all_regions
         elif changed_field == 'variable_name':
-            if len(models) == 0:
+            if len(variables) == 0:
                 allowed_models = all_models
                 allowed_scenarios = all_scenarios
                 allowed_variables = all_variables
@@ -139,7 +139,7 @@ def update_scientific_model_selects_strict(request):
                 distinct_regions = []
                 for variable in variables:
                     distinct_regions.append(
-                        PRWMetaData.objects.filter(model_name=variable).values('variable_name').distinct())
+                        PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
                 final_regions = distinct_regions[0]
                 for regions_list in distinct_regions:
                     final_regions = final_regions.intersection(regions_list)
@@ -237,7 +237,7 @@ def update_scientific_model_selects_basic(request):
             allowed_variables = all_variables
             allowed_regions = all_regions
         elif changed_field == 'variable_name':
-            if len(models) == 0:
+            if len(variables) == 0:
                 allowed_models = all_models
                 allowed_scenarios = all_scenarios
                 allowed_variables = all_variables
@@ -246,7 +246,7 @@ def update_scientific_model_selects_basic(request):
                 distinct_regions = []
                 for variable in variables:
                     distinct_regions.append(
-                        PRWMetaData.objects.filter(model_name=variable).values('variable_name').distinct())
+                        PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
                 final_regions = distinct_regions[0]
                 for regions_list in distinct_regions:
                     final_regions = (final_regions | regions_list).distinct()

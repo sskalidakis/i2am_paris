@@ -136,6 +136,13 @@ $(document).ready(function () {
             });
     });
     initialise_sdg_variables();
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var target = $(e.target).attr("href"); // activated tab
+        console.log(target);
+        if (target==='#scientific_tool'){
+            clear_detailed_configurable_analysis();
+        };
+    });
 
 
     function populate_variables() {
@@ -328,6 +335,10 @@ $(document).ready(function () {
     });
 
     $("#clear-button").click(function () {
+        clear_detailed_configurable_analysis();
+    });
+
+    function clear_detailed_configurable_analysis() {
         fe_all_scenarios = [];
         fe_all_regions = [];
         fe_all_models = [];
@@ -364,7 +375,8 @@ $(document).ready(function () {
         $('#viz_frame_div').hide();
         $('#chart_info').show();
         $('#example').DataTable().clear().draw();
-    });
+
+    }
 });
 
 
