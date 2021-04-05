@@ -154,4 +154,4 @@ EMAIL_FROM = 'noreply@epu.ntua.gr'
 SERVER_EMAIL = 'noreply@epu.ntua.gr'
 
 
-GOOGLE_RECAPTCHA_SITE_KEY = '6LdK8MQUAAAAAEKv0uhyyCh8XEk0EoAwLudZGQyf'
+GOOGLE_RECAPTCHA_SITE_KEY = '6LcpcJ0aAAAAAPCTYkfoxqGbqe3bv7Lc1P8xzvRF'
