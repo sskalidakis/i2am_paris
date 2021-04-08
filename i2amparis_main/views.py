@@ -55,6 +55,8 @@ def paris_reinforce_harmonisation(request):
     variables = Harmonisation_Variables.objects.all().order_by('order')
     var_mod_data = HarmDataNew.objects.all()
     var_mod = []
+    harm_data_sources_links = HarmDataSourcesLinks.objects.all()
+    # TODO: FIX THIS BELOW. IT TAKES TOO MUCH TIME. BAD IMPLEMENTATION
     for el in var_mod_data:
         dict_el = {
             "model": el.model.name,
@@ -63,7 +65,7 @@ def paris_reinforce_harmonisation(request):
             "var_timespan": el.var_timespan,
         }
 
-        temp_sources = HarmDataSourcesLinks.objects.filter(model__name=el.model.name,
+        temp_sources = harm_data_sources_links.filter(model__name=el.model.name,
                                                            variable__var_name=el.variable.var_name).values(
             "var_source_info", "var_source_url", "title")
         titles = set([i['title'] for i in temp_sources])
@@ -80,6 +82,7 @@ def paris_reinforce_harmonisation(request):
         except:
             dict_el['source_info'] = []
         var_mod.append(dict_el)
+
     print(var_mod)
     context = {"models": models,
                "variables": variables,
