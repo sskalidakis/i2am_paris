@@ -97,7 +97,7 @@ class XYZ_chart:
 class XY_chart:
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                  x_axis_type, y_axis_title, chart_data, color_list, use_default_colors, chart_3d, minmax_y_value,
-                 chart_type):
+                 legend_position, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -120,6 +120,7 @@ class XY_chart:
         :param minmax_y_value: A two-element list that contains the min and max value of the variables on the Y-Axis. (List of Numbers)
         :param chart_type: The type of the chart. Options : line_chart, column_chart, range_chart, bar_range_chart,
                 stacked_column_chart, column_heatmap_chart, pie_chart, radar_chart
+        :param legend_position: The position of the legend on the chart top, bottom, left, right
         """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
@@ -135,6 +136,7 @@ class XY_chart:
         self.color_list = color_list
         self.use_default_colors = use_default_colors
         self.chart_3d = chart_3d
+        self.legend_position = legend_position
         self.minmax_y_value = minmax_y_value
         print(minmax_y_value)
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
@@ -142,7 +144,8 @@ class XY_chart:
                         'y_var_units': self.y_var_units, 'y_var_names': self.y_var_names,
                         'x_axis_type': self.x_axis_type, 'y_axis_title': self.y_axis_title,
                         'color_list': self.color_list, 'use_default_colors': self.use_default_colors,
-                        'chart_3d': self.chart_3d, 'minmax_y_value': self.minmax_y_value, 'chart_data': self.chart_data}
+                        'chart_3d': self.chart_3d, 'minmax_y_value': self.minmax_y_value,
+                        'legend_position': self.legend_position, 'chart_data': self.chart_data}
 
     def show_chart(self):
         """
@@ -150,6 +153,9 @@ class XY_chart:
         """
         if self.chart_type == 'line_chart':
             return render(self.request, 'visualiser/line_chart_am4.html',
+                          self.content)
+        elif self.chart_type == 'line_chart_min_max':
+            return render(self.request, 'visualiser/line_chart_max_min.html',
                           self.content)
         elif self.chart_type == 'column_chart':
             return render(self.request, 'visualiser/column_chart_am4.html',
@@ -219,7 +225,7 @@ class StackedClusteredColumnChart:
     '''
 
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_var_names, y_var_titles,
-                 y_axis_units, cat_axis_names, cat_axis_titles, chart_data, color_list,use_default_colors, chart_type):
+                 y_axis_units, cat_axis_names, cat_axis_titles, chart_data, color_list, use_default_colors, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -328,6 +334,7 @@ def get_response_data_XY(request):
             "color_list_request": request.GET.getlist("color_list_request[]", []),
             "use_default_colors": request.GET.get("use_default_colors", "true"),
             "chart_3d": request.GET.get("chart_3d", "false"),
+            "legend_position": request.GET.get("legend_position", "bottom"),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
             "dataset_type": request.GET.get("dataset_type", "file"),
@@ -360,21 +367,31 @@ def show_line_chart(request):
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
     stacked = response_data['stacked']
+    legend_position = response_data['legend_position']
+    type = request.GET.get("type", "normal")
     data = generate_data_for_line_chart(dataset, dataset_type)
     print('Retrieved data for the chart.')
     color_list = define_color_code_list(color_list_request)
     print('Defined chart colors.')
-    if stacked == 'false':
+    if type == 'min_max':
         line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                               x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
-                              min_max_y_value,
-                              'line_chart')
+                              min_max_y_value, legend_position,
+                              'line_chart_min_max')
     else:
-        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                              x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
-                              min_max_y_value,
-                              'stacked_area_chart')
+        if stacked == 'false':
+            line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                                  x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                                  min_max_y_value, legend_position,
+                                  'line_chart')
+        else:
+            line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                                  x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                                  min_max_y_value, legend_position,
+                                  'stacked_area_chart')
+
     return line_chart.show_chart()
+
 
 
 @csrf_exempt
@@ -445,6 +462,7 @@ def show_column_chart(request):
     color_list_request = response_data["color_list_request"]
     use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
+    legend_position = response_data["legend_position"]
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
 
     dataset = response_data['dataset']
@@ -454,7 +472,7 @@ def show_column_chart(request):
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
-                            'column_chart')
+                            legend_position, 'column_chart')
     return column_chart.show_chart()
 
 
@@ -489,6 +507,7 @@ def show_pie_chart(request):
     color_list_request = response_data["color_list_request"]
     min_max_y_value = response_data["min_max_y_value"]
     chart_3d = response_data["chart_3d"]
+    legend_position = response_data["legend_position"]
     use_default_colors = response_data["use_default_colors"]
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
@@ -498,7 +517,7 @@ def show_pie_chart(request):
     pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
                          variable_unit,
                          x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
-                         'pie_chart')
+                         legend_position, 'pie_chart')
     return pie_chart.show_chart()
 
 
@@ -513,6 +532,7 @@ def show_radar_chart(request):
     category_unit = response_data["x_axis_unit"]
     x_axis_type = response_data["x_axis_type"]
     y_axis_title = response_data["y_axis_title"]
+    legend_position = response_data["legend_position"]
     color_list_request = response_data["color_list_request"]
     min_max_y_value = response_data["min_max_y_value"]
     chart_3d = response_data["chart_3d"]
@@ -521,7 +541,7 @@ def show_radar_chart(request):
     color_list = define_color_code_list(color_list_request)
     radar_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
                            variable_unit, x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
-                           min_max_y_value, 'radar_chart')
+                           min_max_y_value, legend_position, 'radar_chart')
     return radar_chart.show_chart()
 
 
@@ -540,12 +560,13 @@ def show_range_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
+    legend_position = response_data_xy["legend_position"]
     # data = FAKE_DATA
     data = generate_data_for_range_chart()
     color_list = define_color_code_list(color_list_request)
     range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
-                           'range_chart')
+                           legend_position, 'range_chart')
     return range_chart.show_chart()
 
 
@@ -563,13 +584,14 @@ def show_bar_range_chart(request):
     color_list_request = response_data_xy['color_list_request']
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
+    legend_position = response_data_xy["legend_position"]
     chart_3d = response_data_xy["chart_3d"]
     # data = BAR_RANGE_CHART_DATA
     data = BAR_RANGE_CHART_DATA_2
     color_list = define_color_code_list(color_list_request)
     bar_range_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                                x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
-                               min_max_y_value, 'bar_range_chart')
+                               min_max_y_value, legend_position, 'bar_range_chart')
     return bar_range_chart.show_chart()
 
 
@@ -588,7 +610,7 @@ def show_stacked_column_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
-
+    legend_position = response_data_xy["legend_position"]
     dataset = response_data_xy['dataset']
     dataset_type = response_data_xy['dataset_type']
     data = generate_data_for_column_chart(dataset, dataset_type)
@@ -597,8 +619,7 @@ def show_stacked_column_chart(request):
     stacked_column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
                                     y_var_units,
                                     x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
-                                    min_max_y_value,
-                                    'stacked_column_chart')
+                                    min_max_y_value, legend_position, 'stacked_column_chart')
     return stacked_column_chart.show_chart()
 
 
@@ -617,12 +638,13 @@ def show_bar_heat_map(request):
     use_default_colors = response_data_xy['use_default_colors']
     min_max_y_value = response_data_xy["min_max_y_value"]
     chart_3d = response_data_xy["chart_3d"]
+    legend_position = response_data_xy["legend_position"]
     data = BAR_HEATMAP_DATA_2
     # TODO check this color_list_request
     color_couple = AM_CHARTS_COLOR_HEATMAP_COUPLES[color_list_request]
     bar_heat_map_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
                                   y_var_units, x_axis_type, y_axis_title, data, color_couple, use_default_colors,
-                                  chart_3d, min_max_y_value, 'bar_heat_map_chart')
+                                  chart_3d, min_max_y_value, legend_position, 'bar_heat_map_chart')
 
     return bar_heat_map_chart.show_chart()
 

@@ -27,27 +27,28 @@ def landing_page(request):
 
 def overview_comparative_assessment_doc(request):
     print('Overview Comparative Assessment')
-    return render(request, 'i2amparis_main/overview_comparative_assessment_landing_page.html')
+    return render(request,
+                  'i2amparis_main/overview_comparative_assessment/overview_comparative_assessment_landing_page.html')
 
 
 def overview_comparative_assessment_doc_global(request):
     print('Overview Comparative Assessment Global')
-    return render(request, 'i2amparis_main/overview_comparative_assessment_global.html')
+    return render(request, 'i2amparis_main/overview_comparative_assessment/overview_comparative_assessment_global.html')
 
 
 def overview_comparative_assessment_doc_national_eu(request):
     print('Overview Comparative Assessment National EU')
-    return render(request, 'i2amparis_main/overview_comparative_assessment_eu.html')
+    return render(request, 'i2amparis_main/overview_comparative_assessment/overview_comparative_assessment_eu.html')
 
 
 def overview_comparative_assessment_doc_national_oeu(request):
     print('Overview Comparative Assessment National O_EU')
-    return render(request, 'i2amparis_main/overview_comparative_assessment_oeu.html')
+    return render(request, 'i2amparis_main/overview_comparative_assessment/overview_comparative_assessment_oeu.html')
 
 
 def paris_reinforce_landing(request):
     context = {}
-    return render(request, 'i2amparis_main/paris_workspace_landing.html', context)
+    return render(request, 'i2amparis_main/paris_reinforce_workspace/paris_workspace_landing.html', context)
 
 
 def paris_reinforce_harmonisation(request):
@@ -87,7 +88,7 @@ def paris_reinforce_harmonisation(request):
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
-    return render(request, 'i2amparis_main/paris_reinforce_harmonisation.html', context)
+    return render(request, 'i2amparis_main/paris_reinforce_workspace/paris_reinforce_harmonisation.html', context)
 
 
 def paris_advanced_scientific_module(request):
@@ -103,8 +104,11 @@ def paris_advanced_scientific_module(request):
                "regions": regions,
                "units": units}
 
-    return render(request, 'i2amparis_main/paris_workspace_scientific_module.html', context)
+    return render(request, 'i2amparis_main/paris_reinforce_workspace/paris_workspace_scientific_module.html', context)
 
+
+def paris_cwdtm(request):
+    return render(request, 'i2amparis_main/paris_reinforce_workspace/what_does_this_mean.html')
 
 @csrf_exempt
 def update_scientific_model_selects_strict(request):
@@ -365,7 +369,6 @@ def get_sdg_variables(request):
 
 
 
-
 def detailed_model_doc(request, model=''):
     if model == '':
         print('Detailed Model Documentation')
@@ -375,7 +378,7 @@ def detailed_model_doc(request, model=''):
             'model_list': list_of_models,
             'sel_icons': sel_icons
         }
-        return render(request, 'i2amparis_main/detailed_model_documentation_landing_page.html', context)
+        return render(request, 'i2amparis_main/detailed_documentation/detailed_model_documentation_landing_page.html', context)
     else:
         category = ModelsInfo.objects.get(model_name=model).coverage
         list_of_cat_models = ModelsInfo.objects.filter(coverage=category)
@@ -396,7 +399,7 @@ def detailed_model_doc(request, model=''):
         else:
             menu_cat = 'Other National / Regional Models for countries outside Europe'
 
-        return render(request, 'i2amparis_main/detailed_' + model + '.html',
+        return render(request, 'i2amparis_main/detailed_documentation/detailed_' + model + '.html',
                       context={'menu_models': model_dict, 'coverage': menu_cat})
 
 
@@ -419,9 +422,9 @@ def dynamic_doc(request, model=''):
         'sel_icons': sel_icons
     }
     if template_format is not None:
-        template = 'i2amparis_main/dynamic_documentation_final' + template_format + '.html'
+        template = 'i2amparis_main/dynamic_documentation/dynamic_documentation_final' + template_format + '.html'
     else:
-        template = 'i2amparis_main/dynamic_documentation_final.html'
+        template = 'i2amparis_main/dynamic_documentation/dynamic_documentation_final.html'
     return render(request, template, context)
 
 

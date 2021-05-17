@@ -49,7 +49,7 @@ class RetriveDB:
                                       countries_of_region))
             if len(countries_list) == 1:
                 selected_color = color_list[0]
-                print('!!region has one country!!')
+                # print('!!region has one country!!')
             else:
                 counter = counter + 1
                 selected_color = color_list[counter]

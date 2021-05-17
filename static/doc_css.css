@@ -210,6 +210,10 @@ table.table thead {
     text-align: center;
 }
 
+table.table tr.left, table.table td.left{
+    text-align: left!important;
+}
+
 .my_table .nolr-border {
     border-left: transparent;
     border-right: transparent;
