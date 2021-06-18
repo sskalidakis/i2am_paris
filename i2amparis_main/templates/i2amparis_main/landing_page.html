@@ -360,6 +360,14 @@
                                 <h2><a href="pr_wwh_landing" class="paris_reinforce_workspace">Where are we headed?</a></h2>
                                 <p>These are the results produced by the analysis made using the models of the Paris Reinforce project.</p>
                             </div>
+                            <div class="service-col rrf_policy_workspace">
+                                <div class="">
+{#                                    <figure><link rel="icon" type="image/png" href={% static "logos/paris_reinforce_logo.png" %}></figure>#}
+                                    <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                                </div>
+                                <h2><a href="rrf_policy_intro" class="rrf_policy_workspace">RRF Policy</a></h2>
+                                <p>LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -556,6 +564,9 @@
         });
         $(document).on('click', 'div.paris_reinforce_workspace', function (e) {
             $("a.paris_reinforce_workspace")[0].click()
+        });
+        $(document).on('click', 'div.rrf_policy_workspace', function (e) {
+            $("a.rrf_policy_workspace")[0].click()
         });
 
     </script>

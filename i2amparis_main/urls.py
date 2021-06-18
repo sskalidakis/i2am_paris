@@ -30,7 +30,8 @@ urlpatterns = [
          name='update_scientific_model_selects_strict'),
     path('update_scientific_model_selects_basic', views.update_scientific_model_selects_basic,
          name='update_scientific_model_selects_basic'),
-    path('get_sdg_variables', views.get_sdg_variables, name='get_sdg_variables')
+    path('get_sdg_variables', views.get_sdg_variables, name='get_sdg_variables'),
+    path('rrf_policy_intro', views.rrf_landing, name='rrf_landing')
     # path('update_comparative_selects_strict', views.update_comparative_selects_strict,
     #      name='update_comparative_selects_strict'),
     # path('update_comparative_selects_basic', views.update_comparative_selects_basic,

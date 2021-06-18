@@ -367,6 +367,9 @@ def get_sdg_variables(request):
     return JsonResponse(ls, safe=False)
 
 
+def rrf_landing(request):
+    context = {}
+    return render(request, 'i2amparis_main/rrf_policy_workspace/rrf_policy_intro.html', context)
 
 
 def detailed_model_doc(request, model=''):

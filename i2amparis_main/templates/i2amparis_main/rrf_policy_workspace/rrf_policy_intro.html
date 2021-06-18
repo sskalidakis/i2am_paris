@@ -1,0 +1,94 @@
+{% extends "base_template_rrf_policy.html" %}
+{% load static %}
+{% csrf_token %}
+{% block css %}
+
+    <style>
+        .heading {
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .heading a {
+            font-size: 0.9em;
+        }
+
+        .desc_text {
+            font-size: 0.8em;
+        }
+
+        .take_up_space {
+            min-height: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        .text_take_up_space {
+            min-height: 10em;
+            margin-bottom: 1em;
+        }
+
+        td {
+            font-size: 0.8em;
+            background-color: rgba(246, 250, 238, 0.5);
+            color: #2a2a2e;
+        }
+
+        td.light-grey {
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1em;
+        }
+
+        .disabled_radio {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .init_load_bar_text {
+            animation: blinker 1.5s linear infinite;
+        }
+
+
+
+
+    </style>
+
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
+{% endblock %}
+{% load static %}
+{% csrf_token %}
+{% block content %}
+<div class="tab-pane" id="rrf_policy_datatables">
+    <div class="container" style="width: 90%; height:100%;">
+        <div class="row" style="margin-top: 8em; height: 90vh">
+
+            <div class="tooltip-demo col-sm-12 col-xs-12 ">
+                <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; cursor: help;"
+                    data-toggle="tooltip" data-placement="auto"
+                    title="<p>Lorem Ipsum</p>">
+                    Data Exploration
+                </h2>
+            </div>
+            <div class="tooltip-demo col-md-12 col-xs-12 ">
+                <p style="background:transparent; box-shadow: none;">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus elit non ligula
+                    pellentesque interdum. Vestibulum a euismod ex, lobortis egestas libero. In sit amet augue
+                    sollicitudin, tempor nisi et, bibendum lectus. Curabitur et ornare justo. Quisque mi orci, varius eu
+                    condimentum in, vehicula a quam. Aliquam finibus finibus augue, eu aliquam nibh laoreet eu. Aliquam
+                    euismod nec tortor ac convallis. Quisque imperdiet sem felis, nec lobortis tellus luctus eget.
+                    Integer posuere velit fringilla odio vestibulum, nec porttitor urna molestie. Suspendisse sed
+                    commodo sapien, in tempor dui.
+                </p>
+
+                {% include "i2amparis_main/rrf_policy_workspace/rrf_policy_datatables.html" %}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
