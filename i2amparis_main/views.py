@@ -354,6 +354,27 @@ def populate_detailed_analysis_datatables(request):
             ls.append(temp)
         return JsonResponse(ls, safe=False)
 
+@csrf_exempt
+def populate_rrf_policy_datatables(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    if request.method == 'POST':
+        q = RrfPolicy.objects.all()
+
+        ls = []
+        for item in q:
+            temp = {
+                "title": item.title,
+                "description": item.description,
+                "country": item.country,
+                "budget": item.budget,
+                "total_ratio": item.total_ratio,
+                "first_classification": item.first_classification,
+                "second_classification": item.second_classification
+            }
+            ls.append(temp)
+        return JsonResponse(ls, safe=False)
 
 def get_sdg_variables(request):
     body_unicode = request.body.decode('utf-8')

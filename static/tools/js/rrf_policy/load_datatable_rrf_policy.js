@@ -17,13 +17,13 @@ function populate_datatables(model_sel, scenario_sel, region_sel, variable_sel) 
                 $('#example').DataTable({
                     "data": data,
                     columns: [
-                        {"data": "year"},
-                        {"data": "value"},
-                        {"data": "region"},
-                        {"data": "scenario"},
-                        {"data": "unit"},
-                        {"data": "variable"},
-                        {"data": "model"}
+                        {"data": "title"},
+                        {"data": "description"},
+                        {"data": "country"},
+                        {"data": "budget"},
+                        {"data": "total_ratio"},
+                        {"data": "first_classification"},
+                        {"data": "second_classification"}
                     ],
                     dom: 'Bfrtip',
                     buttons: ['csvHtml5']

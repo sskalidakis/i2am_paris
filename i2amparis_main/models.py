@@ -401,3 +401,17 @@ class Feedback(models.Model):
 
     def __str__(self):
         return self.username
+
+# RRF POLICY MODELS
+
+class RrfPolicy(models.Model):
+    type = models.CharField(max_length=50, default='')
+    title = models.CharField(max_length=50, default='')
+    description = models.TextField(default='')
+    budget = models.FloatField()
+    total_ratio = models.FloatField()
+    country = models.CharField(max_length=50, default='')
+    first_classification = models.CharField(max_length=50, default='')
+    second_classification = models.CharField(max_length=50, default='')
+
+

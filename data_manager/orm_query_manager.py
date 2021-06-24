@@ -40,6 +40,8 @@ def column_chart_query(query_id):
         results = primary_energy_by_fuel_avg_query(query_id, 'model_id')
     elif query_name == 'primary_energy_by_fuel_avg_scenarios_query':
         results = primary_energy_by_fuel_avg_query(query_id, 'scenario_id')
+    elif query_name == 'rrf_classification_1_query':
+        results = rrf_classification_1_query(query_id)
     return results
 
 
@@ -49,6 +51,22 @@ def pie_chart_query(query_id):
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query_agg(query_id)
     return results
+
+
+def rrf_classification_1_query(query_id):
+    '''This method is the execution of the classification 1 query for the rrf policy workspace
+    :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool piechart
+    '''
+    app_params = json.loads(Query.objects.get(id=int(query_id)).parameters)
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    final_data = list(
+        df.pivot(index="year", columns="", values="value").reset_index().fillna(0).to_dict(
+            'index').values())
+
+    return final_data
 
 
 def scentific_tool_query_agg(query_id):
@@ -67,6 +85,7 @@ def scentific_tool_query_agg(query_id):
             'index').values())
     clean_final_data = clean_dictionary_list_from_zero_values(final_data)
     return clean_final_data
+
 
 def primary_energy_by_fuel_avg_query(query_id, grouping_val):
     '''
@@ -120,6 +139,7 @@ def model_scenario_intro_page_query(query_id):
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
         return clean_final_data
 
+
 def wdtm_max_min_query(query_id):
     '''
         This method is the execution of the query for creating data for the four-tile viz in the what does this mean section of the PR workspace
@@ -170,6 +190,7 @@ def wdtm_ccs(query_id):
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
         return clean_final_data
 
+
 def heatmap_query(query_id):
     '''
     This method defines which query is going to be executed for the creation of a heatmap chart
@@ -214,13 +235,14 @@ def quantity_comparison_query(query_id):
     else:
         grouping_var_table = apps.get_model(DATA_TABLES_APP, var_table_name)
         grouping_var_data = grouping_var_table.objects.all().values()
-        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title','reg_type']].rename(
+        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', 'title', 'reg_type']].rename(
             columns={'id': grouping_val})
 
         joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
         joined_df.drop(grouping_val, axis=1, inplace=True)
         joined_df = joined_df.rename(columns={'title': grouping_val})
-        pivoted_df = joined_df.pivot(index=[grouping_val, 'reg_type'], columns=["scenario__name"], values="value").sort_values('reg_type').reset_index()
+        pivoted_df = joined_df.pivot(index=[grouping_val, 'reg_type'], columns=["scenario__name"],
+                                     values="value").sort_values('reg_type').reset_index()
         pivoted_df.drop('reg_type', axis=1, inplace=True)
         final_data = list(pivoted_df.fillna(0).to_dict('index').values())
     clean_final_data = clean_dictionary_list_from_zero_values(final_data)
