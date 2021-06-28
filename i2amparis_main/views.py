@@ -357,7 +357,6 @@ def populate_detailed_analysis_datatables(request):
 @csrf_exempt
 def populate_rrf_policy_datatables(request):
     body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
 
     if request.method == 'POST':
         q = RrfPolicy.objects.all()

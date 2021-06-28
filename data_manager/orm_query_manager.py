@@ -41,7 +41,9 @@ def column_chart_query(query_id):
     elif query_name == 'primary_energy_by_fuel_avg_scenarios_query':
         results = primary_energy_by_fuel_avg_query(query_id, 'scenario_id')
     elif query_name == 'rrf_classification_1_query':
-        results = rrf_classification_1_query(query_id)
+        results = rrf_classification_query(query_id, 'first_classification')
+    elif query_name == 'rrf_classification_2_query':
+        results = rrf_classification_query(query_id, 'second_classification')
     return results
 
 
@@ -53,7 +55,7 @@ def pie_chart_query(query_id):
     return results
 
 
-def rrf_classification_1_query(query_id):
+def rrf_classification_query(query_id, classification):
     '''This method is the execution of the classification 1 query for the rrf policy workspace
     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool piechart
     '''
@@ -62,16 +64,14 @@ def rrf_classification_1_query(query_id):
     df = pd.DataFrame.from_records(data)
     if df.empty:
         return []
-    final_data = list(
-        df.pivot(index="country", columns="first_classification", values="budget").reset_index().fillna(0).to_dict(
-            'index').values())
 
-    budget_data = df.pivot(index="country", columns="first_classification", values="budget").reset_index().fillna(0)
+    budget_data = df.pivot(index="country", columns=classification, values="budget").reset_index().fillna(0)
     total_data = df.groupby(by="country")['budget'].sum().reset_index().rename(columns={"budget": "total"})
     total_data['none'] = 0
     final_data = list(pd.merge(budget_data, total_data, how="inner", on="country").fillna(0).to_dict(
             'index').values())
     return final_data
+
 
 
 def scentific_tool_query_agg(query_id):

@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    function run_rrf_classification1() {
+    function run_rrf_classification2() {
         /* Token Retrieval*/
         const csrftoken = getCookie('csrftoken');
         $.ajaxSetup({
@@ -9,17 +9,17 @@ $(document).ready(function () {
             }
         });
         /* # Query creation*/
-        var jq_obj = create_rrf_classification1_query();
+        var jq_obj = create_rrf_classification2_query();
         console.log(jq_obj);
-        console.log('RRF Classification 1 JSON Query Created');
-        start_qc_v_rrf_classification_1_process(jq_obj);
+        console.log('RRF Classification 2 JSON Query Created');
+        start_qc_v_rrf_classification_2_process(jq_obj);
 
 
     };
 
-    function start_qc_v_rrf_classification_1_process(json_query_obj) {
+    function start_qc_v_rrf_classification_2_process(json_query_obj) {
         var query = {};
-        query["query_name"] = "rrf_classification_1_query";
+        query["query_name"] = "rrf_classification_2_query";
         query["parameters"] = json_query_obj['query_data'];
         $.ajax({
             url: "/data_manager/create_query",
@@ -27,9 +27,9 @@ $(document).ready(function () {
             data: JSON.stringify(query),
             contentType: 'application/json',
             success: function (data) {
-                console.log('RRF Policy Classification 1 Query Saved in DB');
+                console.log('RRF Policy Classification 2 Query Saved in DB');
                 var query_id = data['query_id'];
-                create_visualisation_rrf_classification_1(query_id);
+                create_visualisation_rrf_classification_2(query_id);
             },
             error: function (data) {
                 console.log(data);
@@ -38,24 +38,24 @@ $(document).ready(function () {
     }
 
 
-    function create_visualisation_rrf_classification_1(query_id) {
-        var viz_frame = $('#classification_1_viz_iframe');
+    function create_visualisation_rrf_classification_2(query_id) {
+        var viz_frame = $('#classification_2_viz_iframe');
         viz_frame.off();
         viz_frame.hide();
-        $('#classification_1_loading_bar').show();
+        $('#classification_2_loading_bar').show();
 
         var data = {
-            "y_var_names": ['Green', 'Digital', 'Other'],
-            "y_var_titles": ['Green', 'Digital', 'Other'],
+            "y_var_names": ['Power Up', 'Recharge and Refuel','Reskill and Upskill','Scale-up', 'Modernise','Renovate', 'Connect','Other/Uncategorised'],
+            "y_var_titles": ['Power Up', 'Recharge and Refuel','Reskill and Upskill','Scale-up', 'Modernise','Renovate', 'Connect','Other/Uncategorised'],
             "y_var_units": ['millions €'],
-            "y_axis_title": 'Overall national resource allocation',
+            "y_axis_title": 'National seven-flagship resource allocation',
             "x_axis_name": "country",
             "x_axis_title": "Country",
             "x_axis_unit": "-",
             "x_axis_type": "text",
             "min_max_y_value": [0,100],
             "use_default_colors": false,
-            "color_list_request": ["casual_green", "light_blue", "gold"],
+            "color_list_request": ["light_blue", "casual_green", "gold", "ceramic", "petrol_blue", "red", "purple_new", "orange_fire"],
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -72,11 +72,11 @@ $(document).ready(function () {
 
             }
         }
-        console.log('RRF Classification 1 Ready to launch visualisation');
+        console.log('RRF Classification 2 Ready to launch visualisation');
         var complete_url = "/visualiser/show_stacked_column_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
-            console.log('RRF Classification 1 Visualisation Completed');
+            console.log('RRF Classification 2 Visualisation Completed');
             $(this).show();
             $.ajax({
                 url: "/data_manager/delete_query",
@@ -84,28 +84,28 @@ $(document).ready(function () {
                 data: JSON.stringify(query_id),
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log("RRF Classification 1 Temporary Query Deleted");
+                    console.log("RRF Classification 2 Temporary Query Deleted");
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
 
-            $('#classification_1_loading_bar').hide();
+            $('#classification_2_loading_bar').hide();
 
         });
 
     }
 
-    function create_rrf_classification1_query() {
+    function create_rrf_classification2_query() {
         var agg_func = 'Sum';
-        var agg_var = 'first_classification';
+        var agg_var = 'second_classification';
 
         var selected = [];
         var and_dict = [];
         var or_dict = [];
 
-        selected.push('first_classification', 'budget', 'total_ratio', 'country');
+        selected.push('second_classification', 'budget', 'country');
         const query_data = {
             "dataset": "i2amparis_main_rrfpolicy",
             "query_configuration": {
@@ -126,12 +126,11 @@ $(document).ready(function () {
                     "params": [agg_var, "country"],
                     "aggregated_params": [
                         {"name": "budget", "agg_func": agg_func},
-                        {"name": "total_ratio", "agg_func": agg_func}
                     ]
                 },
 
             },
-            "additional_app_parameters": {"total_unit": "€ millions"}
+            "additional_app_parameters": {}
 
         };
 
@@ -141,7 +140,7 @@ $(document).ready(function () {
 
     }
 
-    run_rrf_classification1();
+    run_rrf_classification2();
 
 
 });
