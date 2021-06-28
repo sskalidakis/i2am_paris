@@ -5,7 +5,7 @@ from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
     RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData, SdgsCat, \
-    VaraiblesSdgsRes
+    VaraiblesSdgsRes, RrfPolicy
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse

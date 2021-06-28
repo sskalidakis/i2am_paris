@@ -405,13 +405,14 @@ class Feedback(models.Model):
 # RRF POLICY MODELS
 
 class RrfPolicy(models.Model):
-    type = models.CharField(max_length=50, default='')
-    title = models.CharField(max_length=50, default='')
+    pillar = models.TextField(default='')
+    axis = models.TextField(default='')
+    rff_type = models.CharField(max_length=50, default='')
+    title = models.TextField(default='')
     description = models.TextField(default='')
     budget = models.FloatField()
     total_ratio = models.FloatField()
     country = models.CharField(max_length=50, default='')
     first_classification = models.CharField(max_length=50, default='')
     second_classification = models.CharField(max_length=50, default='')
-
 

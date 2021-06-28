@@ -26,6 +26,7 @@
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
+            var minmax_y_value = {{ minmax_y_value|safe }};
             var chart_3d = {{ chart_3d }};
             chart.exporting.menu = new am4core.ExportMenu();
 
@@ -49,7 +50,10 @@
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
-
+            if (minmax_y_value.length !== 0) {
+                valueAxis.min = parseFloat(minmax_y_value[0]);
+                valueAxis.max = parseFloat(minmax_y_value[1]);
+            }
 
             // Create series
             var series=[];

@@ -66,22 +66,43 @@ def extract_groupings(grouping):
 
 def group_by_function(group_by_params, agg_params, data):
     final_data = data.values(*group_by_params)
-    for value, agg_func in agg_params.items():
-        if agg_func == 'Avg':
-            final_data = final_data.annotate(value=Avg(value))
-        elif agg_func == 'Sum':
-            final_data = final_data.annotate(value=Sum(value))
-        elif agg_func == 'Max':
-            final_data = final_data.annotate(value=Max(value))
-        elif agg_func == 'Min':
-            final_data = final_data.annotate(value=Min(value))
-        elif agg_func == 'Count':
-            final_data = final_data.annotate(value=Count(value))
-        elif agg_func == 'default':
-            final_data = final_data.annotate(value=Avg(value))
-    #         TODO: Need to extract the default aggrgation function from db
+    if len(agg_params) == 1:
+        for value, agg_func in agg_params.items():
+            if agg_func == 'Avg':
+                final_data = final_data.annotate(value=Avg(value))
+            elif agg_func == 'Sum':
+                final_data = final_data.annotate(value=Sum(value))
+            elif agg_func == 'Max':
+                final_data = final_data.annotate(value=Max(value))
+            elif agg_func == 'Min':
+                final_data = final_data.annotate(value=Min(value))
+            elif agg_func == 'Count':
+                final_data = final_data.annotate(value=Count(value))
+            elif agg_func == 'default':
+                final_data = final_data.annotate(value=Avg(value))
+        #         TODO: Need to extract the default aggrgation function from db
+    else:
+        for value, agg_func in agg_params.items():
+            if agg_func == 'Avg':
+                final_data = final_data.annotate(**get_groupby_annotation(value, 'Avg'))
+            elif agg_func == 'Sum':
+                final_data = final_data.annotate(**get_groupby_annotation(value, 'Sum'))
+            elif agg_func == 'Max':
+                final_data = final_data.annotate(value=Max(value))
+            elif agg_func == 'Min':
+                final_data = final_data.annotate(value=Min(value))
+            elif agg_func == 'Count':
+                final_data = final_data.annotate(value=Count(value))
+            elif agg_func == 'default':
+                final_data = final_data.annotate(value=Avg(value))
+        #         TODO: Need to extract the default aggrgation function from db
     return final_data
 
+def get_groupby_annotation(value, agg_func):
+        if agg_func == 'Avg':
+            return {value: Avg(value)}
+        elif agg_func == 'Sum':
+            return {value: Sum(value)}
 
 def get_query_parameters(query_id):
     '''

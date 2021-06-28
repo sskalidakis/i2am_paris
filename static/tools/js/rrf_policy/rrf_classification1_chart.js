@@ -45,16 +45,17 @@ $(document).ready(function () {
         $('#classification_1_loading_bar').show();
 
         var data = {
-            "y_var_names": ['green', 'digital', 'other'],
+            "y_var_names": ['Green', 'Digital', 'Other'],
             "y_var_titles": ['Green', 'Digital', 'Other'],
-            "y_var_units": ['% of total'],
+            "y_var_units": ['millions €'],
             "y_axis_title": 'Overall national resource allocation',
             "x_axis_name": "country",
             "x_axis_title": "Country",
             "x_axis_unit": "-",
             "x_axis_type": "text",
+            "min_max_y_value": [0,100],
             "use_default_colors": false,
-            "color_list_request": ["light_blue", "gold", "casual_green"],
+            "color_list_request": ["casual_green", "light_blue", "gold"],
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -102,33 +103,13 @@ $(document).ready(function () {
         var agg_func = 'Sum';
         var agg_var = 'first_classification';
 
-        // const input_dict = {
-        //     'model__name': models,
-        //     'region__name': regions,
-        //     'variable__name': variables
-        // };
         var selected = [];
-        // for (var i in input_dict) {
-        //     if (input_dict[i].length > 0) {
-        //         selected.push(i);
-        //     }
-        // }
         var and_dict = [];
         var or_dict = [];
-        // for (var j in selected) {
-        //     var temp = input_dict[selected[j]];
-        //
-        //     and_dict.push({
-        //         'operand_1': selected[j],
-        //         'operand_2': temp,
-        //         'operation': 'in'
-        //     });
-        // }
-
 
         selected.push('first_classification', 'budget', 'total_ratio', 'country');
         const query_data = {
-            "dataset": "i2amparis_main_rrf_policy",
+            "dataset": "i2amparis_main_rrfpolicy",
             "query_configuration": {
                 "select": selected,
                 "filter": {
@@ -136,14 +117,11 @@ $(document).ready(function () {
                     "or": or_dict
                 },
                 "ordering": [
-                    // {
-                    //     "parameter": "model__name",
-                    //     "ascending": true
-                    // },
-                    // {
-                    //     "parameter": "year",
-                    //     "ascending": true
-                    // }
+                    {
+                        "parameter": "country",
+                        "ascending": true
+                    },
+
                 ]
                 ,
                 "grouping": {
@@ -155,14 +133,11 @@ $(document).ready(function () {
                 },
 
             },
-            "additional_app_parameters": {}
+            "additional_app_parameters": {"total_unit": "€ millions"}
 
         };
 
         return {
-            // "models": models,
-            // "variables": variables,
-            // "regions": regions,
             "query_data": query_data
         }
 

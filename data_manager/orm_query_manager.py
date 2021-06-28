@@ -63,9 +63,14 @@ def rrf_classification_1_query(query_id):
     if df.empty:
         return []
     final_data = list(
-        df.pivot(index="year", columns="", values="value").reset_index().fillna(0).to_dict(
+        df.pivot(index="country", columns="first_classification", values="budget").reset_index().fillna(0).to_dict(
             'index').values())
 
+    budget_data = df.pivot(index="country", columns="first_classification", values="budget").reset_index().fillna(0)
+    total_data = df.groupby(by="country")['budget'].sum().reset_index().rename(columns={"budget": "total"})
+    total_data['none'] = 0
+    final_data = list(pd.merge(budget_data, total_data, how="inner", on="country").fillna(0).to_dict(
+            'index').values())
     return final_data
 
 

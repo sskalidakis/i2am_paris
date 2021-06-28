@@ -32,11 +32,18 @@
             categoryAxis.title.marginTop = 10;
             categoryAxis.title.marginBottom = 20;
             chart.numberFormatter.numberFormat = "####.##";
+
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.fontWeight = 600;
-
-            valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
+            valueAxis.title.text = y_axis_title + " (% of total)";
             valueAxis.title.fontWeight = 600;
+
+            valueAxis.min = 0;
+            valueAxis.max = 110;
+            valueAxis.strictMinMax = true;
+            valueAxis.calculateTotals = true;
+            valueAxis.renderer.minWidth = 50;
+            valueAxis.extraMax = 0.1;
 
 
             // Create series
@@ -52,6 +59,24 @@
 
             }
 
+            {#total bullet on top of each column#}
+            let totalSeries = chart.series.push(new am4charts.ColumnSeries());
+            totalSeries.dataFields.valueY = "none";
+            totalSeries.dataFields.categoryX = "country";
+            totalSeries.stacked = true;
+            totalSeries.hiddenInLegend = true;
+            totalSeries.columns.template.strokeOpacity = 0;
+            let totalBullet = totalSeries.bullets.push(new am4charts.LabelBullet());
+            totalBullet.dy = -20;
+            totalBullet.label.text = "Total: {valueY.total} " + y_var_units[0] ;
+            totalBullet.label.hideOversized = false;
+            totalBullet.label.fontSize = 18;
+            totalBullet.label.background.fill = totalSeries.stroke;
+            totalBullet.label.background.fillOpacity = 0.2;
+            totalBullet.label.padding(5, 10, 5, 10);
+
+
+
             //Add Legend
             chart.legend = new am4charts.Legend();
             chart.legend.useDefaultMarker = true;
@@ -66,8 +91,8 @@
 
 
             // Add scrollbar
-            chart.scrollbarX = new am4charts.XYChartScrollbar();
-            chart.scrollbarX.series.push(series[0]);
+            {#chart.scrollbarX = new am4charts.XYChartScrollbar();#}
+            {#chart.scrollbarX.series.push(series[0]);#}
 
             function create_series(setNameOfX, myVar, fillColor, myVarTitle, myVarUnit, y_axis_title,
                                    x_axis_name) {
@@ -80,9 +105,9 @@
                 series.columns.template.width = am4core.percent(80);
 
 
-                series.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + myVarTitle + " : [bold]{valueY}[/]";
-
+                series.columns.template.tooltipText = "{categoryX} - " + myVarTitle + " : [bold]{valueY.totalPercent.formatNumber('#.00')}%\n{valueY} "+ y_var_units[0]
                 series.dataFields.valueY = myVar;
+                series.dataFields.valueYShow = "totalPercent";
                 series.dataFields.categoryX = x_axis_name;
                 series.name = myVarTitle;
                 series.stroke = am4core.color(fillColor);
@@ -99,6 +124,7 @@
 
                 //legend shows value dynamically
                 series.legendSettings.labelText = "{name}";
+
                 {#series.legendSettings.itemValueText = "[bold]{value}[/bold]";#}
                 return series
 
