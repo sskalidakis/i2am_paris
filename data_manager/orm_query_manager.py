@@ -28,6 +28,8 @@ def line_chart_query(query_id):
         results = wdtm_max_min_query(query_id)
     elif query_name in ['wdtm_ccs_query']:
         results = wdtm_ccs(query_id)
+    elif query_name in ['wwheu_pub_total_co2_emissions_query']:
+        results = wwheu_pub_total_co2_emissions(query_id)
     return results
 
 
@@ -195,6 +197,25 @@ def wdtm_ccs(query_id):
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
         return clean_final_data
 
+def wwheu_pub_total_co2_emissions(query_id):
+        '''
+            This method is the execution of the query for creating data for the total co2 emissions for the eu public interface
+            :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
+            '''
+        data, add_params = query_execute(query_id)
+        df = pd.DataFrame.from_records(data)
+
+        if df.empty:
+            return []
+        else:
+            # Creating the min-max ranges
+            df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
+            df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
+            final_data = list(
+                df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+                    'index').values())
+            clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+            return clean_final_data
 
 def heatmap_query(query_id):
     '''

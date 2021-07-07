@@ -154,6 +154,9 @@ class XY_chart:
         if self.chart_type == 'line_chart':
             return render(self.request, 'visualiser/line_chart_am4.html',
                           self.content)
+        elif self.chart_type == 'line_chart_step_by_step':
+            return render(self.request, 'visualiser/line_chart_am4_step_by_step.html',
+                          self.content)
         elif self.chart_type == 'line_chart_min_max':
             return render(self.request, 'visualiser/line_chart_max_min.html',
                           self.content)
@@ -378,6 +381,12 @@ def show_line_chart(request):
                               x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
                               min_max_y_value, legend_position,
                               'line_chart_min_max')
+    elif type == 'step_by_step':
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value, legend_position,
+                              'line_chart_step_by_step')
+
     else:
         if stacked == 'false':
             line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
