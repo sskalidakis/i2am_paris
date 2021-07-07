@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71499906-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-71499906-6');
+    </script>
+    <!-- BASICS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>I2AMPARIS - Detailed Model Documentation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href={% static "main_theme/css/isotope.css" %} media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/js/fancybox/jquery.fancybox.css" %} type="text/css"
+          media="screen"/>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/bootstrap-theme.css" %}>
+    <link href={% static "main_theme/css/responsive-slider.css" %} rel="stylesheet">
+    <link rel="stylesheet" href={% static "main_theme/css/animate.css" %}>
+    <link rel="stylesheet" href={% static "main_theme/css/style.css" %}>
+
+    <link rel="stylesheet" href={% static "main_theme/css/font-awesome.min.css" %}>
+    <!-- skin -->
+    <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
+    <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <style>
+        #section-main-content {
+            min-height: 3380px;
+        }
+
+        {#        html {#}
+        {#            scroll-behavior: smooth;#}
+        {#        }#}
+
+        .heading-new {
+            color: #97ae21E6
+        }
+
+        .next-back-arrow {
+            font-size: 3em;
+            font-weight: bold;
+            background: rgba(151, 174, 33, 0.54);
+            color: white;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-radius: 5px;
+        }
+
+        .next-back-arrow:hover {
+            background: #97ae21;
+            cursor: pointer;
+        }
+
+        .methods-image {
+            position: absolute;
+            left: 0;
+            -webkit-transition: opacity 1s ease-in-out;
+            -moz-transition: opacity 1s ease-in-out;
+            -o-transition: opacity 1s ease-in-out;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            filter: alpha(opacity=0);
+        }
+
+        .methods-image.opaque {
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+            filter: alpha(opacity=1);
+        }
+
+
+    </style>
+    <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
+    <link rel="stylesheet" href={% static "side_bar_workspaces.css" %}>
+    <!-- =======================================================
+    Theme Name: Green
+    Theme URL: https://bootstrapmade.com/green-free-one-page-bootstrap-template/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+</head>
+
+<body>
+
+
+{% include "upper_bar_eu_public_ui.html" %}
+<div id="mySidenav" class="sidenav" style="margin-top: 3em">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a class="heading-link" href="#methods"><h4>Methods</h4></a>
+    <a class="heading-link" href="#ht2050"><h4>Policy Questions</h4></a>
+    <div class="sub-heading-link col-sm-12 col-md-12">
+        <a href="#ht2050">Where is Europe headed towards in 2050?</a>
+        <a href="#">What is the role of Carbon Capture and Storage (CCS)?</a>
+        <a href="#">What is the role of import dependency in Europe? </a>
+        <a href="#">What will the role of electrification be in the transport sector?</a>
+        <a href="#">What is the future of hydrogen in the EU?</a>
+        <a href="#">What are the costs and gains of current policies?</a>
+    </div>
+</div>
+
+
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" style="margin-top: 6em;height: 100%">
+    <div class="container" style="width: 90%; height: 100%">
+        {% include 'i2amparis_main/eu_workspace/methods.html' %}
+        <div class=" col-sm-12 col-xs-12">
+            <h1 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; ">
+                Policies
+            </h1>
+        </div>
+        {% include 'i2amparis_main/eu_workspace/where_is_europe_headed_towards_in_2050.html' %}
+    </div>
+</div>
+{% include "i2amparis_main/pages_footer.html" %}
+
+
+<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+
+<script src={% static "main_theme/js/modernizr-2.6.2-respond-1.1.0.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.js" %}></script>
+<script src={% static "main_theme/js/jquery.easing.1.3.js" %}></script>
+<script src={% static "main_theme/js/bootstrap.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.isotope.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.nicescroll.min.js" %}></script>
+<script src={% static "main_theme/js/fancybox/jquery.fancybox.pack.js" %}></script>
+<script src={% static "main_theme/js/skrollr.min.js" %}></script>
+<script src={% static "main_theme/js/jquery.scrollTo.js" %}></script>
+<script src={% static "main_theme/js/jquery.localScroll.js" %}></script>
+<script src={% static "main_theme/js/stellar.js" %}></script>
+<script src={% static "main_theme/js/responsive-slider.js" %}></script>
+<script src={% static "main_theme/js/jquery.appear.js" %}></script>
+<script src={% static "main_theme/js/grid.js" %}></script>
+<script src={% static "main_theme/js/main.js" %}></script>
+<script src={% static "main_theme/js/wow.min.js" %}></script>
+<script>
+    wow = new WOW({}).init();
+</script>
+{#navigation contents menu#}
+<script>
+
+    var method_figure_count = 1;
+
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "27%";
+        document.getElementById("main").style.marginLeft = "27%";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0%";
+        document.getElementById("main").style.marginLeft = "0%";
+    }
+
+
+    $('.sidenav a').click(function () {
+            $('.sidenav a').css('background', '#11111100');
+            $('.sidenav a').css('color', '#818181');
+            $(this).not(document.getElementsByClassName("closebtn")).css('background', '#849627');
+            $(this).not(document.getElementsByClassName("closebtn")).css('color', 'white');
+        }
+    );
+
+    $('.content_btn').on('click', function () {
+        console.log(document.getElementById("mySidenav").style.width);
+        if (document.getElementById("mySidenav").style.width != '0%') {
+            closeNav();
+        } else {
+            openNav();
+        }
+
+    });
+    openNav();
+</script>
+
+{#methods figure 1 animation#}
+<script>
+    $(".next-1").click(function () {
+        if (method_figure_count < 4) {
+            method_figure_count = method_figure_count + 1
+        }
+    });
+    $(".back-1").click(function () {
+        if (method_figure_count > 1) {
+            method_figure_count = method_figure_count - 1
+        }
+    });
+    $(".next-back").click(function () {
+        console.log(method_figure_count);
+        $(".methods-image").removeClass("opaque");
+        var image = $(".methods-image-" + method_figure_count);
+        image.addClass("opaque");
+    });
+</script>
+
+
+</body>
+
+</html>
+
+

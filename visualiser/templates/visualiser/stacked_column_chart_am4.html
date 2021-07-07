@@ -107,7 +107,9 @@
 
                 series.columns.template.tooltipText = "{categoryX} - " + myVarTitle + " : [bold]{valueY.totalPercent.formatNumber('#.00')}%\n{valueY} "+ y_var_units[0]
                 series.dataFields.valueY = myVar;
+                {#this command makes all columns the same height and shows the percentage on the yaxis that corresponds to each column's total#}
                 series.dataFields.valueYShow = "totalPercent";
+
                 series.dataFields.categoryX = x_axis_name;
                 series.name = myVarTitle;
                 series.stroke = am4core.color(fillColor);

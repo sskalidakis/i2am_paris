@@ -34,6 +34,7 @@ urlpatterns = [
     path('rrf_policy_intro', views.rrf_landing, name='rrf_landing'),
     path('populate_rrf_policy_datatables', views.populate_rrf_policy_datatables,
          name='populate_rrf_policy_datatables'),
+    path('euw_public_ui', views.euw_public_ui, name='euw_public_ui'),
     # path('update_comparative_selects_strict', views.update_comparative_selects_strict,
     #      name='update_comparative_selects_strict'),
     # path('update_comparative_selects_basic', views.update_comparative_selects_basic,

@@ -391,6 +391,9 @@ def rrf_landing(request):
     context = {}
     return render(request, 'i2amparis_main/rrf_policy_workspace/rrf_policy_intro.html', context)
 
+def euw_public_ui(request):
+    context = {}
+    return render(request, 'i2amparis_main/eu_workspace/euw_public_ui.html', context)
 
 def detailed_model_doc(request, model=''):
     if model == '':

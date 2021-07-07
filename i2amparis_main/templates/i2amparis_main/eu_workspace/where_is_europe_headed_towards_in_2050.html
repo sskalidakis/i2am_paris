@@ -1,0 +1,73 @@
+{% load static %}
+<div class="col-sm-12 col-xs-12">
+    <h3 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; ">
+        Where is Europe headed towards in 2050?
+    </h3>
+</div>
+<div class="col-md-12 col-xs-12" style="margin-bottom:3em">
+    <span id="ht2050" style="position: relative; top:-8em"></span>
+    <p>
+        From 1990 to 2015,
+        <strong>annual CO2 emissions in the EU have decreased</strong>
+        an average of 0.9% per year.
+
+    </p>
+    <p>
+    <ul>
+        <li>Between 2020 and 2030, models project a reduction of
+            <strong>CO2 emissions reaching in 2030 -33% to -45% of CO2</strong>
+            emissions compared to 1990.
+        </li>
+        <li>Non-CO2 emissions (excluding land-use) in 2030 will range between -39% and -51%, compared to 1990
+            levels. These figures are
+            <strong>insufficient to comply with the new EU Green Deal objective of a 55% GHG reduction target.
+            </strong>
+        </li>
+    </ul>
+    </p>
+    <p>
+        For the year
+        <strong>2050</strong>
+        , median EU CO2 emissions reduction may drop between
+        <strong>-43% to -76% compared to 1990.</strong>
+    </p>
+    <p>
+        Variability between models comes from the different mitigation options available, key technologies (e.g.
+        Carbon Capture and Storage (CCS)), markets and national policies.
+    </p>
+    <div>
+        <div class="tooltip-demo" style="margin-top:3em">
+            <h3 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; cursor: help; margin-bottom: 0.2em"
+                data-toggle="tooltip" data-placement="auto"
+                title="<p>The chart presents the total CO2 emissions from energy in the EU across models until 2050.
+                    </p>">
+                Total CO2 emmissions
+            </h3>
+            <h4 style="">(in the EU across models until 2050)</h4>
+        </div>
+
+        <div class="" style="height: 70vh">
+            <div style="height: 100%;">
+                <div id="total_co2_emissions" class="row"
+                     style="height: 100%; line-height: 100%;">
+                    <iframe id="total_co2_emissions_viz_iframe" src="" title="Results"
+                            style="width: 100%; height: 100%;  border:none ; display: none"></iframe>
+                    <div id="total_co2_emissions_loading_bar"
+                         style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em;">
+                        <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
+                             src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                        <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">The chart will present the total CO2 emissions from energy in
+                                the EU across models until 2050.
+
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
