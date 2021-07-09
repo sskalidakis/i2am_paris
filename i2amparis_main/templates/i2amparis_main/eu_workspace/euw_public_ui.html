@@ -106,21 +106,25 @@
 {% include "upper_bar_eu_public_ui.html" %}
 <div id="mySidenav" class="sidenav" style="margin-top: 3em">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a class="heading-link" data-section="methods" href="#methods"><h4>Methods</h4></a>
-    <a class="heading-link" data-section="policies" href="#policies"><h4>Policy Questions</h4></a>
+    <a class="heading-link" data-section="methods" href="#methods"><h4 style="margin-bottom: 0!important;">Methods</h4>
+    </a>
+    <a class="heading-link" data-section="policies" href="#policies"><h4 style="margin-bottom: 0!important;">Policy
+        Questions</h4></a>
     <div class="sub-heading-link col-sm-12 col-md-12">
-        <a href="#ht2050">Where is Europe headed towards in 2050?</a>
-        <a href="#">What is the role of Carbon Capture and Storage (CCS)?</a>
-        <a href="#">What is the role of import dependency in Europe? </a>
-        <a href="#">What will the role of electrification be in the transport sector?</a>
-        <a href="#">What is the future of hydrogen in the EU?</a>
-        <a href="#">What are the costs and gains of current policies?</a>
+        <a data-section="ht_2050" href="#policies">Where is Europe headed towards in 2050?</a>
+        <a data-section="ccs" href="#policies">What is the role of Carbon Capture and Storage (CCS)?</a>
+        <a data-section="import_dependency" href="#policies">What is the role of import dependency in
+            Europe? </a>
+        <a data-section="electrification" href="#policies">What will the role of electrification be in the
+            transport sector?</a>
+        <a data-section="hydrogen" href="#policies">What is the future of hydrogen in the EU?</a>
+        <a data-section="costs_gains" href="#policies">What are the costs and gains of current policies?</a>
     </div>
 </div>
 
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-<div id="main" style="margin-top: 6em;height: 100%">
+<div id="main" style="margin-top: 6em;min-height: 100%">
     <div class="container" style="width: 90%; height: 100%">
         <div class=" col-sm-12 col-xs-12 methods content-section">
             {% include 'i2amparis_main/eu_workspace/methods.html' %}
@@ -129,12 +133,30 @@
             <h1 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; ">
                 Policies
             </h1>
-
-            {% include 'i2amparis_main/eu_workspace/where_is_europe_headed_towards_in_2050.html' %}
+            <span id="policies" style="position: relative; top:-7em"></span>
+            <div class="ht_2050 subcontent" style="display: none">
+                {% include 'i2amparis_main/eu_workspace/where_is_europe_headed_towards_in_2050.html' %}
+            </div>
+            <div class="ccs subcontent" style="display: none">
+                {% include 'i2amparis_main/eu_workspace/role_of_carbon_capture_and_storage.html' %}
+            </div>
+            <div class="import_dependency subcontent" style="display: none">
+                {% include 'i2amparis_main/eu_workspace/import_dependency.html' %}
+            </div>
+            <div class="electrification subcontent" style="display: none">
+                {% include 'i2amparis_main/eu_workspace/electrification.html' %}
+            </div>
+            <div class="hydrogen subcontent" style="display: none">
+                {% include 'i2amparis_main/eu_workspace/hydrogen.html' %}
+            </div>
+            <div class="costs_gains subcontent" style="display: none">
+                {% include 'i2amparis_main/eu_workspace/costs_gains.html' %}
+            </div>
         </div>
     </div>
 </div>
 {% include "i2amparis_main/pages_footer.html" %}
+
 
 
 <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
@@ -160,106 +182,14 @@
 <script>
     wow = new WOW({}).init();
 </script>
-{#navigation contents menu#}
-<script>
-
-    var method_figure_count = 1;
-
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "27%";
-        document.getElementById("main").style.marginLeft = "27%";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0%";
-        document.getElementById("main").style.marginLeft = "0%";
-    }
-
-
-    $('.sidenav a').click(function () {
-            $('.sidenav a').css('background', '#11111100');
-            $('.sidenav a').css('color', '#818181');
-            $(this).not(document.getElementsByClassName("closebtn")).css('background', '#849627');
-            $(this).not(document.getElementsByClassName("closebtn")).css('color', 'white');
-        }
-    );
-
-    $('.content_btn').on('click', function () {
-        console.log(document.getElementById("mySidenav").style.width);
-        if (document.getElementById("mySidenav").style.width != '0%') {
-            closeNav();
-        } else {
-            openNav();
-        }
-
-    });
-    openNav();
-</script>
+{# navigation - content - menu #}
+<script src={% static "tools/js/wwh_eu/public_interface/menu_controller.js" %}></script>
 
 {#methods figure 1 animation#}
-<script>
-    $(".next-1").click(function () {
-        if (method_figure_count < 4) {
-            method_figure_count = method_figure_count + 1
-        }
-    });
-    $(".back-1").click(function () {
-        if (method_figure_count > 1) {
-            method_figure_count = method_figure_count - 1
-            $(".methods-image").removeClass("opaque");
-        }
-    });
-    $(".next-back").click(function () {
-        console.log(method_figure_count);
-        var image = $(".methods-image-" + method_figure_count);
-        image.addClass("opaque");
-    });
-</script>
-
-{#showing and hiding content according to selected menu object#}
-<script>
-    $('.content-section').hide();
-    $('.methods').show();
-    $('.heading-link[data-section="methods"]').css('background', '#849627');
-    $('.heading-link[data-section="methods"]').css('color', 'white');
-    $('.heading-link').click(function () {
-        $('.content-section').hide();
-        $('.' + $(this).attr('data-section')).show();
-    })
-</script>
+<script src={% static "tools/js/wwh_eu/public_interface/image_controller.js" %}></script>
 
 {#where is europe headed towards in 2050 chart controller#}
-<script>
-    var channel = new MessageChannel();
-    var port1 = channel.port1;
-    var iframe = document.querySelector('iframe');
-    iframe.addEventListener("load", onLoad);
-
-    function onLoad() {
-        // Listen for button clicks
-        var timeframe = [2020, 2050, 2100];
-        var total_co2emissions_lr_count = 0;
-        $(".next-2").click(function () {
-            if (total_co2emissions_lr_count < 2) {
-                total_co2emissions_lr_count = total_co2emissions_lr_count + 1;
-                port1.postMessage([2005, timeframe[total_co2emissions_lr_count]]);
-            }
-        });
-        $(".back-2").click(function () {
-            if (total_co2emissions_lr_count > 0) {
-                total_co2emissions_lr_count = total_co2emissions_lr_count - 1;
-                port1.postMessage([2005, timeframe[total_co2emissions_lr_count]]);
-            }
-        });
-
-
-        // Transfer port2 to the iframe
-        iframe.contentWindow.postMessage('init', '*', [channel.port2]);
-        port1.postMessage([2005, 2020]);
-    }
-
-
-</script>
+<script src={% static "tools/js/wwh_eu/public_interface/chart_1_controller.js" %}></script>
 
 
 </body>

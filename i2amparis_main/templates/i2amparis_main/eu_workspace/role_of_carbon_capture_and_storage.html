@@ -1,0 +1,106 @@
+{% load static %}
+<div class="col-sm-12 col-xs-12">
+    <h3 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; ">
+        What is the role of Carbon Capture and Storage (CCS)?
+    </h3>
+</div>
+<div class="col-md-12 col-xs-12" style="margin-bottom:3em">
+{#    <span id="ccs" style="position: relative; top:-8em"></span>#}
+    <p class="col-md-12 col-xs-12">
+        In the policy domain and among specific technologies used in modelling scenarios, <strong>CCS</strong> is
+        considered a possible
+        option for reducing CO2 emissions, particularly from hard-to-decarbonise sectors, like heavy industries and
+        energy transformation.
+    </p>
+    <p class="col-md-12 col-xs-12">
+        However, there are still <strong>important barriers</strong>, that hinder the large-scale development of these
+        technologies. As
+        seen in the following graph, global, drastic emissions reduction currently depend significantly on these
+        technologies.
+    </p>
+
+    <div class="col-md-12 col-xs-12">
+        <div class="tooltip-demo" style="margin-top:3em">
+            <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; cursor: help; margin-bottom: 0.2em"
+                data-toggle="tooltip" data-placement="auto"
+                title="<p>The chart presents the CO2 captured by CCS by sector for 2020, 2030, 2040 and 2050.
+                    </p>">
+                CO2 captured by CCS
+            </h2>
+            <h4 style="">(by sector)</h4>
+        </div>
+        <div class="col-sm-1 col-md-1 back-4" style="margin-top: 25%;margin-bottom: 25%"><i
+                class="fa fa-angle-left next-back-arrow"></i></div>
+        <div class="col-sm-10 col-md-10" style="height: 70vh">
+            <div style="height: 100%;">
+                <div id="co2_ccs_by_sector" class="row"
+                     style="height: 100%; line-height: 100%;">
+                    <iframe id="co2_ccs_by_sector_viz_iframe" src="" title="Results"
+                            style="width: 100%; height: 100%;  border:none ; display: none"></iframe>
+                    <div id="co2_ccs_by_sector_loading_bar"
+                         style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em;">
+                        <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
+                             src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                        <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">The chart will present the CO2 captured by CCS by sector for 2020,
+                                2030, 2040 and 2050.
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 col-md-1 next-4" style="margin-top: 25%;margin-bottom: 25%"><i
+                class="fa fa-angle-right next-back-arrow"></i>
+        </div>
+    </div>
+    <p class="col-md-12 col-xs-12" style="font-style: italic">Different and more ambitious policy efforts may completely change the role of CCS
+        in the longer run.</p>
+
+
+    <div class="col-md-12 col-xs-12">
+        <div class="tooltip-demo" style="margin-top:3em">
+            <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; cursor: help; margin-bottom: 0.2em"
+                data-toggle="tooltip" data-placement="auto"
+                title="<p>The chart presents the CO2 captured by CCS against CO2 reduction levels (since 1990, based on European Environmental Agency, 2019).
+                    </p>">
+                CO2 captured by CCS
+            </h2>
+            <h4 style="">against CO2 reduction levels</h4>
+            <h5>(since 1990, based on <a
+                    href="https://www.sciencedirect.com/science/article/pii/S0048969721036214#bb0185">European
+                Environmental Agency, 2019</a>)</h5>
+        </div>
+        <div class="col-sm-1 col-md-1 back-5" style="margin-top: 25%;margin-bottom: 25%"><i
+                class="fa fa-angle-left next-back-arrow"></i></div>
+        <div class="col-sm-10 col-md-10" style="height: 70vh">
+            <div style="height: 100%;">
+                <div id="co2_ccs_ag_co2_reduction" class="row"
+                     style="height: 100%; line-height: 100%;">
+                    <iframe id="co2_ccs_ag_co2_reduction_viz_iframe" src="" title="Results"
+                            style="width: 100%; height: 100%;  border:none ; display: none"></iframe>
+                    <div id="co2_ccs_ag_co2_reduction_loading_bar"
+                         style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em;">
+                        <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
+                             src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                        <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">The chart will present the CO2 captured by CCS against CO2 reduction
+                                levels (since 1990, based on European Environmental Agency, 2019).
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 col-md-1 next-5" style="margin-top: 25%;margin-bottom: 25%"><i
+                class="fa fa-angle-right next-back-arrow"></i>
+        </div>
+
+    </div>
+</div>
