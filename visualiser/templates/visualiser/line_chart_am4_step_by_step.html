@@ -34,7 +34,6 @@
 
             // Add data
             chart.data = {{ chart_data|safe }};
-            console.log(chart.data);
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var x_axis_type = "{{ x_axis_type }}";
             var x_axis_title = "{{x_axis_title}}";
@@ -61,6 +60,7 @@
                 function zoomAxis(from, to) {
                     xAxis.zoomToCategories(from, to);
                 }
+                zoomAxis(glob_frame[0],glob_frame[1]);
             } else {
                 xAxis = chart.xAxes.push(new am4charts.ValueAxis());
 

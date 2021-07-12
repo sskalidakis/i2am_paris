@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    var viz_frame = $('#total_co2_emissions_viz_frame_div');
+    var viz_frame = $('#imported_fuels_viz_frame_div');
 
     viz_frame.show();
     /* Token Retrieval*/
@@ -13,27 +13,24 @@ $(document).ready(function () {
     });
 
     /* # Query creation*/
-    var jq_obj = create_total_co2_emissions_query();
-    console.log('Total_co2_emissions JSON Query Created');
-    start_qc_v_total_co2_emissions_process(jq_obj)
-
-    // retrieve_series_info_total_co2_emissions(jq_obj);
+    var jq_obj = create_imported_fuels_query();
+    console.log('Imported Fuels JSON Query Created');
+    start_qc_v_imported_fuels_process(jq_obj)
 
 
-    function start_qc_v_total_co2_emissions_process(json_query_obj) {
+    function start_qc_v_imported_fuels_process(json_query_obj) {
         var query = {};
-        query["query_name"] = "wwheu_pub_total_co2_emissions_query";
+        query["query_name"] = "wwheu_pub_imported_fuels_query";
         query["parameters"] = json_query_obj['query_data'];
-        // var variable_selection = (variable_sel.multipleSelect('getSelects', 'text'));
         $.ajax({
             url: "/data_manager/create_query",
             type: "POST",
             data: JSON.stringify(query),
             contentType: 'application/json',
             success: function (data) {
-                console.log('Fossil Energy Query Saved in DB');
+                console.log('Imported Fuels Query Saved in DB');
                 var query_id = data['query_id'];
-                create_visualisation_total_co2_emissions(query_id);
+                create_visualisation_imported_fuels(query_id);
             },
             error: function (data) {
                 console.log(data);
@@ -42,17 +39,17 @@ $(document).ready(function () {
     }
 
 
-    function create_visualisation_total_co2_emissions(query_id) {
-        var viz_frame = $('#total_co2_emissions_viz_iframe');
+    function create_visualisation_imported_fuels(query_id) {
+        var viz_frame = $('#imported_fuels_viz_iframe');
         viz_frame.off();
         viz_frame.hide();
-        $('#total_co2_emissions_loading_bar').show();
+        $('#imported_fuels_loading_bar').show();
 
         var data = {
-            "y_var_names": ['e3me_PR_CurPol_CP', 'gcam_PR_CurPol_CP', 'gemini_e3_PR_CurPol_CP','ices_PR_CurPol_CP', 'muse_PR_CurPol_CP','tiam_PR_CurPol_CP'],
-            "y_var_titles": ['E3ME- PR_CurPol_CP', 'GCAM- PR_CurPol_CP', 'Gemini-E3- PR_CurPol_CP','ICES- PR_CurPol_CP', 'MUSE- PR_CurPol_CP','TIAM- PR_CurPol_CP'],
-            "y_var_units": ['MtCO2/y'],
-            "y_axis_title": 'Emissions|CO2|Energy',
+            "y_var_names": ['eu_times_Import', 'gemini_e3_Import', 'tiam_Import'],
+            "y_var_titles": ['EU-TIMES - Import', 'GEMINI-E3 - Import', 'TIAM - Import'],
+            "y_var_units": ['billion US$2010/yr OR local currency'],
+            "y_axis_title": 'Imported fossil fuels',
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
@@ -75,11 +72,11 @@ $(document).ready(function () {
 
             }
         }
-        console.log('Total_co2_emissions Ready to launch visualisation');
+        console.log('Imported Fuels Ready to launch visualisation');
         var complete_url = "/visualiser/show_line_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
-            console.log('Total_co2_emissions Visualisation Completed');
+            console.log('Imported Fuels Visualisation Completed');
             $(this).show();
             $.ajax({
                 url: "/data_manager/delete_query",
@@ -87,24 +84,24 @@ $(document).ready(function () {
                 data: JSON.stringify(query_id),
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log("Total_co2_emissions Query Deleted");
+                    console.log("Imported Fuels Query Deleted");
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
 
-            $('#total_co2_emissions_loading_bar').hide();
+            $('#imported_fuels_loading_bar').hide();
 
         });
 
     }
 
-    function create_total_co2_emissions_query() {
-        var models = ['42', 'e3me', 'eu_times', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam'];
+    function create_imported_fuels_query() {
+        var models = ['eu_times', 'gemini_e3', 'tiam'];
         var scenarios = ['PR_CurPol_CP'];
         var regions = ['EU'];
-        var variable = ['Emissions|CO2|Energy'];
+        var variable = ['Import'];
 
 
         const input_dict = {

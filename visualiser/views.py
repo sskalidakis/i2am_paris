@@ -282,6 +282,9 @@ class StackedClusteredColumnChart:
         if self.chart_type == 'stacked_clustered_chart':
             return render(self.request, 'visualiser/stacked_clustered_chart.html',
                           self.content)
+        elif self.chart_type == 'stacked_clustered_chart_step_by_step':
+            return render(self.request, 'visualiser/stacked_clustered_chart_step_by_step.html',
+                          self.content)
 
 
 class MapChart:
@@ -892,10 +895,17 @@ def show_stacked_clustered_chart(request):
     use_default_colors = response_data_xy['use_default_colors']
     color_list = define_color_code_list(response_data_xy['color_list_request'])
     data = create_stacked_clustered_data(dataset, dataset_type)
-    stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis,
-                                                          y_var_names, y_var_titles, y_axis_units, cat_axis_names,
-                                                          cat_axis_titles, data, color_list, use_default_colors,
-                                                          'stacked_clustered_chart')
+    if type == 'step_by_step':
+        stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis,
+                                                              y_var_names, y_var_titles, y_axis_units, cat_axis_names,
+                                                              cat_axis_titles, data, color_list, use_default_colors,
+                                                              'stacked_clustered_chart')
+    else:
+        stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit,
+                                                              x_sec_axis,
+                                                              y_var_names, y_var_titles, y_axis_units, cat_axis_names,
+                                                              cat_axis_titles, data, color_list, use_default_colors,
+                                                              'stacked_clustered_chart_step_by_step')
 
     return stacked_clustered_chart.show_chart()
 

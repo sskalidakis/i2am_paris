@@ -30,6 +30,8 @@ def line_chart_query(query_id):
         results = wdtm_ccs(query_id)
     elif query_name in ['wwheu_pub_total_co2_emissions_query']:
         results = wwheu_pub_total_co2_emissions(query_id)
+    elif query_name in ['wwheu_pub_imported_fuels_query']:
+        results = wwheu_pub_imported_fuels_query(query_id)
     return results
 
 
@@ -46,6 +48,8 @@ def column_chart_query(query_id):
         results = rrf_classification_query(query_id, 'first_classification')
     elif query_name == 'rrf_classification_2_query':
         results = rrf_classification_query(query_id, 'second_classification')
+    elif query_name == 'wwheu_pub_emissions_by_sector_query':
+        results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
     return results
 
 
@@ -216,6 +220,60 @@ def wwheu_pub_total_co2_emissions(query_id):
                     'index').values())
             clean_final_data = clean_dictionary_list_from_zero_values(final_data)
             return clean_final_data
+
+
+def wwheu_pub_imported_fuels_query(query_id):
+    '''
+        This method is the execution of the query for creating data for the imported fossil fuels for the eu public interface
+        :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
+        '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+
+    if df.empty:
+        return []
+    else:
+        # Creating the min-max ranges
+        df['model_variable'] = df['model__name'] + '_' + df['variable__name']
+        df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
+        final_data = list(
+            df.pivot(index="year", columns="model_variable", values="value").reset_index().fillna(0).to_dict(
+                'index').values())
+        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        return clean_final_data
+
+def wwheu_pub_emissions_by_sector_query(query_id, grouping_val):
+    '''
+     This method is the execution of the query for creating data for the co2 emissions by sevtor for the EU public interface
+     :param grouping_val: This variable shows whether the grouping is done across models or scenarios
+     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool columnchart
+     '''
+    if grouping_val == 'model_id':
+        record_title = 'model_title'
+        grouping_var_data = ModelsInfo.objects.all().values()
+    else:
+        record_title = 'title'
+        grouping_var_data = ScenariosRes.objects.all().values()
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    else:
+        grouping_var_df = pd.DataFrame.from_records(grouping_var_data)[['id', record_title]].rename(
+            columns={'id': grouping_val, record_title: 'title'})
+
+        joined_df = pd.merge(left=df, right=grouping_var_df, left_on=grouping_val, right_on=grouping_val)
+
+        joined_df.drop(grouping_val, axis=1, inplace=True)
+        joined_df = joined_df.rename(columns={'title': grouping_val})
+
+        joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
+        final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(0)
+        # final_df['zero'] = 0
+        final_data = list(final_df.to_dict('index').values())
+        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+
+        return clean_final_data
 
 def heatmap_query(query_id):
     '''
