@@ -360,7 +360,7 @@ class RegionsRes(models.Model):
 
 
 class VariablesRes(models.Model):
-    name = models.CharField(null=False, default="", max_length=50)
+    name = models.CharField(null=False, default="", max_length=100)
     title = models.CharField(null=False, default="", max_length=100)
     agg_func = models.CharField(null=False, default="", max_length=20)
     ordering = models.IntegerField(null=False, default=0)
@@ -416,3 +416,13 @@ class RrfPolicy(models.Model):
     first_classification = models.CharField(max_length=50, default='')
     second_classification = models.CharField(max_length=50, default='')
 
+#WWH_EU_WORKSPACE DATA
+
+class WWHEUResultsComp(models.Model):
+    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    value = models.FloatField()
