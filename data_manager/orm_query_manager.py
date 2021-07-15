@@ -33,7 +33,9 @@ def line_chart_query(query_id):
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = wwheu_pub_imported_fuels_query(query_id)
     elif query_name in ['wwheu_pub_ccs_ratio']:
-        results = wwheu_pub_ratio(query_id)
+        results = wwheu_pub_ccs_ratio(query_id)
+    elif query_name in ['wwheu_pub_import_dependency_ratio']:
+        results= wwheu_pub_import_dependency_ratio(query_id)
     return results
 
 
@@ -245,7 +247,7 @@ def wwheu_pub_imported_fuels_query(query_id):
         return clean_final_data
 
 
-def wwheu_pub_ratio(query_id):
+def wwheu_pub_ccs_ratio(query_id):
     '''
         This method is the execution of the query for creating data for the ccs ratio chart for the eu public interface
         :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
@@ -266,6 +268,27 @@ def wwheu_pub_ratio(query_id):
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         return clean_final_data
 
+def wwheu_pub_import_dependency_ratio(query_id):
+    '''
+        This method is the execution of the query for creating data for the import dependency ratio chart for the eu public interface
+        :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
+        '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    else:
+        # Creating the min-max ranges
+        df = df.drop(['scenario__name', 'region__name'], axis=1)
+        df = df.pivot(index=["year", "model__name"], columns="variable__name", values="value").reset_index()
+        df['Extra_CO2_reduction_ratio'] = 100 * df['Extra_CO2_reduction_ratio']
+        df['Extra_Import_Dependency'] = 100 * df['Extra_Import_Dependency']
+        df = df.pivot(index="Extra_CO2_reduction_ratio", columns="model__name", values="Extra_Import_Dependency")
+        final_data = list(
+           df.reset_index().fillna(-9999).to_dict(
+                'index').values())
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        return clean_final_data
 
 def wwheu_pub_emissions_by_sector_query(query_id, grouping_val):
     '''

@@ -84,11 +84,11 @@
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
-          {% comment %}  if (minmax_y_value.length !== 0) {
+            if (minmax_y_value.length !== 0) {
                 valueAxis.min = parseFloat(minmax_y_value[0]);
                 valueAxis.max = parseFloat(minmax_y_value[1]);
             }
-{% endcomment %}
+
             // Create series
             var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
