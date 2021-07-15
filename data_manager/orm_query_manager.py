@@ -7,7 +7,7 @@ from data_manager.utils import query_execute
 import pandas as pd
 from django.apps import apps
 
-from visualiser.utils import clean_dictionary_list_from_zero_values
+from visualiser.utils import clean_dictionary_list_from_zero_values, clean_dictionary_list_from_null_values
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 
@@ -252,17 +252,18 @@ def wwheu_pub_ratio(query_id):
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
-
     if df.empty:
         return []
     else:
         # Creating the min-max ranges
-        df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
-        df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
+        df = df.drop(['scenario__name', 'region__name'], axis=1)
+        df = df.pivot(index=["year", "model__name"], columns="variable__name", values="value").reset_index()
+        df['Extra_CO2_reduction_ratio'] = 100 * df['Extra_CO2_reduction_ratio']
+        df = df.pivot(index="Extra_CO2_reduction_ratio", columns="model__name", values="Extra_CO2_Captured_with_CCS")
         final_data = list(
-            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+           df.reset_index().fillna(-9999).to_dict(
                 'index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
         return clean_final_data
 
 

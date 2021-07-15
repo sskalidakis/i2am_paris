@@ -6,16 +6,16 @@ iframe_6_1.addEventListener("load", onLoad);
 
 function onLoad() {
     // Listen for button clicks
-    var timeframe6_1 = [2020, 2050, 2100];
-    var imported_fuels_viz_iframe_lr_count = 0;
+    var timeframe6_1 = [2005, 2020, 2050, 2100];
+    var imported_fuels_viz_iframe_lr_count = 1;
     $(".next-7").click(function () {
-        if (imported_fuels_viz_iframe_lr_count < 2) {
+        if (imported_fuels_viz_iframe_lr_count < 3) {
             imported_fuels_viz_iframe_lr_count = imported_fuels_viz_iframe_lr_count + 1;
             port_6_1.postMessage([2005, timeframe6_1[imported_fuels_viz_iframe_lr_count]]);
         }
     });
     $(".back-7").click(function () {
-        if (imported_fuels_viz_iframe_lr_count > 0) {
+        if (imported_fuels_viz_iframe_lr_count > 1) {
             imported_fuels_viz_iframe_lr_count = imported_fuels_viz_iframe_lr_count - 1;
             port_6_1.postMessage([2005, timeframe6_1[imported_fuels_viz_iframe_lr_count]]);
         }

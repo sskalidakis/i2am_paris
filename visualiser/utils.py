@@ -440,3 +440,8 @@ def clean_dictionary_list_from_zero_values(list):
         clean_final_data.append({x: y for x, y in el.items() if y != 0})
     return clean_final_data
 
+def clean_dictionary_list_from_null_values(list):
+    clean_final_data = []
+    for el in list:
+        clean_final_data.append({x: y for x, y in el.items() if y != -9999})
+    return clean_final_data

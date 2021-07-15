@@ -5,26 +5,6 @@
 
 
         am4core.ready(function () {
-            {#Setting up the communication channel with the stp controller#}
-            var glob_frame = []
-            var port2;
-
-            // Listen for the initial port transfer message
-            window.addEventListener('message', initPort);
-
-            // Setup the transferred port
-            function initPort(e) {
-                port2 = e.ports[0];
-                port2.onmessage = onMessage;
-            }
-
-            // Handle messages received on port2
-            function onMessage(e) {
-                glob_frame = e.data
-                zoomAxis(glob_frame[0],glob_frame[1]);
-                port2.postMessage('Frame set: "' + e.data + '"');
-            }
-
             // Themes begin
             am4core.useTheme(am4themes_animated);
             // Themes end
@@ -50,6 +30,30 @@
             var chart_3d = {{ chart_3d }};
             chart.exporting.menu = new am4core.ExportMenu();
 
+            {#Setting up the communication channel with the stp controller#}
+            var glob_frame = []
+            var port2;
+
+            // Listen for the initial port transfer message
+            window.addEventListener('message', initPort);
+
+            // Setup the transferred port
+            function initPort(e) {
+                port2 = e.ports[0];
+                port2.onmessage = onMessage;
+            }
+
+            // Handle messages received on port2
+            function onMessage(e) {
+                glob_frame = e.data
+                if (x_axis_type === "text") {
+                    zoomAxis(glob_frame[0], glob_frame[1]);
+                } else if (x_axis_type === "value") {
+                    zoomVAxis(glob_frame[0], glob_frame[1]);
+                }
+                port2.postMessage('Frame set: "' + e.data + '"');
+            }
+
             // Create axes
             if (x_axis_type === "time") {
                 xAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -60,13 +64,14 @@
                 function zoomAxis(from, to) {
                     xAxis.zoomToCategories(from, to);
                 }
-                zoomAxis(glob_frame[0],glob_frame[1]);
+
             } else {
                 xAxis = chart.xAxes.push(new am4charts.ValueAxis());
 
-                function zoomAxis(from, to) {
+                function zoomVAxis(from, to) {
                     xAxis.zoomToValues(from, to);
                 }
+
             }
             chart.numberFormatter.numberFormat = "####.##";
             xAxis.renderer.minGridDistance = 50;
@@ -79,11 +84,11 @@
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
-            if (minmax_y_value.length !== 0) {
+          {% comment %}  if (minmax_y_value.length !== 0) {
                 valueAxis.min = parseFloat(minmax_y_value[0]);
                 valueAxis.max = parseFloat(minmax_y_value[1]);
             }
-
+{% endcomment %}
             // Create series
             var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
@@ -114,8 +119,6 @@
             var markerTemplate = chart.legend.markers.template;
             markerTemplate.width = 25;
             markerTemplate.height = 25;
-
-
 
 
             // Add cursor

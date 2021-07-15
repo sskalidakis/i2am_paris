@@ -53,9 +53,9 @@ $(document).ready(function () {
             "y_var_units": ['MtCO2/y'],
             "y_axis_title": 'CO2 Captured',
             "x_axis_name": "Extra_CO2_reduction_ratio",
-            "x_axis_title": "Extra_CO2_reduction_ratio",
+            "x_axis_title": "CO2 emissions reduction",
             "x_axis_unit": "percentage %",
-            "x_axis_type": "text",
+            "x_axis_type": "value",
             "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
             "dataset": query_id,
             "dataset_type": "query",
@@ -103,7 +103,7 @@ $(document).ready(function () {
         var models = ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis'];
         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var regions = ['EU'];
-        var variable = ['Extra_CO2_Captured_with_CSS'];
+        var variable = ['Extra_CO2_Captured_with_CCS', 'Extra_CO2_reduction_ratio'];
 
 
         const input_dict = {
@@ -133,7 +133,7 @@ $(document).ready(function () {
 
         selected.push('value', 'year');
         const query_data = {
-            "dataset": "wwheuresultscomp",
+            "dataset": "i2amparis_main_wwheuresultscomp",
             "query_configuration": {
                 "select": selected,
                 "filter": {

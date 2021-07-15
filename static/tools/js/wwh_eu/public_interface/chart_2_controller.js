@@ -5,16 +5,16 @@ iframe_2_1.addEventListener("load", onLoad);
 
 function onLoad() {
     // Listen for button clicks
-    var timeframe2_1 = [2020, 2050, 2100];
-    var co2emissions_by_sec_lr_count = 0;
+    var timeframe2_1 = [2005, 2020, 2050, 2100];
+    var co2emissions_by_sec_lr_count = 1;
     $(".next-3").click(function () {
-        if (co2emissions_by_sec_lr_count < 2) {
+        if (co2emissions_by_sec_lr_count < 3) {
             co2emissions_by_sec_lr_count = co2emissions_by_sec_lr_count + 1;
             port_2_1.postMessage([2005, timeframe2_1[co2emissions_by_sec_lr_count]]);
         }
     });
     $(".back-3").click(function () {
-        if (co2emissions_by_sec_lr_count > 0) {
+        if (co2emissions_by_sec_lr_count > 1) {
             co2emissions_by_sec_lr_count = co2emissions_by_sec_lr_count - 1;
             port_2_1.postMessage([2005, timeframe2_1[co2emissions_by_sec_lr_count]]);
         }
