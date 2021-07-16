@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    var viz_frame = $('#import_dependency_viz_frame_div');
+    var viz_frame = $('#electrification_ir_co2_reduction_viz_frame_div');
 
     viz_frame.show();
     /* Token Retrieval*/
@@ -13,16 +13,16 @@ $(document).ready(function () {
     });
 
     /* # Query creation*/
-    var jq_obj = create_import_dependency_query();
-    console.log('cimport_dependency JSON Query Created');
-    start_qc_v_import_dependency_process(jq_obj)
+    var jq_obj = create_electrification_ir_co2_reduction_query();
+    console.log('electrification_ir_co2_reduction JSON Query Created');
+    start_qc_v_electrification_ir_co2_reduction_process(jq_obj)
 
     // retrieve_series_info_total_co2_emissions(jq_obj);
 
 
-    function start_qc_v_import_dependency_process(json_query_obj) {
+    function start_qc_v_electrification_ir_co2_reduction_process(json_query_obj) {
         var query = {};
-        query["query_name"] = "wwheu_pub_import_dependency_ratio";
+        query["query_name"] = "wwheu_pub_electrification_ir_co2_reduction";
         query["parameters"] = json_query_obj['query_data'];
         $.ajax({
             url: "/data_manager/create_query",
@@ -30,9 +30,9 @@ $(document).ready(function () {
             data: JSON.stringify(query),
             contentType: 'application/json',
             success: function (data) {
-                console.log('import_dependency Query Saved in DB');
+                console.log('electrification_ir_co2_reduction Query Saved in DB');
                 var query_id = data['query_id'];
-                create_visualisation_import_dependency(query_id);
+                create_visualisation_electrification_ir_co2_reduction(query_id);
             },
             error: function (data) {
                 console.log(data);
@@ -41,17 +41,17 @@ $(document).ready(function () {
     }
 
 
-    function create_visualisation_import_dependency(query_id) {
-        var viz_frame = $('#import_dependency_viz_iframe');
+    function create_visualisation_electrification_ir_co2_reduction(query_id) {
+        var viz_frame = $('#electrification_ir_co2_reduction_viz_iframe');
         viz_frame.off();
         viz_frame.hide();
-        $('#import_dependency_loading_bar').show();
+        $('#electrification_ir_co2_reduction_loading_bar').show();
 
         var data = {
-            "y_var_names": ['tiam', 'eu_times', 'gemini_e3'],
-            "y_var_titles": ['TIAM', 'EU-TIMES', 'Gemini-E3'],
+            "y_var_names": ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis', '42', 'ices'],
+            "y_var_titles": ['TIAM', 'EU-TIMES', 'E3ME', 'GCAM', 'Gemini-E3', 'MUSE', 'NEMESIS', '42', 'ICES'],
             "y_var_units": ['Percentage %'],
-            "y_axis_title": 'Import Dependency',
+            "y_axis_title": 'Electricity in Transport',
             "x_axis_name": "Extra_CO2_reduction_ratio",
             "x_axis_title": "CO2 emissions reduction",
             "x_axis_unit": "percentage %",
@@ -74,11 +74,11 @@ $(document).ready(function () {
 
             }
         }
-        console.log('import_dependency Ready to launch visualisation');
+        console.log('electrification_ir_co2_reduction Ready to launch visualisation');
         var complete_url = "/visualiser/show_line_chart?" + url;
         viz_frame.attr('src', complete_url);
         viz_frame.on('load', function () {
-            console.log('import_dependency Visualisation Completed');
+            console.log('electrification_ir_co2_reduction Visualisation Completed');
             $(this).show();
             $.ajax({
                 url: "/data_manager/delete_query",
@@ -86,24 +86,24 @@ $(document).ready(function () {
                 data: JSON.stringify(query_id),
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log("import_dependency Query Deleted");
+                    console.log("electrification_ir_co2_reduction Query Deleted");
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
 
-            $('#import_dependency_loading_bar').hide();
+            $('#electrification_ir_co2_reduction_loading_bar').hide();
 
         });
 
     }
 
-    function create_import_dependency_query() {
-        var models = ['tiam', 'eu_times', 'gemini_e3'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+    function create_electrification_ir_co2_reduction_query() {
+        var models = ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis', '42', 'ices'];
+        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP', 'PR_CurPol_EI'];
         var regions = ['EU'];
-        var variable = ['Extra_Import_Dependency', 'Extra_CO2_reduction_ratio'];
+        var variable = ['Extra_Electricity_Share', 'Extra_CO2_reduction_ratio'];
 
 
         const input_dict = {

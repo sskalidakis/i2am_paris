@@ -34,8 +34,10 @@ def line_chart_query(query_id):
         results = wwheu_pub_imported_fuels_query(query_id)
     elif query_name in ['wwheu_pub_ccs_ratio']:
         results = wwheu_pub_ccs_ratio(query_id)
-    elif query_name in ['wwheu_pub_import_dependency_ratio']:
-        results= wwheu_pub_import_dependency_ratio(query_id)
+    elif query_name == 'wwheu_pub_import_dependency_ratio':
+        results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Import_Dependency')
+    elif query_name == 'wwheu_pub_electrification_ir_co2_reduction':
+        results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Electricity_Share' )
     return results
 
 
@@ -268,7 +270,7 @@ def wwheu_pub_ccs_ratio(query_id):
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         return clean_final_data
 
-def wwheu_pub_import_dependency_ratio(query_id):
+def wwheu_pub_ratio_to_ratio(query_id, x_axis, y_axis):
     '''
         This method is the execution of the query for creating data for the import dependency ratio chart for the eu public interface
         :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
@@ -281,9 +283,9 @@ def wwheu_pub_import_dependency_ratio(query_id):
         # Creating the min-max ranges
         df = df.drop(['scenario__name', 'region__name'], axis=1)
         df = df.pivot(index=["year", "model__name"], columns="variable__name", values="value").reset_index()
-        df['Extra_CO2_reduction_ratio'] = 100 * df['Extra_CO2_reduction_ratio']
-        df['Extra_Import_Dependency'] = 100 * df['Extra_Import_Dependency']
-        df = df.pivot(index="Extra_CO2_reduction_ratio", columns="model__name", values="Extra_Import_Dependency")
+        df[x_axis] = 100 * df[x_axis]
+        df[y_axis] = 100 * df[y_axis]
+        df = df.pivot(index=x_axis, columns="model__name", values=y_axis)
         final_data = list(
            df.reset_index().fillna(-9999).to_dict(
                 'index').values())
