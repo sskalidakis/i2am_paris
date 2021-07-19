@@ -24,8 +24,5 @@ function onLoad() {
 
     // Transfer port2 to the iframe
     iframe_7_1.contentWindow.postMessage('init', '*', [channel_7.port2]);
-    port_7_1.postMessage([0, 80]);
-    port_7_1.postMessage([0, 25]);
-    port_7_1.postMessage([0, 50]);
-    port_7_1.postMessage([0, 25]);
+    setTimeout(function(){    port_7_1.postMessage([0, 25]); }, 500);
 }

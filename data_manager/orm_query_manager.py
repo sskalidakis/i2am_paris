@@ -54,7 +54,7 @@ def column_chart_query(query_id):
         results = rrf_classification_query(query_id, 'first_classification')
     elif query_name == 'rrf_classification_2_query':
         results = rrf_classification_query(query_id, 'second_classification')
-    elif query_name in ['wwheu_pub_emissions_by_sector_query','wwheu_pub_electrification_fec_query']:
+    elif query_name in ['wwheu_pub_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query', 'wwheu_pub_hydrogen_production_by_fuel_query']:
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
     return results
 
