@@ -62,7 +62,7 @@
             {#total bullet on top of each column#}
             let totalSeries = chart.series.push(new am4charts.ColumnSeries());
             totalSeries.dataFields.valueY = "none";
-            totalSeries.dataFields.categoryX = "country";
+            totalSeries.dataFields.categoryX = x_axis_name;
             totalSeries.stacked = true;
             totalSeries.hiddenInLegend = true;
             totalSeries.columns.template.strokeOpacity = 0;

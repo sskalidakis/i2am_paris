@@ -37,7 +37,7 @@ def line_chart_query(query_id):
     elif query_name == 'wwheu_pub_import_dependency_ratio':
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Import_Dependency')
     elif query_name == 'wwheu_pub_electrification_ir_co2_reduction':
-        results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Electricity_Share' )
+        results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Electricity_Share')
     return results
 
 
@@ -54,8 +54,11 @@ def column_chart_query(query_id):
         results = rrf_classification_query(query_id, 'first_classification')
     elif query_name == 'rrf_classification_2_query':
         results = rrf_classification_query(query_id, 'second_classification')
-    elif query_name in ['wwheu_pub_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query', 'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_query']:
+    elif query_name in ['wwheu_pub_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query',
+                        'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_query']:
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
+    elif query_name in ['wwheu_pub_co2_ccs_by_sector_query']:
+        results = wwheu_pub_co2_ccs_by_sector(query_id)
     return results
 
 
@@ -81,9 +84,8 @@ def rrf_classification_query(query_id, classification):
     total_data = df.groupby(by="country")['budget'].sum().reset_index().rename(columns={"budget": "total"})
     total_data['none'] = 0
     final_data = list(pd.merge(budget_data, total_data, how="inner", on="country").fillna(0).to_dict(
-            'index').values())
+        'index').values())
     return final_data
-
 
 
 def scentific_tool_query_agg(query_id):
@@ -207,25 +209,26 @@ def wdtm_ccs(query_id):
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
         return clean_final_data
 
-def wwheu_pub_total_co2_emissions(query_id):
-        '''
-            This method is the execution of the query for creating data for the total co2 emissions for the eu public interface
-            :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
-            '''
-        data, add_params = query_execute(query_id)
-        df = pd.DataFrame.from_records(data)
 
-        if df.empty:
-            return []
-        else:
-            # Creating the min-max ranges
-            df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
-            df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
-            final_data = list(
-                df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
-                    'index').values())
-            clean_final_data = clean_dictionary_list_from_zero_values(final_data)
-            return clean_final_data
+def wwheu_pub_total_co2_emissions(query_id):
+    '''
+        This method is the execution of the query for creating data for the total co2 emissions for the eu public interface
+        :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
+        '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+
+    if df.empty:
+        return []
+    else:
+        # Creating the min-max ranges
+        df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
+        df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
+        final_data = list(
+            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+                'index').values())
+        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        return clean_final_data
 
 
 def wwheu_pub_imported_fuels_query(query_id):
@@ -265,10 +268,11 @@ def wwheu_pub_ccs_ratio(query_id):
         df['Extra_CO2_reduction_ratio'] = 100 * df['Extra_CO2_reduction_ratio']
         df = df.pivot(index="Extra_CO2_reduction_ratio", columns="model__name", values="Extra_CO2_Captured_with_CCS")
         final_data = list(
-           df.reset_index().fillna(-9999).to_dict(
+            df.reset_index().fillna(-9999).to_dict(
                 'index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         return clean_final_data
+
 
 def wwheu_pub_ratio_to_ratio(query_id, x_axis, y_axis):
     '''
@@ -287,10 +291,11 @@ def wwheu_pub_ratio_to_ratio(query_id, x_axis, y_axis):
         df[y_axis] = 100 * df[y_axis]
         df = df.pivot(index=x_axis, columns="model__name", values=y_axis)
         final_data = list(
-           df.reset_index().fillna(-9999).to_dict(
+            df.reset_index().fillna(-9999).to_dict(
                 'index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         return clean_final_data
+
 
 def wwheu_pub_emissions_by_sector_query(query_id, grouping_val):
     '''
@@ -324,6 +329,28 @@ def wwheu_pub_emissions_by_sector_query(query_id, grouping_val):
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
 
         return clean_final_data
+
+
+def wwheu_pub_co2_ccs_by_sector(query_id):
+    '''
+     This method is the execution of the query for creating data for the co2 emissions by sevtor for the EU public interface
+     :param grouping_val: This variable shows whether the grouping is done across models or scenarios
+     :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool columnchart
+     '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+    if df.empty:
+        return []
+    else:
+        # Creating the min-max ranges
+        df = df.drop(['region__name'], axis=1)
+        df = df.pivot(index=["year"], columns="variable__name", values="value")
+        final_data = list(
+            df.reset_index().fillna(-9999).to_dict(
+                'index').values())
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        return clean_final_data
+
 
 def heatmap_query(query_id):
     '''
