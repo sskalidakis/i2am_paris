@@ -6,7 +6,7 @@
     </h3>
 </div>
 <div class="col-md-12 col-xs-12" style="margin-bottom:3em">
-{#    <span id="import_dependency" style="position: relative; top:-8em"></span>#}
+    {#    <span id="import_dependency" style="position: relative; top:-8em"></span>#}
     <p class="col-md-12 col-xs-12">
         Currently the EU is <strong>a net importer of fossil fuels</strong>, but reducing emissions and a transition to
         renewables will
@@ -27,9 +27,10 @@
             </h2>
             <h4 style="">(in relation to CO2 emissions reduction levels)</h4>
         </div>
-         <div class="col-xs-5 col-sm-1 col-md-1 back-6" style="text-align: center"><i
+        <div class="col-xs-5 col-sm-1 col-md-1 back-6" style="text-align: center"><i
                 class="fa fa-angle-left next-back-arrow"></i></div>
-        <div class="col-xs-2 col-sm-10 col-md-10"></div>
+        <div class="col-xs-2 col-sm-10 col-md-10 arrow-message"><span class="hidden-sm hidden-xs">Please use the arrows to see how the Import Dependency is affected by reducing the CO2 emissions </span>
+        </div>
         <div class="col-xs-5 col-sm-1 col-md-1 next-6" style="text-align: center"><i
                 class="fa fa-angle-right next-back-arrow"></i></div>
         <div class="col-sm-12 col-md-12 col-xs-12" style="height: 73vh">
@@ -44,7 +45,8 @@
                              src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
                         <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
                             <div class="col-sm-2"></div>
-                            <div class="col-sm-8">The chart will present the import dependency in relation to CO2 emissions reduction levels (since 1990, based on European Environmental Agency, 2019).
+                            <div class="col-sm-8">The chart will present the import dependency in relation to CO2
+                                emissions reduction levels (since 1990, based on European Environmental Agency, 2019).
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
@@ -55,7 +57,8 @@
         </div>
 
     </div>
-    <p class="col-md-12 col-xs-12">In this case, three models (GEMINI-E3, TIAM, and EU-TIMES) have similar predictions on fossil fuels import
+    <p class="col-md-12 col-xs-12">In this case, three models (GEMINI-E3, TIAM, and EU-TIMES) have similar predictions
+        on fossil fuels import
         dependency in the EU, with numbers varying from a <strong>32% to a 69% decrease </strong>.
     </p>
 
@@ -75,11 +78,29 @@
             </h2>
             <h4 style="">(until 2050)</h4>
         </div>
-         <div class="col-xs-5 col-sm-1 col-md-1 back-7" style="text-align: center"><i
-                class="fa fa-angle-left next-back-arrow"></i></div>
-        <div class="col-xs-2 col-sm-10 col-md-10"></div>
-        <div class="col-xs-5 col-sm-1 col-md-1 next-7" style="text-align: center"><i
-                class="fa fa-angle-right next-back-arrow"></i></div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 1em; text-align: center">Please select among
+            the available models.
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-1"></div>
+        <div class="form-group col-md-6 col-sm-8 col-xs-10" style="text-align: center">
+            <div class="">
+                <select class="desc_text take_up_space model-select2" placeholder="Select a Model"
+                        id="model_select2" style="width: 100%;">
+                    <option value="eu_times">EU-TIMES</option>
+                    <option value="gcam">GCAM</option>
+                    <option value="tiam">TIAM</option>
+                    <option value="gemini_e3">Gemini-E3</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-1"></div>
+        {#        <div class="col-xs-5 col-sm-1 col-md-1 back-7" style="text-align: center"><i#}
+        {#                class="fa fa-angle-left next-back-arrow"></i></div>#}
+        {#        <div class="col-xs-2 col-sm-10 col-md-10 arrow-message"><span class="hidden-sm hidden-xs">Please use the arrows to change the timeframe of the chart</span>#}
+        {#        </div>#}
+        {##}
+        {#        <div class="col-xs-5 col-sm-1 col-md-1 next-7" style="text-align: center"><i#}
+        {#                class="fa fa-angle-right next-back-arrow"></i></div>#}
         <div class="col-sm-12 col-md-12 col-xs-12" style="height: 73vh">
             <div style="height: 100%;">
                 <div id="imported_fuels" class="row"

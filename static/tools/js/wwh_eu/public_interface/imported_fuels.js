@@ -1,21 +1,39 @@
 $(document).ready(function () {
 
+    $('select.model-select2').multipleSelect('destroy').multipleSelect(
+        {
+            filter: true,
+            showClear: false,
+            animate: 'fade',
+            maxHeightUnit: 'row',
+            maxHeight: 8,
+            dropWidth: 250,
+            selectAll: false,
+            placeholder: 'Please select a value',
+            onClick: function () {
+                run_imported_fuels();
+            },
 
-    var viz_frame = $('#imported_fuels_viz_frame_div');
+        });
 
-    viz_frame.show();
-    /* Token Retrieval*/
-    const csrftoken = getCookie('csrftoken');
-    $.ajaxSetup({
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('X-CSRFToken', csrftoken);
-        }
-    });
+    function run_imported_fuels() {
+        const models = $('#model_select2').multipleSelect('getSelects');
+        var viz_frame = $('#imported_fuels_viz_frame_div');
 
-    /* # Query creation*/
-    var jq_obj = create_imported_fuels_query();
-    console.log('Imported Fuels JSON Query Created');
-    start_qc_v_imported_fuels_process(jq_obj)
+        viz_frame.show();
+        /* Token Retrieval*/
+        const csrftoken = getCookie('csrftoken');
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            }
+        });
+
+        /* # Query creation*/
+        var jq_obj = create_imported_fuels_query(models);
+        console.log('Imported Fuels JSON Query Created');
+        start_qc_v_imported_fuels_process(jq_obj)
+    }
 
 
     function start_qc_v_imported_fuels_process(json_query_obj) {
@@ -46,16 +64,16 @@ $(document).ready(function () {
         $('#imported_fuels_loading_bar').show();
 
         var data = {
-            "y_var_names": ['eu_times_Trade|Primary Energy|Coal|Volume', 'eu_times_Trade|Primary Energy|Gas|Volume', 'eu_times_Trade|Primary Energy|Oil|Volume', 'gemini_e3_Trade|Primary Energy|Coal|Volume', 'gemini_e3_Trade|Primary Energy|Gas|Volume', 'gemini_e3_Trade|Primary Energy|Oil|Volume', 'tiam_Trade|Primary Energy|Coal|Volume', 'tiam_Trade|Primary Energy|Gas|Volume', 'tiam_Trade|Primary Energy|Oil|Volume', 'gcam_Trade|Primary Energy|Coal|Volume', 'gcam_Trade|Primary Energy|Gas|Volume', 'gcam_Trade|Primary Energy|Oil|Volume'],
-            "y_var_titles": ['EU-TIMES - Trade|Primary Energy|Coal|Volume', 'EU-TIMES - Trade|Primary Energy|Gas|Volume', 'EU-TIMES - Trade|Primary Energy|Oil|Volume', 'Gemini-E3 - Trade|Primary Energy|Coal|Volume', 'Gemini-E3 - Trade|Primary Energy|Gas|Volume', 'Gemini-E3 - Trade|Primary Energy|Oil|Volume', 'TIAM - Trade|Primary Energy|Coal|Volume', 'TIAM - Trade|Primary Energy|Gas|Volume', 'TIAM - Trade|Primary Energy|Oil|Volume', 'GCAM - Trade|Primary Energy|Coal|Volume', 'GCAM - Trade|Primary Energy|Gas|Volume', 'GCAM - Trade|Primary Energy|Oil|Volume'],
-            "y_var_units": ['billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
+            "y_var_names": ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume', 'Trade|Primary Energy|Oil|Volume'],
+            "y_var_titles": ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume', 'Trade|Primary Energy|Oil|Volume'],
+            "y_var_units": ['billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
             "y_axis_title": 'Imported fossil fuels',
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
             "use_default_colors": false,
-            "color_list_request": ["black","dark_blue", "dark_green", "dark_gray",  "blue", "green", "gray", "light_blue", "light_green", "ice_gray", "lighter_blue", "lighter_green"],
+            "color_list_request": ["dark_gray", "blue", "green"],
             "dataset": query_id,
             "dataset_type": "query",
             "type": "step_by_step"
@@ -98,11 +116,11 @@ $(document).ready(function () {
 
     }
 
-    function create_imported_fuels_query() {
-        var models = ['eu_times', 'gemini_e3', 'tiam', 'gcam'];
+    function create_imported_fuels_query(sel_models) {
+        var models = sel_models;
         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var regions = ['EU'];
-        var variable = ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume','Trade|Primary Energy|Oil|Volume'];
+        var variable = ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume', 'Trade|Primary Energy|Oil|Volume'];
 
 
         const input_dict = {
@@ -170,6 +188,7 @@ $(document).ready(function () {
 
     }
 
+    run_imported_fuels();
 
 });
 

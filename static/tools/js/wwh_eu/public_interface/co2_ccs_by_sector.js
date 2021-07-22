@@ -65,8 +65,8 @@ $(document).ready(function () {
         $('#co2_ccs_by_sector_loading_bar').show();
 
         var data = {
-            "y_var_names": ['Carbon Sequestration|CCS|Industrial Processes', 'Carbon Sequestration|CCS|Energy|Supply|Hydrogen', 'Carbon Sequestration|CCS|Energy|Supply', 'Carbon Sequestration|CCS|Energy|Supply|Other'],
-            "y_var_titles": ['Carbon Sequestration|CCS|Industrial Processes', 'Carbon Sequestration|CCS|Energy|Supply|Hydrogen', 'Carbon Sequestration|CCS|Energy|Supply', 'Carbon Sequestration|CCS|Energy|Supply|Other'],
+            "y_var_names": ['Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'],
+            "y_var_titles": ['Carbon Sequestration|CCS|Industry', 'Carbon Sequestration|CCS|Power', 'Carbon Sequestration|CCS|Hydrogen', 'Carbon Sequestration|CCS|Other Transformation Processes'],
             "y_var_units": ['Mt CO2/y', 'Mt CO2/y'],
             "y_axes_titles": ['CO2 Captured','CO2 Emissions'],
             "x_axis_name": "year",
@@ -76,7 +76,7 @@ $(document).ready(function () {
             "line_names": ['Emissions|CO2'],
             "line_titles": ['Emissions|CO2'],
             "use_default_colors": false,
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "color_list_request": ["dark_gray", "blue", "green", "light_red"],
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -122,7 +122,7 @@ $(document).ready(function () {
         var regions = ['EU'];
         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var models = sel_models;
-        var variables = ['Emissions|CO2', 'Carbon Sequestration|CCS|Industrial Processes', 'Carbon Sequestration|CCS|Energy|Supply|Hydrogen', 'Carbon Sequestration|CCS|Energy|Supply', 'Carbon Sequestration|CCS|Energy|Supply|Other'];
+        var variables = ['Emissions|CO2', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
 
         const input_dict = {
             'model__name': models,
