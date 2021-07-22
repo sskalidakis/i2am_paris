@@ -228,7 +228,7 @@ class StackedClusteredColumnChart:
     '''
 
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_var_names, y_var_titles,
-                 y_axis_units, cat_axis_names, cat_axis_titles, chart_data, color_list, use_default_colors, chart_type):
+                 y_axis_units, y_axis_title, cat_axis_names, cat_axis_titles, chart_data, color_list, use_default_colors, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -259,6 +259,7 @@ class StackedClusteredColumnChart:
         self.y_var_names = y_var_names
         self.y_var_titles = y_var_titles
         self.y_axis_units = y_axis_units
+        self.y_axis_title = y_axis_title
         self.cat_axis_names = cat_axis_names
         self.cat_axis_titles = cat_axis_titles
         self.chart_data = chart_data
@@ -271,7 +272,7 @@ class StackedClusteredColumnChart:
                         'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
                         'y_var_titles': self.y_var_titles, 'y_var_units': self.y_axis_units,
                         'y_var_names': self.y_var_names, 'cat_axis_names': self.cat_axis_names,
-                        'cat_axis_titles': self.cat_axis_titles,
+                        'cat_axis_titles': self.cat_axis_titles, 'y_axis_title': self.y_axis_title,
                         'color_list': self.color_list, 'use_default_colors': self.use_default_colors,
                         'chart_data': self.chart_data}
 
@@ -949,6 +950,7 @@ def show_stacked_clustered_chart(request):
     x_axis_unit = response_data_xy['x_axis_unit']
     x_sec_axis = response_data_xy['x_sec_axis']
     y_var_titles = response_data_xy['y_var_titles']
+    y_axis_title = response_data_xy['y_axis_title']
     cat_axis_names = request.GET.getlist("cat_axis_names[]", [])
     cat_axis_titles = request.GET.getlist("cat_axis_titles[]", [])
     dataset = response_data_xy['dataset']
@@ -960,15 +962,15 @@ def show_stacked_clustered_chart(request):
     if type == 'step_by_step':
         stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit,
                                                               x_sec_axis,
-                                                              y_var_names, y_var_titles, y_axis_units, cat_axis_names,
-                                                              cat_axis_titles, data, color_list, use_default_colors,
-                                                              'stacked_clustered_chart')
+                                                              y_var_names, y_var_titles, y_axis_units, y_axis_title,
+                                                              cat_axis_names, cat_axis_titles, data, color_list,
+                                                              use_default_colors, 'stacked_clustered_chart')
     else:
         stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit,
                                                               x_sec_axis,
-                                                              y_var_names, y_var_titles, y_axis_units, cat_axis_names,
-                                                              cat_axis_titles, data, color_list, use_default_colors,
-                                                              'stacked_clustered_chart_step_by_step')
+                                                              y_var_names, y_var_titles, y_axis_units, y_axis_title,
+                                                              cat_axis_names, cat_axis_titles, data, color_list,
+                                                              use_default_colors, 'stacked_clustered_chart_step_by_step')
 
     return stacked_clustered_chart.show_chart()
 

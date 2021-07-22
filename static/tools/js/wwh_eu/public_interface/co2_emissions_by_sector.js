@@ -134,7 +134,7 @@ $(document).ready(function () {
 
         selected.push('value', 'year');
         const query_data = {
-            "dataset": "i2amparis_main_resultscomp",
+            "dataset": "i2amparis_main_wwheuresultscomp",
             "query_configuration": {
                 "select": selected,
                 "filter": {

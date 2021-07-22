@@ -47,8 +47,8 @@ $(document).ready(function () {
         $('#hydrogen_production_by_fuel_loading_bar').show();
 
         var data = {
-            "y_var_names": ['EU-TIMES_Secondary Energy|Hydrogen|Biomass', 'EU-TIMES_Secondary Energy|Hydrogen|Electricity', 'EU-TIMES_Secondary Energy|Hydrogen|Biomass|w/ CCS', 'EU-TIMES_Secondary Energy|Hydrogen|Fossil|w/ CCS', 'EU-TIMES_Secondary Energy|Hydrogen|Fossil', 'GCAM_Secondary Energy|Hydrogen|Biomass', 'GCAM_Secondary Energy|Hydrogen|Electricity', 'GCAM_Secondary Energy|Hydrogen|Biomass|w/ CCS', 'GCAM_Secondary Energy|Hydrogen|Fossil|w/ CCS', 'GCAM_Secondary Energy|Hydrogen|Fossil', 'TIAM_Secondary Energy|Hydrogen|Biomass', 'TIAM_Secondary Energy|Hydrogen|Electricity', 'TIAM_Secondary Energy|Hydrogen|Biomass|w/ CCS', 'TIAM_Secondary Energy|Hydrogen|Fossil|w/ CCS', 'TIAM_Secondary Energy|Hydrogen|Fossil'],
-            "y_var_titles": ['Secondary Energy|Hydrogen|Biomass', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Fossil', 'Secondary Energy|Hydrogen|Biomass', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Fossil', 'Secondary Energy|Hydrogen|Biomass', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Fossil'],
+            "y_var_names": ['EU-TIMES_Secondary Energy|Hydrogen|Biomass|w/ CCS', 'EU-TIMES_Secondary Energy|Hydrogen|Fossil|w/ CCS', 'EU-TIMES_Secondary Energy|Hydrogen|Biomass|w/o CCS', 'EU-TIMES_Secondary Energy|Hydrogen|Electricity', 'EU-TIMES_Secondary Energy|Hydrogen|Fossil|w/o CCS', 'GCAM_Secondary Energy|Hydrogen|Biomass|w/ CCS', 'GCAM_Secondary Energy|Hydrogen|Fossil|w/ CCS', 'GCAM_Secondary Energy|Hydrogen|Biomass|w/o CCS', 'GCAM_Secondary Energy|Hydrogen|Electricity', 'GCAM_Secondary Energy|Hydrogen|Fossil|w/o CCS', 'TIAM_Secondary Energy|Hydrogen|Biomass|w/ CCS', 'TIAM_Secondary Energy|Hydrogen|Fossil|w/ CCS', 'TIAM_Secondary Energy|Hydrogen|Biomass|w/o CCS', 'TIAM_Secondary Energy|Hydrogen|Electricity', 'TIAM_Secondary Energy|Hydrogen|Fossil|w/o CCS'],
+            "y_var_titles": ['Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/o CCS', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Fossil|w/o CCS', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/o CCS', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Fossil|w/o CCS', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/o CCS', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Fossil|w/o CCS'],
             "y_var_units": ['EJ/yr'],
             "y_axis_title": 'Hydrogen Production',
             "x_axis_name": "year",
@@ -58,7 +58,7 @@ $(document).ready(function () {
             "cat_axis_names": ['eu_times', 'gcam', 'tiam'],
             "cat_axis_titles": ['EU-TIMES', 'GCAM', 'TIAM'],
             "use_default_colors": false,
-            "color_list_request": ["light_blue", "gold", "blue", "casual_green", "ceramic", "petrol_blue", "red", "dark_gray", "orange_fire", "cyan", "purple_new", "ocean_dark_blue"],
+            "color_list_request": ["casual_green", "grey_green", "moody_blue", "blue", "dark_gray"],
             "dataset": query_id,
             "dataset_type": "query",
             "type": "step_by_step"
@@ -104,7 +104,7 @@ $(document).ready(function () {
     function create_hydrogen_production_by_fuel_query() {
         var regions = ['EU'];
         var models = ['eu_times', 'gcam', 'tiam'];
-        var variables = ['Secondary Energy|Hydrogen|Biomass', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Fossil'];
+        var variables = ['Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/o CCS', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Fossil|w/o CCS'];
         var agg_func = 'Avg';
         var agg_var = 'model_id';
 

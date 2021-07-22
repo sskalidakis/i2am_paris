@@ -5,7 +5,7 @@ iframe_2_1.addEventListener("load", onLoad);
 
 function onLoad() {
     // Listen for button clicks
-    var timeframe2_1 = [2005, 2020, 2050, 2100];
+    var timeframe2_1 = [2005, 2020, 2030, 2050];
     var co2emissions_by_sec_lr_count = 1;
     $(".next-3").click(function () {
         if (co2emissions_by_sec_lr_count < 3) {

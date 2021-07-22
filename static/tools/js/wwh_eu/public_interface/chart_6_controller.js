@@ -6,7 +6,7 @@ iframe_6_1.addEventListener("load", onLoad);
 
 function onLoad() {
     // Listen for button clicks
-    var timeframe6_1 = [2005, 2020, 2050, 2100];
+    var timeframe6_1 = [2005, 2020, 2030, 2050];
     var imported_fuels_viz_iframe_lr_count = 1;
     $(".next-7").click(function () {
         if (imported_fuels_viz_iframe_lr_count < 3) {

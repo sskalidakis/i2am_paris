@@ -106,7 +106,7 @@
 
 {% include "upper_bar_eu_public_ui.html" %}
 <div id="mySidenav" class="sidenav" style="margin-top: 3em">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a class="closebtn">&times;</a>
     <a class="heading-link" data-section="methods" href="#methods"><h4 style="margin-bottom: 0!important;">Methods</h4>
     </a>
     <a class="heading-link" data-section="policies" href="#policies"><h4 style="margin-bottom: 0!important;">Policy
@@ -178,6 +178,9 @@
 <script src={% static "main_theme/js/main.js" %}></script>
 <script src={% static "main_theme/js/wow.min.js" %}></script>
 <script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
+{# navigation - content - menu #}
+<script src={% static "tools/js/wwh_eu/public_interface/menu_controller.js" %}></script>
+
 <script src={% static "tools/js/adv_scientific_tool_js/cookie_retriever.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/total_co2_emissions.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/co2_emissions_by_sector.js" %}></script>
@@ -187,7 +190,8 @@
 <script src={% static "tools/js/wwh_eu/public_interface/electricity_ratio.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/electricity_tfec.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/hydrogen_production_by_fuel.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp.js" %}></script>
+<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp_ind.js" %}></script>
+<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp_trans.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/co2_ccs_by_sector.js" %}></script>
 
 <script>
@@ -199,8 +203,7 @@
         $('body').tooltip({container: 'body', html: true, selector: '[data-toggle=tooltip]', placement: 'auto'});
     });
 </script>
-{# navigation - content - menu #}
-<script src={% static "tools/js/wwh_eu/public_interface/menu_controller.js" %}></script>
+
 
 {#methods figure 1 animation#}
 <script src={% static "tools/js/wwh_eu/public_interface/image_controller.js" %}></script>

@@ -51,7 +51,7 @@ $(document).ready(function () {
         var data = {
             "y_var_names": ['e3me_PR_CurPol_CP', 'gcam_PR_CurPol_CP', 'gemini_e3_PR_CurPol_CP','ices_PR_CurPol_CP', 'muse_PR_CurPol_CP','tiam_PR_CurPol_CP'],
             "y_var_titles": ['E3ME- PR_CurPol_CP', 'GCAM- PR_CurPol_CP', 'Gemini-E3- PR_CurPol_CP','ICES- PR_CurPol_CP', 'MUSE- PR_CurPol_CP','TIAM- PR_CurPol_CP'],
-            "y_var_units": ['MtCO2/y'],
+            "y_var_units": ['MtCO2/y', 'MtCO2/y','MtCO2/y','MtCO2/y','MtCO2/y','MtCO2/y','MtCO2/y','MtCO2/y','MtCO2/y'],
             "y_axis_title": 'Emissions|CO2|Energy',
             "x_axis_name": "year",
             "x_axis_title": "Year",
@@ -102,7 +102,7 @@ $(document).ready(function () {
 
     function create_total_co2_emissions_query() {
         var models = ['42', 'e3me', 'eu_times', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam'];
-        var scenarios = ['PR_CurPol_CP'];
+        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP', 'PR_CurPol_EI'];
         var regions = ['EU'];
         var variable = ['Emissions|CO2|Energy'];
 
@@ -134,7 +134,7 @@ $(document).ready(function () {
 
         selected.push('value', 'year');
         const query_data = {
-            "dataset": "i2amparis_main_resultscomp",
+            "dataset": "i2amparis_main_wwheuresultscomp",
             "query_configuration": {
                 "select": selected,
                 "filter": {

@@ -39,6 +39,7 @@
             var y_var_names = {{ y_var_names|safe}};
             var y_var_titles = {{ y_var_titles|safe}};
             var y_var_units = "{{ y_var_units|safe }}";
+            var y_axis_title = "{{ y_axis_title|safe }}";
             var z_axis_cat_names = {{ cat_axis_names|safe }};
             var z_axis_cat_titles = {{ cat_axis_titles|safe }};
             var color_list = {{ color_list|safe }};
@@ -61,7 +62,7 @@
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.fontWeight = 600;
 
-            {#valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";#}
+            valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
 
             function zoomAxis(from, to) {

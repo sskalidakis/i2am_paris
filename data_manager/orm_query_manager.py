@@ -55,7 +55,8 @@ def column_chart_query(query_id):
     elif query_name == 'rrf_classification_2_query':
         results = rrf_classification_query(query_id, 'second_classification')
     elif query_name in ['wwheu_pub_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query',
-                        'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_query']:
+                        'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_ind_query',
+                        'wwheu_pub_hydrogen_electricity_comp_trans_query']:
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
     elif query_name in ['wwheu_pub_co2_ccs_by_sector_query']:
         results = wwheu_pub_co2_ccs_by_sector(query_id)

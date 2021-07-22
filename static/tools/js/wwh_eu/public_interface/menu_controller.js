@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $('.closebtn').click(function (){
+        closeNav();
+    })
     $('.content-section').hide();
     $('.methods').show();
     var heading = $('.heading-link[data-section="methods"]');
