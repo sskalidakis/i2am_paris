@@ -89,10 +89,113 @@
             filter: alpha(opacity=1);
         }
 
-        .arrow-message{
+        .arrow-message {
             text-align: center;
             font-style: italic;
 
+        }
+
+        .fade-img {
+            opacity: 1;
+            animation: imgfade 3s linear infinite;
+        }
+
+        @keyframes imgfade {
+            0%, 100% {
+                opacity: 0
+            }
+            15%, 85%{
+                opacity:0.5
+            }
+            50% {
+                opacity: 1
+            }
+        }
+
+        @-webkit-keyframes spaceboots {
+            0% {
+                -webkit-transform: translate(2px, 1px) rotate(0deg);
+            }
+            10% {
+                -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+            }
+            20% {
+                -webkit-transform: translate(-3px, 0px) rotate(1deg);
+            }
+            30% {
+                -webkit-transform: translate(0px, 2px) rotate(0deg);
+            }
+            40% {
+                -webkit-transform: translate(1px, -1px) rotate(1deg);
+            }
+            50% {
+                -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+            }
+            60% {
+                -webkit-transform: translate(-3px, 1px) rotate(0deg);
+            }
+            70% {
+                -webkit-transform: translate(2px, 1px) rotate(-1deg);
+            }
+            80% {
+                -webkit-transform: translate(-1px, -1px) rotate(1deg);
+            }
+            90% {
+                -webkit-transform: translate(2px, 2px) rotate(0deg);
+            }
+            100% {
+                -webkit-transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+
+
+        .shake {
+            -webkit-animation-name: spaceboots;
+            -webkit-animation-duration: 0.8s;
+            -webkit-transform-origin: 50% 50%;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+        }
+
+
+        @-webkit-keyframes arrow-jump-r {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: translateX(2em);
+                -moz-transform: translateX(2em);
+                transform: translateX(2em);
+            }
+
+        }
+
+        .arrow-move-r {
+            -webkit-animation: arrow-jump-r 1s infinite; /* Safari 4+ */
+            -moz-animation: arrow-jump-r 1s infinite; /* Fx 5+ */
+            -o-animation: arrow-jump-r 1s infinite; /* Opera 12+ */
+            animation: arrow-jump-r 1s infinite; /* IE 10+, Fx 29+ */
+        }
+
+         @-webkit-keyframes arrow-jump-l {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: translateX(-2em);
+                -moz-transform: translateX(-2em);
+                transform: translateX(-2em);
+            }
+
+        }
+
+        .arrow-move-l {
+            -webkit-animation: arrow-jump-l 1s infinite; /* Safari 4+ */
+            -moz-animation: arrow-jump-l 1s infinite; /* Fx 5+ */
+            -o-animation: arrow-jump-l 1s infinite; /* Opera 12+ */
+            animation: arrow-jump-l 1s infinite; /* IE 10+, Fx 29+ */
         }
 
     </style>
