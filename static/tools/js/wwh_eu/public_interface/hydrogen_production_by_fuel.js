@@ -105,13 +105,15 @@ $(document).ready(function () {
         var regions = ['EU'];
         var models = ['eu_times', 'gcam', 'tiam'];
         var variables = ['Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/o CCS', 'Secondary Energy|Hydrogen|Electricity', 'Secondary Energy|Hydrogen|Fossil|w/o CCS'];
+        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var agg_func = 'Avg';
         var agg_var = 'model_id';
 
         const input_dict = {
             'model__name': models,
             'region__name': regions,
-            'variable__name': variables
+            'variable__name': variables,
+            'scenario__name': scenarios
         };
         var selected = [];
         for (var i in input_dict) {
@@ -153,7 +155,7 @@ $(document).ready(function () {
                 ]
                 ,
                 "grouping": {
-                    "params": [agg_var, "variable__name", "year", "region__name"],
+                    "params": [agg_var, "variable__name", "year", "region__name", "scenario__name"],
                     "aggregated_params": [{"name": "value", "agg_func": agg_func}]
                 },
 
@@ -166,6 +168,7 @@ $(document).ready(function () {
             "models": models,
             "variables": variables,
             "regions": regions,
+            "scenarios": scenarios,
             "query_data": query_data
         }
 

@@ -104,6 +104,7 @@ $(document).ready(function () {
     function create_hydrogen_electricity_comp_ind_query() {
         var regions = ['EU'];
         var models = ['eu_times', 'forecast', 'gcam', 'tiam'];
+         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var variables = ['Final Energy|Industry|Electricity','Final Energy|Industry|Gases','Final Energy|Industry|Gases|','Final Energy|Industry|Heat','Final Energy|Industry|Hydrogen','Final Energy|Industry|Liquids','Final Energy|Industry|Liquids|','Final Energy|Industry|Other','Final Energy|Industry|Solids'];
         var agg_var = 'model_id';
         var agg_func = 'Avg';
@@ -111,7 +112,8 @@ $(document).ready(function () {
         const input_dict = {
             'model__name': models,
             'region__name': regions,
-            'variable__name': variables
+            'variable__name': variables,
+            'scenario__name': scenarios,
         };
         var selected = [];
         for (var i in input_dict) {
@@ -153,7 +155,7 @@ $(document).ready(function () {
                 ]
                 ,
                 "grouping": {
-                    "params": [agg_var, "variable__name", "year", "region__name"],
+                    "params": [agg_var, "variable__name", "year", "region__name", "scenario__name"],
                     "aggregated_params": [{"name": "value", "agg_func": agg_func}]
                 },
 
@@ -166,6 +168,7 @@ $(document).ready(function () {
             "models": models,
             "variables": variables,
             "regions": regions,
+            "scenarios": scenarios,
             "query_data": query_data
         }
 

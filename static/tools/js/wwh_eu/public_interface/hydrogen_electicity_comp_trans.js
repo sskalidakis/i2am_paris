@@ -58,7 +58,7 @@ $(document).ready(function () {
             "cat_axis_names": ['eu_times', 'forecast', 'gcam', 'tiam'],
             "cat_axis_titles": ['EU-TIMES', 'FORECAST', 'GCAM', 'TIAM'],
             "use_default_colors": false,
-            "color_list_request": [ "light_blue", "gray", "casual_green", "lighter_blue", "light_blue", "moody_blue", "dark_blue", "dark_gray" ],
+            "color_list_request": ["light_blue", "gray", "casual_green", "lighter_blue", "light_blue", "moody_blue", "dark_blue", "dark_gray"],
             "dataset": query_id,
             "dataset_type": "query",
             "type": "step_by_step"
@@ -104,14 +104,16 @@ $(document).ready(function () {
     function create_hydrogen_electricity_comp_trans_query() {
         var regions = ['EU'];
         var models = ['eu_times', 'forecast', 'gcam', 'tiam'];
-        var variables = ['Final Energy|Transportation|Electricity','Final Energy|Transportation|Gases','Final Energy|Transportation|Hydrogen','Final Energy|Transportation|Liquids','Final Energy|Transportation|Liquids|Bioenergy','Final Energy|Transportation|Liquids|Biomass','Final Energy|Transportation|Liquids|Fossil synfuel','Final Energy|Transportation|Liquids|Oil'];
+        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Liquids|Bioenergy', 'Final Energy|Transportation|Liquids|Biomass', 'Final Energy|Transportation|Liquids|Fossil synfuel', 'Final Energy|Transportation|Liquids|Oil'];
         var agg_var = 'model_id';
         var agg_func = 'Avg';
 
         const input_dict = {
             'model__name': models,
             'region__name': regions,
-            'variable__name': variables
+            'variable__name': variables,
+            'scenario__name':scenarios
         };
         var selected = [];
         for (var i in input_dict) {
@@ -153,7 +155,7 @@ $(document).ready(function () {
                 ]
                 ,
                 "grouping": {
-                    "params": [agg_var, "variable__name", "year", "region__name"],
+                    "params": [agg_var, "variable__name", "year", "region__name", "scenario__name"],
                     "aggregated_params": [{"name": "value", "agg_func": agg_func}]
                 },
 
@@ -166,14 +168,13 @@ $(document).ready(function () {
             "models": models,
             "variables": variables,
             "regions": regions,
+            "scenarios":scenarios,
             "query_data": query_data
         }
 
     }
 
     run_hydrogen_electricity_comp_trans();
-
-
 
 
 });
