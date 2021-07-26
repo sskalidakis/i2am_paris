@@ -8,7 +8,7 @@
 <div class="col-md-12 col-xs-12" style="margin-bottom:3em">
     {#    <span id="electrification" style="position: relative; top:-8em"></span>#}
     <div class="col-md-12 col-xs-12">
-        <div class="tooltip-demo" style="margin-top:3em">
+        <div class="tooltip-demo">
             <h2 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; cursor: help; margin-bottom: 0.2em"
                 data-toggle="tooltip" data-placement="auto"
                 title="<p>The chart presents the EU transport sector electrification in relation to CO2 emissions reduction levels (since 1990, based on European Environmental Agency, 2019).
@@ -48,33 +48,39 @@
         </div>
 
     </div>
-    <p class="col-md-12 col-xs-12 row" style="margin-top: 2em">
-        Most Integrated Assessment Models (IAMs) illustrate increasing electrification through decarbonization, though
-        at differing rates.
-    </p>
-    <div class="row">
-        <p class="col-md-12 col-xs-12">
+    <div class="col-md-12 col-xs-12 row">
+        <p class="" style="margin-top: 2em">
+            Most Integrated Assessment Models (IAMs) illustrate increasing electrification through decarbonization,
+            though
+            at differing rates.
+        </p>
+    </div>
+    <div class="row col-md-12 col-xs-12">
+        <p class="">
             Sectoral models, delving deeper into the energy system, indicate that a 39% decrease in CO2 emissions is
             expected compared to 1990 values due to the electrification in the transport sector
         </p>
-        <div class="row" style="margin-top: 3em">
+        <div class="row col-md-12 col-xs-12" style="margin-top: 3em">
             <img class="col-md-2 col-xs-4 fade-img" src={% static "images/wwheu_public_ui/Rail_transport.png" %}>
             <div class="col-md-1 hidden-xs hidden-sm"></div>
-            <img class="col-md-2 hidden-xs hidden-sm arrow-move-l" src={% static "images/wwheu_public_ui/arrow-left.png" %}>
-            <img class="col-md-2 col-xs-4 shake" src={% static "images/wwheu_public_ui/electricity.png" %}>
-            <img class="col-md-2 hidden-xs  hidden-sm arrow-move-r" src={% static "images/wwheu_public_ui/arrow-right.png" %}>
+            <img class="col-md-2 hidden-xs hidden-sm arrow-move-l"
+                 src={% static "images/wwheu_public_ui/arrow-left.png" %}>
+            <div class="col-md-2 col-xs-4"><img class="shake" style="width: 70%"
+                                                src={% static "images/wwheu_public_ui/electricity.png" %}></div>
+            <img class="col-md-2 hidden-xs  hidden-sm arrow-move-r"
+                 src={% static "images/wwheu_public_ui/arrow-right.png" %}>
             <div class="col-md-1 hidden-xs hidden-sm"></div>
             <img class="col-md-2 col-xs-4 fade-img" src={% static "images/wwheu_public_ui/Road_transport.png" %}>
         </div>
 
     </div>
-    <div class="row" style="margin-top: 3em">
-        <p class="col-md-12 col-xs-12">
+    <div class="row col-xs-12 col-md-12" style="margin-top: 3em">
+        <p class="">
             Both in Europe and globally, the transport sector plays a critical role in transition.
         </p>
     </div>
-    <div class="row">
-        <p class="col-md-12 col-xs-12">
+    <div class="row col-md-12 col-xs-12">
+        <p class="">
             <strong>Global transport emissions</strong> have been increasing, making up a quarter of direct CO2
             emissions
             from fuel
@@ -84,8 +90,8 @@
             make up <strong>29.6% of total direct CO2 emissions</strong> from fuel combustion.
         </p>
     </div>
-    <div class="row">
-        <p class="col-md-12 col-xs-12">
+    <div class="row col-md-12 col-xs-12">
+        <p class="">
             <strong>Electric vehicles (EVs)</strong> are considered a valuable option to reduce direct emissions and
             energy
             intensity of road
