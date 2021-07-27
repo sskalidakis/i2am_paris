@@ -95,17 +95,18 @@
 
         }
 
-        .fade-img {
-            opacity: 1;
-            animation: imgfade 3s linear infinite;
-        }
+        {% comment %}
+                .fade-img {
+                    opacity: 1;
+                    animation: imgfade 3s linear infinite;
+                }{% endcomment %}
 
         @keyframes imgfade {
             0%, 100% {
                 opacity: 0
             }
-            15%, 85%{
-                opacity:0.5
+            15%, 85% {
+                opacity: 0.5
             }
             50% {
                 opacity: 1
@@ -149,14 +150,14 @@
         }
 
 
-        .shake {
-            -webkit-animation-name: spaceboots;
-            -webkit-animation-duration: 0.8s;
-            -webkit-transform-origin: 50% 50%;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-timing-function: linear;
-        }
-
+        {% comment %}   .shake {
+               -webkit-animation-name: spaceboots;
+               -webkit-animation-duration: 0.8s;
+               -webkit-transform-origin: 50% 50%;
+               -webkit-animation-iteration-count: infinite;
+               -webkit-animation-timing-function: linear;
+           }
+   {% endcomment %}
 
         @-webkit-keyframes arrow-jump-r {
             0% {
@@ -178,7 +179,7 @@
             animation: arrow-jump-r 1s infinite; /* IE 10+, Fx 29+ */
         }
 
-         @-webkit-keyframes arrow-jump-l {
+        @-webkit-keyframes arrow-jump-l {
             0% {
                 opacity: 0;
             }
@@ -196,6 +197,11 @@
             -moz-animation: arrow-jump-l 1s infinite; /* Fx 5+ */
             -o-animation: arrow-jump-l 1s infinite; /* Opera 12+ */
             animation: arrow-jump-l 1s infinite; /* IE 10+, Fx 29+ */
+        }
+
+        p {
+            text-align: justify;
+            text-justify: inter-word;
         }
 
     </style>
