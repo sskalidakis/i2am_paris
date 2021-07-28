@@ -57,10 +57,11 @@ $(document).ready(function () {
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "color_list_request": ["moody_blue", "violet", "light_red", "orange_yellow", "grey_green", "cyan", "black"],
             "dataset": query_id,
             "dataset_type": "query",
-            "type": "step_by_step"
+            "use_default_colors": false,
+            // "type": "step_by_step"
         };
         var url = '';
         for (var key in data) {

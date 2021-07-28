@@ -244,9 +244,9 @@ def wwheu_pub_imported_fuels_query(query_id):
         return []
     else:
         # Creating the min-max ranges
-        df = df.drop(['scenario__name', 'model__name', 'region__name'], axis=1)
+        df = df.drop(['scenario__name', 'variable__name', 'region__name'], axis=1)
         final_data = list(
-            df.pivot(index="year", columns="variable__name", values="value").reset_index().fillna(0).to_dict(
+            df.pivot(index="year", columns="model__name", values="value").reset_index().fillna(0).to_dict(
                 'index').values())
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
         return clean_final_data

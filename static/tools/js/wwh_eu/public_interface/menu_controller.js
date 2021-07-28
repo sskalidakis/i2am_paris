@@ -9,8 +9,8 @@ $(document).ready(function () {
     heading.css('color', 'white');
 
     function openNav() {
-        document.getElementById("mySidenav").style.width = "35%";
-        document.getElementById("main").style.marginLeft = "35%";
+        document.getElementById("mySidenav").style.width = "25%";
+        document.getElementById("main").style.marginLeft = "25%";
     }
 
     function closeNav() {

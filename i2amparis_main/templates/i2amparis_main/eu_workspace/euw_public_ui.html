@@ -203,6 +203,9 @@
             text-align: justify;
             text-justify: inter-word;
         }
+        .row {
+            z-index: 0;
+        }
 
     </style>
     <link rel="stylesheet" href={% static "detailed_doc_css.css" %}>
@@ -221,7 +224,7 @@
 {% include "upper_bar_eu_public_ui.html" %}
 <div id="mySidenav" class="sidenav" style="margin-top: 3em">
     <a class="closebtn">&times;</a>
-    <a class="heading-link" data-section="methods" href="#methods"><h4 style="margin-bottom: 0!important;">Methods</h4>
+    <a class="heading-link" data-section="methods" href="#methods"><h4 style="margin-bottom: 0!important;">Co-creation process</h4>
     </a>
     <a class="heading-link" data-section="policies" href="#policies"><h4 style="margin-bottom: 0!important;">Policy
         Questions</h4></a>
@@ -323,7 +326,7 @@
 <script src={% static "tools/js/wwh_eu/public_interface/image_controller.js" %}></script>
 
 {#where is europe headed towards in 2050 chart controller#}
-<script src={% static "tools/js/wwh_eu/public_interface/chart_1_controller.js" %}></script>
+{#<script src={% static "tools/js/wwh_eu/public_interface/chart_1_controller.js" %}></script>#}
 <script src={% static "tools/js/wwh_eu/public_interface/chart_2_controller.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/chart_4_controller.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/chart_5_controller.js" %}></script>

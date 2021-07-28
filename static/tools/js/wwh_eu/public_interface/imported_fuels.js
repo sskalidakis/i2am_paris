@@ -17,7 +17,7 @@ $(document).ready(function () {
         });
 
     function run_imported_fuels() {
-        const models = $('#model_select2').multipleSelect('getSelects');
+        const variables = $('#model_select2').multipleSelect('getSelects');
         var viz_frame = $('#imported_fuels_viz_frame_div');
 
         viz_frame.show();
@@ -30,7 +30,7 @@ $(document).ready(function () {
         });
 
         /* # Query creation*/
-        var jq_obj = create_imported_fuels_query(models);
+        var jq_obj = create_imported_fuels_query(variables);
         console.log('Imported Fuels JSON Query Created');
         start_qc_v_imported_fuels_process(jq_obj)
     }
@@ -64,16 +64,16 @@ $(document).ready(function () {
         $('#imported_fuels_loading_bar').show();
 
         var data = {
-            "y_var_names": ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume', 'Trade|Primary Energy|Oil|Volume'],
-            "y_var_titles": ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume', 'Trade|Primary Energy|Oil|Volume'],
-            "y_var_units": ['billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
+            "y_var_names": ['eu_times', 'gcam', 'tiam', 'gemini_e3'],
+            "y_var_titles": ['EU-TIMES', 'GCAM', 'TIAM', 'Gemini-E3'],
+            "y_var_units": ['billion US$2010/yr OR local currency','billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
             "y_axis_title": 'Imported fossil fuels',
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
             "use_default_colors": false,
-            "color_list_request": ["dark_gray", "blue", "green"],
+            "color_list_request": ["blue", "green", "ceramic", "gold"],
             "dataset": query_id,
             "dataset_type": "query",
             "type": "step_by_step"
@@ -116,11 +116,11 @@ $(document).ready(function () {
 
     }
 
-    function create_imported_fuels_query(sel_models) {
-        var models = sel_models;
+    function create_imported_fuels_query(sel_variables) {
+        var models = ['eu_times', 'gcam', 'tiam', 'gemini_e3'];
         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var regions = ['EU'];
-        var variable = ['Trade|Primary Energy|Coal|Volume', 'Trade|Primary Energy|Gas|Volume', 'Trade|Primary Energy|Oil|Volume'];
+        var variable = sel_variables;
 
 
         const input_dict = {
