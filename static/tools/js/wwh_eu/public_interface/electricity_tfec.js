@@ -1,52 +1,15 @@
 $(document).ready(function () {
+    var viz_id = 'electrification_fec';
+    var viz_type = 'show_stacked_clustered_column_chart';
+    var intrfc = 'wwheu_pub';
+    var viz_frame = $('#' + viz_id + '_viz_frame_div');
+    viz_frame.show();
+    token_retrieval();
 
-    function run_electrification_fec() {
-        var viz_frame = $('#electrification_fec_viz_frame_div');
-        viz_frame.show();
-        /* Token Retrieval*/
-        const csrftoken = getCookie('csrftoken');
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRFToken', csrftoken);
-            }
-        });
-        /* # Query creation*/
-        var jq_obj = create_electrification_fec_query();
-        console.log(jq_obj);
-        console.log('electrification_fec JSON Query Created');
-        start_qc_v_electrification_fec_process(jq_obj);
-
-
-    }
-
-    function start_qc_v_electrification_fec_process(json_query_obj) {
-        var query = {};
-        query["query_name"] = "wwheu_pub_electrification_fec_query";
-        query["parameters"] = json_query_obj['query_data'];
-        $.ajax({
-            url: "/data_manager/create_query",
-            type: "POST",
-            data: JSON.stringify(query),
-            contentType: 'application/json',
-            success: function (data) {
-                console.log('CO2 Emissions by sector Query Saved in DB');
-                var query_id = data['query_id'];
-                create_visualisation_electrification_fec(query_id);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    }
-
-
-    function create_visualisation_electrification_fec(query_id) {
-        var viz_frame = $('#electrification_fec_viz_iframe');
-        viz_frame.off();
-        viz_frame.hide();
-        $('#electrification_fec_loading_bar').show();
-
-        var data = {
+    /* # Query creation*/
+    var jq_obj = create_electrification_fec_query();
+    console.log(viz_id + '- JSON Query Created');
+    var viz_payload = {
             "y_var_names": ['ALADIN_Final Energy|Transportation|Electricity', 'ALADIN_Final Energy|Transportation|Gases', 'ALADIN_Final Energy|Transportation|Liquids', 'ALADIN_Final Energy|Transportation|Other', 'E3ME_Final Energy|Transportation|Electricity', 'E3ME_Final Energy|Transportation|Gases', 'E3ME_Final Energy|Transportation|Liquids', 'E3ME_Final Energy|Transportation|Other', 'EU-TIMES_Final Energy|Transportation|Electricity', 'EU-TIMES_Final Energy|Transportation|Gases', 'EU-TIMES_Final Energy|Transportation|Liquids', 'EU-TIMES_Final Energy|Transportation|Other', '42_Final Energy|Transportation|Electricity', '42_Final Energy|Transportation|Gases', '42_Final Energy|Transportation|Liquids', '42_Final Energy|Transportation|Other', 'GCAM_Final Energy|Transportation|Electricity', 'GCAM_Final Energy|Transportation|Gases', 'GCAM_Final Energy|Transportation|Liquids', 'GCAM_Final Energy|Transportation|Other', 'Gemini-E3_Final Energy|Transportation|Electricity', 'Gemini-E3_Final Energy|Transportation|Gases', 'Gemini-E3_Final Energy|Transportation|Liquids', 'Gemini-E3_Final Energy|Transportation|Other', 'ICES_Final Energy|Transportation|Electricity', 'ICES_Final Energy|Transportation|Gases', 'ICES_Final Energy|Transportation|Liquids', 'ICES_Final Energy|Transportation|Other', 'MUSE_Final Energy|Transportation|Electricity', 'MUSE_Final Energy|Transportation|Gases', 'MUSE_Final Energy|Transportation|Liquids', 'MUSE_Final Energy|Transportation|Other', 'NEMESIS_Final Energy|Transportation|Electricity', 'NEMESIS_Final Energy|Transportation|Gases', 'NEMESIS_Final Energy|Transportation|Liquids', 'NEMESIS_Final Energy|Transportation|Other', 'TIAM_Final Energy|Transportation|Electricity', 'TIAM_Final Energy|Transportation|Gases', 'TIAM_Final Energy|Transportation|Liquids', 'TIAM_Final Energy|Transportation|Other'],
             "y_var_titles": ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other'],
             "y_var_units": ['EJ/y'],
@@ -59,47 +22,12 @@ $(document).ready(function () {
             "cat_axis_titles": ['ALADIN', 'E3ME', 'EU-TIMES', '42', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'NEMESIS', 'TIAM'],
             "use_default_colors": false,
             "color_list_request": ["light_blue", "gray", "dark_gray", "grey_green"],
-            "dataset": query_id,
             "dataset_type": "query",
             "type": "step_by_step"
         };
-        var url = '';
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                if (Array.isArray(data[key])) {
-                    for (var j = 0; j < data[key].length; j++) {
-                        url = url + String(key) + '[]' + "=" + String(data[key][j]) + '&'
-                    }
-                } else {
-                    url = url + String(key) + "=" + String(data[key]) + '&'
-                }
 
-            }
-        }
-        console.log('electrification_fec Ready to launch visualisation');
-        var complete_url = "/visualiser/show_stacked_clustered_column_chart?" + url;
-        viz_frame.attr('src', complete_url);
-        viz_frame.on('load', function () {
-            console.log('electrification_fec Visualisation Completed');
-            $(this).show();
-            $.ajax({
-                url: "/data_manager/delete_query",
-                type: "POST",
-                data: JSON.stringify(query_id),
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log("electrification_fec Temporary Query Deleted");
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
+    start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
 
-            $('#electrification_fec_loading_bar').hide();
-
-        });
-
-    }
 
     function create_electrification_fec_query() {
         var regions = ['EU'];
@@ -170,10 +98,6 @@ $(document).ready(function () {
         }
 
     }
-
-    run_electrification_fec();
-
-
 
 
 });

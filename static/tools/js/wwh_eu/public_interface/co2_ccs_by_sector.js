@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     $('select.model-select').multipleSelect('destroy').multipleSelect(
         {
             filter: true,
@@ -17,58 +16,24 @@ $(document).ready(function () {
 
         });
 
+
+    var viz_id = 'co2_ccs_by_sector';
+    var viz_type = 'show_stacked_column_line_chart';
+    var intrfc = 'wwheu_pub';
+    var viz_frame = $('#' + viz_id + '_viz_frame_div');
+    viz_frame.show();
+    token_retrieval();
+
     function run_co2_ccs_by_sector() {
-        const models = $('#model_select').multipleSelect('getSelects');
-        var viz_frame = $('#co2_ccs_by_sector_viz_frame_div');
-        viz_frame.show();
-        /* Token Retrieval*/
-        const csrftoken = getCookie('csrftoken');
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRFToken', csrftoken);
-            }
-        });
         /* # Query creation*/
+        const models = $('#model_select').multipleSelect('getSelects');
         var jq_obj = create_co2_ccs_by_sector_query(models);
-        console.log(jq_obj);
-        console.log('co2_ccs_by_sector JSON Query Created');
-        start_qc_v_co2_ccs_by_sector_process(jq_obj);
-
-
-    };
-
-    function start_qc_v_co2_ccs_by_sector_process(json_query_obj) {
-        var query = {};
-        query["query_name"] = "wwheu_pub_co2_ccs_by_sector_query";
-        query["parameters"] = json_query_obj['query_data'];
-        $.ajax({
-            url: "/data_manager/create_query",
-            type: "POST",
-            data: JSON.stringify(query),
-            contentType: 'application/json',
-            success: function (data) {
-                console.log('co2_ccs_by_sector Query Saved in DB');
-                var query_id = data['query_id'];
-                create_visualisation_co2_ccs_by_sector(query_id);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    }
-
-
-    function create_visualisation_co2_ccs_by_sector(query_id) {
-        var viz_frame = $('#co2_ccs_by_sector_viz_iframe');
-        viz_frame.off();
-        viz_frame.hide();
-        $('#co2_ccs_by_sector_loading_bar').show();
-
-        var data = {
+        console.log(viz_id + '- JSON Query Created');
+        var viz_payload = {
             "y_var_names": ['Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'],
             "y_var_titles": ['Carbon Sequestration|CCS|Industry', 'Carbon Sequestration|CCS|Power', 'Carbon Sequestration|CCS|Hydrogen', 'Carbon Sequestration|CCS|Other Transformation Processes'],
             "y_var_units": ['Mt CO2/y', 'Mt CO2/y'],
-            "y_axes_titles": ['CO2 Captured','CO2 Emissions'],
+            "y_axes_titles": ['CO2 Captured', 'CO2 Emissions'],
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
@@ -77,46 +42,12 @@ $(document).ready(function () {
             "line_titles": ['Emissions|CO2'],
             "use_default_colors": false,
             "color_list_request": ["dark_gray", "blue", "green", "light_red"],
-            "dataset": query_id,
             "dataset_type": "query"
         };
-        var url = '';
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                if (Array.isArray(data[key])) {
-                    for (var j = 0; j < data[key].length; j++) {
-                        url = url + String(key) + '[]' + "=" + String(data[key][j]) + '&'
-                    }
-                } else {
-                    url = url + String(key) + "=" + String(data[key]) + '&'
-                }
 
-            }
-        }
-        console.log('co2_ccs_by_sector Ready to launch visualisation');
-        var complete_url = "/visualiser/show_stacked_column_line_chart?" + url;
-        viz_frame.attr('src', complete_url);
-        viz_frame.on('load', function () {
-            console.log('co2_ccs_by_sector Visualisation Completed');
-            $(this).show();
-            $.ajax({
-                url: "/data_manager/delete_query",
-                type: "POST",
-                data: JSON.stringify(query_id),
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log("co2_ccs_by_sector Temporary Query Deleted");
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-
-            $('#co2_ccs_by_sector_loading_bar').hide();
-
-        });
-
+        start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
     }
+    run_co2_ccs_by_sector();
 
     function create_co2_ccs_by_sector_query(sel_models) {
         var regions = ['EU'];
@@ -158,10 +89,10 @@ $(document).ready(function () {
                     "and": and_dict,
                     "or": or_dict
                 },
-                "ordering": [                    {
-                        "parameter": "year",
-                        "ascending": true
-                    }
+                "ordering": [{
+                    "parameter": "year",
+                    "ascending": true
+                }
                 ]
                 ,
                 "grouping": {"params": [], "aggregated_params": []},
@@ -175,7 +106,7 @@ $(document).ready(function () {
             "models": models,
             "variables": variables,
             "regions": regions,
-            "scenarios":scenarios,
+            "scenarios": scenarios,
             "query_data": query_data
         }
 

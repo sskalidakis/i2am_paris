@@ -1,105 +1,34 @@
 $(document).ready(function () {
 
-    function run_energy_co2_emissions_by_sector() {
-        var viz_frame = $('#energy_co2_emissions_by_sector_viz_frame_div');
-        viz_frame.show();
-        /* Token Retrieval*/
-        const csrftoken = getCookie('csrftoken');
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRFToken', csrftoken);
-            }
-        });
-        /* # Query creation*/
-        var jq_obj = create_energy_co2_emissions_by_sector_query();
-        console.log(jq_obj);
-        console.log('CO2 Emissions by sector JSON Query Created');
-        start_qc_v_energy_co2_emissions_by_sector_process(jq_obj);
+    var viz_id = 'energy_co2_emissions_by_sector';
+    var viz_type = 'show_stacked_clustered_column_chart';
+    var intrfc = 'wwheu_pub';
+    var viz_frame = $('#' + viz_id + '_viz_frame_div');
+    viz_frame.show();
+    token_retrieval();
 
-
+    /* # Query creation*/
+    var jq_obj = create_energy_co2_emissions_by_sector_query();
+    console.log(viz_id + '- JSON Query Created');
+    var viz_payload = {
+        "y_var_names": ['ALADIN_Emissions|CO2|Energy|Supply', 'ALADIN_Emissions|CO2|Energy|Demand|Industry', 'ALADIN_Emissions|CO2|Energy|Demand|Residential and Commercial', 'ALADIN_Emissions|CO2|Energy|Demand|Transportation', 'ALADIN_Emissions|CO2|Energy|Demand|AFOFI', 'ALADIN_Emissions|CO2|Energy|Demand|Other Sector', 'E3ME_Emissions|CO2|Energy|Supply', 'E3ME_Emissions|CO2|Energy|Demand|Industry', 'E3ME_Emissions|CO2|Energy|Demand|Residential and Commercial', 'E3ME_Emissions|CO2|Energy|Demand|Transportation', 'E3ME_Emissions|CO2|Energy|Demand|AFOFI', 'E3ME_Emissions|CO2|Energy|Demand|Other Sector', 'EU-TIMES_Emissions|CO2|Energy|Supply', 'EU-TIMES_Emissions|CO2|Energy|Demand|Industry', 'EU-TIMES_Emissions|CO2|Energy|Demand|Residential and Commercial', 'EU-TIMES_Emissions|CO2|Energy|Demand|Transportation', 'EU-TIMES_Emissions|CO2|Energy|Demand|AFOFI', 'EU-TIMES_Emissions|CO2|Energy|Demand|Other Sector', 'FORECAST_Emissions|CO2|Energy|Supply', 'FORECAST_Emissions|CO2|Energy|Demand|Industry', 'FORECAST_Emissions|CO2|Energy|Demand|Residential and Commercial', 'FORECAST_Emissions|CO2|Energy|Demand|Transportation', 'FORECAST_Emissions|CO2|Energy|Demand|AFOFI', 'FORECAST_Emissions|CO2|Energy|Demand|Other Sector', '42_Emissions|CO2|Energy|Supply', '42_Emissions|CO2|Energy|Demand|Industry', '42_Emissions|CO2|Energy|Demand|Residential and Commercial', '42_Emissions|CO2|Energy|Demand|Transportation', '42_Emissions|CO2|Energy|Demand|AFOFI', '42_Emissions|CO2|Energy|Demand|Other Sector', 'GCAM_Emissions|CO2|Energy|Supply', 'GCAM_Emissions|CO2|Energy|Demand|Industry', 'GCAM_Emissions|CO2|Energy|Demand|Residential and Commercial', 'GCAM_Emissions|CO2|Energy|Demand|Transportation', 'GCAM_Emissions|CO2|Energy|Demand|AFOFI', 'GCAM_Emissions|CO2|Energy|Demand|Other Sector', 'Gemini-E3_Emissions|CO2|Energy|Supply', 'Gemini-E3_Emissions|CO2|Energy|Demand|Industry', 'Gemini-E3_Emissions|CO2|Energy|Demand|Residential and Commercial', 'Gemini-E3_Emissions|CO2|Energy|Demand|Transportation', 'Gemini-E3_Emissions|CO2|Energy|Demand|AFOFI', 'Gemini-E3_Emissions|CO2|Energy|Demand|Other Sector', 'ICES_Emissions|CO2|Energy|Supply', 'ICES_Emissions|CO2|Energy|Demand|Industry', 'ICES_Emissions|CO2|Energy|Demand|Residential and Commercial', 'ICES_Emissions|CO2|Energy|Demand|Transportation', 'ICES_Emissions|CO2|Energy|Demand|AFOFI', 'ICES_Emissions|CO2|Energy|Demand|Other Sector', 'MUSE_Emissions|CO2|Energy|Supply', 'MUSE_Emissions|CO2|Energy|Demand|Industry', 'MUSE_Emissions|CO2|Energy|Demand|Residential and Commercial', 'MUSE_Emissions|CO2|Energy|Demand|Transportation', 'MUSE_Emissions|CO2|Energy|Demand|AFOFI', 'MUSE_Emissions|CO2|Energy|Demand|Other Sector', 'NEMESIS_Emissions|CO2|Energy|Supply', 'NEMESIS_Emissions|CO2|Energy|Demand|Industry', 'NEMESIS_Emissions|CO2|Energy|Demand|Residential and Commercial', 'NEMESIS_Emissions|CO2|Energy|Demand|Transportation', 'NEMESIS_Emissions|CO2|Energy|Demand|AFOFI', 'NEMESIS_Emissions|CO2|Energy|Demand|Other Sector', 'TIAM_Emissions|CO2|Energy|Supply', 'TIAM_Emissions|CO2|Energy|Demand|Industry', 'TIAM_Emissions|CO2|Energy|Demand|Residential and Commercial', 'TIAM_Emissions|CO2|Energy|Demand|Transportation', 'TIAM_Emissions|CO2|Energy|Demand|AFOFI', 'TIAM_Emissions|CO2|Energy|Demand|Other Sector'],
+        "y_var_titles": ['Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector'],
+        "y_var_units": ['MtCO2/y'],
+        "y_axis_title": 'CO2 Emissions',
+        "x_axis_name": "year",
+        "x_axis_title": "Year",
+        "x_axis_unit": "-",
+        "x_axis_type": "text",
+        "cat_axis_names": ['aladin', 'e3me', 'eu_times', 'forecast', '42', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam'],
+        "cat_axis_titles": ['ALADIN', 'E3ME', 'EU-TIMES', 'FORECAST', '42', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'NEMESIS', 'TIAM'],
+        "use_default_colors": false,
+        "color_list_request": ["light_blue", "dark_gray", "ceramic", "casual_green", "gold", "purple_new"],
+        "dataset_type": "query",
+        "type": "step_by_step"
     };
 
-    function start_qc_v_energy_co2_emissions_by_sector_process(json_query_obj) {
-        var query = {};
-        query["query_name"] = "wwheu_pub_emissions_by_sector_query";
-        query["parameters"] = json_query_obj['query_data'];
-        $.ajax({
-            url: "/data_manager/create_query",
-            type: "POST",
-            data: JSON.stringify(query),
-            contentType: 'application/json',
-            success: function (data) {
-                console.log('CO2 Emissions by sector Query Saved in DB');
-                var query_id = data['query_id'];
-                create_visualisation_energy_co2_emissions_by_sector(query_id);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    }
+    start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
 
-
-    function create_visualisation_energy_co2_emissions_by_sector(query_id) {
-        var viz_frame = $('#energy_co2_emissions_by_sector_viz_iframe');
-        viz_frame.off();
-        viz_frame.hide();
-        $('#energy_co2_emissions_by_sector_loading_bar').show();
-
-        var data = {
-            "y_var_names": ['ALADIN_Emissions|CO2|Energy|Supply', 'ALADIN_Emissions|CO2|Energy|Demand|Industry', 'ALADIN_Emissions|CO2|Energy|Demand|Residential and Commercial', 'ALADIN_Emissions|CO2|Energy|Demand|Transportation', 'ALADIN_Emissions|CO2|Energy|Demand|AFOFI', 'ALADIN_Emissions|CO2|Energy|Demand|Other Sector', 'E3ME_Emissions|CO2|Energy|Supply', 'E3ME_Emissions|CO2|Energy|Demand|Industry', 'E3ME_Emissions|CO2|Energy|Demand|Residential and Commercial', 'E3ME_Emissions|CO2|Energy|Demand|Transportation', 'E3ME_Emissions|CO2|Energy|Demand|AFOFI', 'E3ME_Emissions|CO2|Energy|Demand|Other Sector', 'EU-TIMES_Emissions|CO2|Energy|Supply', 'EU-TIMES_Emissions|CO2|Energy|Demand|Industry', 'EU-TIMES_Emissions|CO2|Energy|Demand|Residential and Commercial', 'EU-TIMES_Emissions|CO2|Energy|Demand|Transportation', 'EU-TIMES_Emissions|CO2|Energy|Demand|AFOFI', 'EU-TIMES_Emissions|CO2|Energy|Demand|Other Sector', 'FORECAST_Emissions|CO2|Energy|Supply', 'FORECAST_Emissions|CO2|Energy|Demand|Industry', 'FORECAST_Emissions|CO2|Energy|Demand|Residential and Commercial', 'FORECAST_Emissions|CO2|Energy|Demand|Transportation', 'FORECAST_Emissions|CO2|Energy|Demand|AFOFI', 'FORECAST_Emissions|CO2|Energy|Demand|Other Sector', '42_Emissions|CO2|Energy|Supply', '42_Emissions|CO2|Energy|Demand|Industry', '42_Emissions|CO2|Energy|Demand|Residential and Commercial', '42_Emissions|CO2|Energy|Demand|Transportation', '42_Emissions|CO2|Energy|Demand|AFOFI', '42_Emissions|CO2|Energy|Demand|Other Sector', 'GCAM_Emissions|CO2|Energy|Supply', 'GCAM_Emissions|CO2|Energy|Demand|Industry', 'GCAM_Emissions|CO2|Energy|Demand|Residential and Commercial', 'GCAM_Emissions|CO2|Energy|Demand|Transportation', 'GCAM_Emissions|CO2|Energy|Demand|AFOFI', 'GCAM_Emissions|CO2|Energy|Demand|Other Sector', 'Gemini-E3_Emissions|CO2|Energy|Supply', 'Gemini-E3_Emissions|CO2|Energy|Demand|Industry', 'Gemini-E3_Emissions|CO2|Energy|Demand|Residential and Commercial', 'Gemini-E3_Emissions|CO2|Energy|Demand|Transportation', 'Gemini-E3_Emissions|CO2|Energy|Demand|AFOFI', 'Gemini-E3_Emissions|CO2|Energy|Demand|Other Sector', 'ICES_Emissions|CO2|Energy|Supply', 'ICES_Emissions|CO2|Energy|Demand|Industry', 'ICES_Emissions|CO2|Energy|Demand|Residential and Commercial', 'ICES_Emissions|CO2|Energy|Demand|Transportation', 'ICES_Emissions|CO2|Energy|Demand|AFOFI', 'ICES_Emissions|CO2|Energy|Demand|Other Sector', 'MUSE_Emissions|CO2|Energy|Supply', 'MUSE_Emissions|CO2|Energy|Demand|Industry', 'MUSE_Emissions|CO2|Energy|Demand|Residential and Commercial', 'MUSE_Emissions|CO2|Energy|Demand|Transportation', 'MUSE_Emissions|CO2|Energy|Demand|AFOFI', 'MUSE_Emissions|CO2|Energy|Demand|Other Sector', 'NEMESIS_Emissions|CO2|Energy|Supply', 'NEMESIS_Emissions|CO2|Energy|Demand|Industry', 'NEMESIS_Emissions|CO2|Energy|Demand|Residential and Commercial', 'NEMESIS_Emissions|CO2|Energy|Demand|Transportation', 'NEMESIS_Emissions|CO2|Energy|Demand|AFOFI', 'NEMESIS_Emissions|CO2|Energy|Demand|Other Sector', 'TIAM_Emissions|CO2|Energy|Supply', 'TIAM_Emissions|CO2|Energy|Demand|Industry', 'TIAM_Emissions|CO2|Energy|Demand|Residential and Commercial', 'TIAM_Emissions|CO2|Energy|Demand|Transportation', 'TIAM_Emissions|CO2|Energy|Demand|AFOFI', 'TIAM_Emissions|CO2|Energy|Demand|Other Sector'],
-            "y_var_titles": ['Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector', 'Emissions|CO2|Energy|Supply', 'Emissions|CO2|Energy|Demand|Industry', 'Emissions|CO2|Energy|Demand|Residential and Commercial', 'Emissions|CO2|Energy|Demand|Transportation', 'Emissions|CO2|Energy|Demand|AFOFI', 'Emissions|CO2|Energy|Demand|Other Sector'],
-            "y_var_units": ['MtCO2/y'],
-            "y_axis_title": 'CO2 Emissions',
-            "x_axis_name": "year",
-            "x_axis_title": "Year",
-            "x_axis_unit": "-",
-            "x_axis_type": "text",
-            "cat_axis_names": ['aladin', 'e3me', 'eu_times', 'forecast', '42', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam'],
-            "cat_axis_titles": ['ALADIN', 'E3ME', 'EU-TIMES', 'FORECAST', '42', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'NEMESIS', 'TIAM'],
-            "use_default_colors": false,
-            "color_list_request": ["light_blue", "dark_gray", "ceramic", "casual_green", "gold", "purple_new"],
-            "dataset": query_id,
-            "dataset_type": "query",
-            "type": "step_by_step"
-        };
-        var url = '';
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                if (Array.isArray(data[key])) {
-                    for (var j = 0; j < data[key].length; j++) {
-                        url = url + String(key) + '[]' + "=" + String(data[key][j]) + '&'
-                    }
-                } else {
-                    url = url + String(key) + "=" + String(data[key]) + '&'
-                }
-
-            }
-        }
-        console.log('Global Primary Energy Ready to launch visualisation');
-        var complete_url = "/visualiser/show_stacked_clustered_column_chart?" + url;
-        viz_frame.attr('src', complete_url);
-        viz_frame.on('load', function () {
-            console.log('CO2 Emissions by sector Visualisation Completed');
-            $(this).show();
-            $.ajax({
-                url: "/data_manager/delete_query",
-                type: "POST",
-                data: JSON.stringify(query_id),
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log("CO2 Emissions by sector Temporary Query Deleted");
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-
-            $('#energy_co2_emissions_by_sector_loading_bar').hide();
-
-        });
-
-    }
 
     function create_energy_co2_emissions_by_sector_query() {
         var regions = ['EU'];
@@ -170,10 +99,6 @@ $(document).ready(function () {
         }
 
     }
-
-    run_energy_co2_emissions_by_sector();
-
-
 
 
 });

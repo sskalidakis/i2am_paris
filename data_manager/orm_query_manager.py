@@ -32,11 +32,11 @@ def line_chart_query(query_id):
         results = wwheu_pub_total_co2_emissions(query_id)
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = wwheu_pub_imported_fuels_query(query_id)
-    elif query_name in ['wwheu_pub_ccs_ratio']:
+    elif query_name in ['wwheu_pub_co2_ccs_ag_co2_reduction_query']:
         results = wwheu_pub_ccs_ratio(query_id)
-    elif query_name == 'wwheu_pub_import_dependency_ratio':
+    elif query_name == 'wwheu_pub_import_dependency_query':
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Import_Dependency')
-    elif query_name == 'wwheu_pub_electrification_ir_co2_reduction':
+    elif query_name == 'wwheu_pub_electrification_ir_co2_reduction_query':
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Electricity_Share')
     return results
 
@@ -54,7 +54,7 @@ def column_chart_query(query_id):
         results = rrf_classification_query(query_id, 'first_classification')
     elif query_name == 'rrf_classification_2_query':
         results = rrf_classification_query(query_id, 'second_classification')
-    elif query_name in ['wwheu_pub_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query',
+    elif query_name in ['wwheu_pub_energy_co2_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query',
                         'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_ind_query',
                         'wwheu_pub_hydrogen_electricity_comp_trans_query']:
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
