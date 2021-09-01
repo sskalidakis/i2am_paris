@@ -21,7 +21,7 @@ $(document).ready(function () {
         "x_axis_type": "value",
         "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
         "dataset_type": "query",
-        "type": "step_by_step"
+
     };
 
     start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)

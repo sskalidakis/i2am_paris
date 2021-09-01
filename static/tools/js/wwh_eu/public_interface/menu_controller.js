@@ -7,15 +7,21 @@ $(document).ready(function () {
     var heading = $('.heading-link[data-section="methods"]');
     heading.css('background', '#849627');
     heading.css('color', 'white');
+    document.getElementById("footer").style.width = "75%";
+        document.getElementById("footer").style.float = "right";
 
     function openNav() {
         document.getElementById("mySidenav").style.width = "25%";
         document.getElementById("main").style.marginLeft = "25%";
+        document.getElementById("footer").style.width = "75%";
+        document.getElementById("footer").style.float = "right";
     }
 
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0%";
         document.getElementById("main").style.marginLeft = "0%";
+        document.getElementById("footer").style.width = "100%";
+        document.getElementById("footer").style.float = "left";
     }
 
 
