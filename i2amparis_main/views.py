@@ -395,6 +395,10 @@ def euw_public_ui(request):
     context = {}
     return render(request, 'i2amparis_main/eu_workspace/euw_public_ui.html', context)
 
+def euw_virtual_library(request):
+    context = {}
+    return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library.html', context)
+
 def detailed_model_doc(request, model=''):
     if model == '':
         print('Detailed Model Documentation')
