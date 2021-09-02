@@ -19,7 +19,8 @@ $(document).ready(function () {
         "x_axis_title": "CO2 emissions reduction",
         "x_axis_unit": "percentage %",
         "x_axis_type": "value",
-        "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+        "use_default_colors": false,
+        "color_list_request": ["moody_blue",  "light_red",  "gold"],
         "dataset_type": "query",
 
     };

@@ -11,15 +11,15 @@ $(document).ready(function () {
     var jq_obj = create_total_co2_emissions_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
-                    "y_var_names": ['e3me_PR_CurPol_CP', 'gcam_PR_CurPol_CP', 'gemini_e3_PR_CurPol_CP', 'ices_PR_CurPol_CP', 'muse_PR_CurPol_CP', 'tiam_PR_CurPol_CP'],
-                    "y_var_titles": ['E3ME- PR_CurPol_CP', 'GCAM- PR_CurPol_CP', 'Gemini-E3- PR_CurPol_CP', 'ICES- PR_CurPol_CP', 'MUSE- PR_CurPol_CP', 'TIAM- PR_CurPol_CP'],
+                    "y_var_names": ['42_PR_CurPol_EI', 'eu_times_PR_WWH_CP','e3me_PR_CurPol_CP', 'gcam_PR_CurPol_CP', 'gemini_e3_PR_CurPol_CP', 'ices_PR_CurPol_CP', 'muse_PR_CurPol_CP','nemesis_PR_WWH_CP', 'tiam_PR_CurPol_CP'],
+                    "y_var_titles": ['42', 'EU-TIMES','E3ME', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE','NEMESIS', 'TIAM'],
                     "y_var_units": ['MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y'],
                     "y_axis_title": 'Emissions|CO2|Energy',
                     "x_axis_name": "year",
                     "x_axis_title": "Year",
                     "x_axis_unit": "-",
                     "x_axis_type": "text",
-                    "color_list_request": ["moody_blue", "violet", "light_red", "orange_yellow", "grey_green", "cyan", "black"],
+                    "color_list_request": ["moody_blue", "violet", "light_red", "orange_yellow", "grey_green", "cyan", "black","gold", "purple"],
                     "dataset_type": "query",
                     "use_default_colors": false,
                     // "type": "step_by_step"
