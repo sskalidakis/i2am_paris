@@ -67,7 +67,7 @@ def paris_reinforce_harmonisation(request):
         }
 
         temp_sources = harm_data_sources_links.filter(model__name=el.model.name,
-                                                           variable__var_name=el.variable.var_name).values(
+                                                      variable__var_name=el.variable.var_name).values(
             "var_source_info", "var_source_url", "title")
         titles = set([i['title'] for i in temp_sources])
         temp_sources_dict = {}
@@ -92,7 +92,8 @@ def paris_reinforce_harmonisation(request):
 
 
 def paris_advanced_scientific_module(request):
-    models = DataVariablesModels.objects.filter(name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
+    models = DataVariablesModels.objects.filter(
+        name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
     scenarios = ScenariosRes.objects.exclude(name='PR_CurPol_CPO').order_by('title')
     regions = RegionsRes.objects.all().order_by('reg_type')
     variables = VariablesRes.objects.all().order_by('ordering')
@@ -109,6 +110,7 @@ def paris_advanced_scientific_module(request):
 
 def paris_cwdtm(request):
     return render(request, 'i2amparis_main/paris_reinforce_workspace/what_does_this_mean.html')
+
 
 @csrf_exempt
 def update_scientific_model_selects_strict(request):
@@ -216,7 +218,6 @@ def update_scientific_model_selects_strict(request):
         return JsonResponse(ls, safe=False)
 
 
-
 @csrf_exempt
 def update_scientific_model_selects_basic(request):
     body_unicode = request.body.decode('utf-8')
@@ -313,7 +314,6 @@ def update_scientific_model_selects_basic(request):
             allowed_models = [el for el in all_models if el not in fe_all_models]
             allowed_regions = regions
 
-
         ls = {'models': [el for el in all_models if el not in allowed_models],
               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
               'regions': [el for el in all_regions if el not in allowed_regions],
@@ -322,8 +322,6 @@ def update_scientific_model_selects_basic(request):
         print('Changed field: ', changed_field)
 
         return JsonResponse(ls, safe=False)
-
-
 
 
 @csrf_exempt
@@ -354,6 +352,7 @@ def populate_detailed_analysis_datatables(request):
             ls.append(temp)
         return JsonResponse(ls, safe=False)
 
+
 @csrf_exempt
 def populate_rrf_policy_datatables(request):
     body_unicode = request.body.decode('utf-8')
@@ -375,6 +374,7 @@ def populate_rrf_policy_datatables(request):
             ls.append(temp)
         return JsonResponse(ls, safe=False)
 
+
 def get_sdg_variables(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
@@ -391,13 +391,20 @@ def rrf_landing(request):
     context = {}
     return render(request, 'i2amparis_main/rrf_policy_workspace/rrf_policy_intro.html', context)
 
+
 def euw_public_ui(request):
     context = {}
     return render(request, 'i2amparis_main/eu_workspace/euw_public_ui.html', context)
 
-def euw_virtual_library(request):
-    context = {}
-    return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library.html', context)
+
+def euw_virtual_library(request, **kwargs):
+    if 'section' not in kwargs.keys():
+        context = {}
+        return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library.html', context)
+    else:
+        context = {}
+        return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library_' + kwargs['section'] + '.html', context)
+
 
 def detailed_model_doc(request, model=''):
     if model == '':
@@ -408,7 +415,8 @@ def detailed_model_doc(request, model=''):
             'model_list': list_of_models,
             'sel_icons': sel_icons
         }
-        return render(request, 'i2amparis_main/detailed_documentation/detailed_model_documentation_landing_page.html', context)
+        return render(request, 'i2amparis_main/detailed_documentation/detailed_model_documentation_landing_page.html',
+                      context)
     else:
         category = ModelsInfo.objects.get(model_name=model).coverage
         list_of_cat_models = ModelsInfo.objects.filter(coverage=category)

@@ -36,6 +36,8 @@ urlpatterns = [
          name='populate_rrf_policy_datatables'),
     path('euw_public_ui', views.euw_public_ui, name='euw_public_ui'),
     path('euw_virtual_library', views.euw_virtual_library, name='euw_virtual_library'),
+    path('euw_virtual_library/<section>', views.euw_virtual_library,
+         name='euw_virtual_library'),
     # path('update_comparative_selects_strict', views.update_comparative_selects_strict,
     #      name='update_comparative_selects_strict'),
     # path('update_comparative_selects_basic', views.update_comparative_selects_basic,

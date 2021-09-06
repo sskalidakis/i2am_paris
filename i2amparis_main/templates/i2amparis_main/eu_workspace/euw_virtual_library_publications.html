@@ -1,0 +1,100 @@
+{% extends 'i2amparis_main/eu_workspace/euw_virtual_library_section.html' %}
+
+{% block content %}
+    <div id="intro_virtual" style="margin-top: 6em;min-height: 100%">
+        <div class="container" style="width: 90%; height: 100%; padding-bottom: 3em">
+            <div class=" col-sm-12 col-xs-12" style="text-align: center">
+                <h1 style="text-align:center;display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; ">
+                    Virtual Library
+                </h1>
+            </div>
+            <div class="content-section col-sm-12 col-xs-12 col-md-12"
+                 style=" margin-top: 2em;padding: 1em">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="circle-button tb-orange" style="text-align: center">
+                        <a href="" class="">Publications</a>
+                        <i class="fa fa-book mini-title-icon"></i>
+                    </div>
+                </div>
+                {% include "i2amparis_main/eu_workspace/euw_virtual_library_side_menu.html" %}
+                <div class="main-content col-md-9 col-xs-12 col-sm-9" style="margin-top: 3em">
+
+                    <div class="accordion col-sm-12 col-xs-12" id="accordion_1">
+                        <div class="card">
+                            <div class="card-header" id="heading_1">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapse_1" aria-expanded="true"
+                                            aria-controls="collapse_1" style="padding:0px">
+                                        <i class="fa fa-caret-right rotate" style="margin-right: 10px;"></i>
+                                        Marinakis, V., Koutsellis, T., Nikas, A., &amp; Doukas, H. (2021). AI and Data
+                                        Democratisation for Intelligent Energy Management.
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapse_1" class="collapse "
+                                 aria-labelledby="heading_1"
+                                 data-parent="#accordion_1">
+                                <div class="card-body">
+                                    <p>
+                                        <strong>Title:</strong>
+                                        AI and Data Democratisation for Intelligent Energy Management
+                                    </p>
+                                    <p>
+                                        <strong>Date:</strong>
+                                        June 2021
+                                    </p>
+                                    <p>
+                                        <strong>Short description:</strong>
+                                        Despite the large number of technology-intensive organisations, their corporate
+                                        know-how and underlying workforce skill are not mature enough for a successful
+                                        rollout of Artificial Intelligence (AI) services in the near-term. However,
+                                        things
+                                        have started to change, owing to the increased adoption of data democratisation
+                                        processes, and the capability offered by emerging technologies for data sharing
+                                        while respecting privacy, protection, and security, as well as appropriate
+                                        learning-based modelling capabilities for non-expert end-users.
+                                    </p>
+                                    <p>
+                                        <strong>Authors:</strong>
+                                        Vangelis Marinakis, Themistoklis Koutsellis, Alexandros Nikas, Haris Doukas
+                                    </p>
+                                    <p>
+                                        <strong>Journal:</strong>
+                                        Energies
+                                    </p>
+                                    <p>
+                                        <strong>Links:</strong>
+                                        <a href="https://doi.org/10.3390/en14144341">doi:10.3390/en14144341</a>
+                                    </p>
+                                    <p>
+                                        <strong>Tags:</strong>
+                                        <span class="text-tag">artificial intelligence</span>
+                                        <span class="text-tag">data democratisation</span>
+                                        <span class="text-tag">energy data spaces</span>
+                                        <span class="text-tag">interoperability</span>
+                                        <span class="text-tag">data sharing</span>
+                                        <span class="text-tag">energy management</span>
+                                        <span class="text-tag">decarbonisation</span>
+                                        <span class="text-tag">decision support</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="col-md-12 col-xs-12 col-sm-12">
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(".lib-menu-nav .tb-orange").hide();
+    </script>
+{% endblock %}
