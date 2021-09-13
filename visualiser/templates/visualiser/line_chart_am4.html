@@ -29,6 +29,7 @@
             var minmax_y_value = {{ minmax_y_value|safe }};
             var chart_3d = {{ chart_3d }};
             chart.exporting.menu = new am4core.ExportMenu();
+            chart.exporting.menu.verticalAlign = "bottom";
 
             // Create axes
             if (x_axis_type === "time") {

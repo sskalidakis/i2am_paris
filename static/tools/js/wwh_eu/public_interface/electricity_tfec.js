@@ -23,7 +23,7 @@ $(document).ready(function () {
             "use_default_colors": false,
             "color_list_request": ["light_blue", "gray", "dark_gray", "grey_green"],
             "dataset_type": "query",
-            "type": "step_by_step"
+            "type": "normal"
         };
 
     start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)

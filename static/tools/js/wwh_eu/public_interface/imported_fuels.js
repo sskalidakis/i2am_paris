@@ -29,9 +29,9 @@ $(document).ready(function () {
         var jq_obj = create_imported_fuels_query(variables)
         console.log(viz_id + '- JSON Query Created');
         var viz_payload = {
-            "y_var_names": ['eu_times', 'gcam', 'tiam', 'gemini_e3'],
-            "y_var_titles": ['EU-TIMES', 'GCAM', 'TIAM', 'Gemini-E3'],
-            "y_var_units": ['billion US$2010/yr OR local currency','billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
+            "y_var_names": ['eu_times', 'tiam', 'gemini_e3'],
+            "y_var_titles": ['EU-TIMES', 'TIAM', 'Gemini-E3'],
+            "y_var_units": ['billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
             "y_axis_title": 'Imported fossil fuels',
             "x_axis_name": "year",
             "x_axis_title": "Year",
@@ -40,7 +40,8 @@ $(document).ready(function () {
             "use_default_colors": false,
             "color_list_request": ["blue", "green", "ceramic", "gold"],
             "dataset_type": "query",
-            "type": "step_by_step"
+            "stacked": "false",
+            // "type": "step_by_step"
         };
 
         start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
@@ -49,7 +50,7 @@ $(document).ready(function () {
 
 
     function create_imported_fuels_query(sel_variables) {
-        var models = ['eu_times', 'gcam', 'tiam', 'gemini_e3'];
+        var models = ['eu_times', 'tiam', 'gemini_e3'];
         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
         var regions = ['EU'];
         var variable = sel_variables;

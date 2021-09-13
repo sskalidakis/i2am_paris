@@ -944,7 +944,7 @@ def show_stacked_clustered_chart(request):
     '''
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
-    y_axis_units = response_data_xy['y_var_units'][0]
+    y_axis_units = response_data_xy['y_var_units']
     x_axis_name = response_data_xy['x_axis_name']
     x_axis_title = response_data_xy['x_axis_title']
     x_axis_unit = response_data_xy['x_axis_unit']
@@ -964,13 +964,13 @@ def show_stacked_clustered_chart(request):
                                                               x_sec_axis,
                                                               y_var_names, y_var_titles, y_axis_units, y_axis_title,
                                                               cat_axis_names, cat_axis_titles, data, color_list,
-                                                              use_default_colors, 'stacked_clustered_chart')
+                                                              use_default_colors, 'stacked_clustered_chart_step_by_step')
     else:
         stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit,
                                                               x_sec_axis,
                                                               y_var_names, y_var_titles, y_axis_units, y_axis_title,
                                                               cat_axis_names, cat_axis_titles, data, color_list,
-                                                              use_default_colors, 'stacked_clustered_chart_step_by_step')
+                                                              use_default_colors, 'stacked_clustered_chart')
 
     return stacked_clustered_chart.show_chart()
 
