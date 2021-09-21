@@ -71,7 +71,7 @@ class RetriveDB:
         if harmonisation == 1:
             models_data = ModelsInfo.objects.filter(harmonisation=1).order_by('ordering')
         else:
-            models_data = ModelsInfo.objects.all().order_by('ordering')
+            models_data = ModelsInfo.objects.all().order_by('model_title')
         # Get the titles of each model
         model_dict = {}
         for el in models_data:

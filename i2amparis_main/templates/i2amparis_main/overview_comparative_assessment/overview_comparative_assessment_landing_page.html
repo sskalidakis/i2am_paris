@@ -1,8 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
@@ -11,10 +14,14 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71499906-6"></script>
     <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-71499906-6');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-71499906-6');
     </script>
     <!-- BASICS -->
     <meta charset="utf-8">
@@ -37,14 +44,14 @@
     <link rel="stylesheet" href={% static "doc_css.css" %}>
     <style>
         #section-main-content {
-{#            min-height: 3380px;#}
+        {#            min-height: 3380px;#}
         }
 
         html {
             scroll-behavior: smooth;
         }
 
-        .heading-list a h2{
+        .heading-list a h2 {
             margin-bottom: 4em;
             padding-left: 2em;
         }
@@ -73,10 +80,10 @@
                             src="/static/images/logo.png"
                             style="height: 3em"></a>
                     <a class="col-sm-8 col-md-8 col-xs-6"> </a>
-{#                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"#}
-{#                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">#}
-{#                        Back#}
-{#                    </button>#}
+                    {#                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"#}
+                    {#                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">#}
+                    {#                        Back#}
+                    {#                    </button>#}
                     <a href="/main"
                        class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn content_btn"
                        style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">Back</a>
@@ -92,10 +99,14 @@
                 <ul class="nav navbar-nav" data-0="margin-top:0px;background-color: rgba(28, 28, 28, 1);"
                     data-300="margin-top:0px;background-color: rgba(184, 184, 184, 0.65);"
                     style="width: 100%">
-                    <li><a href="overview_comparative_assessment_doc/global" style="font-weight: 500">Global Models</a></li>
-                    <li><a href="overview_comparative_assessment_doc/national_eu" style="font-weight: 500">National / Regional Models for EU</a></li>
+                    <li><a href="overview_comparative_assessment_doc/global" style="font-weight: 500">Global Models</a>
+                    </li>
+                    <li><a href="overview_comparative_assessment_doc/national_eu" style="font-weight: 500">National /
+                        Regional Models for EU</a></li>
                     {#                    <li><a href="#section-services" style="font-weight: 500">Analyses</a></li>#}
-                    <li><a href="overview_comparative_assessment_doc/national_oeu" style="font-weight: 500;text-align: left">National / Regional Models for Countries outside EU</a></li>
+                    <li><a href="overview_comparative_assessment_doc/national_oeu"
+                           style="font-weight: 500;text-align: left">National / Regional Models for Countries outside
+                        EU</a></li>
 
                 </ul>
             </div>
@@ -111,11 +122,14 @@
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 2em;margin-left:20px">
         <div class="main-content">
-            <h3 style="margin-bottom: 2.5em">The overview and comparative assessment section includes:</h3>
+            <h3 style="margin-bottom: 2.5em">The overview and comparative assessment section covers the PARIS REINFORCE
+                project models and can be broken down into three categories:</h3>
             <div class="heading-list">
                 <a style="margin: 0.5em" href="overview_comparative_assessment_doc/global"><h2>Global Models</h2></a>
-                <a style="margin: 0.5em" href="overview_comparative_assessment_doc/national_eu"><h2>National / Regional Models for Europe</h2></a>
-                <a style="margin: 0.5em" href="overview_comparative_assessment_doc/national_oeu"><h2>National / Regional Models for Countries Outside Europe</h2></a>
+                <a style="margin: 0.5em" href="overview_comparative_assessment_doc/national_eu"><h2>National / Regional
+                    Models for Europe</h2></a>
+                <a style="margin: 0.5em" href="overview_comparative_assessment_doc/national_oeu"><h2>National / Regional
+                    Models for Countries Outside Europe</h2></a>
             </div>
 
         </div>

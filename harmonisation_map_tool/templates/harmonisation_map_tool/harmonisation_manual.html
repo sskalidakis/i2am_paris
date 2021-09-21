@@ -49,188 +49,195 @@
 {% endblock %}
 
 {% block content %}
-        <div class="" id="harm_heatmap">
-            <div class="container" style="width: 100%; height:100%;">
-                <h2 style="text-align: center ;margin-top: 3em; width:100%;  color: rgba(151, 174, 33, 0.8)">Variable Harmonisation </h2>
-                <div class="row" style=" margin-left: 1em">
-                    <p>
-                        <b>Please, select up to 15 models from the list below </b> and press the <button class="button btn btn-default   green line-btn"
-                                                                                       style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0; width: 4em; line-height: 1.5em; height: 1.5em">Run
-                    </button> button. The created heatmap
-                    will indicate how different variables are handled across the models available in I<sup>2</sup>AM PARIS
+    <div class="" id="harm_heatmap">
+        <div class="container" style="width: 95%; height:100%;">
+            <h2 style="text-align: center ;margin-top: 3em; width:100%;  color: rgba(151, 174, 33, 0.8)">Customisable
+                Variable Harmonisation Heatmap</h2>
+            <h3 style="margin-bottom: 2em; text-align: center ; width:100%;  color: rgba(151, 174, 33, 0.8)">of the
+                PARIS REINFORCE project</h3>
+            <div class="col-sm-12 col-md-12" style="margin-bottom: 1em">
+                <p>
+                    <b>Please, select up to 15 models from the list below </b> and press the
+                    <button class="button btn btn-default   green line-btn"
+                            style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0; width: 4em; line-height: 1.5em; height: 1.5em">
+                        Run
+                    </button>
+                    button. The created heatmap
+                    will indicate how different variables are handled across the models available in I<sup>2</sup>AM
+                    PARIS
                     Platform.
-                    </p>
-                </div>
+                </p>
+            </div>
 
-                <div class="row">
-                    <div class="col-sm-12 col-md-12" style="">
-                        <div class="model-list tooltip-demo large"
-                             style=" text-align: center">
-                            {% for model,json in buttons.items %}
-                                    <div class="col not-selected" data-link="{{ model }}"
-                                         style="overflow: visible; padding: 0;position: relative;display: inline-block; margin: 0.8em">
-                                        <i style="position: absolute;left: 0.5em;top:0.5em;color:#cfd0d2;font-size: 0.8em;z-index: 1050"
-                                           class="fa fa-info-circle"></i>
-                                        <a>
-                                            <img class="not-selected rounded-corners-el"
-                                                 style="width:6.3em;"
-                                                 src="/static/rev_icons/grey/{{ json.icon }}"
-                                                 data-toggle="tooltip" data-placement="auto"
-                                                 title='<p>{{ json.description }}</p>'>
-                                        </a>
-                                    </div>
-
-                            {% endfor %}
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3 col-md-3 col-xs-12" style="text-align: left; margin-top: 1em"><span
-                                    style="font-size: 2em">*</span><span
-                                    style="font-size: 0.9em">Models outside the PARIS REINFORCE project</span>
+            <div class="row">
+                <div class="col-sm-12 col-md-12" style="">
+                    <div class="model-list tooltip-demo large"
+                         style=" text-align: center">
+                        {% for model,json in buttons.items %}
+                            <div class="col not-selected" data-link="{{ model }}"
+                                 style="overflow: visible; padding: 0;position: relative;display: inline-block; margin: 0.8em">
+                                <i style="position: absolute;left: 0.5em;top:0.5em;color:#cfd0d2;font-size: 0.8em;z-index: 1050"
+                                   class="fa fa-info-circle"></i>
+                                <a>
+                                    <img class="not-selected rounded-corners-el"
+                                         style="width:6.3em;"
+                                         src="/static/rev_icons/grey/{{ json.icon }}"
+                                         data-toggle="tooltip" data-placement="auto"
+                                         title='<p>{{ json.description }}</p>'>
+                                </a>
                             </div>
+
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-2 col-xs-2">
                             <a id="clear-button"
-                               class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn content_btn line-btn"
-                               style="background-color: rgba(172,31,0,0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; ">Clear
+                               class="button btn btn-default  openbtn content_btn line-btn"
+                               style="width:100%;background-color: rgba(172,31,0,0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; ">Clear
                                 <i class="fa fa-trash-o" style="margin-left: 0.5em"></i>
                             </a>
-                            <span class="col-sm-7 col-md-7 col-xs-8"></span>
-
+                        </div>
+                        <span class="col-sm-8 col-md-8 col-xs-8"></span>
+                        <div class="col-sm-2 col-md-2 col-xs-2">
                             <a id="run-button"
-                               class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn content_btn green line-btn"
-                               style="background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; ">Run <i class="fa fa-spinner"
-                                                                                                                                                      style="margin-left: 0.5em"></i>
+                               class="button btn btn-default openbtn content_btn green line-btn"
+                               style="width:100%;background-color: rgba(151, 174, 33, 0.8);color: white;padding: 0;height: inherit; line-height: 2.5em; ">Run
+                                <i class="fa fa-spinner"
+                                   style="margin-left: 0.5em"></i>
                             </a>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>
 
-                <div id="dynamic_chart" class="row" style=" height: 130vh; margin-top: 2em">
-                    <div class="col-sm-9 col-xs-12" style="height: 100%">
-                        <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
-                            <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart"
-                                    style="width: 100%; height: 100%;  border:none"></iframe>
-                            <div id="loading_bar"
-                                 style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
-                                <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
-                                     src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
-                                <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-8">The rows present the different socio and techno
-                                        economic
-                                        variables. The columns indicate the available models. Variables are either
-                                        considered as outputs
-                                        from models, inputs to models or are not represented by the models as any
-                                        explicit output or
-                                        input
-                                    </div>
-                                    <div class="col-sm-2"></div>
+            </div>
+
+            <div id="dynamic_chart" class="row" style=" height: 130vh; margin-top: 2em">
+                <div class="col-sm-9 col-xs-12" style="height: 100%">
+                    <div id="viz_frame_div" class="row" style="height: 100%; line-height: 100%;">
+                        <iframe id="viz_iframe" src="" title="Harmonisation Table Heatmap Chart"
+                                style="width: 100%; height: 100%;  border:none"></iframe>
+                        <div id="loading_bar"
+                             style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em; display: none">
+                            <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
+                                 src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                            <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-8">The rows present the different socio and techno
+                                    economic
+                                    variables. The columns indicate the available models. Variables are either
+                                    considered as outputs
+                                    from models, inputs to models or are not represented by the models as any
+                                    explicit output or
+                                    input
                                 </div>
-                                <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                                <div class="col-sm-2"></div>
                             </div>
+                            <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
                         </div>
-                    </div>
-
-
-                    <div class="col-sm-3 col-xs-12 viz-container" style="margin-top: 2em; display: none">
-                        <div class="tooltip-demo">
-                            <h4 style="display: inline-block;background:transparent;box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
-                                data-toggle="tooltip" data-placement="auto"
-                                title="<p>This heatmap indicates how different variables are handled across the models within the Paris Reinforce consortium. The rows present the different socio and techno economic variables. The columns indicate the 16 PR models. Variables are either considered as outputs from models, inputs to models or are not represented by the models as any explicit output or input</p>">
-                                Variable Harmonisation Heatmap
-                            </h4>
-                        </div>
-
-
-                        <label for="model_name" style="display: block;width: 70%">Model Name
-                            <select class="form-control desc_text take_up_space" id="model_name">
-{#                                {% for el in models %}#}
-{#                                    <option value="{{ el.model_name }}">{{ el.model_title }}</option>#}
-{#                                {% endfor %}#}
-                            </select>
-                        </label>
-                        <div class="heading">Model Geographical Coverage</div>
-                        <div class="desc_text take_up_space" id="geo_cov"></div>
-                        <div class="heading">Model Type</div>
-                        <div class="desc_text take_up_space" id="model_type"></div>
-                        <div class="heading"> Model Time Step (Years)</div>
-                        <div class="desc_text take_up_space" id="model_timestep"></div>
-                        <div class="heading">
-                            <a style="font-weight: bold; " id="model_desc" target="_blank"
-                               rel="noopener noreferrer" href="/detailed_model_doc/">Detailed Model
-                                Documentation
-                                <i class="fa fa-book"></i>
-                            </a>
-                        </div>
-                        <div class="heading " style="margin-bottom: 1em">
-                            <a style="font-weight: bold; " id="model_dynamic" target="_blank"
-                               rel="noopener noreferrer" href="/dynamic_doc/">Dynamic Model
-                                Documentation
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </div>
-
-                        {#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
-                        {#                <hr>#}
-                        {#                <div class="heading">Variable Name</div>#}
-                        <label for="var_name" style="display: block;width: 70%">Variable Name
-                            <select class=" form-control desc_text take_up_space" id="var_name">
-                                {% for el in variables %}
-                                    <option value="{{ el.var_name }}">{{ el.var_title }}</option>
-                                {% endfor %}
-                            </select>
-                        </label>
-                        <div class="heading"> Category</div>
-                        <div class="desc_text take_up_space" id="var_cat"></div>
-                        <div class="heading">Variable Definition</div>
-                        <div class="desc_text take_up_space" id="var_def"></div>
-                        <div class="source_container">
-                            <div class="heading">Source</div>
-                            <div class="desc_text take_up_space" id="var_mod_source"></div>
-                        </div>
-                        <div class="unit_container">
-                            <div class="heading">Unit</div>
-                            <div class="desc_text take_up_space" id="var_mod_unit"></div>
-                        </div>
-                        <div class="timespan_container">
-                            <div class="heading">Timespan</div>
-                            <div class="desc_text take_up_space" id="var_mod_timespan"></div>
-                        </div>
-
                     </div>
                 </div>
 
-            </div>
-            <div id="models_container" style="display: none">
-                {% for model in models %}
-                    <div id={{ model.model_name }}>
-                        {#                <span id="long_title">{{ model.long_title }}</span>#}
-                        <span class="d_model_coverage">{{ model.coverage_title }}</span>
-                        <span class="d_model_type">{{ model.type_of_model }}</span>
-                        <span class="d_model_timestep">{{ model.time_steps_in_solution }}</span>
-                        <span class="d_model_description">{{ model.short_description }}</span>
+
+                <div class="col-sm-3 col-xs-12 viz-container" style="margin-top: 2em; display: none">
+                    <div class="tooltip-demo">
+                        <h4 style="display: inline-block;background:transparent;box-shadow: none; font-weight: bold; color: #828f30; cursor: help"
+                            data-toggle="tooltip" data-placement="auto"
+                            title="<p>This heatmap indicates how different variables are handled across the models within the Paris Reinforce consortium. The rows present the different socio and techno economic variables. The columns indicate the 16 PR models. Variables are either considered as outputs from models, inputs to models or are not represented by the models as any explicit output or input</p>">
+                            Variable Harmonisation Heatmap
+                        </h4>
                     </div>
-                {% endfor %}
-            </div>
-            <div id="variables_container" style="display: none">
-                {% for variable in variables %}
-                    <div id={{ variable.var_name }}>
-                        <span class="d_var_title">{{ variable.var_title }}</span>
-                        <span class="d_var_category">{{ variable.var_category }}</span>
-                        <span class="d_var_definition">{{ variable.var_definition }}</span>
+
+
+                    <label for="model_name" style="display: block;width: 70%">Model Name
+                        <select class="form-control desc_text take_up_space" id="model_name">
+                            {#                                {% for el in models %}#}
+                            {#                                    <option value="{{ el.model_name }}">{{ el.model_title }}</option>#}
+                            {#                                {% endfor %}#}
+                        </select>
+                    </label>
+                    <div class="heading">Model Geographical Coverage</div>
+                    <div class="desc_text take_up_space" id="geo_cov"></div>
+                    <div class="heading">Model Type</div>
+                    <div class="desc_text take_up_space" id="model_type"></div>
+                    <div class="heading"> Model Time Step (Years)</div>
+                    <div class="desc_text take_up_space" id="model_timestep"></div>
+                    <div class="heading">
+                        <a style="font-weight: bold; " id="model_desc" target="_blank"
+                           rel="noopener noreferrer" href="/detailed_model_doc/">Detailed Model
+                            Documentation
+                            <i class="fa fa-book"></i>
+                        </a>
                     </div>
-                {% endfor %}
-            </div>
-            <div id="var_mod_data_container" style="display: none">
-                {% for el in var_mod %}
-                    <div id={{ el.model }}_{{ el.var }}>
-                        <span class="d_var_mod_unit">{{ el.var_unit }}</span>
-                        <span class="d_var_mod_source_info">{{ el.var_source_info }}</span>
-                        <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
+                    <div class="heading " style="margin-bottom: 1em">
+                        <a style="font-weight: bold; " id="model_dynamic" target="_blank"
+                           rel="noopener noreferrer" href="/dynamic_doc/">Dynamic Model
+                            Documentation
+                            <i class="fa fa-search"></i>
+                        </a>
                     </div>
-                {% endfor %}
+
+                    {#                <div class="desc_text text_take_up_space" id="model_desc"></div>#}
+                    {#                <hr>#}
+                    {#                <div class="heading">Variable Name</div>#}
+                    <label for="var_name" style="display: block;width: 70%">Variable Name
+                        <select class=" form-control desc_text take_up_space" id="var_name">
+                            {% for el in variables %}
+                                <option value="{{ el.var_name }}">{{ el.var_title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <div class="heading"> Category</div>
+                    <div class="desc_text take_up_space" id="var_cat"></div>
+                    <div class="heading">Variable Definition</div>
+                    <div class="desc_text take_up_space" id="var_def"></div>
+                    <div class="source_container">
+                        <div class="heading">Source</div>
+                        <div class="desc_text take_up_space" id="var_mod_source"></div>
+                    </div>
+                    <div class="unit_container">
+                        <div class="heading">Unit</div>
+                        <div class="desc_text take_up_space" id="var_mod_unit"></div>
+                    </div>
+                    <div class="timespan_container">
+                        <div class="heading">Timespan</div>
+                        <div class="desc_text take_up_space" id="var_mod_timespan"></div>
+                    </div>
+
+                </div>
             </div>
+
         </div>
+        <div id="models_container" style="display: none">
+            {% for model in models %}
+                <div id={{ model.model_name }}>
+                    {#                <span id="long_title">{{ model.long_title }}</span>#}
+                    <span class="d_model_coverage">{{ model.coverage_title }}</span>
+                    <span class="d_model_type">{{ model.type_of_model }}</span>
+                    <span class="d_model_timestep">{{ model.time_steps_in_solution }}</span>
+                    <span class="d_model_description">{{ model.short_description }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="variables_container" style="display: none">
+            {% for variable in variables %}
+                <div id={{ variable.var_name }}>
+                    <span class="d_var_title">{{ variable.var_title }}</span>
+                    <span class="d_var_category">{{ variable.var_category }}</span>
+                    <span class="d_var_definition">{{ variable.var_definition }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="var_mod_data_container" style="display: none">
+            {% for el in var_mod %}
+                <div id={{ el.model }}_{{ el.var }}>
+                    <span class="d_var_mod_unit">{{ el.var_unit }}</span>
+                    <span class="d_var_mod_source_info">{{ el.var_source_info }}</span>
+                    <span class="d_var_mod_timespan">{{ el.var_timespan }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 
 
@@ -324,7 +331,7 @@
 
             var complete_url = "/visualiser/show_heat_map_chart?" + url;
             viz_frame.attr('src', complete_url);
-            viz_frame.on('load',function () {
+            viz_frame.on('load', function () {
                 $(this).show();
                 console.log("delete old query");
                 $.ajax({
@@ -372,7 +379,7 @@
                 $(this).find("img").attr("src", "/static/rev_icons/colored/" + icon_name);
                 $(this).removeClass('not-selected');
                 $(this).addClass('selected');
-            }else if($(this).hasClass('selected')){
+            } else if ($(this).hasClass('selected')) {
                 models_json = {{ buttons|safe }};
                 icon_name = models_json[$(this).attr('data-link')]['icon'];
                 $(this).find("img").attr("src", "/static/rev_icons/grey/" + icon_name);
@@ -381,7 +388,7 @@
             }
         });
 
-        $("#clear-button").click(function(){
+        $("#clear-button").click(function () {
             var model_sel = $(".model-list div");
             model_sel.removeClass('selected');
             model_sel.addClass('not-selected');
@@ -391,17 +398,16 @@
                 $(this).find("img").attr("src", "/static/rev_icons/grey/" + icon_name);
             });
             $("#model_name option").remove();
-            $('#dynamic_chart').css('visibility','hidden');
+            $('#dynamic_chart').css('visibility', 'hidden');
 
         });
 
         $("#run-button").click(function () {
 
             var selector_models = $(".model-list div.selected");
-            if (selector_models.length < 1){
+            if (selector_models.length < 1) {
                 alert('Please, select at least one model from the list.')
-            }
-            else {
+            } else {
                 $("#model_name option").remove();
                 $('#dynamic_chart').css('visibility', 'visible')
                 const csrftoken = getCookie('csrftoken');
@@ -418,11 +424,11 @@
                 });
                 var query = {};
                 query["query_name"] = "var_harmonisation_on_demand";
-                var string="";
-                for(var i=0; i<selected_models.length;i++){
+                var string = "";
+                for (var i = 0; i < selected_models.length; i++) {
                     string = string + '"' + selected_models[i] + '",'
                 }
-                string = string.slice(0,-1);
+                string = string.slice(0, -1);
                 query["parameters"] = JSON.parse('{"model_list":[' + string + ']}');
                 console.log("requested_harmonisation_data");
                 $.ajax({
@@ -460,10 +466,6 @@
                 });
             }
         });
-
-
-
-
 
 
     </script>

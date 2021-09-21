@@ -409,7 +409,7 @@ def euw_virtual_library(request, **kwargs):
 def detailed_model_doc(request, model=''):
     if model == '':
         print('Detailed Model Documentation')
-        list_of_models = ModelsInfo.objects.all()
+        list_of_models = ModelsInfo.objects.all().order_by('model_title')
         sel_icons = 'rev_icons'
         context = {
             'model_list': list_of_models,
