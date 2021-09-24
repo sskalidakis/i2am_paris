@@ -5,7 +5,7 @@ from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
     RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData, SdgsCat, \
-    VaraiblesSdgsRes, RrfPolicy
+    VaraiblesSdgsRes, RrfPolicy, ProjectModels
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
@@ -409,11 +409,26 @@ def euw_virtual_library(request, **kwargs):
 def detailed_model_doc(request, model=''):
     if model == '':
         print('Detailed Model Documentation')
+        sel_project = request.GET.get('project')
         list_of_models = ModelsInfo.objects.all().order_by('model_title')
+        model_objs = []
+
+        for model in list_of_models:
+            projects = ProjectModels.objects.filter(model_id=model.id)
+            temp_list = []
+            model_dict = {}
+            for project in projects:
+                temp_list.append(project.project)
+            model_dict['object'] = model
+            model_dict['projects'] = temp_list
+            model_objs.append(model_dict)
+
+
         sel_icons = 'rev_icons'
         context = {
-            'model_list': list_of_models,
-            'sel_icons': sel_icons
+            'model_list': model_objs,
+            'sel_icons': sel_icons,
+            'sel_project': sel_project
         }
         return render(request, 'i2amparis_main/detailed_documentation/detailed_model_documentation_landing_page.html',
                       context)

@@ -1,8 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
@@ -11,10 +14,14 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71499906-6"></script>
     <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-71499906-6');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-71499906-6');
     </script>
     <!-- BASICS -->
     <meta charset="utf-8">
@@ -58,9 +65,6 @@
         }
 
 
-
-
-
     </style>
     <!-- =======================================================
     Theme Name: Green
@@ -76,7 +80,7 @@
 <div class="header">
     <section id="header" class="appear">
 
-         <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
+        <div class="navbar navbar-fixed-top" role="navigation" data-0="background-color:rgba(52, 58, 64, 1)"
              data-300="background-color:rgba(0,0,0,1);" style="height: 4em">
             <div class="navbar-header" style="width: 100%; height: 4em">
                 <div class="wow fadeInUp mylogo" data-wow-offset="0" data-wow-delay="0.1s" href="main">
@@ -85,10 +89,21 @@
                             src="/static/images/logo.png"
                             style="height: 3em"></a>
                     <a class="col-sm-8 col-md-8 col-xs-6"> </a>
-{#                    <button onclick="goback()" type="button" class="btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"#}
-{#                            style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">#}
-{#                        Back#}
-{#                    </button>#}
+
+                    <div class="btn-group col-sm-1 col-md-1 col-xs-2" style="position: relative;top:1em;right: 3em">
+                        <button type="button" class="btn btn-default dropdown-toggle openbtn" data-toggle="dropdown"
+                                style="background-color: #fa920b">
+                            Model Filtering <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu " role="menu" style="right:0;left: inherit">
+                            <li data-value="_all" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=All">All Models</a></li>
+                            <li data-value="_paris_reinforce" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=Paris Reinforce">Paris Reinforce
+                                Models</a></li>
+                            <li data-value="_ndc_aspects" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=NDC ASPECTS">NDC ASPECTS Models</a>
+                            </li>
+                            <li data-value="_enclude" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=ENCLUDE">ENCLUDE Models</a></li>
+                        </ul>
+                    </div>
                     <a href="/main"
                        class="button btn btn-default col-sm-1 col-md-1 col-xs-2 openbtn"
                        style="background-color: rgba(151, 174, 33, 0.8);color: white;position: relative;top:1em;right: 0.5em">Back</a>
@@ -112,47 +127,48 @@
             <div class="model-list"
                  style="overflow: auto;  text-align: center">
                 {% for model in model_list %}
-                    {% if model.coverage == 'global' %}
+                    {% if model.object.coverage == 'global' and sel_project in model.projects %}
                         <a class="col" data-link="{{ model.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                        <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
-                             src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
-                        >
-                <div class="long_title"
-                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
-                </a>
-                {% endif %}
+                            <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                 src="/static/{{ sel_icons }}/colored/{{ model.object.icon }}"
+                            >
+                            <div class="long_title"
+                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                        </a>
+                    {% endif %}
                 {% endfor %}
             </div>
             <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Europe</h2>
             <div class="model-list"
                  style="overflow: auto;  text-align: center">
-                {% for model in model_list%}
-                    {% if model.coverage == 'national_eu' %}
+                {% for model in model_list %}
+                    {% if model.object.coverage == 'national_eu' and sel_project in model.projects%}
                         <a class="col" data-link="{{ model.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                        <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
-                             src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
-                        >
-                <div class="long_title"
-                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
-                </a>
-                {% endif %}
+                            <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                 src="/static/{{ sel_icons }}/colored/{{ model.object.icon }}"
+                            >
+                            <div class="long_title"
+                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                        </a>
+                    {% endif %}
                 {% endfor %}
             </div>
-            <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Countries Outside Europe</h2>
+            <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Countries Outside
+                Europe</h2>
             <div class="model-list"
                  style="overflow: auto;  text-align: center">
                 {% for model in model_list %}
-                    {% if model.coverage == 'national_oeu' %}
+                    {% if model.object.coverage == 'national_oeu' and sel_project in model.projects%}
                         <a class="col" data-link="{{ model.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
-                        <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
-                             src="/static/{{ sel_icons }}/colored/{{ model.icon }}"
-                        >
-                <div class="long_title"
-                     style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
-                </a>
+                            <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                 src="/static/{{ sel_icons }}/colored/{{ model.object.icon }}"
+                            >
+                            <div class="long_title"
+                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                        </a>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -214,7 +230,7 @@
             // Do something
         });
 
-            $('body').css('height', '100%');
+        $('body').css('height', '100%');
     });
 
 

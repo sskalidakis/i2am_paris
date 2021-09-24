@@ -35,6 +35,12 @@ class ModelsInfo(models.Model):
         return self.model_name
 
 
+class ProjectModels(models.Model):
+    """Model Project relation"""
+    model = models.ForeignKey(ModelsInfo, on_delete=models.CASCADE)
+    project = models.CharField(null=False, default="", max_length=50)
+
+
 # Dynamic Documentation Models
 
 class Regions(models.Model):
