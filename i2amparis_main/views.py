@@ -409,7 +409,7 @@ def euw_virtual_library(request, **kwargs):
 def detailed_model_doc(request, model=''):
     if model == '':
         print('Detailed Model Documentation')
-        sel_project = request.GET.get('project')
+        sel_project = request.GET.get('project', 'All')
         list_of_models = ModelsInfo.objects.all().order_by('model_title')
         model_objs = []
 

@@ -88,20 +88,24 @@
                     <a class="col-sm-2 col-md-2 col-xs-2" href="/main" style="line-height: 4em"><img
                             src="/static/images/logo.png"
                             style="height: 3em"></a>
-                    <a class="col-sm-8 col-md-8 col-xs-6"> </a>
+                    <a class="col-sm-7 col-md-7 col-xs-5"> </a>
 
-                    <div class="btn-group col-sm-1 col-md-1 col-xs-2" style="position: relative;top:1em;right: 3em">
+                    <div class="btn-group col-sm-2 col-md-2 col-xs-3" style="position: relative;top:1em;right: 3em">
                         <button type="button" class="btn btn-default dropdown-toggle openbtn" data-toggle="dropdown"
                                 style="background-color: #fa920b">
                             Model Filtering <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu " role="menu" style="right:0;left: inherit">
-                            <li data-value="_all" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=All">All Models</a></li>
-                            <li data-value="_paris_reinforce" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=Paris Reinforce">Paris Reinforce
+                        <ul class="dropdown-menu " role="menu" style="left: inherit">
+                            <li data-value="_all" class="dynamic_doc_format_select"><a
+                                    href="/detailed_model_doc?project=All">All Models</a></li>
+                            <li data-value="_paris_reinforce" class="dynamic_doc_format_select"><a
+                                    href="/detailed_model_doc?project=Paris Reinforce">Paris Reinforce
                                 Models</a></li>
-                            <li data-value="_ndc_aspects" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=NDC ASPECTS">NDC ASPECTS Models</a>
+                            <li data-value="_ndc_aspects" class="dynamic_doc_format_select"><a
+                                    href="/detailed_model_doc?project=NDC ASPECTS">NDC ASPECTS Models</a>
                             </li>
-                            <li data-value="_enclude" class="dynamic_doc_format_select"><a href="/detailed_model_doc?project=ENCLUDE">ENCLUDE Models</a></li>
+                            <li data-value="_enclude" class="dynamic_doc_format_select"><a
+                                    href="/detailed_model_doc?project=ENCLUDE">ENCLUDE Models</a></li>
                         </ul>
                     </div>
                     <a href="/main"
@@ -118,56 +122,62 @@
     </section>
 
 </div>
-<div class="main-page" style="margin-top: 110px">
+<div class="main-page" style="margin-top: 110px ; height: 100%; min-height: 42em">
     {#      <section id="header_empty" style="background-color: #53595f; height: 100px" ></section>#}
     <section id="section-main-content" style="margin-top: 20px;margin-left:20px">
-        <div class="main-content">
-            <h3 style="margin-bottom: 0">The detailed model documentation section includes:</h3>
+        <div class="main-content" >
+            {% if sel_project == 'All' %}
+                <h3>The detailed model documentation section includes:</h3>
+            {% else %}
+                <h3>The detailed model documentation section for <strong>{{ sel_project }}</strong> includes:</h3>
+            {% endif %}
             <h2 style="text-align: center">Global Models</h2>
             <div class="model-list"
                  style="overflow: auto;  text-align: center">
                 {% for model in model_list %}
                     {% if model.object.coverage == 'global' and sel_project in model.projects %}
-                        <a class="col" data-link="{{ model.model_name }}"
+                        <a class="col" data-link="{{ model.object.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
                             <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                                  src="/static/{{ sel_icons }}/colored/{{ model.object.icon }}"
                             >
                             <div class="long_title"
-                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.object.long_title }}</div>
                         </a>
                     {% endif %}
                 {% endfor %}
             </div>
+            <hr>
             <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Europe</h2>
             <div class="model-list"
                  style="overflow: auto;  text-align: center">
                 {% for model in model_list %}
-                    {% if model.object.coverage == 'national_eu' and sel_project in model.projects%}
-                        <a class="col" data-link="{{ model.model_name }}"
+                    {% if model.object.coverage == 'national_eu' and sel_project in model.projects %}
+                        <a class="col" data-link="{{ model.object.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
                             <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                                  src="/static/{{ sel_icons }}/colored/{{ model.object.icon }}"
                             >
                             <div class="long_title"
-                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.object.long_title }}</div>
                         </a>
                     {% endif %}
                 {% endfor %}
             </div>
+        <hr>
             <h2 style="text-align: center;margin-top: 0.5em">National / Regional Models for Countries Outside
                 Europe</h2>
             <div class="model-list"
                  style="overflow: auto;  text-align: center">
                 {% for model in model_list %}
-                    {% if model.object.coverage == 'national_oeu' and sel_project in model.projects%}
-                        <a class="col" data-link="{{ model.model_name }}"
+                    {% if model.object.coverage == 'national_oeu' and sel_project in model.projects %}
+                        <a class="col" data-link="{{ model.object.model_name }}"
                            style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
                             <img class="rounded-corners-el" style="width:8em; margin: 0.5em 0.1em 0.5em 0.1em "
                                  src="/static/{{ sel_icons }}/colored/{{ model.object.icon }}"
                             >
                             <div class="long_title"
-                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.long_title }}</div>
+                                 style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ model.object.long_title }}</div>
                         </a>
                     {% endif %}
                 {% endfor %}

@@ -61,7 +61,7 @@
 
 {% include "i2amparis_main/dynamic_documentation/dynamic_doc_navigation_bar.html" %}
 
-<div class="main-page" style="margin-top: 115px">
+<div class="main-page" style="margin-top: 80px; height: 100%; min-height:44em">
     <section id="section-main-content" style="width: 99%">
         <div class="main-content">
             <div class="container"
@@ -71,10 +71,10 @@
                         <h3 style="text-align: center ;margin-bottom: 1em; width:100%">
                             Models</h3>
                         <div class="model-list tooltip-demo large"
-                             style="overflow: auto; height:15em; text-align: center">
+                             style="overflow: auto; height:17em; text-align: center">
                             {% for model,json in buttons.items %}
                                 {% if model == selected_model_name %}
-                                    <div class="col selected" data-link="{{ model }}"
+                                    <div class="col selected" data-link="{{ model }} "
                                          style="overflow: visible; padding: 0;position: relative;display: inline-block;">
                                         <i style="position: absolute;left: 0.5em;top:1em;font-size: 0.8em;z-index: 1050;color:#f7f7f7;"
                                            class="fa fa-info-circle"></i> <a href="/dynamic_doc/{{ model }}">
