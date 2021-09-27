@@ -1,8 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
@@ -11,10 +14,14 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71499906-6"></script>
     <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-71499906-6');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-71499906-6');
     </script>
     <!-- BASICS -->
     <meta charset="utf-8">
@@ -35,38 +42,39 @@
     <!-- skin -->
     <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
     <link rel="stylesheet" href={% static "doc_css.css" %}>
+    <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
     <style>
-{#        .model-list svg {#}
-{#            margin-right: 0.6em;#}
-{#            margin-left: 0.6em;#}
-{#            margin-top: 0.2em;#}
-{#            margin-bottom: 0.2em;#}
-{##}
-{#        }#}
-{##}
-{#        .model-list svg {#}
-{#            cursor: pointer;#}
-{#        }#}
-{##}
-{#        .model-list svg text {#}
-{#            fill: #777#}
-{#        }#}
-{##}
-{#        .model-list rect {#}
-{#            fill: rgba(77, 77, 77, 0.31);#}
-{#            stroke: rgba(64, 64, 64, 0.75);#}
-{#            stroke-width: 1;#}
-{#        }#}
+        {#        .model-list svg {#}
+        {#            margin-right: 0.6em;#}
+        {#            margin-left: 0.6em;#}
+        {#            margin-top: 0.2em;#}
+        {#            margin-bottom: 0.2em;#}
+        {##}
+        {#        }#}
+        {##}
+        {#        .model-list svg {#}
+        {#            cursor: pointer;#}
+        {#        }#}
+        {##}
+        {#        .model-list svg text {#}
+        {#            fill: #777#}
+        {#        }#}
+        {##}
+        {#        .model-list rect {#}
+        {#            fill: rgba(77, 77, 77, 0.31);#}
+        {#            stroke: rgba(64, 64, 64, 0.75);#}
+        {#            stroke-width: 1;#}
+        {#        }#}
 
-{#        .model-list svg:hover rect {#}
-{#            fill: rgba(151, 174, 33, 0.8);#}
-{#            stroke: #5e6d13e6;#}
-{#            stroke-width: 2;#}
-{#        }#}
-{##}
-{#        .model-list svg:hover text {#}
-{#            fill: rgba(255, 255, 255, 0.91)#}
-{#        }#}
+        {#        .model-list svg:hover rect {#}
+        {#            fill: rgba(151, 174, 33, 0.8);#}
+        {#            stroke: #5e6d13e6;#}
+        {#            stroke-width: 2;#}
+        {#        }#}
+        {##}
+        {#        .model-list svg:hover text {#}
+        {#            fill: rgba(255, 255, 255, 0.91)#}
+        {#        }#}
 
         .model-list div.not-selected {
             opacity: 0.7;
@@ -77,16 +85,16 @@
             cursor: pointer;
         }
 
-{#        .model-list svg:hover {#}
-{#            -webkit-animation-name: wiggle;#}
-{#            -ms-animation-name: wiggle;#}
-{#            -ms-animation-duration: 200ms;#}
-{#            -webkit-animation-duration: 200ms;#}
-{#            -webkit-animation-iteration-count: 1;#}
-{#            -ms-animation-iteration-count: 1;#}
-{#            -webkit-animation-timing-function: ease-in-out;#}
-{#            -ms-animation-timing-function: ease-in-out;#}
-{#        }#}
+        {#        .model-list svg:hover {#}
+        {#            -webkit-animation-name: wiggle;#}
+        {#            -ms-animation-name: wiggle;#}
+        {#            -ms-animation-duration: 200ms;#}
+        {#            -webkit-animation-duration: 200ms;#}
+        {#            -webkit-animation-iteration-count: 1;#}
+        {#            -ms-animation-iteration-count: 1;#}
+        {#            -webkit-animation-timing-function: ease-in-out;#}
+        {#            -ms-animation-timing-function: ease-in-out;#}
+        {#        }#}
 
         .model-list div:hover {
             -webkit-animation-name: wiggle;
@@ -153,15 +161,15 @@
             }
         }
 
-{#        .model-list svg {#}
-{#            width: 8.6rem;#}
-{#            height: 4rem;#}
-{#        }#}
-{##}
-{#        .model-list svg rect {#}
-{#            width: 8.6rem;#}
-{#            height: 4rem;#}
-{#        }#}
+        {#        .model-list svg {#}
+        {#            width: 8.6rem;#}
+        {#            height: 4rem;#}
+        {#        }#}
+        {##}
+        {#        .model-list svg rect {#}
+        {#            width: 8.6rem;#}
+        {#            height: 4rem;#}
+        {#        }#}
 
         .granularities img {
             margin: 0.2rem;
@@ -183,7 +191,8 @@
         .model-list div:hover i.fa-info-circle {
             display: inline-block;
         }
-        .category-caption{
+
+        .category-caption {
             line-height: 1.5em;
             font-size: 0.6em;
             display: block;
@@ -193,6 +202,12 @@
 
         .rounded-corners-el {
             border-radius: 4px;
+        }
+    </style>
+    <style>
+        .model-filtering {
+            padding: 0 !important;
+            margin-left: 1em !important;
         }
     </style>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
@@ -222,12 +237,20 @@
                 <div class="row" style="margin-bottom: 1em">
                     <h3 style="text-align: center ;margin-bottom: 1.0em; width:100%">
                         Models</h3>
+                    <p style="display: inline-block; margin-left: 2em;">Filter models by project:</p>
+                    <select class="desc_text take_up_space model-filtering " placeholder="Select a Project"
+                            id="mod_filtering_select">
+                        <option value="All">All Models</option>
+                        <option value="Paris Reinforce">Paris Reinforce Models</option>
+                        <option value="NDC ASPECTS">NDC ASPECTS Models</option>
+                        <option value="ENCLUDE">ENCLUDE</option>
+                    </select>
                     <div class="model-list tooltip-demo large"
                          style="overflow: auto;  text-align: center">
                         {% for model,json in buttons.items %}
                             {% if model == selected_model_name %}
-                                <div class="col selected" data-link="{{ model }}"
-                                   style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top">
+                                <div class="col selected model-obj" data-link="{{ model }}" data-project="{{ json.projects }}"
+                                     style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top">
                                 <i style="position: absolute;left: 1em;top:1em;font-size: 0.9em;z-index: 1050;color:#f7f7f7;"
                                    class="fa fa-info-circle"></i>
                                 {#                                    <i style="position: absolute;right: 0.6em;bottom:1.3em;font-size: 0.6em;color: #828f38"#}
@@ -240,8 +263,8 @@
                                          title='<p>{{ json.description }}</p>'>
                                 </a>
                             {% else %}
-                                <div class="col not-selected" data-link="{{ model }}"
-                                   style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
+                                <div class="col not-selected model-obj" data-link="{{ model }}" data-project="{{ json.projects }}"
+                                     style="overflow: visible; padding: 0;position: relative;display: inline-block;  margin: 0.2em 1em 0.2em 1em; width: 9em;vertical-align: top ">
                                 <i style="position: absolute;left: 1em;top:1em;color:#cfd0d2;font-size: 0.9em;z-index: 1050"
                                    class="fa fa-info-circle"></i>
                                 <a href="/dynamic_doc/{{ model }}/?format={{ template_format }}#model-characteristics">
@@ -256,74 +279,77 @@
                              style="font-weight:400;color:#777;font-size: 0.6em; text-align: center;line-height: 1.5em; margin-top: 0.5em;">{{ json.long_title }}</div>
                         </div>
                         {% endfor %}
+                        </div>
                     </div>
-                </div>
                     <div style="text-align: left;margin-bottom: 2em; margin-top: 1em;margin-left: 1em"><span
                             style="font-size: 1.8em">*</span><span
                             style="font-size: 0.8em">Models outside the PARIS REINFORCE project</span>
                     </div>
-                <div class="row" style="margin: 0.1em;">
-                    <span style="position: relative;top:-7em" id="model-characteristics"></span>
-                    <h3 style="text-align: center; margin-bottom: 1.5em">Geographic Coverage
-                        of {{ selected_model_title }}</h3>
-                    <div class="col-md-2 col-sm-1"></div>
-                    <div class="col-md-8 col-sm-10" style="height:28.5em; " id="chartdiv"></div>
-                    <div class="col-md-2 col-sm-1"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="font-size: 0.8em;margin: 0.3em;line-height: 1.2em;font-weight: 400">
-                        <p>Note: Hover over the map to see the model's spatial coverage.</p>
-                        <p><i class="fa fa-circle" style="color: #dfdfdf;margin-right: 0.5em"></i> Grey indicates
-                            non-availability (i.e. areas not covered). </p>
-                        <p><i class="fa fa-circle" style="color: #8a941f;margin-right: 0.5em"></i>Green colour
-                            indicates national coverage (i.e. countries represented at the country-level.</p>
-                        <p>For countries not represented with national granularity, same colour for multiple
-                            countries indicates countries covered as part of the same region. Pop-up title on mouse
-                            over each covered country displays Name of Region (Name of Country)</p>
+                    <div class="row" style="margin: 0.1em;">
+                        <span style="position: relative;top:-7em" id="model-characteristics"></span>
+                        <h3 style="text-align: center; margin-bottom: 1.5em">Geographic Coverage
+                            of {{ selected_model_title }}</h3>
+                        <div class="col-md-2 col-sm-1"></div>
+                        <div class="col-md-8 col-sm-10" style="height:28.5em; " id="chartdiv"></div>
+                        <div class="col-md-2 col-sm-1"></div>
                     </div>
-                    <div class="col-md-1"></div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10"
+                             style="font-size: 0.8em;margin: 0.3em;line-height: 1.2em;font-weight: 400">
+                            <p>Note: Hover over the map to see the model's spatial coverage.</p>
+                            <p><i class="fa fa-circle" style="color: #dfdfdf;margin-right: 0.5em"></i> Grey indicates
+                                non-availability (i.e. areas not covered). </p>
+                            <p><i class="fa fa-circle" style="color: #8a941f;margin-right: 0.5em"></i>Green colour
+                                indicates national coverage (i.e. countries represented at the country-level.</p>
+                            <p>For countries not represented with national granularity, same colour for multiple
+                                countries indicates countries covered as part of the same region. Pop-up title on mouse
+                                over each covered country displays Name of Region (Name of Country)</p>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="container granularity granularities" style="margin: 0 0 1em 0;overflow: visible!important;z-index: 1; width:100%">
-                <h3 style="text-align: center">Sectoral, Policy, SDG, Socioeconomic, Emissions and Technological
-                    Coverage/Granularity of {{ selected_model_title }}</h3>
-            {% for gran,json in granularities.items %}
-                <div class="row">
-                    {% if gran == 'MitigationAdaptationMeasures' %}
-                        <h4 class="col-sm-12 col-md-1"
-                            style="display: inline-block;  font-size: 1em">Mitigation/ Adaptation Measures</h4>
-                    {% elif gran == "SocioEconomics"%}
-                        <h4 class="col-sm-12 col-md-1"
-                            style="display: inline-block;  font-size: 1em">Socio- Economics</h4>
-                    {% else %}
-                        <h4 class="col-sm-12 col-md-1"
-                            style="display: inline-block;  font-size: 1em">{{ gran }}</h4>
-                    {% endif %}
-                    <div class="col-sm-12 col-md-11 tooltip-demo well"
-                         style="display: inline-block;background:transparent;">
-                        {% for k,vv in json.items %}
-                            <div  style="display: inline-block; width: 5.3em; text-align: center;vertical-align: top">
-                                <img
-                                        style="background: transparent; padding: 0;"
-                                        {% if vv.is_enable == 'green' %}
-                                        src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
-                                        {% else %}
-                                        src="/static/icons/grey/{{ vv.icon }}"
-                                        {% endif %}
-                                        class="muted rounded-corners-el"
-                                        {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
-                                        {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
-                                        {% else %}
-                                            data-toggle="tooltip" title='{{ vv.html }}' >
-                                        {% endif %}
-                                <span class="category-caption">{{ k }}</span>
+                <div class="container granularity granularities"
+                     style="margin: 0 0 1em 0;overflow: visible!important;z-index: 1; width:100%">
+                    <h3 style="text-align: center">Sectoral, Policy, SDG, Socioeconomic, Emissions and Technological
+                        Coverage/Granularity of {{ selected_model_title }}</h3>
+                    {% for gran,json in granularities.items %}
+                        <div class="row">
+                            {% if gran == 'MitigationAdaptationMeasures' %}
+                                <h4 class="col-sm-12 col-md-1"
+                                    style="display: inline-block;  font-size: 1em">Mitigation/ Adaptation Measures</h4>
+                            {% elif gran == "SocioEconomics" %}
+                                <h4 class="col-sm-12 col-md-1"
+                                    style="display: inline-block;  font-size: 1em">Socio- Economics</h4>
+                            {% else %}
+                                <h4 class="col-sm-12 col-md-1"
+                                    style="display: inline-block;  font-size: 1em">{{ gran }}</h4>
+                            {% endif %}
+                            <div class="col-sm-12 col-md-11 tooltip-demo well"
+                                 style="display: inline-block;background:transparent;">
+                                {% for k,vv in json.items %}
+                                    <div style="display: inline-block; width: 5.3em; text-align: center;vertical-align: top">
+                                        <img
+                                                style="background: transparent; padding: 0;"
+                                                {% if vv.is_enable == 'green' %}
+                                                src="/static/{{ sel_icons }}/colored/{{ vv.icon }}"
+                                                {% else %}
+                                                src="/static/icons/grey/{{ vv.icon }}"
+                                                {% endif %}
+                                                class="muted rounded-corners-el"
+                                                {% if vv.html == "" %} data-toggle="tooltip" title='{{ k }}'>
+                                                {% elif vv.is_enable == 'grey' %} data-toggle="tooltip" title='{{ k }}'>
+                                                {% else %}
+                                                    data-toggle="tooltip" title='{{ vv.html }}' >
+                                                {% endif %}
+                                        <span class="category-caption">{{ k }}</span>
+                                    </div>
+                                {% endfor %}
                             </div>
+                        </div>
                     {% endfor %}
-                    </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
     </section>
@@ -347,6 +373,7 @@
 <script src={% static "main_theme/js/grid.js" %}></script>
 <script src={% static "main_theme/js/main.js" %}></script>
 <script src={% static "main_theme/js/wow.min.js" %}></script>
+<script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
 <script>
     wow = new WOW({}).init();
 </script>
@@ -360,18 +387,18 @@
         $('.tooltip-demo.well').tooltip({
             html: true,
             selector: 'img[data-toggle=tooltip]',
-{#            container: ".granularities"#}
+            {#            container: ".granularities"#}
         });
         $('.tooltip-demo.large').tooltip({
             html: true,
             selector: 'img[data-toggle=tooltip]',
             container: ".model-list"
         });
-{#        $(".model-list a img").click(function (event) {#}
-{#            console.log('pressed link');#}
-{#            window.location.href = "/dynamic_doc/" + $(this).parent().data('link') + "/?format={{ template_format }}#model-characteristics";#}
-{#            // Do something#}
-{#        });#}
+        {#        $(".model-list a img").click(function (event) {#}
+        {#            console.log('pressed link');#}
+        {#            window.location.href = "/dynamic_doc/" + $(this).parent().data('link') + "/?format={{ template_format }}#model-characteristics";#}
+        {#            // Do something#}
+        {#        });#}
         $(".model-list i.fa-info-circle").click(function (event) {
             console.log('pressed icon');
             window.open("/detailed_model_doc/" + $(this).parent().data('link'));
@@ -390,6 +417,7 @@
 
     });
 </script>
+<script src={% static "tools/js/dynamic_doc/model_filtering.js" %}></script>
 
 {#<script>#}
 {#    function goback() {#}
@@ -520,7 +548,7 @@
         let equirectangular = linkContainer.createChild(am4core.TextLink);
         equirectangular.margin(10, 10, 10, 10);
         equirectangular.text = "Equirectangular";
-        equirectangular.padding(3,3,3,3);
+        equirectangular.padding(3, 3, 3, 3);
         equirectangular.background.fill = am4core.color("#777");
         equirectangular.background.fillOpacity = 0.8;
         equirectangular.fill = am4core.color("#FFF");

@@ -43,6 +43,14 @@
     <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
     <link rel="stylesheet" href={% static "doc_css.css" %}>
     <link rel="stylesheet" href={% static "model_list_css.css" %}>
+    <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
+    <style>
+        .model-filtering {
+            padding: 0!important;
+            margin-left: 1em!important;
+        }
+    </style>
+
 
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/maps.js"></script>
@@ -68,25 +76,33 @@
                  style="overflow: visible!important;z-index: 1; width: 100%; margin-left: 0;margin-right: 0;">
                 <div class="row">
                     <div class="col-sm-12 col-md-6" style="">
-                        <h3 style="text-align: center ;margin-bottom: 1em; width:100%">
+                        <h3 class="" style="text-align: center">
                             Models</h3>
-                        <div class="model-list tooltip-demo large"
+                        <p style="display: inline-block">Filter models by project:</p>
+                        <select class="desc_text take_up_space model-filtering " placeholder="Select a Project"
+                                id="mod_filtering_select" >
+                            <option value="All">All Models</option>
+                            <option value="Paris Reinforce">Paris Reinforce Models</option>
+                            <option value="NDC ASPECTS">NDC ASPECTS Models</option>
+                            <option value="ENCLUDE">ENCLUDE</option>
+                        </select>
+                        <div class="model-list tooltip-demo large "
                              style="overflow: auto; height:17em; text-align: center">
                             {% for model,json in buttons.items %}
                                 {% if model == selected_model_name %}
-                                    <div class="col selected" data-link="{{ model }} "
+                                    <div class="col selected model-obj" data-link="{{ model }}" data-project="{{ json.projects }}"
                                          style="overflow: visible; padding: 0;position: relative;display: inline-block;">
                                         <i style="position: absolute;left: 0.5em;top:1em;font-size: 0.8em;z-index: 1050;color:#f7f7f7;"
                                            class="fa fa-info-circle"></i> <a href="/dynamic_doc/{{ model }}">
-                                            <img class="selected rounded-corners-el"
-                                                 style="width:6.3em; margin: 0.5em 0.1em 0.5em 0.1em "
-                                                 src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
-                                                 data-toggle="tooltip" data-placement="auto"
-                                                 title='<p>{{ json.description }}</p>'>
-                                        </a>
+                                        <img class="selected rounded-corners-el"
+                                             style="width:6.3em; margin: 0.5em 0.1em 0.5em 0.1em "
+                                             src="/static/{{ sel_icons }}/colored/{{ json.icon }}"
+                                             data-toggle="tooltip" data-placement="auto"
+                                             title='<p>{{ json.description }}</p>'>
+                                    </a>
                                     </div>
                                 {% else %}
-                                    <div class="col not-selected" data-link="{{ model }}"
+                                    <div class="col not-selected model-obj" data-link="{{ model }}" data-project="{{ json.projects }}"
                                          style="overflow: visible; padding: 0;position: relative;display: inline-block;">
                                         <i style="position: absolute;left: 0.5em;top:1em;color:#cfd0d2;font-size: 0.8em;z-index: 1050"
                                            class="fa fa-info-circle"></i>
@@ -275,6 +291,7 @@
 <script src={% static "main_theme/js/grid.js" %}></script>
 <script src={% static "main_theme/js/main.js" %}></script>
 <script src={% static "main_theme/js/wow.min.js" %}></script>
+<script src="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.js"></script>
 <script>
     wow = new WOW({}).init();
 </script>
@@ -286,45 +303,8 @@
 </script>
 <script>
     $(document).ready(function () {
-        var stopClickSide = false;
-        var stopClickHeading = false;
-        $(".sidebar h4 a").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-
-        $(".accordion button").on('click', function () {
-            $(this).find('i.rotate').toggleClass("down");
-
-        });
-        $('#accordion_introduction').find('button').click();
-        $('li span').on('click', function () {
-            var x = $(this).siblings()[0].href.split('#')[1];
-            var y = $(this).siblings()[0];
-            close_all_collapses(x, y, move_to_collapse);
-        });
-
 
         $('body').css('height', '100%');
-
-        function close_all_collapses(x_to_open, y_to_move_to, callback) {
-            $('#main_bar .collapse.in').not('#collapse_' + x_to_open).collapse('hide');
-            setTimeout(function () {
-                callback(y_to_move_to, x_to_open, open_chosen_collapse);
-            }, 400);
-        }
-
-        function move_to_collapse(y_to_move_to, x_to_open, callback) {
-            y_to_move_to.click();
-            callback(x_to_open);
-            y_to_move_to = null;
-        }
-
-        function open_chosen_collapse(x_to_open) {
-            $('#accordion_' + x_to_open).find('button').click();
-
-        }
-
 
     });
 
@@ -360,6 +340,8 @@
 
     });
 </script>
+
+<script src={% static "tools/js/dynamic_doc/model_filtering.js" %}></script>
 <script>
     am4core.ready(function () {
 

@@ -461,6 +461,13 @@ def dynamic_doc(request, model=''):
     db = countries_data.RetriveDB(model)
     data = db.create_json()
     list_of_models = db.create_models_btn()
+    for model_name in list_of_models:
+        projects = ProjectModels.objects.filter(model__model_name=model_name)
+        temp_list = []
+        for project in projects:
+            temp_list.append(project.project)
+        list_of_models[model_name]['projects'] = temp_list
+
     sel_model_long_description = ModelsInfo.objects.get(id=db.model_id).long_description
     print(db.retrieve_granularity)
     sel_icons = 'rev_icons'
