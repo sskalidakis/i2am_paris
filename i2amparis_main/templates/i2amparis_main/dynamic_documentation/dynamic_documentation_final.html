@@ -46,8 +46,8 @@
     <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
     <style>
         .model-filtering {
-            padding: 0!important;
-            margin-left: 1em!important;
+            padding: 0 !important;
+            margin-left: 1em !important;
         }
     </style>
 
@@ -80,17 +80,18 @@
                             Models</h3>
                         <p style="display: inline-block">Filter models by project:</p>
                         <select class="desc_text take_up_space model-filtering " placeholder="Select a Project"
-                                id="mod_filtering_select" >
+                                id="mod_filtering_select">
                             <option value="All">All Models</option>
-                            <option value="Paris Reinforce">Paris Reinforce Models</option>
+                            <option value="Paris Reinforce">PARIS REINFORCE Models</option>
                             <option value="NDC ASPECTS">NDC ASPECTS Models</option>
-                            <option value="ENCLUDE">ENCLUDE</option>
+                            <option value="ENCLUDE">ENCLUDE Models</option>
                         </select>
                         <div class="model-list tooltip-demo large "
                              style="overflow: auto; height:17em; text-align: center">
                             {% for model,json in buttons.items %}
                                 {% if model == selected_model_name %}
-                                    <div class="col selected model-obj" data-link="{{ model }}" data-project="{{ json.projects }}"
+                                    <div class="col selected model-obj" data-link="{{ model }}"
+                                         data-project="{{ json.projects }}"
                                          style="overflow: visible; padding: 0;position: relative;display: inline-block;">
                                         <i style="position: absolute;left: 0.5em;top:1em;font-size: 0.8em;z-index: 1050;color:#f7f7f7;"
                                            class="fa fa-info-circle"></i> <a href="/dynamic_doc/{{ model }}">
@@ -102,7 +103,8 @@
                                     </a>
                                     </div>
                                 {% else %}
-                                    <div class="col not-selected model-obj" data-link="{{ model }}" data-project="{{ json.projects }}"
+                                    <div class="col not-selected model-obj" data-link="{{ model }}"
+                                         data-project="{{ json.projects }}"
                                          style="overflow: visible; padding: 0;position: relative;display: inline-block;">
                                         <i style="position: absolute;left: 0.5em;top:1em;color:#cfd0d2;font-size: 0.8em;z-index: 1050"
                                            class="fa fa-info-circle"></i>
