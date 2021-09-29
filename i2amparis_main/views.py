@@ -392,6 +392,66 @@ def rrf_landing(request):
     return render(request, 'i2amparis_main/rrf_policy_workspace/rrf_policy_intro.html', context)
 
 
+def eu_workspace_landing(request):
+    context = {}
+    return render(request, 'i2amparis_main/eu_workspace/eu_workspace_landing.html', context)
+
+def euw_harmonisation(request):
+    models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
+    variables = Harmonisation_Variables.objects.all().order_by('order')
+    var_mod_data = HarmDataNew.objects.all()
+    var_mod = []
+    harm_data_sources_links = HarmDataSourcesLinks.objects.all()
+    # TODO: FIX THIS BELOW. IT TAKES TOO MUCH TIME. BAD IMPLEMENTATION
+    for el in var_mod_data:
+        dict_el = {
+            "model": el.model.name,
+            "var": el.variable.var_name,
+            "var_unit": el.var_unit,
+            "var_timespan": el.var_timespan,
+        }
+
+        temp_sources = harm_data_sources_links.filter(model__name=el.model.name,
+                                                      variable__var_name=el.variable.var_name).values(
+            "var_source_info", "var_source_url", "title")
+        titles = set([i['title'] for i in temp_sources])
+        temp_sources_dict = {}
+        for title in titles:
+            temp_data = list(filter(lambda x: x['title'] == title, temp_sources))
+            temp_sources_lst = [{'var_source_url': i['var_source_url'], 'var_source_info': i['var_source_info']} for i
+                                in
+                                temp_data]
+            temp_sources_dict[HarmDataSourcesTitles.objects.get(id=title).title] = temp_sources_lst
+        try:
+
+            dict_el['source_info'] = temp_sources_dict
+        except:
+            dict_el['source_info'] = []
+        var_mod.append(dict_el)
+
+    print(var_mod)
+    context = {"models": models,
+               "variables": variables,
+               "var_mod": var_mod}
+    return render(request, 'i2amparis_main/eu_workspace/euw_harmonisation.html', context)
+
+def euw_scientific_module(request):
+    models = DataVariablesModels.objects.filter(
+        name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
+    scenarios = ScenariosRes.objects.exclude(name='PR_CurPol_CPO').order_by('title')
+    regions = RegionsRes.objects.all().order_by('reg_type')
+    variables = VariablesRes.objects.all().order_by('ordering')
+    units = UnitsRes.objects.all().order_by('title')
+
+    context = {"models": models,
+               "variables": variables,
+               "scenarios": scenarios,
+               "regions": regions,
+               "units": units}
+
+    return render(request, 'i2amparis_main/eu_workspace/euw_scientific_module.html', context)
+
+
 def euw_public_ui(request):
     context = {}
     return render(request, 'i2amparis_main/eu_workspace/euw_public_ui.html', context)

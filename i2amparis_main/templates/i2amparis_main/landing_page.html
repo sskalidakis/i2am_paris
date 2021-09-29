@@ -436,7 +436,7 @@
                                     {#                                    <figure><link rel="icon" type="image/png" href={% static "logos/paris_reinforce_logo.png" %}></figure>#}
                                     <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
                                 </div>
-                                <h2><a href="pr_wwh_landing" class="paris_reinforce_workspace">Where are we headed?</a>
+                                <h2><a href="pr_wwh/landing" class="paris_reinforce_workspace">Where are we headed?</a>
                                 </h2>
                                 <p>These are the results produced by the analysis made using the models of the Paris
                                     Reinforce project.</p>
@@ -450,6 +450,17 @@
                                 </h2>
                                 <p>This workspace includes the CINEA Climate Neutrality WGII Shared EU Recovery Policy
                                     Database for modelling research.</p>
+                            </div>
+
+                            <div class="service-col eu_workspace col-lg-6">
+                                <div class="">
+                                    {#                                    <figure><link rel="icon" type="image/png" href={% static "logos/paris_reinforce_logo.png" %}></figure>#}
+                                    <img style="width: 19em" src={% static "logos/paris_reinforce_logo.png" %}>
+                                </div>
+                                <h2><a href="eu_wwh/landing" class="eu_workspace">Where are we headed? (Europe)</a>
+                                </h2>
+                                <p>These are the results produced by the analysis made using the models of the Paris
+                                    Reinforce project in Europe.</p>
                             </div>
                         </div>
                     </div>
@@ -658,6 +669,10 @@
     $(document).on('click', 'div.rrf_policy_workspace', function (e) {
         $("a.rrf_policy_workspace")[0].click()
     });
+    $(document).on('click', 'div.eu_workspace', function (e) {
+        $("a.eu_workspace")[0].click()
+    });
+
 
 </script>
 <script>

@@ -79,7 +79,7 @@
         <div class="row" style="font-size: 1.5em ; margin-left: 2em; margin-right: 2em;line-height: 2em">
             <div class="col-sm-2"></div>
             <div class="col-sm-8 init_load_bar_text" style="margin-top: 1.5em">Initialising Paris Reinforce
-                Workspace<br>Please, wait <br><br>
+                Workspace for Europe<br>Please, wait <br><br>
                 <span style="font-size: 0.8em!important;">This may take a few seconds . . . </span>
             </div>
             <div class="col-sm-2"></div>
@@ -87,9 +87,8 @@
     </div>
 
     <div style="display: none" class="tab-content">
-        {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_intro_page.html" %}
-        {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_detailed_configurable_analysis.html" %}
-        {#        {% include "i2amparis_main/paris_workspace_comparative_analysis.html" %}#}
+        {% include "i2amparis_main/eu_workspace/euw_intro_page.html" %}
+        {% include "i2amparis_main/eu_workspace/euw_detailed_configurable_analysis.html" %}
     </div>
 
 
@@ -105,14 +104,13 @@
 
         });
 
-
     </script>
 
     <script>
         var document_ready_counter = 0;
 
         function check_document_ready(counter) {
-            if (counter >= 6) {
+            if (counter >= 1) {
                 $('#init_load_container').hide();
                 $('.tab-content').show();
                 $('#myTab a:last').tab('show');
@@ -141,18 +139,22 @@
     </script>
     <script src={% static "tools/js/adv_scientific_tool_js/detailed_json_query_creator.js" %}></script>
     <script src={% static "tools/js/adv_scientific_tool_js/detailed_configurable_analysis.js" %}></script>
-    <script src={% static "tools/js/adv_scientific_tool_js/cookie_retriever.js" %}></script>
     <script src={% static "tools/js/adv_scientific_tool_js/load_datatable_detailed_conf.js" %}></script>
+    <script src={% static "tools/js/wwh_eu/scientific_interface/start_sci_query_creation_viz_execution.js" %}></script>
+    <script src={% static "tools/js/wwh_eu/scientific_interface/create_sci_visualisation.js" %}></script>
+    <script src={% static "tools/js/wwh_eu/scientific_interface/retrieve_series_info.js" %}></script>
     {#<script src={% static "tools/js/adv_scientific_tool_js/load_datatable_comparative_deprecated.js" %}></script>#}
     {#<script src={% static "tools/js/adv_scientific_tool_js/comparative_analysis_interface_deprecated.js" %}></script>#}
     {#<script src={% static "tools/js/adv_scientific_tool_js/comparative_json_query_creator_deprecated.js" %}></script>#}
-    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_fossil_energy_co2.js" %}></script>
-    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy.js" %}></script>
-    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_ccs_1.js" %}></script>
+    <script src={% static "tools/js/wwh_eu/scientific_interface/intro_page_interface_co2_emissions.js" %}></script>
+    {#    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy.js" %}></script>#}
+    {#    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_ccs_1.js" %}></script>#}
     {#<script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_ccs_2.js" %}></script>#}
-    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_approximate_temperature.js" %}></script>
-    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_models.js" %}></script>
-    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_scenarios.js" %}></script>
+    {#    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_approximate_temperature.js" %}></script>#}
+    {#    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_models.js" %}></script>#}
+    {#    <script src={% static "tools/js/adv_scientific_tool_js/intro_page_interface_global_primary_energy_by_fuel_scenarios.js" %}></script>#}
+    {##}
+
 
 
 

@@ -21,14 +21,15 @@ def line_chart_query(query_id):
     results = []
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
-    elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
-                        'global_ccs_2_query', 'global_primary_energy_query']:
+    # elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
+    #                     'global_ccs_2_query', 'global_primary_energy_query']:
         results = model_scenario_intro_page_query(query_id)
     elif query_name in ['fe_co2_curpol_2050_maxmin_query']:
         results = wdtm_max_min_query(query_id)
     elif query_name in ['wdtm_ccs_query']:
         results = wdtm_ccs(query_id)
-    elif query_name in ['wwheu_pub_total_co2_emissions_query']:
+    elif query_name in ['wwheu_pub_total_co2_emissions_query', 'fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
+                        'global_ccs_2_query', 'global_primary_energy_query', 'eu_wwh_scientific_co2_emissions_query']:
         results = wwheu_pub_total_co2_emissions(query_id)
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = wwheu_pub_imported_fuels_query(query_id)
