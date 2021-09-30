@@ -31,7 +31,7 @@ $(document).ready(function () {
         console.log(viz_id + '- JSON Query Created');
         var viz_payload = {
             "y_var_names": ['Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'],
-            "y_var_titles": ['Carbon Sequestration|CCS|Industry', 'Carbon Sequestration|CCS|Power', 'Carbon Sequestration|CCS|Hydrogen', 'Carbon Sequestration|CCS|Other Transformation Processes'],
+            "y_var_titles": ['Industry', 'Electricity', 'Hydrogen ', 'Other transformation processes'],
             "y_var_units": ['Mt CO2/y', 'Mt CO2/y'],
             "y_axes_titles": ['CO2 Captured', 'CO2 Emissions'],
             "x_axis_name": "year",
@@ -39,7 +39,7 @@ $(document).ready(function () {
             "x_axis_unit": "-",
             "x_axis_type": "text",
             "line_names": ['Emissions|CO2'],
-            "line_titles": ['Emissions|CO2'],
+            "line_titles": ['CO2 Emissions'],
             "use_default_colors": false,
             "color_list_request": ["dark_gray", "blue", "green", "light_red"],
             "dataset_type": "query"

@@ -10,29 +10,29 @@ $(document).ready(function () {
     var jq_obj = create_hydrogen_electricity_comp_trans_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
-            "y_var_names": ['EU-TIMES_Final Energy|Transportation|Electricity', 'EU-TIMES_Final Energy|Transportation|Gases', 'EU-TIMES_Final Energy|Transportation|Hydrogen', 'EU-TIMES_Final Energy|Transportation|Liquids', 'EU-TIMES_Final Energy|Transportation|Liquids|Bioenergy', 'EU-TIMES_Final Energy|Transportation|Liquids|Biomass', 'EU-TIMES_Final Energy|Transportation|Liquids|Fossil synfuel', 'EU-TIMES_Final Energy|Transportation|Liquids|Oil', 'FORECAST_Final Energy|Transportation|Electricity', 'FORECAST_Final Energy|Transportation|Gases', 'FORECAST_Final Energy|Transportation|Hydrogen', 'FORECAST_Final Energy|Transportation|Liquids', 'FORECAST_Final Energy|Transportation|Liquids|Bioenergy', 'FORECAST_Final Energy|Transportation|Liquids|Biomass', 'FORECAST_Final Energy|Transportation|Liquids|Fossil synfuel', 'FORECAST_Final Energy|Transportation|Liquids|Oil', 'GCAM_Final Energy|Transportation|Electricity', 'GCAM_Final Energy|Transportation|Gases', 'GCAM_Final Energy|Transportation|Hydrogen', 'GCAM_Final Energy|Transportation|Liquids', 'GCAM_Final Energy|Transportation|Liquids|Bioenergy', 'GCAM_Final Energy|Transportation|Liquids|Biomass', 'GCAM_Final Energy|Transportation|Liquids|Fossil synfuel', 'GCAM_Final Energy|Transportation|Liquids|Oil', 'TIAM_Final Energy|Transportation|Electricity', 'TIAM_Final Energy|Transportation|Gases', 'TIAM_Final Energy|Transportation|Hydrogen', 'TIAM_Final Energy|Transportation|Liquids', 'TIAM_Final Energy|Transportation|Liquids|Bioenergy', 'TIAM_Final Energy|Transportation|Liquids|Biomass', 'TIAM_Final Energy|Transportation|Liquids|Fossil synfuel', 'TIAM_Final Energy|Transportation|Liquids|Oil'],
-            "y_var_titles": ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Liquids|Bioenergy', 'Final Energy|Transportation|Liquids|Biomass', 'Final Energy|Transportation|Liquids|Fossil synfuel', 'Final Energy|Transportation|Liquids|Oil', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Liquids|Bioenergy', 'Final Energy|Transportation|Liquids|Biomass', 'Final Energy|Transportation|Liquids|Fossil synfuel', 'Final Energy|Transportation|Liquids|Oil', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Liquids|Bioenergy', 'Final Energy|Transportation|Liquids|Biomass', 'Final Energy|Transportation|Liquids|Fossil synfuel', 'Final Energy|Transportation|Liquids|Oil', 'Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Liquids|Bioenergy', 'Final Energy|Transportation|Liquids|Biomass', 'Final Energy|Transportation|Liquids|Fossil synfuel', 'Final Energy|Transportation|Liquids|Oil'],
-            "y_var_units": ['EJ/yr'],
-            "y_axis_title": "Final Energy in Transportation",
-            "x_axis_name": "year",
-            "x_axis_title": "Year",
-            "x_axis_unit": "-",
-            "x_axis_type": "text",
-            "cat_axis_names": ['eu_times', 'forecast', 'gcam', 'tiam'],
-            "cat_axis_titles": ['EU-TIMES', 'FORECAST', 'GCAM', 'TIAM'],
-            "use_default_colors": false,
-            "color_list_request": ["light_blue", "gray", "casual_green", "lighter_blue", "light_blue", "moody_blue", "dark_blue", "dark_gray"],
-            "dataset_type": "query",
-            "type": "normal"
-        };
+        "y_var_names": ['EU-TIMES_Final Energy|Transportation|Hydrogen', 'EU-TIMES_Final Energy|Transportation|Non-hydrogen', 'FORECAST_Final Energy|Transportation|Hydrogen', 'FORECAST_Final Energy|Transportation|Non-hydrogen', 'GCAM_Final Energy|Transportation|Hydrogen', 'GCAM_Final Energy|Transportation|Non-hydrogen', 'TIAM_Final Energy|Transportation|Hydrogen', 'TIAM_Final Energy|Transportation|Non-hydrogen'],
+        "y_var_titles": ['Hydrogen', 'Non-Hydrogen', 'Hydrogen', 'Non-Hydrogen', 'Hydrogen', 'Non-Hydrogen', 'Hydrogen', 'Non-Hydrogen'],
+        "y_var_units": ['EJ/yr'],
+        "y_axis_title": "Final Energy in Transportation",
+        "x_axis_name": "year",
+        "x_axis_title": "Year",
+        "x_axis_unit": "-",
+        "x_axis_type": "text",
+        "cat_axis_names": ['eu_times', 'aladin', 'gcam', 'tiam'],
+        "cat_axis_titles": ['EU-TIMES', 'ALADIN', 'GCAM', 'TIAM'],
+        "use_default_colors": false,
+        "color_list_request": ["light_blue", "gray", "casual_green", "lighter_blue", "light_blue", "moody_blue", "dark_blue", "dark_gray"],
+        "dataset_type": "query",
+        "type": "normal"
+    };
     start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
 
 
     function create_hydrogen_electricity_comp_trans_query() {
         var regions = ['EU'];
-        var models = ['eu_times', 'forecast', 'gcam', 'tiam'];
+        var models = ['eu_times', 'aladin', 'gcam', 'tiam'];
         var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
-        var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Liquids|Bioenergy', 'Final Energy|Transportation|Liquids|Biomass', 'Final Energy|Transportation|Liquids|Fossil synfuel', 'Final Energy|Transportation|Liquids|Oil'];
+        var variables = ['Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Non-hydrogen'];
         var agg_var = 'model_id';
         var agg_func = 'Avg';
 
@@ -100,8 +100,6 @@ $(document).ready(function () {
         }
 
     }
-
-
 
 
 });
