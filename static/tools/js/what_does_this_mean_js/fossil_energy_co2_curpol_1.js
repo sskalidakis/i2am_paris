@@ -15,7 +15,7 @@ $(document).ready(function () {
         ['World'], ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'], 2000,2050,
         [['PR_CurPol_EI Minimum', 'PR_CurPol_EI Maximum'], ['PR_CurPol_CP Minimum', 'PR_CurPol_CP Maximum']],
         );
-    retrieve_series_info_fossil_energy_co2(jq_obj_fecp_1);
+    retrieve_series_model_scenario(jq_obj_fecp_1);
 
 
     function start_qc_v_fossil_energy_co2_process(variable, json_query_obj) {
@@ -183,19 +183,20 @@ $(document).ready(function () {
 
     }
 
-    function retrieve_series_info_fossil_energy_co2(jq_obj) {
+    function retrieve_series_model_scenario(jq_obj) {
         const units_info = {
             "model_name": jq_obj["models"],
             "region_name": jq_obj["regions"],
             "scenario_name": jq_obj["scenarios"],
-            "variable_name": jq_obj["variables"]
+            "variable_name": jq_obj["variables"],
+            "dataset": 'i2amparis_main_resultscomp'
         };
         var instances = [];
         var final_val_list = [];
         var final_title_list = [];
         var final_unit_list = [];
         $.ajax({
-            url: "/data_manager/retrieve_series_info_fossil_energy_co2",
+            url: "/data_manager/retrieve_series_model_scenario",
             type: "POST",
             data: JSON.stringify(units_info),
             contentType: 'application/json',

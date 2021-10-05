@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     function create_import_dependency_query() {
         var models = ['tiam', 'eu_times', 'gemini_e3'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var regions = ['EU'];
         var variable = ['Extra_Import_Dependency', 'Extra_CO2_reduction_ratio'];
 

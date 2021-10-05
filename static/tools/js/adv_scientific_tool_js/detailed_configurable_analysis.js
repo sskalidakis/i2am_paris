@@ -415,7 +415,7 @@ $("#run-button").click(function () {
 
         /* # Query creation*/
         var jq_obj = create_query_json();
-        retrieve_series_info(model_sel, scenario_sel, region_sel, variable_sel, jq_obj);
+        retrieve_series_info_detailed(model_sel, scenario_sel, region_sel, variable_sel, jq_obj);
 
     }
 });

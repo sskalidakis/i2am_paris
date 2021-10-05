@@ -33,7 +33,7 @@ $(document).ready(function () {
             "y_var_names": ['Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'],
             "y_var_titles": ['Industry', 'Electricity', 'Hydrogen ', 'Other transformation processes'],
             "y_var_units": ['Mt CO2/y', 'Mt CO2/y'],
-            "y_axes_titles": ['CO2 Captured', 'CO2 Emissions'],
+            "y_axis_title": ['CO2 Captured', 'CO2 Emissions'],
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     function create_co2_ccs_by_sector_query(sel_models) {
         var regions = ['EU'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var models = sel_models;
         var variables = ['Emissions|CO2', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
 

@@ -33,7 +33,7 @@ $(document).ready(function () {
     function create_hydrogen_electricity_comp_ind_query() {
         var regions = ['EU'];
         var models = ['eu_times', 'forecast', 'gcam', 'tiam'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var variables = ['Final Energy|Industry|Hydrogen', 'Final Energy|Industry|Non-hydrogen'];
         var agg_var = 'model_id';
         var agg_func = 'Avg';

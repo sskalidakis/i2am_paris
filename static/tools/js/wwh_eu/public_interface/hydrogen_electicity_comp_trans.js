@@ -31,7 +31,7 @@ $(document).ready(function () {
     function create_hydrogen_electricity_comp_trans_query() {
         var regions = ['EU'];
         var models = ['eu_times', 'aladin', 'gcam', 'tiam'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var variables = ['Final Energy|Transportation|Hydrogen', 'Final Energy|Transportation|Non-hydrogen'];
         var agg_var = 'model_id';
         var agg_func = 'Avg';

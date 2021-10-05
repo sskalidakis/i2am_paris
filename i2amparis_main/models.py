@@ -390,11 +390,16 @@ class ResultsComp(models.Model):
     value = models.FloatField()
 
 class PRWMetaData(models.Model):
-    model_name = models.CharField(null=False, default="", max_length=50)
-    scenario_name = models.CharField(null=False, default="", max_length=50)
-    region_name = models.CharField(null=False, default="", max_length=50)
-    variable_name = models.CharField(null=False, default="", max_length=50)
+    model_name = models.CharField(null=False, default="", max_length=100)
+    scenario_name = models.CharField(null=False, default="", max_length=100)
+    region_name = models.CharField(null=False, default="", max_length=100)
+    variable_name = models.CharField(null=False, default="", max_length=100)
 
+class PRWEUMetaData(models.Model):
+    model_name = models.CharField(null=False, default="", max_length=100)
+    scenario_name = models.CharField(null=False, default="", max_length=100)
+    region_name = models.CharField(null=False, default="", max_length=100)
+    variable_name = models.CharField(null=False, default="", max_length=100)
 
 
 

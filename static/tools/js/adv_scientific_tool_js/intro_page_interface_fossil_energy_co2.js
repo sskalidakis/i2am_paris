@@ -40,7 +40,7 @@ $(document).ready(function () {
             /* # Query creation*/
             var jq_obj = create_fossil_energy_co2_query();
             console.log('Fossil Energy JSON Query Created');
-            retrieve_series_info_fossil_energy_co2(jq_obj);
+            retrieve_series_model_scenario(jq_obj);
 
         }
     });
@@ -201,19 +201,20 @@ $(document).ready(function () {
 
     }
 
-    function retrieve_series_info_fossil_energy_co2(jq_obj) {
+    function retrieve_series_model_scenario(jq_obj) {
         const units_info = {
             "model_name": jq_obj["models"],
             "region_name": jq_obj["regions"],
             "scenario_name": jq_obj["scenarios"],
-            "variable_name": jq_obj["variables"]
+            "variable_name": jq_obj["variables"],
+            "dataset": 'i2amparis_main_resultscomp'
         };
         var instances = [];
         var final_val_list = [];
         var final_title_list = [];
         var final_unit_list = [];
         $.ajax({
-            url: "/data_manager/retrieve_series_info_fossil_energy_co2",
+            url: "/data_manager/retrieve_series_model_scenario",
             type: "POST",
             data: JSON.stringify(units_info),
             contentType: 'application/json',

@@ -33,7 +33,7 @@ $(document).ready(function () {
         var regions = ['EU'];
         var models = ['eu_times', 'gcam', 'tiam'];
         var variables = [ 'Secondary Energy|Hydrogen|Fossil|w/o CCS', 'Secondary Energy|Hydrogen|Fossil|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/ CCS', 'Secondary Energy|Hydrogen|Biomass|w/o CCS', 'Secondary Energy|Hydrogen|Electricity'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var agg_func = 'Avg';
         var agg_var = 'model_id';
 

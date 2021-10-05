@@ -1,18 +1,18 @@
 $(document).ready(function () {
 
-    $("#co2_emissions-clear-button").click(function () {
-        $('#co2_emissions select.sum-boot-select').multipleSelect('setSelects', []);
-        $('#co2_emissions_viz_frame_div').hide();
+    $("#ccs1-clear-button").click(function () {
+        $('#ccs1 select.sum-boot-select').multipleSelect('setSelects', []);
+        $('#ccs1_viz_frame_div').hide();
     });
 
-    $("#co2_emissions-run-button").click(function () {
-        var viz_id = 'co2_emissions';
-        var viz_type = 'show_line_chart';
+    $("#ccs1-run-button").click(function () {
+        var viz_id = 'ccs1';
+        var viz_type = 'show_stacked_column_line_chart';
         var intrfc = 'eu_wwh_scientific';
-        var dataset = 'i2amparis_main_wwheuresultscomp';
         var viz_frame = $('#' + viz_id + '_viz_frame_div');
-        var model_sel = $('#co2_emissions_model_name');
-        var scenario_sel = $('#co2_emissions_scenario_name');
+        var dataset = 'i2amparis_main_wwheuresultscomp';
+        var model_sel = $('#ccs1_model_name');
+        var scenario_sel = $('#ccs1_scenario_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
         var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
         if (model_full || scenario_full) {
@@ -22,18 +22,33 @@ $(document).ready(function () {
             token_retrieval();
 
             /* # Query creation*/
-            var jq_obj = create_co2_emissions_query(dataset);
+            var jq_obj = create_ccs1_query();
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],[],[],[],String(jq_obj["variables"]));
+            var viz_payload = {
+                "y_var_names": ['Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'],
+                "y_var_titles": ['Industry', 'Electricity', 'Hydrogen ', 'Other transformation processes'],
+                "y_var_units": ['Mt CO2/y', 'Mt CO2/y'],
+                "y_axis_title": ['CO2 Captured', 'CO2 Emissions'],
+                "x_axis_name": "year",
+                "x_axis_title": "Year",
+                "x_axis_unit": "-",
+                "x_axis_type": "text",
+                "line_names": ['Emissions|CO2'],
+                "line_titles": ['CO2 Emissions'],
+                "use_default_colors": false,
+                "color_list_request": ["dark_gray", "blue", "green", "light_red"],
+                "dataset_type": "query"
+            };
+            start_sci_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
 
         }
     });
 
 
+    function create_ccs1_query() {
+        var sel_model = $('#ccs1_model_name');
+        var variable = ['Emissions|CO2', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
 
-    function create_co2_emissions_query(dataset) {
-        var sel_model = $('#co2_emissions_model_name');
-        var variable = ['Emissions|CO2|Energy'];
         const models = sel_model.multipleSelect('getSelects');
         const scenarios = ['EUWWH'];
         const regions = ['EU']
@@ -65,33 +80,26 @@ $(document).ready(function () {
 
         selected.push('value', 'year');
         const query_data = {
-            "dataset": dataset,
+            "dataset": "i2amparis_main_wwheuresultscomp",
             "query_configuration": {
                 "select": selected,
                 "filter": {
                     "and": and_dict,
                     "or": or_dict
                 },
-                "ordering": [
-                    {
-                        "parameter": "model__name",
-                        "ascending": true
-                    },
-                    {
-                        "parameter": "scenario__name",
-                        "ascending": true
-                    },
-                    {
-                        "parameter": "year",
-                        "ascending": true
-                    }
+                "ordering": [{
+                    "parameter": "year",
+                    "ascending": true
+                }
                 ]
                 ,
                 "grouping": {"params": [], "aggregated_params": []},
+
             },
             "additional_app_parameters": {}
 
         };
+
 
         return {
             "models": models,
@@ -104,6 +112,6 @@ $(document).ready(function () {
     }
 
 
-    $("#co2_emissions-run-button").trigger('click');
+    $("#ccs1-run-button").trigger('click');
 });
 

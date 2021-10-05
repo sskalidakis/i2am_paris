@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     function create_electrification_ir_co2_reduction_query() {
         var models = ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis', '42', 'ices'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP', 'PR_CurPol_EI'];
+        var scenarios = ['EUWWH'];
         var regions = ['EU'];
         var variable = ['Extra_Electricity_Share', 'Extra_CO2_reduction_ratio'];
 

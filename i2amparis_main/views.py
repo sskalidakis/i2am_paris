@@ -96,7 +96,9 @@ def paris_advanced_scientific_module(request):
         name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
     scenarios = ScenariosRes.objects.exclude(name='PR_CurPol_CPO').order_by('title')
     regions = RegionsRes.objects.all().order_by('reg_type')
-    variables = VariablesRes.objects.all().order_by('ordering')
+    filter_vars = PRWMetaData.objects.values('variable_name').distinct()
+    var_list = [x['variable_name'] for x in filter_vars]
+    variables = VariablesRes.objects.filter(name__in=var_list).order_by('ordering')
     units = UnitsRes.objects.all().order_by('title')
 
     context = {"models": models,

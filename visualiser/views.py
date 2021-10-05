@@ -336,7 +336,7 @@ class StackedColumnLineChart:
 
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'y_var_titles': self.y_var_titles,
-                        'line_names': self.line_names, 'line_titles': line_titles, 'y_axes_titles': y_axes_titles,
+                        'line_names': self.line_names, 'line_titles': line_titles, 'y_axis_title': y_axes_titles,
                         'y_var_units': self.y_axis_units, 'y_var_names': self.y_var_names,
                         'color_list': self.color_list, 'use_default_colors': self.use_default_colors,
                         'chart_data': self.chart_data}
@@ -990,10 +990,9 @@ def show_stacked_column_line_chart(request):
     y_var_titles = response_data_xy['y_var_titles']
     line_names = request.GET.getlist("line_names[]", [])
     line_titles = request.GET.getlist("line_titles[]", [])
-    y_axes_titles = request.GET.getlist("y_axes_titles[]", [])
+    y_axes_titles = request.GET.getlist("y_axis_title[]", [])
     dataset = response_data_xy['dataset']
     dataset_type = response_data_xy['dataset_type']
-
     use_default_colors = response_data_xy['use_default_colors']
     color_list = define_color_code_list(response_data_xy['color_list_request'])
     data = create_stacked_clustered_data(dataset, dataset_type)

@@ -1,39 +1,56 @@
 $(document).ready(function () {
 
-    $("#co2_emissions-clear-button").click(function () {
-        $('#co2_emissions select.sum-boot-select').multipleSelect('setSelects', []);
-        $('#co2_emissions_viz_frame_div').hide();
+    $("#imported_fuels-clear-button").click(function () {
+        $('.imported_fuels select.sum-boot-select').multipleSelect('setSelects', []);
+        $('#imported_fuels_viz_frame_div').hide();
     });
 
-    $("#co2_emissions-run-button").click(function () {
-        var viz_id = 'co2_emissions';
-        var viz_type = 'show_line_chart';
+    $("#imported_fuels-run-button").click(function () {
         var intrfc = 'eu_wwh_scientific';
         var dataset = 'i2amparis_main_wwheuresultscomp';
-        var viz_frame = $('#' + viz_id + '_viz_frame_div');
-        var model_sel = $('#co2_emissions_model_name');
-        var scenario_sel = $('#co2_emissions_scenario_name');
+        var model_sel = $('#imported_fuels_model_name');
+        var scenario_sel = $('#imported_fuels_scenario_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
         var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
         if (model_full || scenario_full) {
             alert('Please, select at least one value from each field to update the visualisation.')
         } else {
-            viz_frame.show();
             token_retrieval();
-
-            /* # Query creation*/
-            var jq_obj = create_co2_emissions_query(dataset);
+            //Coal Visualisation
+            var viz_id = 'imported_fuels_coal';
+            var viz_type = 'show_line_chart';
+            var viz_frame = $('#' + viz_id + '_viz_frame_div');
+            viz_frame.show();
+            var jq_obj = create_imported_fuels_coal_query(dataset,'Trade|Primary Energy|Coal|Volume');
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],[],[],[],String(jq_obj["variables"]));
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['ceramic', 'casual_green', 'gold'], [], [], [], String(jq_obj["variables"]));
+
+            //Coal Visualisation
+            viz_id = 'imported_fuels_gas';
+            viz_type = 'show_line_chart';
+            viz_frame = $('#' + viz_id + '_viz_frame_div');
+            viz_frame.show();
+            jq_obj = create_imported_fuels_coal_query(dataset,'Trade|Primary Energy|Gas|Volume');
+            console.log(viz_id + ' - JSON Query Created');
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['ceramic', 'casual_green', 'gold'], [], [], [], String(jq_obj["variables"]));
+
+              //Oil Visualisation
+            viz_id = 'imported_fuels_oil';
+            viz_type = 'show_line_chart';
+            viz_frame = $('#' + viz_id + '_viz_frame_div');
+            viz_frame.show();
+            jq_obj = create_imported_fuels_coal_query(dataset,'Trade|Primary Energy|Oil|Volume');
+            console.log(viz_id + ' - JSON Query Created');
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['ceramic', 'casual_green', 'gold'], [], [], [], String(jq_obj["variables"]));
+
 
         }
     });
 
 
-
-    function create_co2_emissions_query(dataset) {
-        var sel_model = $('#co2_emissions_model_name');
-        var variable = ['Emissions|CO2|Energy'];
+    function create_imported_fuels_coal_query(dataset, variable_name) {
+        var sel_model = $('#imported_fuels_model_name');
+        var variable = [variable_name];
         const models = sel_model.multipleSelect('getSelects');
         const scenarios = ['EUWWH'];
         const regions = ['EU']
@@ -104,6 +121,6 @@ $(document).ready(function () {
     }
 
 
-    $("#co2_emissions-run-button").trigger('click');
+    $("#imported_fuels-run-button").trigger('click');
 });
 

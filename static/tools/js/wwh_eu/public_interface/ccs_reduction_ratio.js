@@ -29,7 +29,7 @@ $(document).ready(function () {
 
     function create_co2_ccs_ag_co2_reduction_query() {
         var models = ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var regions = ['EU'];
         var variable = ['Extra_CO2_Captured_with_CCS', 'Extra_CO2_reduction_ratio'];
 

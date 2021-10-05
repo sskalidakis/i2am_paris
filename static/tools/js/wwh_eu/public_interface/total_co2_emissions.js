@@ -11,7 +11,7 @@ $(document).ready(function () {
     var jq_obj = create_total_co2_emissions_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
-                    "y_var_names": ['42_PR_CurPol_EI', 'eu_times_PR_WWH_CP','e3me_PR_CurPol_CP', 'gcam_PR_CurPol_CP', 'gemini_e3_PR_CurPol_CP', 'ices_PR_CurPol_CP', 'muse_PR_CurPol_CP','nemesis_PR_WWH_CP', 'tiam_PR_CurPol_CP'],
+                    "y_var_names": ['42_EUWWH', 'eu_times_EUWWH','e3me_EUWWH', 'gcam_EUWWH', 'gemini_e3_EUWWH', 'ices_EUWWH', 'muse_EUWWH','nemesis_EUWWH', 'tiam_EUWWH'],
                     "y_var_titles": ['42', 'EU-TIMES','E3ME', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE','NEMESIS', 'TIAM'],
                     "y_var_units": ['MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y', 'MtCO2/y'],
                     "y_axis_title": 'Emissions|CO2|Energy',
@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     function create_total_co2_emissions_query() {
         var models = ['42', 'e3me', 'eu_times', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP', 'PR_CurPol_EI'];
+        var scenarios = ['EUWWH'];
         var regions = ['EU'];
         var variable = ['Emissions|CO2|Energy'];
 

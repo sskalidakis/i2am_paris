@@ -1,18 +1,18 @@
 $(document).ready(function () {
 
-    $("#co2_emissions-clear-button").click(function () {
-        $('#co2_emissions select.sum-boot-select').multipleSelect('setSelects', []);
-        $('#co2_emissions_viz_frame_div').hide();
+    $("#import_ratio-clear-button").click(function () {
+        $('.import_ratio select.sum-boot-select').multipleSelect('setSelects', []);
+        $('#import_ratio_viz_frame_div').hide();
     });
 
-    $("#co2_emissions-run-button").click(function () {
-        var viz_id = 'co2_emissions';
+    $("#import_ratio-run-button").click(function () {
+        var viz_id = 'import_ratio';
         var viz_type = 'show_line_chart';
         var intrfc = 'eu_wwh_scientific';
         var dataset = 'i2amparis_main_wwheuresultscomp';
         var viz_frame = $('#' + viz_id + '_viz_frame_div');
-        var model_sel = $('#co2_emissions_model_name');
-        var scenario_sel = $('#co2_emissions_scenario_name');
+        var model_sel = $('#import_ratio_model_name');
+        var scenario_sel = $('#import_ratio_scenario_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
         var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
         if (model_full || scenario_full) {
@@ -22,18 +22,31 @@ $(document).ready(function () {
             token_retrieval();
 
             /* # Query creation*/
-            var jq_obj = create_co2_emissions_query(dataset);
+            var jq_obj = create_import_ratio_query(dataset);
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],[],[],[],String(jq_obj["variables"]));
-
+            var y_var_names = model_sel.multipleSelect('getSelects');
+            var y_var_titles = model_sel.multipleSelect('getSelects', 'text');
+            var viz_payload = {
+                "y_var_names": y_var_names,
+                "y_var_titles": y_var_titles,
+                "y_var_units": ['Percentage %'],
+                "y_axis_title": 'Import Dependency',
+                "x_axis_name": "Extra_CO2_reduction_ratio",
+                "x_axis_title": "CO2 emissions reduction",
+                "x_axis_unit": "percentage %",
+                "x_axis_type": "value",
+                "use_default_colors": false,
+                "color_list_request": ["moody_blue", "light_red", "gold"],
+                "dataset_type": "query",
+            };
+            start_sci_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
         }
     });
 
 
-
-    function create_co2_emissions_query(dataset) {
-        var sel_model = $('#co2_emissions_model_name');
-        var variable = ['Emissions|CO2|Energy'];
+    function create_import_ratio_query(dataset) {
+        var sel_model = $('#import_ratio_model_name');
+        var variable = ['Extra_Import_Dependency', 'Extra_CO2_reduction_ratio'];
         const models = sel_model.multipleSelect('getSelects');
         const scenarios = ['EUWWH'];
         const regions = ['EU']
@@ -104,6 +117,6 @@ $(document).ready(function () {
     }
 
 
-    $("#co2_emissions-run-button").trigger('click');
+    $("#import_ratio-run-button").trigger('click');
 });
 

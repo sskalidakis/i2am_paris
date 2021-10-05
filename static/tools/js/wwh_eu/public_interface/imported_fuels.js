@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     function create_imported_fuels_query(sel_variables) {
         var models = ['eu_times', 'tiam', 'gemini_e3'];
-        var scenarios = ['PR_CurPol_CP', 'PR_WWH_CP'];
+        var scenarios = ['EUWWH'];
         var regions = ['EU'];
         var variable = sel_variables;
 

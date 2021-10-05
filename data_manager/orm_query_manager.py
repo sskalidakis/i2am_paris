@@ -23,19 +23,21 @@ def line_chart_query(query_id):
         results = scentific_tool_query(query_id)
     # elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
     #                     'global_ccs_2_query', 'global_primary_energy_query']:
-        results = model_scenario_intro_page_query(query_id)
+    #     results = model_scenario_intro_page_query(query_id)
     elif query_name in ['fe_co2_curpol_2050_maxmin_query']:
         results = wdtm_max_min_query(query_id)
     elif query_name in ['wdtm_ccs_query']:
         results = wdtm_ccs(query_id)
-    elif query_name in ['wwheu_pub_total_co2_emissions_query', 'fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
-                        'global_ccs_2_query', 'global_primary_energy_query', 'eu_wwh_scientific_co2_emissions_query']:
+    elif query_name in ['wwheu_pub_total_co2_emissions_query', 'fossil_energy_co2_query', 'global_approximate_temperature_query',
+                        'global_ccs_1_query', 'global_ccs_2_query', 'global_primary_energy_query',
+                        'eu_wwh_scientific_co2_emissions_query', 'eu_wwh_scientific_imported_fuels_coal_query',
+                        'eu_wwh_scientific_imported_fuels_gas_query', 'eu_wwh_scientific_imported_fuels_oil_query']:
         results = wwheu_pub_total_co2_emissions(query_id)
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = wwheu_pub_imported_fuels_query(query_id)
-    elif query_name in ['wwheu_pub_co2_ccs_ag_co2_reduction_query']:
+    elif query_name in ['wwheu_pub_co2_ccs_ag_co2_reduction_query', 'eu_wwh_scientific_ccs2_query']:
         results = wwheu_pub_ccs_ratio(query_id)
-    elif query_name == 'wwheu_pub_import_dependency_query':
+    elif query_name in ['wwheu_pub_import_dependency_query', 'eu_wwh_scientific_import_ratio_query']:
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Import_Dependency')
     elif query_name == 'wwheu_pub_electrification_ir_co2_reduction_query':
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Electricity_Share')
@@ -59,7 +61,7 @@ def column_chart_query(query_id):
                         'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_ind_query',
                         'wwheu_pub_hydrogen_electricity_comp_trans_query']:
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
-    elif query_name in ['wwheu_pub_co2_ccs_by_sector_query']:
+    elif query_name in ['wwheu_pub_co2_ccs_by_sector_query', 'eu_wwh_scientific_ccs1_query']:
         results = wwheu_pub_co2_ccs_by_sector(query_id)
     return results
 

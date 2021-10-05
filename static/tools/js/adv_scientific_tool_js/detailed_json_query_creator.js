@@ -89,13 +89,14 @@ function create_query_json() {
 
 }
 
-function retrieve_series_info(model_sel, scenario_sel, region_sel, variable_sel, jq_obj){
+function retrieve_series_info_detailed(model_sel, scenario_sel, region_sel, variable_sel, jq_obj){
     const units_info = {
         "model_name": jq_obj["models"],
         "region_name": jq_obj["regions"],
         "scenario_name": jq_obj["scenarios"],
         "variable_name": jq_obj["variables"],
-        "multiple": jq_obj["multiple_field"]
+        "multiple": jq_obj["multiple_field"],
+        "dataset": 'i2amparis_main_resultscomp'
     };
 
     var instances = [];

@@ -52,13 +52,22 @@ def retrieve_series_info(request):
             region_info_temp = unit_info['region_name']
 
         try:
-            units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
-                                               scenario__name__in=unit_info['scenario_name'],
-                                               region__name__in=region_info_temp,
-                                               variable__name__in=unit_info['variable_name']
-                                               ).values(unit_info['multiple'] + '__name',
-                                                        unit_info['multiple'] + '__title',
-                                                        'unit__name').distinct()
+            if unit_info['dataset'] == 'i2amparis_main_wwheuresultscomp':
+                units = WWHEUResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                                   scenario__name__in=unit_info['scenario_name'],
+                                                   region__name__in=region_info_temp,
+                                                   variable__name__in=unit_info['variable_name']
+                                                   ).values(unit_info['multiple'] + '__name',
+                                                            unit_info['multiple'] + '__title',
+                                                            'unit__name').distinct()
+            else:
+                units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                                   scenario__name__in=unit_info['scenario_name'],
+                                                   region__name__in=region_info_temp,
+                                                   variable__name__in=unit_info['variable_name']
+                                                   ).values(unit_info['multiple'] + '__name',
+                                                            unit_info['multiple'] + '__title',
+                                                            'unit__name').distinct()
             instances = []
             for obj in units:
                 instances.append(
@@ -129,19 +138,31 @@ def retrieve_series_info(request):
 #         return JsonResponse(context)
 
 
-def retrieve_series_info_fossil_energy_co2(request):
+def retrieve_series_model_scenario(request):
     if request.method == 'POST':
         unit_info = json.loads(request.body)
         try:
-            units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
-                                               scenario__name__in=unit_info['scenario_name'],
-                                               variable__name__in=unit_info['variable_name'],
-                                               region__name__in=unit_info['region_name']
-                                               ).values('model__name',
-                                                        'model__title',
-                                                        'scenario__name',
-                                                        'scenario__title',
-                                                        'unit__name').distinct()
+            if unit_info['dataset'] == 'i2amparis_main_wwheuresultscomp':
+                units = WWHEUResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                                   scenario__name__in=unit_info['scenario_name'],
+                                                   variable__name__in=unit_info['variable_name'],
+                                                   region__name__in=unit_info['region_name']
+                                                   ).values('model__name',
+                                                            'model__title',
+                                                            'scenario__name',
+                                                            'scenario__title',
+                                                            'unit__name').distinct()
+            else:
+
+                units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+                                                   scenario__name__in=unit_info['scenario_name'],
+                                                   variable__name__in=unit_info['variable_name'],
+                                                   region__name__in=unit_info['region_name']
+                                                   ).values('model__name',
+                                                            'model__title',
+                                                            'scenario__name',
+                                                            'scenario__title',
+                                                            'unit__name').distinct()
             instances = []
             for obj in units:
                 instances.append(
