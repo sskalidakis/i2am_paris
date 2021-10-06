@@ -1,6 +1,6 @@
 {% load static %}
 {% csrf_token %}
-<div class="tab-pane" id="intro_summary" style="height: 210vh">
+<div class="tab-pane" id="intro_summary" style="height: 295vh">
     <div class="container" style="width: 100%; height:100%; margin-top: 10em;">
         <div class="row" style=" height: 90vh">
             <div class="navbar-collapse collapse"
@@ -24,7 +24,7 @@
                     <li class=""><a role="tab" data-toggle="tab" href="#imports"
                                     style="font-weight: 500">Imports</a>
                     </li>
-                    <li class=""><a role="tab" data-toggle="tab" href="#transport"
+                    <li class=""><a role="tab" data-toggle="tab" href="#electrification"
                                     style="font-weight: 500">Transport Electrification</a>
                     </li>
                     <li class=""><a role="tab" data-toggle="tab" href="#hydrogen"
@@ -43,6 +43,8 @@
 {#                {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_intro_page_global_primary_energy_by_fuel.html" %}#}
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_ccs.html" %}
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_imported_fuels.html" %}
+                {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_electrification.html" %}
+                {% include "i2amparis_main/eu_workspace/eu_workspace_intro_hydrogen.html" %}
                 {#            {% include "i2amparis_main/paris_workspace_intro_page_global_ccs_2.html" %}#}
 {#                {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_intro_page_global_approximate_temperature.html" %}#}
 

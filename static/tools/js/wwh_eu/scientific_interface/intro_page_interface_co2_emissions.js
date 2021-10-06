@@ -12,10 +12,8 @@ $(document).ready(function () {
         var dataset = 'i2amparis_main_wwheuresultscomp';
         var viz_frame = $('#' + viz_id + '_viz_frame_div');
         var model_sel = $('#co2_emissions_model_name');
-        var scenario_sel = $('#co2_emissions_scenario_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
-        var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
-        if (model_full || scenario_full) {
+        if (model_full) {
             alert('Please, select at least one value from each field to update the visualisation.')
         } else {
             viz_frame.show();

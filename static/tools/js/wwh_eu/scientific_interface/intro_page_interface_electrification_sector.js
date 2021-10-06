@@ -1,17 +1,17 @@
 $(document).ready(function () {
 
-    $("#import_ratio-clear-button").click(function () {
-        $('#import_ratio select.sum-boot-select').multipleSelect('setSelects', []);
-        $('#import_ratio_viz_frame_div').hide();
+    $("#electrification_sector-clear-button").click(function () {
+        $('#electrification_sector select.sum-boot-select').multipleSelect('setSelects', []);
+        $('#electrification_sector_viz_frame_div').hide();
     });
 
-    $("#import_ratio-run-button").click(function () {
-        var viz_id = 'import_ratio';
-        var viz_type = 'show_line_chart';
+    $("#electrification_sector-run-button").click(function () {
+        var viz_id = 'electrification_sector';
+        var viz_type = 'show_stacked_clustered_column_chart';
         var intrfc = 'eu_wwh_scientific';
         var dataset = 'i2amparis_main_wwheuresultscomp';
         var viz_frame = $('#' + viz_id + '_viz_frame_div');
-        var model_sel = $('#import_ratio_model_name');
+        var model_sel = $('#electrification_sector_model_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
         if (model_full) {
             alert('Please, select at least one value from each field to update the visualisation.')
@@ -20,40 +20,54 @@ $(document).ready(function () {
             token_retrieval();
 
             /* # Query creation*/
-            var jq_obj = create_import_ratio_query(dataset);
+            var jq_obj = create_electrification_sector_query(dataset);
             console.log(viz_id + ' - JSON Query Created');
-            var y_var_names = model_sel.multipleSelect('getSelects');
-            var y_var_titles = model_sel.multipleSelect('getSelects', 'text');
+            var y_var_models = model_sel.multipleSelect('getSelects');
+            var y_var_mod_titles = model_sel.multipleSelect('getSelects', 'text');
+            var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other'];
+            var y_var_names = []
+            var y_var_titles = []
+            for(var i=0; i<y_var_models.length;i++){
+                for(var j=0; j<variables.length;j++){
+                    y_var_names.push(String(y_var_mod_titles[i]) + '_' + variables[j]);
+                    y_var_titles.push(variables[j]);
+                }
+            }
+
             var viz_payload = {
                 "y_var_names": y_var_names,
                 "y_var_titles": y_var_titles,
-                "y_var_units": ['Percentage %'],
-                "y_axis_title": 'Import Dependency',
-                "x_axis_name": "Extra_CO2_reduction_ratio",
-                "x_axis_title": "CO2 emissions reduction",
-                "x_axis_unit": "percentage %",
-                "x_axis_type": "value",
+                "y_var_units": ['EJ/y'],
+                "y_axis_title": 'Transport Final Energy',
+                "x_axis_name": "year",
+                "x_axis_title": "Year",
+                "x_axis_unit": "-",
+                "x_axis_type": "text",
+                "cat_axis_names": y_var_models,
+                "cat_axis_titles": y_var_mod_titles,
                 "use_default_colors": false,
-                "color_list_request": ["moody_blue", "light_red", "gold"],
+                "color_list_request": ["light_blue", "gray", "dark_gray", "grey_green"],
                 "dataset_type": "query",
+                "type": "normal"
             };
+
             start_sci_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
         }
     });
 
 
-    function create_import_ratio_query(dataset) {
-        var sel_model = $('#import_ratio_model_name');
-        var variable = ['Extra_Import_Dependency', 'Extra_CO2_reduction_ratio'];
+    function create_electrification_sector_query(dataset) {
+        var sel_model = $('#electrification_sector_model_name');
+        var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other'];
         const models = sel_model.multipleSelect('getSelects');
-        const scenarios = ['EUWWH'];
         const regions = ['EU']
+        var agg_var = 'model_id';
+        var agg_func = 'Avg';
 
         const input_dict = {
             'model__name': models,
-            'scenario__name': scenarios,
             'region__name': regions,
-            'variable__name': variable
+            'variable__name': variables
         };
         var selected = [];
         for (var i in input_dict) {
@@ -89,16 +103,15 @@ $(document).ready(function () {
                         "ascending": true
                     },
                     {
-                        "parameter": "scenario__name",
-                        "ascending": true
-                    },
-                    {
                         "parameter": "year",
                         "ascending": true
                     }
                 ]
                 ,
-                "grouping": {"params": [], "aggregated_params": []},
+                 "grouping": {
+                    "params": [agg_var, "variable__name", "year", "region__name"],
+                    "aggregated_params": [{"name": "value", "agg_func": agg_func}]
+                },
             },
             "additional_app_parameters": {}
 
@@ -107,14 +120,13 @@ $(document).ready(function () {
         return {
             "models": models,
             "regions": regions,
-            "scenarios": scenarios,
-            "variables": variable,
+            "variables": variables,
             "query_data": query_data
         }
 
     }
 
 
-    $("#import_ratio-run-button").trigger('click');
+    $("#electrification_sector-run-button").trigger('click');
 });
 

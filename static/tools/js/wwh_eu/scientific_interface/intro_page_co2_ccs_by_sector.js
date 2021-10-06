@@ -12,17 +12,15 @@ $(document).ready(function () {
         var viz_frame = $('#' + viz_id + '_viz_frame_div');
         var dataset = 'i2amparis_main_wwheuresultscomp';
         var model_sel = $('#ccs1_model_name');
-        var scenario_sel = $('#ccs1_scenario_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
-        var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
-        if (model_full || scenario_full) {
+        if (model_full) {
             alert('Please, select at least one value from each field to update the visualisation.')
         } else {
             viz_frame.show();
             token_retrieval();
 
             /* # Query creation*/
-            var jq_obj = create_ccs1_query();
+            var jq_obj = create_ccs1_query(dataset);
             console.log(viz_id + ' - JSON Query Created');
             var viz_payload = {
                 "y_var_names": ['Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'],
@@ -45,7 +43,7 @@ $(document).ready(function () {
     });
 
 
-    function create_ccs1_query() {
+    function create_ccs1_query(dataset) {
         var sel_model = $('#ccs1_model_name');
         var variable = ['Emissions|CO2', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
 
@@ -80,7 +78,7 @@ $(document).ready(function () {
 
         selected.push('value', 'year');
         const query_data = {
-            "dataset": "i2amparis_main_wwheuresultscomp",
+            "dataset": dataset,
             "query_configuration": {
                 "select": selected,
                 "filter": {

@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $("#imported_fuels-clear-button").click(function () {
-        $('.imported_fuels select.sum-boot-select').multipleSelect('setSelects', []);
+        $('#imported_fuels select.sum-boot-select').multipleSelect('setSelects', []);
         $('#imported_fuels_viz_frame_div').hide();
     });
 
@@ -9,10 +9,8 @@ $(document).ready(function () {
         var intrfc = 'eu_wwh_scientific';
         var dataset = 'i2amparis_main_wwheuresultscomp';
         var model_sel = $('#imported_fuels_model_name');
-        var scenario_sel = $('#imported_fuels_scenario_name');
         var model_full = (model_sel.multipleSelect('getSelects').length === 0);
-        var scenario_full = (scenario_sel.multipleSelect('getSelects').length === 0);
-        if (model_full || scenario_full) {
+        if (model_full) {
             alert('Please, select at least one value from each field to update the visualisation.')
         } else {
             token_retrieval();
