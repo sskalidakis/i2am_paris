@@ -4,8 +4,9 @@ from data_manager.models import Query
 import json
 from i2amparis_main.models import *
 
-
 # Create your views here.
+from i2amparis_main.utils import get_model_by_db_table
+
 
 def create_query(request):
     '''
@@ -52,16 +53,8 @@ def retrieve_series_info(request):
             region_info_temp = unit_info['region_name']
 
         try:
-            if unit_info['dataset'] == 'i2amparis_main_wwheuresultscomp':
-                units = WWHEUResultsComp.objects.filter(model__name__in=unit_info['model_name'],
-                                                   scenario__name__in=unit_info['scenario_name'],
-                                                   region__name__in=region_info_temp,
-                                                   variable__name__in=unit_info['variable_name']
-                                                   ).values(unit_info['multiple'] + '__name',
-                                                            unit_info['multiple'] + '__title',
-                                                            'unit__name').distinct()
-            else:
-                units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+            model = get_model_by_db_table(unit_info['dataset'])
+            units = model.objects.filter(model__name__in=unit_info['model_name'],
                                                    scenario__name__in=unit_info['scenario_name'],
                                                    region__name__in=region_info_temp,
                                                    variable__name__in=unit_info['variable_name']
@@ -142,8 +135,8 @@ def retrieve_series_model_scenario(request):
     if request.method == 'POST':
         unit_info = json.loads(request.body)
         try:
-            if unit_info['dataset'] == 'i2amparis_main_wwheuresultscomp':
-                units = WWHEUResultsComp.objects.filter(model__name__in=unit_info['model_name'],
+            model = get_model_by_db_table(unit_info['dataset'])
+            units = model.objects.filter(model__name__in=unit_info['model_name'],
                                                    scenario__name__in=unit_info['scenario_name'],
                                                    variable__name__in=unit_info['variable_name'],
                                                    region__name__in=unit_info['region_name']
@@ -152,17 +145,7 @@ def retrieve_series_model_scenario(request):
                                                             'scenario__name',
                                                             'scenario__title',
                                                             'unit__name').distinct()
-            else:
 
-                units = ResultsComp.objects.filter(model__name__in=unit_info['model_name'],
-                                                   scenario__name__in=unit_info['scenario_name'],
-                                                   variable__name__in=unit_info['variable_name'],
-                                                   region__name__in=unit_info['region_name']
-                                                   ).values('model__name',
-                                                            'model__title',
-                                                            'scenario__name',
-                                                            'scenario__title',
-                                                            'unit__name').distinct()
             instances = []
             for obj in units:
                 instances.append(

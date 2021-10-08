@@ -5,7 +5,7 @@ from . import countries_data
 from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
     RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData, SdgsCat, \
-    VaraiblesSdgsRes, RrfPolicy, ProjectModels
+    VaraiblesSdgsRes, RrfPolicy, ProjectModels, PRWEUMetaData
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
@@ -18,6 +18,8 @@ import urllib
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib import messages
+
+from .utils import get_initial_detailed_conf_analysis_form_data
 
 
 def landing_page(request):
@@ -113,7 +115,7 @@ def paris_advanced_scientific_module(request):
 def paris_cwdtm(request):
     return render(request, 'i2amparis_main/paris_reinforce_workspace/what_does_this_mean.html')
 
-
+# DEPRECATED NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
 @csrf_exempt
 def update_scientific_model_selects_strict(request):
     body_unicode = request.body.decode('utf-8')
@@ -234,12 +236,11 @@ def update_scientific_model_selects_basic(request):
         fe_all_scenarios = body['fe_all_scenarios']
         fe_all_regions = body['fe_all_regions']
         fe_all_models = body['fe_all_models']
+        interface = body['interface']
 
-        all_models = [el['name'] for el in DataVariablesModels.objects.filter(
-            name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
-        all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
-        all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
-        all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
+
+        all_models, all_scenarios, all_regions, all_variables, metadata = get_initial_detailed_conf_analysis_form_data(interface)
+
 
         if changed_field == 'clear_all':
             allowed_models = all_models
@@ -256,7 +257,7 @@ def update_scientific_model_selects_basic(request):
                 distinct_regions = []
                 for variable in variables:
                     distinct_regions.append(
-                        PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
+                        metadata.objects.filter(variable_name=variable).values('region_name').distinct())
                 final_regions = distinct_regions[0]
                 for regions_list in distinct_regions:
                     final_regions = (final_regions | regions_list).distinct()
@@ -276,7 +277,7 @@ def update_scientific_model_selects_basic(request):
                 for variable in variables:
                     for region in regions:
                         distinct_scenarios.append(
-                            PRWMetaData.objects.filter(variable_name=variable, region_name=region).values(
+                            metadata.objects.filter(variable_name=variable, region_name=region).values(
                                 'scenario_name').distinct())
                 final_scenarios = distinct_scenarios[0]
                 for scenarios_list in distinct_scenarios:
@@ -298,7 +299,7 @@ def update_scientific_model_selects_basic(request):
                     for region in regions:
                         for scenario in scenarios:
                             distinct_models.append(
-                                PRWMetaData.objects.filter(variable_name=variable, scenario_name=scenario,
+                                metadata.objects.filter(variable_name=variable, scenario_name=scenario,
                                                            region_name=region).values(
                                     'model_name').distinct())
                 final_models = distinct_models[0]
@@ -439,10 +440,12 @@ def euw_harmonisation(request):
 
 def euw_scientific_module(request):
     models = DataVariablesModels.objects.filter(
-        name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
-    scenarios = ScenariosRes.objects.exclude(name='PR_CurPol_CPO').order_by('title')
-    regions = RegionsRes.objects.all().order_by('reg_type')
-    variables = VariablesRes.objects.all().order_by('ordering')
+        name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam', '42']).order_by('title')
+    scenarios = ScenariosRes.objects.filter(name__in=['EUWWH']).order_by('title')
+    regions = RegionsRes.objects.filter(name='EU')
+    filter_vars = PRWEUMetaData.objects.values('variable_name').distinct()
+    var_list = [x['variable_name'] for x in filter_vars]
+    variables = VariablesRes.objects.filter(name__in=var_list).order_by('ordering')
     units = UnitsRes.objects.all().order_by('title')
 
     context = {"models": models,

@@ -283,7 +283,7 @@ $(document).ready(function () {
             'fe_all_scenarios': fe_all_scenarios,
             'fe_all_regions': fe_all_regions,
             'fe_all_models': fe_all_models,
-            'interface': 'pr_global'
+            'interface': 'pr_eu'
         };
 
         $.ajax({
