@@ -32,6 +32,7 @@ function create_sci_visualisation(query_id, viz_id, data, viz_type) {
             success: function (data) {
                 console.log(viz_id + "- Query Deleted");
                 document_ready_counter = document_ready_counter + 1;
+                console.log('Counting Viz: ' + String(document_ready_counter));
                 check_document_ready(document_ready_counter);
             },
             error: function (data) {

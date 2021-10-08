@@ -9,7 +9,7 @@
                     data-0="margin-top:0px;background-color: rgba(130, 143, 48, 1);"
                     data-300="margin-top:0px;background-color: rgba(130, 143, 48, 0.5);"
                     style="width: 100%">
-                    <li class="active"><a role="tab" data-toggle="tab" href="#co2_emissions"
+                    <li class="active"><a role="tab" data-toggle="tab" href="#co2_emissions_tab"
                                           style="font-weight: 500">CO2 Emissions</a>
                     </li>
                     <li class=""><a role="tab" data-toggle="tab" href="#primary_energy"
@@ -39,14 +39,13 @@
             <div class="tab-content" style="">
 
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_co2_emissions.html" %}
-{#                {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_intro_page_global_primary_energy.html" %}#}
-{#                {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_intro_page_global_primary_energy_by_fuel.html" %}#}
+                {% include "i2amparis_main/eu_workspace/eu_workspace_intro_primary_energy.html" %}
+                {% include "i2amparis_main/eu_workspace/eu_workspace_intro_final_energy.html" %}
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_ccs.html" %}
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_imported_fuels.html" %}
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_page_electrification.html" %}
                 {% include "i2amparis_main/eu_workspace/eu_workspace_intro_hydrogen.html" %}
-                {#            {% include "i2amparis_main/paris_workspace_intro_page_global_ccs_2.html" %}#}
-{#                {% include "i2amparis_main/paris_reinforce_workspace/paris_workspace_intro_page_global_approximate_temperature.html" %}#}
+                {% include "i2amparis_main/eu_workspace/eu_workspace_intro_investments.html" %}
 
             </div>
         </div>

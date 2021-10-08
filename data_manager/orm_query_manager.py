@@ -28,10 +28,14 @@ def line_chart_query(query_id):
         results = wdtm_max_min_query(query_id)
     elif query_name in ['wdtm_ccs_query']:
         results = wdtm_ccs(query_id)
-    elif query_name in ['wwheu_pub_total_co2_emissions_query', 'fossil_energy_co2_query', 'global_approximate_temperature_query',
+    elif query_name in ['wwheu_pub_total_co2_emissions_query', 'fossil_energy_co2_query',
+                        'global_approximate_temperature_query',
                         'global_ccs_1_query', 'global_ccs_2_query', 'global_primary_energy_query',
                         'eu_wwh_scientific_co2_emissions_query', 'eu_wwh_scientific_imported_fuels_coal_query',
-                        'eu_wwh_scientific_imported_fuels_gas_query', 'eu_wwh_scientific_imported_fuels_oil_query']:
+                        'eu_wwh_scientific_imported_fuels_gas_query', 'eu_wwh_scientific_imported_fuels_oil_query',
+                        'eu_wwh_scientific_investments_energy_supply_query',
+                        'eu_wwh_scientific_investments_power_generation_query'
+                        ]:
         results = wwheu_pub_total_co2_emissions(query_id)
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = wwheu_pub_imported_fuels_query(query_id)
@@ -39,7 +43,8 @@ def line_chart_query(query_id):
         results = wwheu_pub_ccs_ratio(query_id)
     elif query_name in ['wwheu_pub_import_dependency_query', 'eu_wwh_scientific_import_ratio_query']:
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Import_Dependency')
-    elif query_name in ['wwheu_pub_electrification_ir_co2_reduction_query', 'eu_wwh_scientific_electrification_ratio_query']:
+    elif query_name in ['wwheu_pub_electrification_ir_co2_reduction_query',
+                        'eu_wwh_scientific_electrification_ratio_query']:
         results = wwheu_pub_ratio_to_ratio(query_id, 'Extra_CO2_reduction_ratio', 'Extra_Electricity_Share')
     return results
 
@@ -59,9 +64,12 @@ def column_chart_query(query_id):
         results = rrf_classification_query(query_id, 'second_classification')
     elif query_name in ['wwheu_pub_energy_co2_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query',
                         'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_ind_query',
-                        'wwheu_pub_hydrogen_electricity_comp_trans_query','eu_wwh_scientific_electrification_sector_query',
+                        'wwheu_pub_hydrogen_electricity_comp_trans_query',
+                        'eu_wwh_scientific_electrification_sector_query',
                         'eu_wwh_scientific_hydrogen_by_fuel_query', 'eu_wwh_scientific_hydrogen_industry_query',
-                        'eu_wwh_scientific_hydrogen_transport_query']:
+                        'eu_wwh_scientific_hydrogen_transport_query', 'eu_wwh_scientific_primary_by_fuel_query',
+                        'eu_wwh_scientific_final_by_sector_query', 'eu_wwh_scientific_co2_emisssions_by_sector_query',
+                        'eu_wwh_scientific_investments_by_gen_tech_query']:
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
     elif query_name in ['wwheu_pub_co2_ccs_by_sector_query', 'eu_wwh_scientific_ccs1_query']:
         results = wwheu_pub_co2_ccs_by_sector(query_id)
@@ -223,7 +231,6 @@ def wwheu_pub_total_co2_emissions(query_id):
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
-
     if df.empty:
         return []
     else:
