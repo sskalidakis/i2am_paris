@@ -1,16 +1,17 @@
+import pdb
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from . import countries_data
-from django.utils.html import format_html
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
     RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData, SdgsCat, \
-    VaraiblesSdgsRes, RrfPolicy, ProjectModels, PRWEUMetaData
+    VaraiblesSdgsRes, RrfPolicy, ProjectModels, PRWEUMetaData, EUHarmData
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
-from django.core import serializers
-from django.db.models import Avg, Sum, Max, Min, Count, F
+import os.path
+
 
 import json
 import urllib
@@ -19,7 +20,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib import messages
 
-from .utils import get_initial_detailed_conf_analysis_form_data
+from .utils import get_initial_detailed_conf_analysis_form_data, create_info_for_var_harmonisation_heatmaps
 
 
 def landing_page(request):
@@ -56,41 +57,20 @@ def paris_reinforce_landing(request):
 def paris_reinforce_harmonisation(request):
     models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
-    var_mod_data = HarmDataNew.objects.all()
-    var_mod = []
-    harm_data_sources_links = HarmDataSourcesLinks.objects.all()
-    # TODO: FIX THIS BELOW. IT TAKES TOO MUCH TIME. BAD IMPLEMENTATION
-    for el in var_mod_data:
-        dict_el = {
-            "model": el.model.name,
-            "var": el.variable.var_name,
-            "var_unit": el.var_unit,
-            "var_timespan": el.var_timespan,
-        }
-
-        temp_sources = harm_data_sources_links.filter(model__name=el.model.name,
-                                                      variable__var_name=el.variable.var_name).values(
-            "var_source_info", "var_source_url", "title")
-        titles = set([i['title'] for i in temp_sources])
-        temp_sources_dict = {}
-        for title in titles:
-            temp_data = list(filter(lambda x: x['title'] == title, temp_sources))
-            temp_sources_lst = [{'var_source_url': i['var_source_url'], 'var_source_info': i['var_source_info']} for i
-                                in
-                                temp_data]
-            temp_sources_dict[HarmDataSourcesTitles.objects.get(id=title).title] = temp_sources_lst
-        try:
-
-            dict_el['source_info'] = temp_sources_dict
-        except:
-            dict_el['source_info'] = []
-        var_mod.append(dict_el)
-
-    print(var_mod)
+    if not os.path.isfile('cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json'):
+        var_mod_data = HarmDataNew.objects.all()
+        harm_data_sources_links = HarmDataSourcesLinks.objects.all()
+        var_mod = create_info_for_var_harmonisation_heatmaps(harm_data_sources_links, var_mod_data)
+    else:
+        print('Heatmap is cached! Loading file...')
+        with open('cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json') as f:
+            data = f.read()
+        var_mod = json.loads(data)
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
     return render(request, 'i2amparis_main/paris_reinforce_workspace/paris_reinforce_harmonisation.html', context)
+
 
 
 def paris_advanced_scientific_module(request):
@@ -115,111 +95,112 @@ def paris_advanced_scientific_module(request):
 def paris_cwdtm(request):
     return render(request, 'i2amparis_main/paris_reinforce_workspace/what_does_this_mean.html')
 
+
 # DEPRECATED NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
-@csrf_exempt
-def update_scientific_model_selects_strict(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-
-    if request.method == 'POST':
-        models = body['model__name']
-        scenarios = body['scenario__name']
-        regions = body['region__name']
-        variables = body['variable__name']
-        changed_field = body['changed_field']
-        fe_all_scenarios = body['fe_all_scenarios']
-        fe_all_regions = body['fe_all_regions']
-        fe_all_models = body['fe_all_models']
-
-        all_models = [el['name'] for el in DataVariablesModels.objects.filter(
-            name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
-        all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
-        all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
-        all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
-
-        if changed_field == 'clear_all':
-            allowed_models = all_models
-            allowed_scenarios = all_scenarios
-            allowed_variables = all_variables
-            allowed_regions = all_regions
-        elif changed_field == 'variable_name':
-            if len(variables) == 0:
-                allowed_models = all_models
-                allowed_scenarios = all_scenarios
-                allowed_variables = all_variables
-                allowed_regions = all_regions
-            else:
-                distinct_regions = []
-                for variable in variables:
-                    distinct_regions.append(
-                        PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
-                final_regions = distinct_regions[0]
-                for regions_list in distinct_regions:
-                    final_regions = final_regions.intersection(regions_list)
-                print('common regions', final_regions)
-                allowed_regions = [el['region_name'] for el in final_regions]
-                allowed_models = all_models
-                allowed_variables = all_variables
-                allowed_scenarios = all_scenarios
-        elif changed_field == 'region_name':
-            if len(regions) == 0:
-                allowed_models = all_models
-                allowed_regions = [el for el in all_regions if el not in fe_all_regions]
-                allowed_variables = variables
-                allowed_scenarios = all_scenarios
-            else:
-                distinct_scenarios = []
-                for variable in variables:
-                    for region in regions:
-                        distinct_scenarios.append(
-                            PRWMetaData.objects.filter(variable_name=variable, region_name=region).values(
-                                'scenario_name').distinct())
-                final_scenarios = distinct_scenarios[0]
-                for scenarios_list in distinct_scenarios:
-                    final_scenarios = final_scenarios.intersection(scenarios_list)
-                print('common scenarios', final_scenarios)
-                allowed_regions = [el for el in all_regions if el not in fe_all_regions]
-                allowed_models = all_models
-                allowed_variables = variables
-                allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
-        elif changed_field == 'scenario_name':
-            if len(scenarios) == 0:
-                allowed_variables = variables
-                allowed_regions = regions
-                allowed_models = all_models
-                allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
-            else:
-                distinct_models = []
-                for variable in variables:
-                    for region in regions:
-                        for scenario in scenarios:
-                            distinct_models.append(
-                                PRWMetaData.objects.filter(variable_name=variable, scenario_name=scenario,
-                                                           region_name=region).values(
-                                    'model_name').distinct())
-                final_models = distinct_models[0]
-                for model_list in distinct_models:
-                    final_models = final_models.intersection(model_list)
-                print('common models', final_models)
-                allowed_variables = variables
-                allowed_regions = regions
-                allowed_models = [el['model_name'] for el in final_models]
-                allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
-        elif changed_field == 'model_name':
-
-            allowed_variables = variables
-            allowed_scenarios = scenarios
-            allowed_models = [el for el in all_models if el not in fe_all_models]
-            allowed_regions = regions
-
-        ls = {'models': [el for el in all_models if el not in allowed_models],
-              'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
-              'regions': [el for el in all_regions if el not in allowed_regions],
-              'variables': [el for el in all_variables if el not in allowed_variables]}
-
-        print('Changed field: ', changed_field)
-
-        return JsonResponse(ls, safe=False)
+# @csrf_exempt
+# def update_scientific_model_selects_strict(request):
+#     body_unicode = request.body.decode('utf-8')
+#     body = json.loads(body_unicode)
+#
+#     if request.method == 'POST':
+#         models = body['model__name']
+#         scenarios = body['scenario__name']
+#         regions = body['region__name']
+#         variables = body['variable__name']
+#         changed_field = body['changed_field']
+#         fe_all_scenarios = body['fe_all_scenarios']
+#         fe_all_regions = body['fe_all_regions']
+#         fe_all_models = body['fe_all_models']
+#
+#         all_models = [el['name'] for el in DataVariablesModels.objects.filter(
+#             name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
+#         all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
+#         all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
+#         all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
+#
+#         if changed_field == 'clear_all':
+#             allowed_models = all_models
+#             allowed_scenarios = all_scenarios
+#             allowed_variables = all_variables
+#             allowed_regions = all_regions
+#         elif changed_field == 'variable_name':
+#             if len(variables) == 0:
+#                 allowed_models = all_models
+#                 allowed_scenarios = all_scenarios
+#                 allowed_variables = all_variables
+#                 allowed_regions = all_regions
+#             else:
+#                 distinct_regions = []
+#                 for variable in variables:
+#                     distinct_regions.append(
+#                         PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
+#                 final_regions = distinct_regions[0]
+#                 for regions_list in distinct_regions:
+#                     final_regions = final_regions.intersection(regions_list)
+#                 print('common regions', final_regions)
+#                 allowed_regions = [el['region_name'] for el in final_regions]
+#                 allowed_models = all_models
+#                 allowed_variables = all_variables
+#                 allowed_scenarios = all_scenarios
+#         elif changed_field == 'region_name':
+#             if len(regions) == 0:
+#                 allowed_models = all_models
+#                 allowed_regions = [el for el in all_regions if el not in fe_all_regions]
+#                 allowed_variables = variables
+#                 allowed_scenarios = all_scenarios
+#             else:
+#                 distinct_scenarios = []
+#                 for variable in variables:
+#                     for region in regions:
+#                         distinct_scenarios.append(
+#                             PRWMetaData.objects.filter(variable_name=variable, region_name=region).values(
+#                                 'scenario_name').distinct())
+#                 final_scenarios = distinct_scenarios[0]
+#                 for scenarios_list in distinct_scenarios:
+#                     final_scenarios = final_scenarios.intersection(scenarios_list)
+#                 print('common scenarios', final_scenarios)
+#                 allowed_regions = [el for el in all_regions if el not in fe_all_regions]
+#                 allowed_models = all_models
+#                 allowed_variables = variables
+#                 allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
+#         elif changed_field == 'scenario_name':
+#             if len(scenarios) == 0:
+#                 allowed_variables = variables
+#                 allowed_regions = regions
+#                 allowed_models = all_models
+#                 allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+#             else:
+#                 distinct_models = []
+#                 for variable in variables:
+#                     for region in regions:
+#                         for scenario in scenarios:
+#                             distinct_models.append(
+#                                 PRWMetaData.objects.filter(variable_name=variable, scenario_name=scenario,
+#                                                            region_name=region).values(
+#                                     'model_name').distinct())
+#                 final_models = distinct_models[0]
+#                 for model_list in distinct_models:
+#                     final_models = final_models.intersection(model_list)
+#                 print('common models', final_models)
+#                 allowed_variables = variables
+#                 allowed_regions = regions
+#                 allowed_models = [el['model_name'] for el in final_models]
+#                 allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+#         elif changed_field == 'model_name':
+#
+#             allowed_variables = variables
+#             allowed_scenarios = scenarios
+#             allowed_models = [el for el in all_models if el not in fe_all_models]
+#             allowed_regions = regions
+#
+#         ls = {'models': [el for el in all_models if el not in allowed_models],
+#               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
+#               'regions': [el for el in all_regions if el not in allowed_regions],
+#               'variables': [el for el in all_variables if el not in allowed_variables]}
+#
+#         print('Changed field: ', changed_field)
+#
+#         return JsonResponse(ls, safe=False)
 
 
 @csrf_exempt
@@ -238,9 +219,8 @@ def update_scientific_model_selects_basic(request):
         fe_all_models = body['fe_all_models']
         interface = body['interface']
 
-
-        all_models, all_scenarios, all_regions, all_variables, metadata = get_initial_detailed_conf_analysis_form_data(interface)
-
+        all_models, all_scenarios, all_regions, all_variables, metadata = get_initial_detailed_conf_analysis_form_data(
+            interface)
 
         if changed_field == 'clear_all':
             allowed_models = all_models
@@ -300,7 +280,7 @@ def update_scientific_model_selects_basic(request):
                         for scenario in scenarios:
                             distinct_models.append(
                                 metadata.objects.filter(variable_name=variable, scenario_name=scenario,
-                                                           region_name=region).values(
+                                                        region_name=region).values(
                                     'model_name').distinct())
                 final_models = distinct_models[0]
                 for model_list in distinct_models:
@@ -399,48 +379,36 @@ def eu_workspace_landing(request):
     context = {}
     return render(request, 'i2amparis_main/eu_workspace/eu_workspace_landing.html', context)
 
+
 def euw_harmonisation(request):
-    models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
+    models = ModelsInfo.objects.all().filter(
+        model_name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis',
+                        'tiam', '42']).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
-    var_mod_data = HarmDataNew.objects.all()
-    var_mod = []
-    harm_data_sources_links = HarmDataSourcesLinks.objects.all()
-    # TODO: FIX THIS BELOW. IT TAKES TOO MUCH TIME. BAD IMPLEMENTATION
-    for el in var_mod_data:
-        dict_el = {
-            "model": el.model.name,
-            "var": el.variable.var_name,
-            "var_unit": el.var_unit,
-            "var_timespan": el.var_timespan,
-        }
 
-        temp_sources = harm_data_sources_links.filter(model__name=el.model.name,
-                                                      variable__var_name=el.variable.var_name).values(
-            "var_source_info", "var_source_url", "title")
-        titles = set([i['title'] for i in temp_sources])
-        temp_sources_dict = {}
-        for title in titles:
-            temp_data = list(filter(lambda x: x['title'] == title, temp_sources))
-            temp_sources_lst = [{'var_source_url': i['var_source_url'], 'var_source_info': i['var_source_info']} for i
-                                in
-                                temp_data]
-            temp_sources_dict[HarmDataSourcesTitles.objects.get(id=title).title] = temp_sources_lst
-        try:
-
-            dict_el['source_info'] = temp_sources_dict
-        except:
-            dict_el['source_info'] = []
-        var_mod.append(dict_el)
-
-    print(var_mod)
+    if not os.path.isfile('cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json'):
+        var_mod_data = EUHarmData.objects.filter(
+            model__name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis',
+                             'tiam', '42'])
+        harm_data_sources_links = HarmDataSourcesLinks.objects.filter(
+            model__name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis',
+                             'tiam', '42'])
+        var_mod = create_info_for_var_harmonisation_heatmaps(harm_data_sources_links, var_mod_data)
+    else:
+        print('Heatmap is cached! Loading file...')
+        with open('cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json') as f:
+            data = f.read()
+        var_mod = json.loads(data)
     context = {"models": models,
                "variables": variables,
                "var_mod": var_mod}
     return render(request, 'i2amparis_main/eu_workspace/euw_harmonisation.html', context)
 
+
 def euw_scientific_module(request):
     models = DataVariablesModels.objects.filter(
-        name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam', '42']).order_by('title')
+        name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam',
+                  '42']).order_by('title')
     scenarios = ScenariosRes.objects.filter(name__in=['EUWWH']).order_by('title')
     regions = RegionsRes.objects.filter(name='EU')
     filter_vars = PRWEUMetaData.objects.values('variable_name').distinct()
@@ -468,7 +436,8 @@ def euw_virtual_library(request, **kwargs):
         return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library.html', context)
     else:
         context = {}
-        return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library_' + kwargs['section'] + '.html', context)
+        return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library_' + kwargs['section'] + '.html',
+                      context)
 
 
 def detailed_model_doc(request, model=''):
@@ -487,7 +456,6 @@ def detailed_model_doc(request, model=''):
             model_dict['object'] = model
             model_dict['projects'] = temp_list
             model_objs.append(model_dict)
-
 
         sel_icons = 'rev_icons'
         context = {

@@ -39,9 +39,9 @@ $("#col_order").change(function () {
 //                     "Harmonisable model input: Checked for consistency",
 //                     "Not represented in model"
 //        ],
-        "dataset": "i2amparis_main_harmdatanew",
+        "dataset": "i2amparis_main_euharmdata",
         "dataset_type": "db",
-        "workspace": 'pr_global'
+        "workspace": 'pr_eu'
     };
     var url = '';
     for (var key in data) {

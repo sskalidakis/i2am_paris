@@ -272,7 +272,7 @@ class DatasetOnDemandVariableHarmonisation(models.Model):
     variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
     io_status = models.CharField(null=False, default="", max_length=50)
 
-
+# Workspace Harmonisation Heatmap Datasets
 
 class HarmDataNew(models.Model):
     # used in the paris reinforce workspace
@@ -283,6 +283,14 @@ class HarmDataNew(models.Model):
     #var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
     #var_source_url = models.TextField(null=False, default="")
+
+class EUHarmData(models.Model):
+    # used in the paris reinforce workspace
+    model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Harmonisation_Variables, on_delete=models.CASCADE)
+    io_status = models.CharField(null=False, default="", max_length=50)
+    var_unit = models.CharField(null=False, default="", max_length=20)
+    var_timespan = models.TextField(null=False, default="")
 
 
 class HarmDataSourcesTitles(models.Model):
@@ -304,24 +312,28 @@ class DatasetVariableHarmonisationGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
+    workspace = models.CharField(null=False, default="", max_length=50)
 
 
 class DatasetModelGeoGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
+    workspace = models.CharField(null=False, default="", max_length=50)
 
 
 class DatasetModelTypeGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
+    workspace = models.CharField(null=False, default="", max_length=50)
 
 
 class DatasetModelTimestepGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
     guide_to = models.CharField(null=False, default="", max_length=50)
     value = models.CharField(null=False, default="", max_length=50)
+    workspace = models.CharField(null=False, default="", max_length=50)
 
 
 # Data Model

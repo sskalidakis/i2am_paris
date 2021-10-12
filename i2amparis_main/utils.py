@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.db.models import F
 
 from i2amparis_main.models import DataVariablesModels, ScenariosRes, RegionsRes, VariablesRes, PRWEUMetaData, \
     PRWMetaData
@@ -33,3 +34,30 @@ def get_initial_detailed_conf_analysis_form_data(interface):
         return all_models, all_scenarios, all_regions, all_variables, metadata
     else:
         print('No interface provided or no interface exists with that name!')
+
+
+
+def create_info_for_var_harmonisation_heatmaps(harm_data_sources_links, var_mod_data):
+    var_mod = list(var_mod_data.values('var_unit', 'var_timespan', mod=F('model__name'), var=F('variable__var_name')))
+    for el in var_mod:
+        temp_sources = harm_data_sources_links.filter(model__name=el['mod'],
+                                                      variable__var_name=el['var']).values(
+            "var_source_info", "var_source_url", "title__title")
+        source_list = []
+        temp_title = ''
+        info_dict = {}
+        for source in temp_sources:
+            if source['title__title'] == temp_title or temp_title == '':
+                temp_title = source['title__title']
+                source_list.append(
+                    {'var_source_url': source['var_source_url'], 'var_source_info': source['var_source_info']})
+            else:
+                info_dict[temp_title] = source_list
+                source_list = []
+                temp_title = source['title__title']
+                source_list.append(
+                    {'var_source_url': source['var_source_url'], 'var_source_info': source['var_source_info']})
+        if temp_title != "":
+            info_dict[temp_title] = source_list
+        el['source_info'] = info_dict
+    return var_mod

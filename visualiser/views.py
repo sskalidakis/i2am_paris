@@ -754,7 +754,7 @@ def create_stacked_clustered_data(dataset, dataset_type):
 
 
 def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_dataset, col_order, row_order,
-                        dataset_type):
+                        dataset_type,workspace):
     '''
     This method contains all the ways for creating a heatmap chart using data from a file, a whole table in the database, a query or a dataframe.
     :param dataset: the name of the file in case dataset_type = "file", the name of the table if dataset_type = "db", the id of the query if dataset_type = "query"
@@ -792,8 +792,8 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
 
         final_data = reformat_chart_data(data, variables)
         # If guides/ranges are used, the dataset of the guides has to be declared explicitly in the request
-        row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
-        col_ranges_data = heatmap_categorisation(col_categorisation_dataset)
+        row_ranges_data = heatmap_categorisation(row_categorisation_dataset, workspace=[workspace])
+        col_ranges_data = heatmap_categorisation(col_categorisation_dataset, workspace=[workspace])
     elif dataset_type == 'query':
         final_data = heatmap_query(dataset)
         row_ranges_data = heatmap_categorisation(row_categorisation_dataset)
@@ -803,7 +803,7 @@ def create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_
     return final_data, row_ranges_data, col_ranges_data
 
 
-def heatmap_categorisation(categorisation_dataset):
+def heatmap_categorisation(categorisation_dataset, workspace=['pr_global','pr_eu']):
     '''
     This method is responsible for categorising the data in the columns and rows of the heatmap
     :param categorisation_dataset: the name of a table in the database that categorises the rows, and columns in a specific way
@@ -811,7 +811,7 @@ def heatmap_categorisation(categorisation_dataset):
     '''
     ranges_data = []
     if categorisation_dataset != '':
-        ranges_table = apps.get_model(DATA_TABLES_APP, categorisation_dataset).objects.all()
+        ranges_table = apps.get_model(DATA_TABLES_APP, categorisation_dataset).objects.filter(workspace__in=workspace)
         for el in ranges_table:
             dict_el = {'guide_from': el.guide_from, 'guide_to': el.guide_to, 'value': el.value}
             ranges_data.append(dict_el)
@@ -921,6 +921,7 @@ def show_heat_map_chart(request):
     col_categorisation_dataset = request.GET.get("col_categorisation_dataset", "")
     col_order = request.GET.get("col_order", "default")
     row_order = request.GET.get("row_order", "default")
+    workspace = request.GET.get("workspace", "pr_global")
     if len(distinct) == 0:
         color_list_request = response_data_xy['color_list_request'][0]
         color_list = AM_CHARTS_COLOR_HEATMAP_COUPLES.get(color_list_request,
@@ -928,7 +929,7 @@ def show_heat_map_chart(request):
     else:
         color_list = define_color_code_list(response_data_xy['color_list_request'])
     data, row_ranges, col_ranges = create_heatmap_data(dataset, row_categorisation_dataset, col_categorisation_dataset,
-                                                       col_order, row_order, dataset_type)
+                                                       col_order, row_order, dataset_type, workspace)
     heat_map_chart = XYZ_chart(request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_axis_name, y_axis_title,
                                y_axis_unit, z_axis_name, z_axis_title, z_axis_unit, data, color_list,
                                min_max_z_value, distinct, row_ranges, col_ranges, 'heat_map_chart')

@@ -27,8 +27,8 @@ urlpatterns = [
          name='populate_detailed_analysis_datatables'),
     path('pr_wwh/conclusions', views.paris_cwdtm, name='paris_cool_what_does_this_mean'),
 
-    path('update_scientific_model_selects_strict', views.update_scientific_model_selects_strict,
-         name='update_scientific_model_selects_strict'),
+    # path('update_scientific_model_selects_strict', views.update_scientific_model_selects_strict,
+    #      name='update_scientific_model_selects_strict'),
     path('update_scientific_model_selects_basic', views.update_scientific_model_selects_basic,
          name='update_scientific_model_selects_basic'),
     path('get_sdg_variables', views.get_sdg_variables, name='get_sdg_variables'),
