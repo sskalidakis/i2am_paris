@@ -10,7 +10,7 @@ $(document).ready(function () {
     var jq_obj = create_hydrogen_electricity_comp_trans_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
-        "y_var_names": ['EU-TIMES_Final Energy|Transportation|Hydrogen', 'EU-TIMES_Final Energy|Transportation|Non-hydrogen', 'FORECAST_Final Energy|Transportation|Hydrogen', 'FORECAST_Final Energy|Transportation|Non-hydrogen', 'GCAM_Final Energy|Transportation|Hydrogen', 'GCAM_Final Energy|Transportation|Non-hydrogen', 'TIAM_Final Energy|Transportation|Hydrogen', 'TIAM_Final Energy|Transportation|Non-hydrogen'],
+        "y_var_names": ['EU-TIMES_Final Energy|Transportation|Hydrogen', 'EU-TIMES_Final Energy|Transportation|Non-hydrogen', 'ALADIN_Final Energy|Transportation|Hydrogen', 'ALADIN_Final Energy|Transportation|Non-hydrogen', 'GCAM_Final Energy|Transportation|Hydrogen', 'GCAM_Final Energy|Transportation|Non-hydrogen', 'TIAM_Final Energy|Transportation|Hydrogen', 'TIAM_Final Energy|Transportation|Non-hydrogen'],
         "y_var_titles": ['Hydrogen', 'Non-Hydrogen', 'Hydrogen', 'Non-Hydrogen', 'Hydrogen', 'Non-Hydrogen', 'Hydrogen', 'Non-Hydrogen'],
         "y_var_units": ['EJ/yr'],
         "y_axis_title": "Final Energy in Transportation",
