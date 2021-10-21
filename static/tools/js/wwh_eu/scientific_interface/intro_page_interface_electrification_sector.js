@@ -24,7 +24,7 @@ $(document).ready(function () {
             console.log(viz_id + ' - JSON Query Created');
             var y_var_models = model_sel.multipleSelect('getSelects');
             var y_var_mod_titles = model_sel.multipleSelect('getSelects', 'text');
-            var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other'];
+            var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Non-Electricity'];
             var y_var_names = []
             var y_var_titles = []
             for(var i=0; i<y_var_models.length;i++){
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
     function create_electrification_sector_query(dataset) {
         var sel_model = $('#electrification_sector_model_name');
-        var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Gases', 'Final Energy|Transportation|Liquids', 'Final Energy|Transportation|Other'];
+        var variables = ['Final Energy|Transportation|Electricity', 'Final Energy|Transportation|Non-Electricity'];
         const models = sel_model.multipleSelect('getSelects');
         const regions = ['EU']
         var agg_var = 'model_id';

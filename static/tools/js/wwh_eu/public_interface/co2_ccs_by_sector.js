@@ -38,7 +38,7 @@ $(document).ready(function () {
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
-            "line_names": ['Emissions|CO2'],
+            "line_names": ['Emissions|CO2|Energy'],
             "line_titles": ['CO2 Emissions'],
             "use_default_colors": false,
             "color_list_request": ["dark_gray", "blue", "green", "light_red"],
@@ -53,7 +53,7 @@ $(document).ready(function () {
         var regions = ['EU'];
         var scenarios = ['EUWWH'];
         var models = sel_models;
-        var variables = ['Emissions|CO2', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
+        var variables = ['Emissions|CO2|Energy', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
 
         const input_dict = {
             'model__name': models,

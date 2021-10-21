@@ -31,7 +31,7 @@ $(document).ready(function () {
                 "x_axis_title": "Year",
                 "x_axis_unit": "-",
                 "x_axis_type": "text",
-                "line_names": ['Emissions|CO2'],
+                "line_names": ['Emissions|CO2|Energy'],
                 "line_titles": ['CO2 Emissions'],
                 "use_default_colors": false,
                 "color_list_request": ["dark_gray", "blue", "green", "light_red"],
@@ -45,7 +45,7 @@ $(document).ready(function () {
 
     function create_ccs1_query(dataset) {
         var sel_model = $('#ccs1_model_name');
-        var variable = ['Emissions|CO2', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
+        var variable = ['Emissions|CO2|Energy', 'Extra_Carbon Sequestration|CCS|Industry', 'Extra_Carbon Sequestration|CCS|Power', 'Extra_Carbon Sequestration|CCS|Hydrogen', 'Extra_Carbon Sequestration|CCS|Other Transformation Processes'];
 
         const models = sel_model.multipleSelect('getSelects');
         const scenarios = ['EUWWH'];
