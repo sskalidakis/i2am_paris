@@ -24,8 +24,8 @@ def line_chart_query(query_id):
     # elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
     #                     'global_ccs_2_query', 'global_primary_energy_query']:
     #     results = model_scenario_intro_page_query(query_id)
-    elif query_name in ['fe_co2_curpol_2050_maxmin_query']:
-        results = wdtm_max_min_query(query_id)
+    elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_query']:
+        results = max_min_query(query_id, ["year", "model__name"])
     elif query_name in ['wdtm_ccs_query']:
         results = wdtm_ccs(query_id)
     elif query_name in ['wwheu_pub_total_co2_emissions_query', 'fossil_energy_co2_query',
@@ -73,6 +73,8 @@ def column_chart_query(query_id):
         results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
     elif query_name in ['wwheu_pub_co2_ccs_by_sector_query', 'eu_wwh_scientific_ccs1_query']:
         results = wwheu_pub_co2_ccs_by_sector(query_id)
+    elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_ranges_query']:
+        results = dumbell_max_min(query_id, ["model__name","year"])
     return results
 
 
@@ -173,7 +175,7 @@ def model_scenario_intro_page_query(query_id):
         return clean_final_data
 
 
-def wdtm_max_min_query(query_id):
+def max_min_query(query_id, group_by_list):
     '''
         This method is the execution of the query for creating data for the four-tile viz in the what does this mean section of the PR workspace
         :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
@@ -184,15 +186,17 @@ def wdtm_max_min_query(query_id):
     if df.empty:
         return []
     else:
+
         # Creating the min-max ranges
-        max_df = df.groupby(by=["year", "scenario__name"]).max().reset_index()
-        max_df['scenario_model'] = max_df['scenario__name'] + ' Maximum'
-        max_df = max_df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
-        min_df = df.groupby(by=["year", "scenario__name"]).min().reset_index()
-        min_df['scenario_model'] = min_df['scenario__name'] + ' Minimum'
-        min_df = min_df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
+        max_df = df.groupby(by=group_by_list).max().reset_index()
+        max_df['scenario_model'] = max_df['model__name'] + ' Maximum'
+        max_df = max_df.drop(['variable__name', 'region__name'], axis=1)
+        min_df = df.groupby(by=group_by_list).min().reset_index()
+        min_df['scenario_model'] = min_df['model__name'] + ' Minimum'
+        min_df = min_df.drop(['variable__name', 'region__name'], axis=1)
         min_max_df = pd.concat([min_df, max_df]).reset_index()
         # clean_min_max_final = clean_dictionary_list_from_zero_values(min_max_final)
+
         df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
         df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
         final_df = pd.concat([min_df, max_df, df]).reset_index()
@@ -201,6 +205,44 @@ def wdtm_max_min_query(query_id):
                 'index').values())
         clean_final_data = clean_dictionary_list_from_zero_values(final_data)
         return clean_final_data
+
+
+def dumbell_max_min(query_id, group_by_list):
+    '''
+        This method is the execution of the query for getting the data for the dumbell charts showing ranges in the workspace
+        :param query_id: The query_id of the query to be executed in order to retrieve data for the chart
+        :param group_by_list: it is the parameter according to which the grouping takes place
+        '''
+    data, add_params = query_execute(query_id)
+    df = pd.DataFrame.from_records(data)
+
+    if df.empty:
+        return []
+    else:
+        # Creating the min-max ranges
+        max_df = df.groupby(by=group_by_list).max().reset_index()
+        max_df = max_df.drop(['variable__name', 'region__name', 'scenario__name'], axis=1)
+        max_df = max_df.rename(columns={'value': 'open'})
+        min_df = df.groupby(by=group_by_list).min().reset_index()
+        min_df = min_df.drop(['variable__name', 'region__name', 'scenario__name'], axis=1)
+        min_df = min_df.rename(columns={'value': 'close'})
+        min_max_df = pd.merge(left=max_df, right=min_df, left_on=['model__name','year'], right_on=['model__name','year'])
+        min_max_df['range'] = min_max_df['open'] - min_max_df['close']
+        min_max_df = min_max_df.drop(['year'], axis=1)
+        min_max_df = min_max_df.loc[min_max_df.groupby(by='model__name')['range'].idxmax()]
+        min_max_df = min_max_df.drop(['range'], axis=1)
+        new_max_df = min_max_df
+        new_max_df['model_status'] = new_max_df['model__name'] + '_open'
+        new_max_df = new_max_df.drop(['close', 'model__name'], axis=1).rename(columns={'open':'value'})
+        new_min_df = min_max_df
+        new_min_df['model_status'] = new_min_df['model__name'] + '_close'
+        new_min_df = new_min_df.drop(['open', 'model__name'], axis=1).rename(columns={'close':'value'})
+        new_min_max_df = pd.concat([new_max_df, new_min_df])
+
+        final_data = list(
+            new_min_max_df.set_index('model_status').to_dict().values())
+        final_data[0]['category'] = ''
+        return final_data
 
 
 def wdtm_ccs(query_id):

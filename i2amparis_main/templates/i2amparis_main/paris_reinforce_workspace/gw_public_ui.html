@@ -43,6 +43,7 @@
     <link rel="stylesheet" href={% static "main_theme/skin/default.css" %}>
     <link rel="stylesheet" href={% static "doc_css.css" %}>
     <link rel="stylesheet" href="https://unpkg.com/multiple-select@1.5.2/dist/multiple-select.min.css">
+    <link rel="stylesheet" href={% static "model_list_css.css" %}>
     <style>
         #section-main-content {
             min-height: 3380px;
@@ -203,8 +204,14 @@
             text-align: justify;
             text-justify: inter-word;
         }
+
         .row {
             z-index: 0;
+        }
+        td {
+            font-size: 0.9em;
+            background-color: rgba(246, 250, 238, 0.5);
+            color: #2a2a2e;
         }
 
     </style>
@@ -224,19 +231,19 @@
 {% include "upper_bar_public_ui.html" %}
 <div id="mySidenav" class="sidenav" style="margin-top: 3em">
     <a class="closebtn">&times;</a>
-    <a class="heading-link" data-section="methods" href="#methods"><h4 style="margin-bottom: 0!important;">Co-creation process</h4>
+    <a class="heading-link" data-section="methods" href="#methods"><h4 style="margin-bottom: 0!important;">Methods</h4>
     </a>
     <a class="heading-link" data-section="policies" href="#policies"><h4 style="margin-bottom: 0!important;">Policy
         Questions</h4></a>
     <div class="sub-heading-link col-sm-12 col-md-12">
-        <a data-section="ht_2050" href="#policies">Where is Europe headed towards in 2050?</a>
-        <a data-section="ccs" href="#policies">What is the role of Carbon Capture and Storage (CCS)?</a>
-        <a data-section="import_dependency" href="#policies">What is the role of import dependency in
-            Europe? </a>
-        <a data-section="electrification" href="#policies">What will the role of electrification be in the
-            transport sector?</a>
-        <a data-section="hydrogen" href="#policies">What is the future of hydrogen in the EU?</a>
-        <a data-section="costs_gains" href="#policies">What are the costs and gains of current policies?</a>
+        <a data-section="wht_cp" href="#policies">Where is the world headed toward based on current policies?</a>
+        <a data-section="wht_ndc" href="#policies">Where is the world headed toward based on Nationally Determined
+            Contributions (NDCs) policies?</a>
+        <a data-section="temp" href="#policies">What are the global temperature estimates across models
+            until 2100?</a>
+        <a data-section="final_energy_fuel_type" href="#policies">What is the global final energy use by fuel type?</a>
+        <a data-section="final_energy_sector" href="#policies">What is the global final energy use by sector?</a>
+        <a data-section="ccs" href="#policies">What is the role of CCS in global emissions reduction?</a>
     </div>
 </div>
 
@@ -245,31 +252,31 @@
 <div id="main" style="margin-top: 6em;min-height: 100%">
     <div class="container" style="width: 90%; height: 100%">
         <div class=" col-sm-12 col-xs-12 methods content-section">
-            {% include 'i2amparis_main/eu_workspace/methods.html' %}
+            {% include 'i2amparis_main/paris_reinforce_workspace/methods.html' %}
         </div>
         <div class=" col-sm-12 col-xs-12 policies content-section">
             <h1 style="display: inline-block;background:transparent; box-shadow: none; font-weight: bold; color: #828f30; ">
                 Policy Questions
             </h1>
             <span id="policies" style="position: relative; top:-7em"></span>
-            <div class="ht_2050 subcontent" style="display: none">
-                {% include 'i2amparis_main/eu_workspace/where_is_europe_headed_towards_in_2050.html' %}
+            <div class="wht_cp subcontent" style="display: none">
+                {% include 'i2amparis_main/paris_reinforce_workspace/where_is_world_headed_cp.html' %}
             </div>
-            <div class="ccs subcontent" style="display: none">
-                {% include 'i2amparis_main/eu_workspace/role_of_carbon_capture_and_storage.html' %}
-            </div>
-            <div class="import_dependency subcontent" style="display: none">
-                {% include 'i2amparis_main/eu_workspace/import_dependency.html' %}
-            </div>
-            <div class="electrification subcontent" style="display: none">
-                {% include 'i2amparis_main/eu_workspace/electrification.html' %}
-            </div>
-            <div class="hydrogen subcontent" style="display: none">
-                {% include 'i2amparis_main/eu_workspace/hydrogen.html' %}
-            </div>
-            <div class="costs_gains subcontent" style="display: none">
-                {% include 'i2amparis_main/eu_workspace/costs_gains.html' %}
-            </div>
+{#            <div class="wht_ndc subcontent" style="display: none">#}
+{#                {% include 'i2amparis_main/paris_reinforce_workspace/role_of_carbon_capture_and_storage.html' %}#}
+{#            </div>#}
+{#            <div class="temp subcontent" style="display: none">#}
+{#                {% include 'i2amparis_main/paris_reinforce_workspace/import_dependency.html' %}#}
+{#            </div>#}
+{#            <div class="final_energy_fuel_type subcontent" style="display: none">#}
+{#                {% include 'i2amparis_main/paris_reinforce_workspace/electrification.html' %}#}
+{#            </div>#}
+{#            <div class="final_energy_sector subcontent" style="display: none">#}
+{#                {% include 'i2amparis_main/paris_reinforce_workspace/hydrogen.html' %}#}
+{#            </div>#}
+{#            <div class="ccs subcontent" style="display: none">#}
+{#                {% include 'i2amparis_main/paris_reinforce_workspace/costs_gains.html' %}#}
+{#            </div>#}
         </div>
     </div>
 
@@ -303,17 +310,18 @@
 <script src={% static "tools/js/wwh_eu/public_interface/token_retrieval.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/start_query_creation_viz_execution.js" %}></script>
 <script src={% static "tools/js/wwh_eu/public_interface/create_visualisation.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/total_co2_emissions.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/co2_emissions_by_sector.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/imported_fuels.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/ccs_reduction_ratio.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/import_dependency_ratio.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/electricity_ratio.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/electricity_tfec.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_production_by_fuel.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp_ind.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp_trans.js" %}></script>
-<script src={% static "tools/js/wwh_eu/public_interface/co2_ccs_by_sector.js" %}></script>
+<script src={% static "tools/js/wwh_global/public_interface/total_co2_emissions_cp.js" %}></script>
+<script src={% static "tools/js/wwh_global/public_interface/total_co2_emissions_cp_ranges.js" %}></script>
+{#<script src={% static "tools/js/wwh_eu/public_interface/co2_emissions_by_sector.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/imported_fuels.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/ccs_reduction_ratio.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/import_dependency_ratio.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/electricity_ratio.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/electricity_tfec.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_production_by_fuel.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp_ind.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/hydrogen_electicity_comp_trans.js" %}></script>#}
+{#<script src={% static "tools/js/wwh_eu/public_interface/co2_ccs_by_sector.js" %}></script>#}
 
 <script>
     wow = new WOW({}).init();

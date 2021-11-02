@@ -13,6 +13,7 @@ urlpatterns = [
     path('show_stacked_column_line_chart', views.show_stacked_column_line_chart, name='show_stacked_column_line_chart'),
     path('show_stacked_clustered_column_chart', views.show_stacked_clustered_chart,
          name='show_stacked_clustered_chart'),
+    path('show_dumbell_chart', views.show_dumbell_chart, name='show_dumbell_chart'),
     path('show_heat_map_chart', views.show_heat_map_chart, name='heat_map_chart'),
     path('show_bar_heat_map_chart', views.show_bar_heat_map, name='show_bar_heat_map_chart'),
     path('show_sankey_diagram', views.sankey_diagram, name='sankey_diagram'),

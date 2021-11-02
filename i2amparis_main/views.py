@@ -12,7 +12,6 @@ from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
 import os.path
 
-
 import json
 import urllib
 
@@ -72,7 +71,6 @@ def paris_reinforce_harmonisation(request):
     return render(request, 'i2amparis_main/paris_reinforce_workspace/paris_reinforce_harmonisation.html', context)
 
 
-
 def paris_advanced_scientific_module(request):
     models = DataVariablesModels.objects.filter(
         name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
@@ -92,8 +90,10 @@ def paris_advanced_scientific_module(request):
     return render(request, 'i2amparis_main/paris_reinforce_workspace/paris_workspace_scientific_module.html', context)
 
 
-def paris_cwdtm(request):
-    return render(request, 'i2amparis_main/paris_reinforce_workspace/what_does_this_mean.html')
+def gw_public_ui(request):
+    models = ModelsInfo.objects.filter(
+        model_name__in=['gcam', 'tiam', 'muse', '42', 'gemini_e3', 'ices', 'e3me']).order_by('model_title')
+    return render(request, 'i2amparis_main/paris_reinforce_workspace/gw_public_ui.html', {"models": models})
 
 
 # DEPRECATED NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE

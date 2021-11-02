@@ -184,6 +184,9 @@ class XY_chart:
         elif self.chart_type == 'stacked_area_chart':
             return render(self.request, 'visualiser/stacked_area_chart.html',
                           self.content)
+        elif self.chart_type == 'dumbell_chart':
+            return render(self.request, 'visualiser/dumbell_chart.html',
+                          self.content)
 
 
 class FlowChart:
@@ -539,8 +542,6 @@ def show_column_chart(request):
     use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
     legend_position = response_data["legend_position"]
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
 
@@ -551,6 +552,34 @@ def show_column_chart(request):
                             legend_position, 'column_chart')
     return column_chart.show_chart()
 
+
+@csrf_exempt
+@xframe_options_exempt
+def show_dumbell_chart(request):
+    # Use get_response_data_XY to get the same variables
+    response_data = get_response_data_XY(request)
+    y_var_names = response_data["y_var_names"]
+    y_var_titles = response_data["y_var_titles"]
+    y_var_units = response_data["y_var_units"]
+    x_axis_type = response_data["x_axis_type"]
+    x_axis_name = response_data["x_axis_name"]
+    x_axis_title = response_data["x_axis_title"]
+    x_axis_unit = response_data["x_axis_unit"]
+    y_axis_title = response_data["y_axis_title"]
+    min_max_y_value = response_data["min_max_y_value"]
+    color_list_request = response_data["color_list_request"]
+    use_default_colors = response_data["use_default_colors"]
+    chart_3d = response_data["chart_3d"]
+    legend_position = response_data["legend_position"]
+    dataset = response_data['dataset']
+    dataset_type = response_data['dataset_type']
+
+    data = generate_data_for_column_chart(dataset, dataset_type)
+    color_list = define_color_code_list(color_list_request)
+    column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                            legend_position, 'dumbell_chart')
+    return column_chart.show_chart()
 
 @csrf_exempt
 def generate_data_for_column_chart(dataset, dataset_type):
