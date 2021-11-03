@@ -26,8 +26,8 @@
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
-            {% comment %}var minmax_y_value = {{ minmax_y_value|safe }};
-            var chart_3d = {{ chart_3d }};{% endcomment %}
+            var single_points = {{ minmax_y_value|safe }};
+            {#var chart_3d = {{ chart_3d }};#}
             var legend_position = "{{ legend_position }}";
             chart.exporting.menu = new am4core.ExportMenu();
             chart.exporting.menu.verticalAlign = "bottom";
@@ -39,7 +39,6 @@
             xAxis.renderer.minGridDistance = 10;
             xAxis.renderer.grid.template.location = 0.5;
             xAxis.renderer.grid.template.strokeDasharray = "1,3";
-            {#xAxis.renderer.labels.template.rotation = -90;#}
             xAxis.renderer.labels.template.horizontalCenter = "left";
             xAxis.renderer.labels.template.location = 0.5;
             xAxis.renderer.cellStartLocation = 0.1;
@@ -66,23 +65,19 @@
             valueAxis.renderer.ticks.template.disabled = true;
             valueAxis.renderer.axisFills.template.disabled = true;
             {#valueAxis.renderer.labels.template.disabled = true;#}
+
             // Create series
 
-
-            console.log(chart.data);
-
             var series = [];
+            {#var bullet_series = [];#}
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(i), y_var_titles[i]);
+                    series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(i), y_var_titles[i])
                 } else {
-                    series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], y_var_titles[i],);
+                    series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], y_var_titles[i]);
                 }
             }
 
-
-            // Create Markers
-            {#TODO: Create a function that will allow placing markers on the chart#}
 
             //Add Legend
             chart.legend = new am4charts.Legend();
@@ -123,17 +118,17 @@
                 series.dataFields.categoryX = setNameOfX;
                 series.dataFields.openValueY = y_var_name + "_open";
                 series.dataFields.valueY = y_var_name + "_close";
+                series.dataFields.baselineValue = y_var_name + "_baseline";
                 series.fill = am4core.color(color);
                 series.stroke = am4core.color(color);
                 series.name = y_var_title;
-
                 series.sequencedInterpolation = true;
                 series.fillOpacity = 0.8;
                 series.strokeOpacity = 1;
                 series.columns.template.width = 5;
                 series.tooltip.pointerOrientation = "horizontal";
 
-                series.tooltipText = "Maximum: {openValueY.value}\nMinimum: {valueY.value}";
+                series.tooltipText = "Maximum: {openValueY.value}\nMinimum: {valueY.value}\nBaseline: {baselineValue}";
                 series.tooltip.background.cornerRadius = 20;
                 series.tooltip.background.fillOpacity = 0.8;
                 series.tooltip.label.padding(12, 12, 12, 12);
@@ -145,9 +140,50 @@
                 series.legendSettings.labelText = "{name}";
                 series.legendSettings.itemValueText = "[bold]({valueY} - {openValueY})[/bold]";
 
+                {#Creates the bullet points using the baseline values#}
+                var bseries = chart.series.push(new am4charts.ColumnSeries());
+                bseries.dataFields.categoryX = setNameOfX;
+                bseries.dataFields.openValueY = y_var_name + "_baseline";
+                bseries.dataFields.valueY = y_var_name + "_baseline";
+                bseries.fill = am4core.color(color);
+                bseries.stroke = am4core.color(color);
+                bseries.sequencedInterpolation = true;
+                bseries.fillOpacity = 0.8;
+                bseries.strokeOpacity = 1;
+                bseries.columns.template.width = 5;
+                bseries.tooltip.pointerOrientation = "horizontal";
+                var openBullet = bseries.bullets.create(am4charts.CircleBullet);
+                openBullet.locationY = 1;
+                {#Removes extra legend items and connects bars with single points#}
+                bseries.hiddenInLegend = true;
+                series.events.on("hidden", function () {
+                    bseries.hide();
+                });
+                series.events.on("shown", function () {
+                    bseries.show();
+                });
+
                 return series
+            }
 
+            function create_bullet_series(setNameOfX, y_var_name, color) {
+                <!-- Set the range  between open and close and set and the close-->
+                var series = chart.series.push(new am4charts.ColumnSeries());
+                series.dataFields.categoryX = setNameOfX;
+                series.dataFields.openValueY = y_var_name + "_baseline";
+                series.dataFields.valueY = y_var_name + "_baseline";
+                series.fill = am4core.color(color);
+                series.stroke = am4core.color(color);
+                series.sequencedInterpolation = true;
+                series.fillOpacity = 0.8;
+                series.strokeOpacity = 1;
+                series.columns.template.width = 5;
+                series.tooltip.pointerOrientation = "horizontal";
+                var openBullet = series.bullets.create(am4charts.CircleBullet);
+                openBullet.locationY = 1;
+                series.hiddenInLegend = true;
 
+                return series
             }
         });
 

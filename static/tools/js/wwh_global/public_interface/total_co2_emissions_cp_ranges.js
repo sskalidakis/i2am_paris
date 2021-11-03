@@ -24,6 +24,7 @@ $(document).ready(function () {
         "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "black", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
+        "min_max_y_value":['Baseline Values']
         // "type": "step_by_step"
     };
 
@@ -32,7 +33,7 @@ $(document).ready(function () {
 
     function create_total_co2_emissions_query() {
         var models = ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'];
-        var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI'];
+        var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI', 'Baseline Values'];
         var regions = ['World'];
         var variable = ['Emissions|CO2|Energy'];
 

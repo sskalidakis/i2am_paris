@@ -215,15 +215,18 @@ def dumbell_max_min(query_id, group_by_list):
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
-
+    bars_df = df[df['scenario__name'].isin(['PR_CurPol_EI', 'PR_CurPol_CP'])]
+    markers_df = df[df['scenario__name'].isin(['Baseline Values'])]
+    markers_df = pd.DataFrame(data={'model_status': ['42_baseline','e3me_baseline','gcam_baseline', 'ices_baseline','muse_baseline','tiam_baseline'], 'value': [32000, 38000, 34000, 39000, 42000, 28000]})
+    # TODO: Define how baseline values will be retrieved and differentiated from the rest of the data
     if df.empty:
         return []
     else:
         # Creating the min-max ranges
-        max_df = df.groupby(by=group_by_list).max().reset_index()
+        max_df = bars_df.groupby(by=group_by_list).max().reset_index()
         max_df = max_df.drop(['variable__name', 'region__name', 'scenario__name'], axis=1)
         max_df = max_df.rename(columns={'value': 'open'})
-        min_df = df.groupby(by=group_by_list).min().reset_index()
+        min_df = bars_df.groupby(by=group_by_list).min().reset_index()
         min_df = min_df.drop(['variable__name', 'region__name', 'scenario__name'], axis=1)
         min_df = min_df.rename(columns={'value': 'close'})
         min_max_df = pd.merge(left=max_df, right=min_df, left_on=['model__name','year'], right_on=['model__name','year'])
@@ -233,15 +236,16 @@ def dumbell_max_min(query_id, group_by_list):
         min_max_df = min_max_df.drop(['range'], axis=1)
         new_max_df = min_max_df
         new_max_df['model_status'] = new_max_df['model__name'] + '_open'
-        new_max_df = new_max_df.drop(['close', 'model__name'], axis=1).rename(columns={'open':'value'})
+        new_max_df = new_max_df.drop(['close', 'model__name'], axis=1).rename(columns={'open': 'value'})
         new_min_df = min_max_df
         new_min_df['model_status'] = new_min_df['model__name'] + '_close'
-        new_min_df = new_min_df.drop(['open', 'model__name'], axis=1).rename(columns={'close':'value'})
-        new_min_max_df = pd.concat([new_max_df, new_min_df])
+        new_min_df = new_min_df.drop(['open', 'model__name'], axis=1).rename(columns={'close': 'value'})
+        new_min_max_df = pd.concat([new_max_df, new_min_df, markers_df])
 
         final_data = list(
             new_min_max_df.set_index('model_status').to_dict().values())
         final_data[0]['category'] = ''
+
         return final_data
 
 
