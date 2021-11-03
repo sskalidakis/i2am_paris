@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 info_dict[temp_title] = source_list
             el['source_info'] = info_dict
         try:
-            cached_file = open("static/cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json", "w")
+            cached_file = open("cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json", "w")
             json.dump(var_mod, cached_file)
             cached_file.close()
             self.stdout.write('Successfully cached data for PR Global Variable Harmonisation Heatmap.')
