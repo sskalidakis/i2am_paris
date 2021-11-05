@@ -24,7 +24,7 @@ $(document).ready(function () {
         "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "black", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
-        "min_max_y_value":['Baseline Values']
+        "min_max_y_value":[22000, 48000]
         // "type": "step_by_step"
     };
 

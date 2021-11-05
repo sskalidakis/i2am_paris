@@ -26,7 +26,7 @@
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
-            var single_points = {{ minmax_y_value|safe }};
+            var minmax_y_value = {{ minmax_y_value|safe }};
             {#var chart_3d = {{ chart_3d }};#}
             var legend_position = "{{ legend_position }}";
             chart.exporting.menu = new am4core.ExportMenu();
@@ -64,6 +64,11 @@
             valueAxis.tooltip.disabled = true;
             valueAxis.renderer.ticks.template.disabled = true;
             valueAxis.renderer.axisFills.template.disabled = true;
+            if (minmax_y_value.length !== 0) {
+                valueAxis.min = parseFloat(minmax_y_value[0]);
+                valueAxis.max = parseFloat(minmax_y_value[1]);
+            }
+            valueAxis.renderer.labels.template.disabled = true;
             {#valueAxis.renderer.labels.template.disabled = true;#}
 
             // Create series
@@ -84,23 +89,38 @@
             chart.legend.useDefaultMarker = true;
             if (legend_position === "bottom" || legend_position === "top") {
                 chart.legend.position = legend_position;
-                chart.legend.maxHeight = 120;
+                chart.legend.maxHeight = 150;
             } else {
                 chart.legend.maxHeight = 530;
                 chart.legend.maxWidth = 500;
             }
             chart.legend.position = legend_position;
             chart.legend.scrollable = true;
+            chart.legend.fontSize = 11;
 
 
             var marker = chart.legend.markers.template.children.getIndex(0);
-            marker.cornerRadius(5, 5, 5, 5);
-            marker.strokeWidth = 2;
+            marker.cornerRadius(1, 1, 1, 1);
+            marker.strokeWidth = 1;
             marker.strokeOpacity = 1;
             marker.stroke = am4core.color("#ccc");
             var markerTemplate = chart.legend.markers.template;
-            markerTemplate.width = 25;
-            markerTemplate.height = 25;
+            markerTemplate.width = 12;
+            markerTemplate.height = 12;
+            marker.adapter.add("cornerRadiusTopLeft", cornerRadiusAdapter);
+            marker.adapter.add("cornerRadiusTopRight", cornerRadiusAdapter);
+            marker.adapter.add("cornerRadiusBottomLeft", cornerRadiusAdapter);
+            marker.adapter.add("cornerRadiusBottomRight", cornerRadiusAdapter);
+
+
+
+            function cornerRadiusAdapter(radius, target) {
+                if (!target.dataItem) {
+                    return radius;
+                }
+                let settings = target.dataItem.dataContext.radiusData;
+                return settings && settings.radius !== undefined ? settings.radius : radius
+            }
 
 
             // Add scrollbar
@@ -128,7 +148,7 @@
                 series.columns.template.width = 5;
                 series.tooltip.pointerOrientation = "horizontal";
 
-                series.tooltipText = "Maximum: {openValueY.value}\nMinimum: {valueY.value}\nBaseline: {baselineValue}";
+                series.tooltipText = "Max: {openValueY.value}\nMin: {valueY.value}\nBaseline: {baselineValue}";
                 series.tooltip.background.cornerRadius = 20;
                 series.tooltip.background.fillOpacity = 0.8;
                 series.tooltip.label.padding(12, 12, 12, 12);
@@ -137,12 +157,13 @@
                 series.tooltip.getFillFromObject = false;
                 series.tooltip.background.fill = am4core.color(color).lighten(-0.3);
 
-                series.legendSettings.labelText = "{name}";
-                series.legendSettings.itemValueText = "[bold]({valueY} - {openValueY})[/bold]";
+                series.legendSettings.labelText = "{name}'s Range";
+                {#series.legendSettings.itemValueText = "[bold]({valueY} - {openValueY})[/bold]";#}
 
                 {#Creates the bullet points using the baseline values#}
                 var bseries = chart.series.push(new am4charts.ColumnSeries());
                 bseries.dataFields.categoryX = setNameOfX;
+                bseries.name = y_var_title;
                 bseries.dataFields.openValueY = y_var_name + "_baseline";
                 bseries.dataFields.valueY = y_var_name + "_baseline";
                 bseries.fill = am4core.color(color);
@@ -152,10 +173,24 @@
                 bseries.strokeOpacity = 1;
                 bseries.columns.template.width = 5;
                 bseries.tooltip.pointerOrientation = "horizontal";
+                bseries.legendSettings.labelText = "Baseline";
+                bseries.radiusData = {radius:20};
                 var openBullet = bseries.bullets.create(am4charts.CircleBullet);
                 openBullet.locationY = 1;
+                {#Triangles on chart#}
+                {#var openBullet = bseries.bullets.push(new am4charts.Bullet());#}
+                {#var arrow = openBullet.createChild(am4core.Triangle);#}
+                {##}
+                {#arrow.stroke = am4core.color("#fff");#}
+                {#arrow.direction = "top";#}
+                {#arrow.horizontalCenter = "middle";#}
+                {#arrow.verticalCenter = "middle";#}
+                {#arrow.width = 15;#}
+                {#arrow.height = 15;#}
+                {##}
+                {#arrow.dx = -7.5;#}
                 {#Removes extra legend items and connects bars with single points#}
-                bseries.hiddenInLegend = true;
+                {#bseries.hiddenInLegend = true;#}
                 series.events.on("hidden", function () {
                     bseries.hide();
                 });
@@ -166,25 +201,7 @@
                 return series
             }
 
-            function create_bullet_series(setNameOfX, y_var_name, color) {
-                <!-- Set the range  between open and close and set and the close-->
-                var series = chart.series.push(new am4charts.ColumnSeries());
-                series.dataFields.categoryX = setNameOfX;
-                series.dataFields.openValueY = y_var_name + "_baseline";
-                series.dataFields.valueY = y_var_name + "_baseline";
-                series.fill = am4core.color(color);
-                series.stroke = am4core.color(color);
-                series.sequencedInterpolation = true;
-                series.fillOpacity = 0.8;
-                series.strokeOpacity = 1;
-                series.columns.template.width = 5;
-                series.tooltip.pointerOrientation = "horizontal";
-                var openBullet = series.bullets.create(am4charts.CircleBullet);
-                openBullet.locationY = 1;
-                series.hiddenInLegend = true;
 
-                return series
-            }
         });
 
     </script>

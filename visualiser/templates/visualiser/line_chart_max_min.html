@@ -25,7 +25,8 @@
             var y_var_units = {{ y_var_units|safe }};
             var y_axis_title = "{{ y_axis_title }}";
             var color_list = {{ color_list|safe }};
-            var minmax_list = {{ minmax_y_value |safe}};
+            var ranges = {{ranges |safe}};
+            var minmax_y_value = {{ minmax_y_value |safe}};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
             var chart_3d = {{ chart_3d }};
@@ -52,6 +53,10 @@
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
+            if (minmax_y_value.length !== 0) {
+                valueAxis.min = parseFloat(minmax_y_value[0]);
+                valueAxis.max = parseFloat(minmax_y_value[1]);
+            }
 
 
             // Create series
@@ -75,8 +80,8 @@
             //Create ranges
             var ranges_series = [];
 
-            for (i = 0; i < minmax_list.length; i++) {
-                var minmax = minmax_list[i].split(",");
+            for (i = 0; i < ranges.length; i++) {
+                var minmax = ranges[i].split(",");
                 create_range(x_axis_name, minmax[1], minmax[0],
                     minmax[1], color_list[i], x_axis_type, y_axis_title, y_var_units[i], minmax[2]);
 
@@ -85,10 +90,10 @@
 
             //Add Legend
             chart.legend = new am4charts.Legend();
-            chart.legend.useDefaultMarker = true;
+            {#chart.legend.useDefaultMarker = true;#}
             if (legend_position === "bottom" || legend_position === "top") {
                 chart.legend.position = legend_position;
-                chart.legend.maxHeight = 120;
+                chart.legend.maxHeight = 150;
             } else {
                 chart.legend.maxHeight = 530;
                 chart.legend.maxWidth = 500;
@@ -96,14 +101,14 @@
             chart.legend.position = legend_position;
             chart.legend.scrollable = true;
 
-            var marker = chart.legend.markers.template.children.getIndex(0);
-            marker.cornerRadius(5, 5, 5, 5);
-            marker.strokeWidth = 2;
-            marker.strokeOpacity = 1;
-            marker.stroke = am4core.color("#ccc");
-            var markerTemplate = chart.legend.markers.template;
-            markerTemplate.width = 25;
-            markerTemplate.height = 25;
+            {#var marker = chart.legend.markers.template.children.getIndex(0);#}
+            {#marker.cornerRadius(5, 5, 5, 5);#}
+            {#marker.strokeWidth = 2;#}
+            {#marker.strokeOpacity = 1;#}
+            {#marker.stroke = am4core.color("#ccc");#}
+            {#var markerTemplate = chart.legend.markers.template;#}
+            {#markerTemplate.width = 25;#}
+            {#markerTemplate.height = 25;#}
 
 
             // Add scrollbar
@@ -147,7 +152,7 @@
                 series.tooltip.getFillFromObject = false;
                 series.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
                  if (style === 'dashed') {
-                    series.strokeDasharray = "10,10";
+                    series.strokeDasharray = "4,4";
                 }
                 //legend shows value dynamically
                 series.legendSettings.labelText = "{name}";
@@ -157,7 +162,7 @@
                 //Smoothed Lines
                 {#series.tensionX = 0.9;#}
 
-                if (chart_3d) {
+                {% comment %}if (chart_3d) {
                     //Create Gradient
                     series.fillOpacity = 1;
                     let fillModifier = new am4core.LinearGradientModifier();
@@ -165,7 +170,7 @@
                     fillModifier.offsets = [0, 0.5];
                     fillModifier.gradient.rotation = 90;
                     series.segments.template.fillModifier = fillModifier;
-                }
+                }{% endcomment %}
                 return series
 
 
