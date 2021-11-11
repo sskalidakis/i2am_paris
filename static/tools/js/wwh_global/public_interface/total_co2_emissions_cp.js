@@ -19,7 +19,7 @@ $(document).ready(function () {
     }
 
     /* # Query creation*/
-    var jq_obj = create_total_co2_emissions_query();
+    var jq_obj = create_total_co2_emissions_cp_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
         "y_var_names": y_var_names,
@@ -50,7 +50,7 @@ $(document).ready(function () {
     start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
 
 
-    function create_total_co2_emissions_query() {
+    function create_total_co2_emissions_cp_query() {
         var models = ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'];
         var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI'];
         var regions = ['World'];

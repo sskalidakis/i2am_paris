@@ -162,6 +162,12 @@ class XY_chart:
         elif self.chart_type == 'line_chart_min_max':
             return render(self.request, 'visualiser/line_chart_max_min.html',
                           self.content)
+        elif self.chart_type == 'line_chart_comp_2':
+            return render(self.request, 'visualiser/line_chart_comp_2.html',
+                          self.content)
+        elif self.chart_type == 'line_chart_comp_4':
+            return render(self.request, 'visualiser/line_chart_comp_4.html',
+                          self.content)
         elif self.chart_type == 'column_chart':
             return render(self.request, 'visualiser/column_chart_am4.html',
                           self.content)
@@ -233,7 +239,8 @@ class StackedClusteredColumnChart:
     '''
 
     def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, x_sec_axis, y_var_names, y_var_titles,
-                 y_axis_units, y_axis_title, cat_axis_names, cat_axis_titles, chart_data, color_list, use_default_colors, chart_type):
+                 y_axis_units, y_axis_title, cat_axis_names, cat_axis_titles, chart_data, color_list, use_default_colors,
+                 legend_position, min_max_y_value, chart_type):
         """
         :param request: Contains all request data needed to render the HTML page. (Request Object)
         :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
@@ -272,6 +279,8 @@ class StackedClusteredColumnChart:
         self.chart_type = chart_type
         self.color_list = color_list
         self.use_default_colors = use_default_colors
+        self.legend_position = legend_position
+        self.min_max_y_value = min_max_y_value
 
         self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
                         'x_axis_name': self.x_axis_name, 'x_sec_axis': self.x_sec_axis,
@@ -279,6 +288,7 @@ class StackedClusteredColumnChart:
                         'y_var_names': self.y_var_names, 'cat_axis_names': self.cat_axis_names,
                         'cat_axis_titles': self.cat_axis_titles, 'y_axis_title': self.y_axis_title,
                         'color_list': self.color_list, 'use_default_colors': self.use_default_colors,
+                        'legend_position': self.legend_position, 'min_max_y_value': self.min_max_y_value,
                         'chart_data': self.chart_data}
 
     def show_chart(self):
@@ -459,7 +469,16 @@ def show_line_chart(request):
                               x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
                               min_max_y_value, legend_position,
                               'line_chart_step_by_step')
-
+    elif type == 'compare_2':
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value, legend_position,
+                              'line_chart_comp_2')
+    elif type == 'compare_4':
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value, legend_position,
+                              'line_chart_comp_4')
     else:
         if stacked == 'false':
             line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
@@ -992,8 +1011,9 @@ def show_stacked_clustered_chart(request):
     cat_axis_titles = request.GET.getlist("cat_axis_titles[]", [])
     dataset = response_data_xy['dataset']
     dataset_type = response_data_xy['dataset_type']
-
+    legend_position = response_data_xy['legend_position']
     use_default_colors = response_data_xy['use_default_colors']
+    min_max_y_value = response_data_xy['min_max_y_value']
     color_list = define_color_code_list(response_data_xy['color_list_request'])
     data = create_stacked_clustered_data(dataset, dataset_type)
     if type == 'step_by_step':
@@ -1001,13 +1021,13 @@ def show_stacked_clustered_chart(request):
                                                               x_sec_axis,
                                                               y_var_names, y_var_titles, y_axis_units, y_axis_title,
                                                               cat_axis_names, cat_axis_titles, data, color_list,
-                                                              use_default_colors, 'stacked_clustered_chart_step_by_step')
+                                                              use_default_colors, legend_position, min_max_y_value, 'stacked_clustered_chart_step_by_step')
     else:
         stacked_clustered_chart = StackedClusteredColumnChart(request, x_axis_name, x_axis_title, x_axis_unit,
                                                               x_sec_axis,
                                                               y_var_names, y_var_titles, y_axis_units, y_axis_title,
                                                               cat_axis_names, cat_axis_titles, data, color_list,
-                                                              use_default_colors, 'stacked_clustered_chart')
+                                                              use_default_colors, legend_position,min_max_y_value, 'stacked_clustered_chart')
 
     return stacked_clustered_chart.show_chart()
 

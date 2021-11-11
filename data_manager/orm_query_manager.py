@@ -24,7 +24,7 @@ def line_chart_query(query_id):
     # elif query_name in ['fossil_energy_co2_query', 'global_approximate_temperature_query', 'global_ccs_1_query',
     #                     'global_ccs_2_query', 'global_primary_energy_query']:
     #     results = model_scenario_intro_page_query(query_id)
-    elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_query']:
+    elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_query', 'wwhglobal_pub_total_co2_emissions_ndc_query']:
         results = max_min_query(query_id, ["year", "model__name"])
     elif query_name in ['wdtm_ccs_query']:
         results = wdtm_ccs(query_id)
@@ -34,7 +34,8 @@ def line_chart_query(query_id):
                         'eu_wwh_scientific_co2_emissions_query', 'eu_wwh_scientific_imported_fuels_coal_query',
                         'eu_wwh_scientific_imported_fuels_gas_query', 'eu_wwh_scientific_imported_fuels_oil_query',
                         'eu_wwh_scientific_investments_energy_supply_query',
-                        'eu_wwh_scientific_investments_power_generation_query'
+                        'eu_wwh_scientific_investments_power_generation_query', 'wwhglobal_pub_global_temp_query',
+                        'wwhglobal_pub_ccs1_query', 'wwhglobal_pub_ccs2_query'
                         ]:
         results = wwheu_pub_total_co2_emissions(query_id)
     elif query_name in ['wwheu_pub_imported_fuels_query']:
@@ -70,11 +71,19 @@ def column_chart_query(query_id):
                         'eu_wwh_scientific_hydrogen_transport_query', 'eu_wwh_scientific_primary_by_fuel_query',
                         'eu_wwh_scientific_final_by_sector_query', 'eu_wwh_scientific_co2_emisssions_by_sector_query',
                         'eu_wwh_scientific_investments_by_gen_tech_query']:
-        results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id')
+        results = wwheu_pub_emissions_by_sector_query(query_id, 'model_id', 'year')
+    elif query_name in ['wwhglobal_pub_final_energy_ft_2020_query', 'wwhglobal_pub_final_energy_ft_2030_query',
+                        'wwhglobal_pub_final_energy_ft_2050_query', 'wwhglobal_pub_final_energy_sector_2020_query',
+                        'wwhglobal_pub_final_energy_sector_2030_query', 'wwhglobal_pub_final_energy_sector_2050_query']:
+        results = wwheu_pub_emissions_by_sector_query(query_id, 'scenario_id', 'model__title')
     elif query_name in ['wwheu_pub_co2_ccs_by_sector_query', 'eu_wwh_scientific_ccs1_query']:
         results = wwheu_pub_co2_ccs_by_sector(query_id)
     elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_ranges_query']:
-        results = dumbell_max_min(query_id, ["model__name","year"])
+        results = dumbell_max_min(query_id, ["model__name", "year"], ['PR_CurPol_EI', 'PR_CurPol_CP'])
+    elif query_name in ['wwhglobal_pub_total_co2_emissions_ndc_ranges_query']:
+        results = dumbell_max_min(query_id, ["model__name", "year"], ['PR_NDC_EI', 'PR_NDC_CP'])
+    elif query_name in ['wwhglobal_pub_global_temp_ranges_query']:
+        results = dumbell_max_min(query_id, ["model__name", "year"], ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'])
     return results
 
 
@@ -116,9 +125,11 @@ def scentific_tool_query_agg(query_id):
     if df.empty:
         return []
     final_data = list(
-        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
+        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(-999999).to_dict(
             'index').values())
-    clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+    clean_final_data = clean_dictionary_list_from_null_values(final_data)
+    clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
     return clean_final_data
 
 
@@ -148,10 +159,11 @@ def primary_energy_by_fuel_avg_query(query_id, grouping_val):
         joined_df = joined_df.rename(columns={'title': grouping_val})
 
         joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
-        final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(0)
+        final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(-999999)
         # final_df['zero'] = 0
         final_data = list(final_df.to_dict('index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
 
         return clean_final_data
 
@@ -169,9 +181,11 @@ def model_scenario_intro_page_query(query_id):
     else:
         df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
         final_data = list(
-            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(-999999).to_dict(
                 'index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
@@ -201,23 +215,26 @@ def max_min_query(query_id, group_by_list):
         df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
         final_df = pd.concat([min_df, max_df, df]).reset_index()
         final_data = list(
-            final_df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+            final_df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(-999999).to_dict(
                 'index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
-def dumbell_max_min(query_id, group_by_list):
+def dumbell_max_min(query_id, group_by_list, range_scenarios_list):
     '''
         This method is the execution of the query for getting the data for the dumbell charts showing ranges in the workspace
         :param query_id: The query_id of the query to be executed in order to retrieve data for the chart
         :param group_by_list: it is the parameter according to which the grouping takes place
+        :param range_scenarios_list: this list contains the names of the scenarios used for the ranges in the chart
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
-    bars_df = df[df['scenario__name'].isin(['PR_CurPol_EI', 'PR_CurPol_CP'])]
-    markers_df = df[df['scenario__name'].isin(['Baseline Values'])]
-    markers_df = pd.DataFrame(data={'model_status': ['42_baseline','e3me_baseline','gcam_baseline', 'ices_baseline','muse_baseline','tiam_baseline'], 'value': [32000, 38000, 34000, 39000, 42000, 28000]})
+    bars_df = df[df['scenario__name'].isin(range_scenarios_list)]
+    markers_df = df[df['scenario__name'].isin(['PR_Baseline'])]
+    markers_df = pd.DataFrame(data={'model_status': ['42_baseline', 'e3me_baseline', 'gcam_baseline', 'ices_baseline', 'muse_baseline','tiam_baseline'], 'value': [32000, 38000, 34000, 39000, 42000, 28000]})
     # TODO: Define how baseline values will be retrieved and differentiated from the rest of the data
     if df.empty:
         return []
@@ -241,7 +258,6 @@ def dumbell_max_min(query_id, group_by_list):
         new_min_df['model_status'] = new_min_df['model__name'] + '_close'
         new_min_df = new_min_df.drop(['open', 'model__name'], axis=1).rename(columns={'close': 'value'})
         new_min_max_df = pd.concat([new_max_df, new_min_df, markers_df])
-
         final_data = list(
             new_min_max_df.set_index('model_status').to_dict().values())
         final_data[0]['category'] = ''
@@ -264,9 +280,11 @@ def wdtm_ccs(query_id):
         df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
         df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
         final_data = list(
-            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(-999999).to_dict(
                 'index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
@@ -284,9 +302,11 @@ def wwheu_pub_total_co2_emissions(query_id):
         df['scenario_model'] = df['model__name'] + '_' + df['scenario__name']
         df = df.drop(['scenario__name', 'variable__name', 'model__name', 'region__name'], axis=1)
         final_data = list(
-            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(0).to_dict(
+            df.pivot(index="year", columns="scenario_model", values="value").reset_index().fillna(-999999).to_dict(
                 'index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
@@ -304,9 +324,11 @@ def wwheu_pub_imported_fuels_query(query_id):
         # Creating the min-max ranges
         df = df.drop(['scenario__name', 'variable__name', 'region__name'], axis=1)
         final_data = list(
-            df.pivot(index="year", columns="model__name", values="value").reset_index().fillna(0).to_dict(
+            df.pivot(index="year", columns="model__name", values="value").reset_index().fillna(-999999).to_dict(
                 'index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
@@ -326,9 +348,11 @@ def wwheu_pub_ccs_ratio(query_id):
         df['Extra_CO2_reduction_ratio'] = 100 * df['Extra_CO2_reduction_ratio']
         df = df.pivot(index="Extra_CO2_reduction_ratio", columns="model__name", values="Extra_CO2_Captured_with_CCS")
         final_data = list(
-            df.reset_index().fillna(-9999).to_dict(
+            df.reset_index().fillna(-999999).to_dict(
                 'index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
@@ -349,18 +373,21 @@ def wwheu_pub_ratio_to_ratio(query_id, x_axis, y_axis):
         df[y_axis] = 100 * df[y_axis]
         df = df.pivot(index=x_axis, columns="model__name", values=y_axis)
         final_data = list(
-            df.reset_index().fillna(-9999).to_dict(
+            df.reset_index().fillna(-999999).to_dict(
                 'index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
         return clean_final_data
 
 
-def wwheu_pub_emissions_by_sector_query(query_id, grouping_val):
+def wwheu_pub_emissions_by_sector_query(query_id, grouping_val, pivot_var):
     '''
-     This method is the execution of the query for creating data for the co2 emissions by sevtor for the EU public interface
+     This method is the execution of the query for creating data for the co2 emissions by sector for the EU public interface
      :param grouping_val: This variable shows whether the grouping is done across models or scenarios
      :param query_id: The query_id of the query to be executed in order to retrieve data for the advanced scientific tool columnchart
-     '''
+     :param pivot_var: The parameter according to which the final rows of the data will be created (the dataframe will pivot)'''
+
     if grouping_val == 'model_id':
         record_title = 'model_title'
         grouping_var_data = ModelsInfo.objects.all().values()
@@ -381,10 +408,11 @@ def wwheu_pub_emissions_by_sector_query(query_id, grouping_val):
         joined_df = joined_df.rename(columns={'title': grouping_val})
 
         joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
-        final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(0)
+        final_df = joined_df.pivot(index=pivot_var, columns=grouping_val + "_var", values="value").reset_index().fillna(-999999)
         # final_df['zero'] = 0
         final_data = list(final_df.to_dict('index').values())
-        clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        clean_final_data = clean_dictionary_list_from_null_values(final_data)
+        clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
 
         return clean_final_data
 
@@ -404,7 +432,7 @@ def wwheu_pub_co2_ccs_by_sector(query_id):
         df = df.drop(['region__name'], axis=1)
         df = df.pivot(index=["year"], columns="variable__name", values="value")
         final_data = list(
-            df.reset_index().fillna(-9999).to_dict(
+            df.reset_index().fillna(-999999).to_dict(
                 'index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
@@ -435,9 +463,11 @@ def scentific_tool_query(query_id):
     if df.empty:
         return []
     final_data = list(
-        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(0).to_dict(
+        df.pivot(index="year", columns=multiple_field + "__name", values="value").reset_index().fillna(-999999).to_dict(
             'index').values())
-    clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+    clean_final_data = clean_dictionary_list_from_null_values(final_data)
+    clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
     return clean_final_data
 
 
@@ -450,7 +480,7 @@ def quantity_comparison_query(query_id):
         return []
     if var_table_name is None:
         final_data = list(
-            df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(0).to_dict(
+            df.pivot(index=grouping_val, columns="scenario__name", values="value").reset_index().fillna(-999999).to_dict(
                 'index').values())
     else:
         grouping_var_table = apps.get_model(DATA_TABLES_APP, var_table_name)
@@ -464,8 +494,10 @@ def quantity_comparison_query(query_id):
         pivoted_df = joined_df.pivot(index=[grouping_val, 'reg_type'], columns=["scenario__name"],
                                      values="value").sort_values('reg_type').reset_index()
         pivoted_df.drop('reg_type', axis=1, inplace=True)
-        final_data = list(pivoted_df.fillna(0).to_dict('index').values())
-    clean_final_data = clean_dictionary_list_from_zero_values(final_data)
+        final_data = list(pivoted_df.fillna(-999999).to_dict('index').values())
+    clean_final_data = clean_dictionary_list_from_null_values(final_data)
+    clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
+
     return clean_final_data
 
 
