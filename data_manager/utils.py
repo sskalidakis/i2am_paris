@@ -12,7 +12,8 @@ from visualiser.visualiser_settings import DATA_TABLES_APP
 
 def query_execute(query_id):
     '''
-    This method is responsible for executing a query using Django's ORM
+    This method is responsible for executing a query using Django's ORM. Calling selecting, filtering, grouping,
+    ordering functions.
     :param query_id: The id of the query to be executed
     :return: The data returned by the executed query.
     '''
@@ -58,30 +59,16 @@ def extract_groupings(grouping):
     group_by_params = grouping['params']
     agg_params = {}
     for el in grouping['aggregated_params']:
-        # agg_params[el['name'] + str(el['agg_func'])] = "{agg_func}('{var_name}')".format(agg_func=el['agg_func'],
-        #                                                                              var_name=el['name'])
         agg_params[el['name']] = str(el['agg_func'])
     return group_by_params, agg_params
 
 
 def group_by_function(group_by_params, agg_params, data):
+    '''This method applies the aggregate functions to the grouped data
+    :param group_by_params: The parameters according to which the grouping takes place
+    :param agg_params: The parameters that are aggregated according to the given aggregate function
+    :param data: The data loaded to the method'''
     final_data = data.values(*group_by_params)
-    # if len(agg_params) == 1:
-    #     for value, agg_func in agg_params.items():
-    #         if agg_func == 'Avg':
-    #             final_data = final_data.annotate(value=Avg(value))
-    #         elif agg_func == 'Sum':
-    #             final_data = final_data.annotate(value=Sum(value))
-    #         elif agg_func == 'Max':
-    #             final_data = final_data.annotate(value=Max(value))
-    #         elif agg_func == 'Min':
-    #             final_data = final_data.annotate(value=Min(value))
-    #         elif agg_func == 'Count':
-    #             final_data = final_data.annotate(value=Count(value))
-    #         elif agg_func == 'default':
-    #             final_data = final_data.annotate(value=Avg(value))
-    #     #         TODO: Need to extract the default aggrgation function from db
-    # else:
     for value, agg_func in agg_params.items():
         if agg_func == 'Avg':
             final_data = final_data.annotate(**get_groupby_annotation(value, 'Avg'))
@@ -95,14 +82,21 @@ def group_by_function(group_by_params, agg_params, data):
             final_data = final_data.annotate(**get_groupby_annotation(value, 'Count'))
         elif agg_func == 'default':
             final_data = final_data.annotate(**get_groupby_annotation(value, 'Avg'))
-    #         TODO: Need to extract the default aggrgation function from db
     return final_data
 
+
 def get_groupby_annotation(value, agg_func):
-        if agg_func == 'Avg':
-            return {value: Avg(value)}
-        elif agg_func == 'Sum':
-            return {value: Sum(value)}
+    '''Creates a dictionary used for the group by annotation used in the grouping methods.'''
+    if agg_func == 'Avg':
+        return {value: Avg(value)}
+    elif agg_func == 'Sum':
+        return {value: Sum(value)}
+    elif agg_func == 'Max':
+        return {value: Max(value)}
+    elif agg_func == 'Min':
+        return {value: Min(value)}
+    elif agg_func == 'Count':
+        return {value:Count(value)}
 
 def get_query_parameters(query_id):
     '''
@@ -123,6 +117,8 @@ def get_query_parameters(query_id):
 
 
 def extract_filters(filters):
+    '''This method calls functions for creating the orm expressions for filtering the data'''
+    #TODO: A new method for more complex filtering should be developed
     exp_and = compute_Q_objects(filters['and'], 'and')
     print("and expr=", exp_and)
     exp_or = compute_Q_objects(filters['or'], 'or')
@@ -131,6 +127,7 @@ def extract_filters(filters):
 
 
 def compute_dict(d):
+    '''This method applies the specific filtering according to given operands'''
     q_dict = {}
     if d['operation'] == ">":
         q_dict = {str(d['operand_1']) + '__' + 'gt': str(d['operand_2'])}
@@ -148,15 +145,12 @@ def compute_dict(d):
         q_dict = {str(d['operand_1']): str(d['operand_2'])}
     elif d['operation'] == "in":
         q_dict = {str(d['operand_1']) + '__' + 'in': d['operand_2']}
-    # elif d['operation'] == "or":
-    #     expr = (Q(str(d['operand_1']) + '|' + str(d['operand_2'])))
-    # elif d['operation'] == "and":
-    #     expr = (Q(str(d['operand_1']) + ',' + str(d['operand_2'])))
     expr = (Q(**q_dict))
     return expr
 
 
 def compute_Q_objects(param, op):
+    '''This functions creates the ORM filtering expressios'''
     q_objects = Q()
     for item in param:
         if op == 'and':
@@ -165,4 +159,19 @@ def compute_Q_objects(param, op):
             q_objects |= compute_dict(item)
     return q_objects
 
+# Functions used by the ORM Manager
+def clean_dictionary_list_from_zero_values(list):
+    '''This method clears the data from falsely inserted zeros in the database'''
+    clean_final_data = []
+    for el in list:
+        clean_final_data.append({x: y for x, y in el.items() if y != 0})
+    return clean_final_data
+
+
+def clean_dictionary_list_from_null_values(list):
+    '''This method clears the data from null values created in the dataframes by pivoting'''
+    clean_final_data = []
+    for el in list:
+        clean_final_data.append({x: y for x, y in el.items() if y != -999999})
+    return clean_final_data
 

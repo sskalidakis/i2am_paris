@@ -1,14 +1,11 @@
 import json
 
-from data_manager import models
-from i2amparis_main.models import Variable, ModelsInfo, ScenariosRes, RegionsRes
+from i2amparis_main.models import ModelsInfo, ScenariosRes, RegionsRes
 from data_manager.models import Query
 from data_manager.utils import query_execute
 import pandas as pd
-from django.apps import apps
 
-from visualiser.utils import clean_dictionary_list_from_zero_values, clean_dictionary_list_from_null_values
-from visualiser.visualiser_settings import DATA_TABLES_APP
+from data_manager.utils import clean_dictionary_list_from_zero_values, clean_dictionary_list_from_null_values
 
 '''This file contains a set of functions used for the reshaping of data in order to be suitable for the visualiser.
 At first the query is executed using the query_execute() function and are reprocessed using pandas Dataframes to be 
@@ -180,7 +177,6 @@ def primary_energy_by_fuel_avg_query(query_id, grouping_val):
         joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
         final_df = joined_df.pivot(index="year", columns=grouping_val + "_var", values="value").reset_index().fillna(
             -999999)
-        # final_df['zero'] = 0
         final_data = list(final_df.to_dict('index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
@@ -386,7 +382,6 @@ def variable_clustered_groups_per_parameter(query_id, grouping_val, pivot_var):
         joined_df[grouping_val + '_var'] = joined_df[grouping_val] + '_' + joined_df['variable__name']
         final_df = joined_df.pivot(index=pivot_var, columns=grouping_val + "_var", values="value").reset_index().fillna(
             -999999)
-        # final_df['zero'] = 0
         final_data = list(final_df.to_dict('index').values())
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
