@@ -1,6 +1,6 @@
 import json
 
-from i2amparis_main.models import ModelsInfo, ScenariosRes, RegionsRes
+from i2amparis_main.models import ModelsInfo, ScenariosRes, RegionsRes, HistoricalData
 from data_manager.models import Query
 from data_manager.utils import query_execute
 import pandas as pd
@@ -29,13 +29,15 @@ def line_chart_query(query_id):
                         'global_primary_energy_query', 'eu_wwh_scientific_co2_emissions_query',
                         'eu_wwh_scientific_imported_fuels_coal_query', 'eu_wwh_scientific_imported_fuels_gas_query',
                         'eu_wwh_scientific_imported_fuels_oil_query',
-                        'eu_wwh_scientific_investments_energy_supply_query',
-                        'eu_wwh_scientific_investments_power_generation_query', 'wwhglobal_pub_global_temp_query',
+                        'eu_wwh_scientific_investments_energy_supply_query','wwhglobal_pub_global_temp_query',
+                        'eu_wwh_scientific_investments_power_generation_query',
                         'wwhglobal_pub_ccs1_query', 'wwhglobal_pub_ccs2_query'
                         ]:
         results = combined_linechart_data_projection(query_id, 'model', 'scenario', 'year')
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = simple_linechart_data_projection(query_id, 'model', 'year')
+    elif query_name in ['wwhglobal_pub_global_temp_historical_query']:
+        results = simple_linechart_data_projection(query_id, 'variable', 'year')
     elif query_name in ['wwheu_pub_co2_ccs_ag_co2_reduction_query', 'eu_wwh_scientific_ccs2_query']:
         results = variable_to_variable_linechart_data(query_id, 'Extra_CO2_reduction_ratio', True,
                                                       'Extra_CO2_Captured_with_CCS', False, 'model', 'variable')
@@ -279,6 +281,7 @@ def combined_linechart_data_projection(query_id, timeseries, instances, pivot_va
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
+
     if df.empty:
         return []
     else:
@@ -288,6 +291,7 @@ def combined_linechart_data_projection(query_id, timeseries, instances, pivot_va
             df.pivot(index=pivot_var, columns=instances + "_" + timeseries, values="value").reset_index().fillna(
                 -999999).to_dict(
                 'index').values())
+
         clean_final_data = clean_dictionary_list_from_null_values(final_data)
         clean_final_data = clean_dictionary_list_from_zero_values(clean_final_data)
 
@@ -298,6 +302,9 @@ def simple_linechart_data_projection(query_id, timeseries, pivot_var):
     '''
         This method is the execution of the query for creating data for simple data projection
         :param query_id: The query_id of the query to be executed in order to retrieve data for the linechart
+        :param timeseries: The timeseries to be projected (ie. model, scenario, etc.)
+        :param pivot_var: The parameter according to which the dataframe will pivot. This defines the final rows.
+
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)

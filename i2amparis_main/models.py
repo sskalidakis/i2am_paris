@@ -253,6 +253,8 @@ class DataVariablesHarmonisation(models.Model):
 
 
 # Data Used only for the harmonisation Heatmap Application
+
+
 class Harmonisation_Variables(models.Model):
     """Variables for harmonisation table"""
     var_name = models.CharField(null=False, default="", max_length=50)
@@ -274,6 +276,7 @@ class DatasetOnDemandVariableHarmonisation(models.Model):
 
 # Workspace Harmonisation Heatmap Datasets
 
+
 class HarmDataNew(models.Model):
     # used in the paris reinforce workspace
     model = models.ForeignKey(DataVariablesModels, on_delete=models.CASCADE)
@@ -283,6 +286,7 @@ class HarmDataNew(models.Model):
     #var_source_info = models.TextField(null=False, default="")
     var_timespan = models.TextField(null=False, default="")
     #var_source_url = models.TextField(null=False, default="")
+
 
 class EUHarmData(models.Model):
     # used in the paris reinforce workspace
@@ -305,8 +309,8 @@ class HarmDataSourcesLinks(models.Model):
     var_source_info = models.TextField(null=False, default="")
 
 
-
 # Guide Datasets
+
 
 class DatasetVariableHarmonisationGuides(models.Model):
     guide_from = models.CharField(null=False, default="", max_length=50)
@@ -348,6 +352,7 @@ class Dataset(models.Model):
     dataset_django_model = models.CharField(null=False, default="", max_length=50)
     #string name of sql table
 
+
 class Variable(models.Model):
     var_name = models.CharField(null=False, default="", max_length=50)
     var_title = models.CharField(null=False, default="", max_length=50)
@@ -366,6 +371,7 @@ class ScenariosRes(models.Model):
     name = models.CharField(null=False, default="", max_length=50)
     title = models.CharField(null=False, default="", max_length=100)
 
+
 class RegionsRes(models.Model):
     """
     Regions of results
@@ -376,12 +382,12 @@ class RegionsRes(models.Model):
     models.IntegerField(null=False, default=0)
 
 
-
 class VariablesRes(models.Model):
     name = models.CharField(null=False, default="", max_length=100)
     title = models.CharField(null=False, default="", max_length=100)
     agg_func = models.CharField(null=False, default="", max_length=20)
     ordering = models.IntegerField(null=False, default=0)
+
 
 class UnitsRes(models.Model):
     name = models.CharField(null=False, default="", max_length=50)
@@ -392,6 +398,7 @@ class VaraiblesSdgsRes(models.Model):
     variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
     sdg = models.ForeignKey(SdgsCat, on_delete=models.CASCADE)
 
+
 class ResultsComp(models.Model):
     model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
     scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
@@ -401,11 +408,26 @@ class ResultsComp(models.Model):
     year = models.IntegerField()
     value = models.FloatField()
 
+
+#WWH_EU_WORKSPACE DATA
+
+
+class WWHEUResultsComp(models.Model):
+    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
+    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    value = models.FloatField()
+
+
 class PRWMetaData(models.Model):
     model_name = models.CharField(null=False, default="", max_length=100)
     scenario_name = models.CharField(null=False, default="", max_length=100)
     region_name = models.CharField(null=False, default="", max_length=100)
     variable_name = models.CharField(null=False, default="", max_length=100)
+
 
 class PRWEUMetaData(models.Model):
     model_name = models.CharField(null=False, default="", max_length=100)
@@ -413,6 +435,12 @@ class PRWEUMetaData(models.Model):
     region_name = models.CharField(null=False, default="", max_length=100)
     variable_name = models.CharField(null=False, default="", max_length=100)
 
+
+class HistoricalData(models.Model):
+    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
+    value = models.FloatField()
 
 
 # Feedback Form Models
@@ -425,6 +453,7 @@ class Feedback(models.Model):
     def __str__(self):
         return self.username
 
+# Results that do not follow the classic paris reinforce workspace format
 # RRF POLICY MODELS
 
 class RrfPolicy(models.Model):
@@ -438,14 +467,3 @@ class RrfPolicy(models.Model):
     country = models.CharField(max_length=50, default='')
     first_classification = models.CharField(max_length=50, default='')
     second_classification = models.CharField(max_length=50, default='')
-
-#WWH_EU_WORKSPACE DATA
-
-class WWHEUResultsComp(models.Model):
-    model = models.ForeignKey(DataVariablesModels, default=None, on_delete=models.CASCADE)
-    scenario = models.ForeignKey(ScenariosRes, on_delete=models.CASCADE)
-    region = models.ForeignKey(RegionsRes, on_delete=models.CASCADE)
-    variable = models.ForeignKey(VariablesRes, on_delete=models.CASCADE)
-    unit = models.ForeignKey(UnitsRes, on_delete=models.CASCADE)
-    year = models.IntegerField()
-    value = models.FloatField()

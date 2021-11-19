@@ -24,8 +24,31 @@
                 Scenarios)</h4>
         </div>
 
+        <div class="col-xs-12 col-sm-3 col-md-3" style="height: 43em">
+            <div style="height: 100%;">
+                <div id="global_temp_historical" class="row"
+                     style="height: 100%; line-height: 100%;">
+                    <iframe id="global_temp_historical_viz_iframe" src="" title="Results"
+                            style="width: 100%; height: 100%;  border:none ; display: none"></iframe>
+                    <div id="global_temp_historical_loading_bar"
+                         style=" height:100%;vertical-align: middle; text-align: center; position: relative; top:30%;margin-top:-6em;">
+                        <img class="row" style="height: 13em; width: 13em; margin-bottom: 2em"
+                             src="{% static "gifs/loading-dots.gif" %}" alt="Loading...">
+                        <div class="row" style="font-size: 0.9em ; margin-left: 2em; margin-right: 2em;">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">The chart will present the Global temperature estimates up to 2100.
 
-        <div class="col-xs-12 col-sm-9 col-md-9" style="height: 50em">
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="heading" style="font-size: 1.5em; margin:3em">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 col-sm-7 col-md-7" style="height: 50em">
             <div style="height: 100%;">
                 <div id="global_temp" class="row"
                      style="height: 100%; line-height: 100%;">
@@ -48,7 +71,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-3 col-md-3" style="height: 53em">
+        <div class="col-xs-12 col-sm-2 col-md-2" style="height: 50em">
             <div style="height: 100%;">
                 <div id="global_temp_ranges" class="row"
                      style="height: 100%; line-height: 100%;">
