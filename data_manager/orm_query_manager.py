@@ -83,13 +83,13 @@ def column_chart_query(query_id):
 
     elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario', ['PR_CurPol_EI', 'PR_CurPol_CP'],
-                                  ['PR_Baseline'])
+                                  ['PR_Baseline'], 2050)
     elif query_name in ['wwhglobal_pub_total_co2_emissions_ndc_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario', ['PR_NDC_EI', 'PR_NDC_CP'],
-                                  ['PR_Baseline'])
+                                  ['PR_Baseline'], 2050)
     elif query_name in ['wwhglobal_pub_global_temp_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario',
-                                  ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'], ['PR_Baseline'])
+                                  ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'], ['PR_Baseline'],2050)
 
     elif query_name == 'rrf_classification_1_query':
         results = rrf_classification_query(query_id, 'first_classification')
@@ -224,23 +224,26 @@ def max_min_query(query_id, group_by_list, timeseries, instances, pivot_var):
         return clean_final_data
 
 
-def dumbell_max_min(query_id, group_by_list, timeseries, max_min_parameter, range_scenarios_list, points_list):
+def dumbell_max_min(query_id, group_by_list, timeseries, max_min_parameter, range_scenarios_list, points_list, point_pos):
     '''
         This method is the execution of the query for getting the data for the dumbell charts showing ranges in the workspace
         :param query_id: The query_id of the query to be executed in order to retrieve data for the chart
         :param group_by_list: it is the parameter according to which the grouping takes place
         :param range_scenarios_list: this list contains the names of the scenarios used for the ranges in the chart
+        :param point_pos: The actual position of the visualised point i.e. a specific year
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
     bars_df = df[df[max_min_parameter + '__name'].isin(range_scenarios_list)]
     markers_df = df[df[max_min_parameter + '__name'].isin(points_list)]
-    markers_df = pd.DataFrame(data={timeseries + '_' + max_min_parameter:
-                                        ['42_baseline', 'e3me_baseline', 'gcam_baseline', 'ices_baseline',
-                                         'muse_baseline', 'tiam_baseline'],
-                                    'value':
-                                        [32000, 38000, 34000, 39000, 42000, 28000]})
-    # TODO: Define how baseline values will be retrieved and differentiated from the rest of the data
+    markers_df = markers_df.loc[markers_df['year'] == point_pos]
+    if markers_df.empty:
+        # TODO: Check if the points of baseline scenarios for the given time are correct
+        markers_df = pd.DataFrame(data={timeseries + '_' + max_min_parameter:
+                                            ['42_baseline', 'e3me_baseline', 'gcam_baseline', 'ices_baseline',
+                                             'muse_baseline', 'tiam_baseline'],
+                                        'value':
+                                            [32000, 38000, 34000, 39000, 42000, 28000]})
     if df.empty:
         return []
     else:

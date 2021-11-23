@@ -21,10 +21,10 @@ $(document).ready(function () {
         "x_axis_title": "Models",
         "x_axis_unit": "-",
         "x_axis_type": "text",
-        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "black", "gold", "purple"],
+        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "light_brown", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
-        "min_max_y_value":[0, 2]
+        "min_max_y_value":[0.8, 1.9]
         // "type": "step_by_step"
     };
 

@@ -65,14 +65,14 @@
             for (var i = 0; i < y_var_names.length; i = i + 2) {
                 if (use_default_colors) {
                     series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(color_idx), x_axis_type, y_var_titles[i],
-                        y_var_units[i], 'normal');
+                        y_var_units[color_idx], 'normal');
                     series[i + 1] = create_series(x_axis_name, y_var_names[i + 1], chart.colors.getIndex(color_idx), x_axis_type, y_var_titles[i + 1],
-                        y_var_units[i + 1], 'dashed');
+                        y_var_units[color_idx], 'dashed');
                 } else {
                     series[i] = create_series(x_axis_name, y_var_names[i], color_list[color_idx], x_axis_type, y_var_titles[i],
-                        y_var_units[i], 'normal');
+                        y_var_units[color_idx], 'normal');
                     series[i + 1] = create_series(x_axis_name, y_var_names[i + 1], color_list[color_idx], x_axis_type, y_var_titles[i + 1],
-                        y_var_units[i + 1], 'dashed');
+                        y_var_units[color_idx], 'dashed');
                 }
                 color_idx = color_idx + 1;
             }
