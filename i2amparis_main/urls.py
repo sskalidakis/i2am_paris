@@ -26,6 +26,9 @@ urlpatterns = [
     path('populate_detailed_analysis_datatables', views.populate_detailed_analysis_datatables,
          name='populate_detailed_analysis_datatables'),
     path('pr_wwh/conclusions', views.gw_public_ui, name='gw_public_ui'),
+    path('pr_wwh/virtual_library', views.gw_virtual_library, name='gw_virtual_library'),
+    path('pr_wwh/virtual_library/<section>', views.gw_virtual_library,
+         name='gw_virtual_library'),
 
     # path('update_scientific_model_selects_strict', views.update_scientific_model_selects_strict,
     #      name='update_scientific_model_selects_strict'),

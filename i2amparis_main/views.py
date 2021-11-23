@@ -54,7 +54,8 @@ def paris_reinforce_landing(request):
 
 
 def paris_reinforce_harmonisation(request):
-    models = ModelsInfo.objects.all().filter(harmonisation=True).order_by('model_title')
+    models = ModelsInfo.objects.all().filter(
+        model_name__in=['e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam', '42']).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
     if not os.path.isfile('cached_data/harmonisation_heatmaps/pr_harmonisation_heatmap.json'):
         var_mod_data = HarmDataNew.objects.all()
@@ -95,6 +96,15 @@ def gw_public_ui(request):
         model_name__in=['gcam', 'tiam', 'muse', '42', 'gemini_e3', 'ices', 'e3me']).order_by('model_title')
     return render(request, 'i2amparis_main/paris_reinforce_workspace/gw_public_ui.html', {"models": models})
 
+
+def gw_virtual_library(request, **kwargs):
+    if 'section' not in kwargs.keys():
+        context = {}
+        return render(request, 'i2amparis_main/paris_reinforce_workspace/virtual_library.html', context)
+    else:
+        context = {}
+        return render(request, 'i2amparis_main/paris_reinforce_workspace/virtual_library_' + kwargs['section'] + '.html',
+                      context)
 
 # DEPRECATED NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
 # @csrf_exempt
