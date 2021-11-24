@@ -75,7 +75,8 @@ def paris_reinforce_harmonisation(request):
 def paris_advanced_scientific_module(request):
     models = DataVariablesModels.objects.filter(
         name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
-    scenarios = ScenariosRes.objects.exclude(name='PR_CurPol_CPO').order_by('title')
+    scenarios = ScenariosRes.objects.filter(
+        name__in=['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI', 'PR_Baseline']).order_by('title')
     regions = RegionsRes.objects.all().order_by('reg_type')
     filter_vars = PRWMetaData.objects.values('variable_name').distinct()
     var_list = [x['variable_name'] for x in filter_vars]
@@ -103,8 +104,10 @@ def gw_virtual_library(request, **kwargs):
         return render(request, 'i2amparis_main/paris_reinforce_workspace/virtual_library.html', context)
     else:
         context = {}
-        return render(request, 'i2amparis_main/paris_reinforce_workspace/virtual_library_' + kwargs['section'] + '.html',
+        return render(request,
+                      'i2amparis_main/paris_reinforce_workspace/virtual_library_' + kwargs['section'] + '.html',
                       context)
+
 
 # DEPRECATED NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
 # @csrf_exempt

@@ -345,6 +345,59 @@ class StackedColumnLineChart:
                           self.content)
 
 
+class Dumbell_chart:
+    def __init__(self, request, x_axis_name, x_axis_title, y_var_names, y_var_titles,
+                 chart_data, color_list, use_default_colors,
+                 minmax_y_value, legend_position, markers_on_chart, chart_type):
+        """
+        :param request: Contains all request data needed to render the HTML page. (Request Object)
+        :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
+        :param x_axis_title: The title of the variable of the X-Axis as displayed in the user interfaces (String)
+        :param y_var_names: A list of names of the variables presented on the Y-Axis as used in the code (List of Strings)
+        :param y_var_titles:A list of titles of the variables presented on the Y-Axis as displayed in the interfaces. (List of Strings)
+        :param chart_data: A JSON object in the appropriate format  that contains the data that will displayed. (JSON Object)
+        :param color_list: List of colours (for each series) or a colour couple (for heatmaps. If one color is given in
+                a heatmap, then the couple is created using white as the other colour). (List of Strings)
+                Colours: “light_blue, blue, violet, purple, fuchsia, red, ceramic, light_brown, mustard, gold,
+                light_green, green, cyan, black, gray, white”
+                Colour couples: "blue_red, green_red, beige_purple, purple_orange, cyan_green, yellow_gold, skin_red,
+                grey_darkblue, lightblue_green"
+        :param use_default_colors: If “true”, the default colours are used for the chosen chart (String: "true" or "false")
+        :param minmax_y_value: A two-element list that contains the min and max value of the variables on the Y-Axis. (List of Numbers)
+                            In dumbell chart min-max list contains the name of the variable for the bullets points.
+        :param chart_type: The type of the chart. Options : line_chart, column_chart, range_chart, bar_range_chart,
+                stacked_column_chart, column_heatmap_chart, pie_chart, radar_chart
+        :param legend_position: The position of the legend on the chart top, bottom, left, right
+        :param markers_on_chart: Used for showing baseline or point values using markers/points
+        """
+        self.x_axis_name = x_axis_name
+        self.x_axis_title = x_axis_title
+        self.y_var_names = y_var_names
+        self.y_var_titles = y_var_titles
+        self.chart_data = chart_data
+        self.request = request
+        self.chart_type = chart_type
+        self.color_list = color_list
+        self.use_default_colors = use_default_colors
+        self.legend_position = legend_position
+        self.minmax_y_value = minmax_y_value
+        self.markers_on_chart = markers_on_chart
+        self.content = {'x_axis_title': self.x_axis_title, 'x_axis_name': self.x_axis_name,
+                        'y_var_titles': self.y_var_titles,
+                        'y_var_names': self.y_var_names, 'markers_on_chart': self.markers_on_chart,
+                        'color_list': self.color_list,
+                        'use_default_colors': self.use_default_colors, 'minmax_y_value': self.minmax_y_value,
+                        'legend_position': self.legend_position, 'chart_data': self.chart_data}
+
+    def show_chart(self):
+        """
+        :return: Returns visualisation HTML.
+        """
+        if self.chart_type == 'dumbell_chart':
+            return render(self.request, 'visualiser/dumbell_chart.html',
+                          self.content)
+
+
 class MapChart:
     """
     This class contains all map visualisations
@@ -376,7 +429,6 @@ class MapChart:
         """
         if (self.chart_type == "heatmap_on_map"):
             return render(self.request, 'visualiser/heat_map_on_map.html', self.content)
-
 
 
 @csrf_exempt
@@ -439,7 +491,6 @@ def show_line_chart(request):
     return line_chart.show_chart()
 
 
-
 @csrf_exempt
 @xframe_options_exempt
 def show_column_chart(request):
@@ -478,28 +529,23 @@ def show_dumbell_chart(request):
     response_data = get_response_data_XY(request)
     y_var_names = response_data["y_var_names"]
     y_var_titles = response_data["y_var_titles"]
-    y_var_units = response_data["y_var_units"]
-    x_axis_type = response_data["x_axis_type"]
     x_axis_name = response_data["x_axis_name"]
     x_axis_title = response_data["x_axis_title"]
-    x_axis_unit = response_data["x_axis_unit"]
-    y_axis_title = response_data["y_axis_title"]
-    ranges = response_data['ranges']
     min_max_y_value = response_data["min_max_y_value"]
     color_list_request = response_data["color_list_request"]
     use_default_colors = response_data["use_default_colors"]
-    chart_3d = response_data["chart_3d"]
     legend_position = response_data["legend_position"]
     dataset = response_data['dataset']
     dataset_type = response_data['dataset_type']
+    markers_on_chart = response_data['markers_on_chart']
 
     data = generate_data_for_column_chart(dataset, dataset_type)
     color_list = define_color_code_list(color_list_request)
-    column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
-                            x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
-                            min_max_y_value,
-                            legend_position, 'dumbell_chart')
-    return column_chart.show_chart()
+    dumbell_chart = Dumbell_chart(request, x_axis_name, x_axis_title, y_var_names, y_var_titles,
+                                  data, color_list, use_default_colors, min_max_y_value, legend_position,
+                                  markers_on_chart,
+                                  'dumbell_chart')
+    return dumbell_chart.show_chart()
 
 
 @csrf_exempt
@@ -836,7 +882,6 @@ def heat_map_on_map(request):
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
                               min_max_value, 'heatmap_on_map')
     return heatmap_on_map.show_chart()
-
 
 # def parallel_coordinates_chart(request):
 #     """

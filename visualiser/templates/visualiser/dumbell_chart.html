@@ -15,19 +15,15 @@
             chart.data = {{ chart_data|safe }};
             console.log(chart.data);
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-            {% comment %} var x_axis_type = "{{ x_axis_type }}";{% endcomment %}
             var x_axis_title = "{{x_axis_title}}";
             var x_axis_name = "{{ x_axis_name }}";
-            var x_axis_unit = "{{ x_axis_unit }}";
             var y_var_names = {{ y_var_names|safe}};
             var y_var_titles = {{ y_var_titles|safe}};
-            {% comment %}var y_var_units = {{ y_var_units|safe }};
-            var y_axis_title = "{{ y_axis_title }}";{% endcomment %}
             var color_list = {{ color_list|safe }};
+            var baseline_values = {{ markers_on_chart }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
             var minmax_y_value = {{ minmax_y_value|safe }};
-            {#var chart_3d = {{ chart_3d }};#}
             var legend_position = "{{ legend_position }}";
             chart.exporting.menu = new am4core.ExportMenu();
             chart.exporting.menu.verticalAlign = "bottom";
@@ -138,7 +134,9 @@
                 series.dataFields.categoryX = setNameOfX;
                 series.dataFields.openValueY = y_var_name + "_open";
                 series.dataFields.valueY = y_var_name + "_close";
-                series.dataFields.baselineValue = y_var_name + "_baseline";
+                if (baseline_values) {
+                    series.dataFields.baselineValue = y_var_name + "_baseline";
+                }
                 series.fill = am4core.color(color);
                 series.stroke = am4core.color(color);
                 series.name = y_var_title;
@@ -147,8 +145,11 @@
                 series.strokeOpacity = 1;
                 series.columns.template.width = 5;
                 series.tooltip.pointerOrientation = "horizontal";
-
-                series.tooltipText = "Max: {openValueY.value}\nMin: {valueY.value}\nBaseline: {baselineValue}";
+                if (baseline_values) {
+                    series.tooltipText = "Max: {openValueY.value}\nMin: {valueY.value}\nBaseline: {baselineValue}";
+                }else{
+                    series.tooltipText = "Max: {openValueY.value}\nMin: {valueY.value}";
+                }
                 series.tooltip.fontSize = 12;
                 series.tooltip.background.cornerRadius = 10;
                 series.tooltip.background.fillOpacity = 0.8;
@@ -161,43 +162,45 @@
                 series.legendSettings.labelText = "{name}'s Range";
                 {#series.legendSettings.itemValueText = "[bold]({valueY} - {openValueY})[/bold]";#}
 
-                {#Creates the bullet points using the baseline values#}
-                var bseries = chart.series.push(new am4charts.ColumnSeries());
-                bseries.dataFields.categoryX = setNameOfX;
-                bseries.name = y_var_title;
-                bseries.dataFields.openValueY = y_var_name + "_baseline";
-                bseries.dataFields.valueY = y_var_name + "_baseline";
-                bseries.fill = am4core.color(color);
-                bseries.stroke = am4core.color(color);
-                bseries.sequencedInterpolation = true;
-                bseries.fillOpacity = 0.8;
-                bseries.strokeOpacity = 1;
-                bseries.columns.template.width = 5;
-                bseries.tooltip.pointerOrientation = "horizontal";
-                bseries.legendSettings.labelText = "Baseline";
-                bseries.radiusData = {radius:20};
-                var openBullet = bseries.bullets.create(am4charts.CircleBullet);
-                openBullet.locationY = 1;
-                {#Triangles on chart#}
-                {#var openBullet = bseries.bullets.push(new am4charts.Bullet());#}
-                {#var arrow = openBullet.createChild(am4core.Triangle);#}
-                {##}
-                {#arrow.stroke = am4core.color("#fff");#}
-                {#arrow.direction = "top";#}
-                {#arrow.horizontalCenter = "middle";#}
-                {#arrow.verticalCenter = "middle";#}
-                {#arrow.width = 15;#}
-                {#arrow.height = 15;#}
-                {##}
-                {#arrow.dx = -7.5;#}
-                {#Removes extra legend items and connects bars with single points#}
-                {#bseries.hiddenInLegend = true;#}
-                series.events.on("hidden", function () {
-                    bseries.hide();
-                });
-                series.events.on("shown", function () {
-                    bseries.show();
-                });
+                if (baseline_values) {
+                    {#Creates the bullet points using the baseline values#}
+                    var bseries = chart.series.push(new am4charts.ColumnSeries());
+                    bseries.dataFields.categoryX = setNameOfX;
+                    bseries.name = y_var_title;
+                    bseries.dataFields.openValueY = y_var_name + "_baseline";
+                    bseries.dataFields.valueY = y_var_name + "_baseline";
+                    bseries.fill = am4core.color(color);
+                    bseries.stroke = am4core.color(color);
+                    bseries.sequencedInterpolation = true;
+                    bseries.fillOpacity = 0.8;
+                    bseries.strokeOpacity = 1;
+                    bseries.columns.template.width = 5;
+                    bseries.tooltip.pointerOrientation = "horizontal";
+                    bseries.legendSettings.labelText = "Baseline";
+                    bseries.radiusData = {radius: 20};
+                    var openBullet = bseries.bullets.create(am4charts.CircleBullet);
+                    openBullet.locationY = 1;
+                    {#Triangles on chart#}
+                    {#var openBullet = bseries.bullets.push(new am4charts.Bullet());#}
+                    {#var arrow = openBullet.createChild(am4core.Triangle);#}
+                    {##}
+                    {#arrow.stroke = am4core.color("#fff");#}
+                    {#arrow.direction = "top";#}
+                    {#arrow.horizontalCenter = "middle";#}
+                    {#arrow.verticalCenter = "middle";#}
+                    {#arrow.width = 15;#}
+                    {#arrow.height = 15;#}
+                    {##}
+                    {#arrow.dx = -7.5;#}
+                    {#Removes extra legend items and connects bars with single points#}
+                    {#bseries.hiddenInLegend = true;#}
+                    series.events.on("hidden", function () {
+                        bseries.hide();
+                    });
+                    series.events.on("shown", function () {
+                        bseries.show();
+                    });
+                }
 
                 return series
             }

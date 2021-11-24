@@ -29,7 +29,7 @@ def line_chart_query(query_id):
                         'global_primary_energy_query', 'eu_wwh_scientific_co2_emissions_query',
                         'eu_wwh_scientific_imported_fuels_coal_query', 'eu_wwh_scientific_imported_fuels_gas_query',
                         'eu_wwh_scientific_imported_fuels_oil_query',
-                        'eu_wwh_scientific_investments_energy_supply_query','wwhglobal_pub_global_temp_query',
+                        'eu_wwh_scientific_investments_energy_supply_query', 'wwhglobal_pub_global_temp_query',
                         'eu_wwh_scientific_investments_power_generation_query',
                         'wwhglobal_pub_ccs1_query', 'wwhglobal_pub_ccs2_query'
                         ]:
@@ -82,14 +82,15 @@ def column_chart_query(query_id):
         results = wwheu_pub_co2_ccs_by_sector(query_id)
 
     elif query_name in ['wwhglobal_pub_total_co2_emissions_cp_ranges_query']:
-        results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario', ['PR_CurPol_EI', 'PR_CurPol_CP'],
-                                  ['PR_Baseline'], 2050)
+        results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario',
+                                  ['PR_CurPol_EI', 'PR_CurPol_CP'],
+                                  'PR_Baseline', [2050, 2045], 'max')
     elif query_name in ['wwhglobal_pub_total_co2_emissions_ndc_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario', ['PR_NDC_EI', 'PR_NDC_CP'],
-                                  ['PR_Baseline'], 2050)
+                                  'PR_Baseline', [2050,2045], 'max')
     elif query_name in ['wwhglobal_pub_global_temp_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario',
-                                  ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'], ['PR_Baseline'],2050)
+                                  ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'], None, [], '')
 
     elif query_name == 'rrf_classification_1_query':
         results = rrf_classification_query(query_id, 'first_classification')
@@ -224,26 +225,32 @@ def max_min_query(query_id, group_by_list, timeseries, instances, pivot_var):
         return clean_final_data
 
 
-def dumbell_max_min(query_id, group_by_list, timeseries, max_min_parameter, range_scenarios_list, points_list, point_pos):
+def dumbell_max_min(query_id, group_by_list, timeseries, max_min_parameter, range_list, points,
+                    point_pos, select_min_max):
     '''
         This method is the execution of the query for getting the data for the dumbell charts showing ranges in the workspace
         :param query_id: The query_id of the query to be executed in order to retrieve data for the chart
         :param group_by_list: it is the parameter according to which the grouping takes place
-        :param range_scenarios_list: this list contains the names of the scenarios used for the ranges in the chart
-        :param point_pos: The actual position of the visualised point i.e. a specific year
+        :param range_list: this list contains the names of the parameter used for the ranges in the chart
+        :param points: the name of the parameter used for the points on the chart
+        :param point_pos: The actual position of the visualised point i.e. a specific year (it is a list because some
+        parameters may have different positions due to missing values
+        :param select_min_max: can be max or min. Selects min or max valued element of the point_pos list.
         '''
     data, add_params = query_execute(query_id)
     df = pd.DataFrame.from_records(data)
-    bars_df = df[df[max_min_parameter + '__name'].isin(range_scenarios_list)]
-    markers_df = df[df[max_min_parameter + '__name'].isin(points_list)]
-    markers_df = markers_df.loc[markers_df['year'] == point_pos]
-    if markers_df.empty:
-        # TODO: Check if the points of baseline scenarios for the given time are correct
-        markers_df = pd.DataFrame(data={timeseries + '_' + max_min_parameter:
-                                            ['42_baseline', 'e3me_baseline', 'gcam_baseline', 'ices_baseline',
-                                             'muse_baseline', 'tiam_baseline'],
-                                        'value':
-                                            [32000, 38000, 34000, 39000, 42000, 28000]})
+    bars_df = df[df[max_min_parameter + '__name'].isin(range_list)]
+    if points is not None:
+        # This is incredibly complex because of the inconsistency in the data.
+        markers_df = df[df[max_min_parameter + '__name'] == points]
+        markers_df = markers_df.loc[markers_df['year'].isin(point_pos)]
+        if select_min_max == 'max':
+            markers_df = markers_df.loc[markers_df.groupby(by=timeseries+'__name')['year'].idxmax()]
+        else:
+            markers_df = markers_df.loc[markers_df.groupby(by=timeseries + '__name')['year'].idxmin()]
+        markers_df[timeseries + '_' + max_min_parameter] = markers_df[timeseries + '__name'] + '_baseline'
+        markers_df = markers_df.drop(['year', 'model__name', 'scenario__name', 'region__name', 'variable__name'], axis=1)
+
     if df.empty:
         return []
     else:
@@ -266,7 +273,10 @@ def dumbell_max_min(query_id, group_by_list, timeseries, max_min_parameter, rang
         new_min_df = min_max_df
         new_min_df[timeseries + '_' + max_min_parameter] = new_min_df[timeseries + '__name'] + '_close'
         new_min_df = new_min_df.drop(['open', timeseries + '__name'], axis=1).rename(columns={'close': 'value'})
-        new_min_max_df = pd.concat([new_max_df, new_min_df, markers_df])
+        if points is not None:
+            new_min_max_df = pd.concat([new_max_df, new_min_df, markers_df])
+        else:
+            new_min_max_df = pd.concat([new_max_df, new_min_df])
         final_data = list(
             new_min_max_df.set_index(timeseries + '_' + max_min_parameter).to_dict().values())
         final_data[0]['category'] = ''
@@ -490,7 +500,6 @@ def get_query_parameters(query_id):
     parameters = query.parameters
     q_params = json.loads(parameters)
     return q_params
-
 
 # This was used for the quantity comparison scientific tool that was dismissed
 

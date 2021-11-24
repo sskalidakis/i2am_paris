@@ -24,8 +24,8 @@ $(document).ready(function () {
         "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "light_brown", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
-        "min_max_y_value":[0.8, 1.9]
-        // "type": "step_by_step"
+        "min_max_y_value":[0.8, 1.9],
+        "markers_on_chart": false
     };
 
     start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)

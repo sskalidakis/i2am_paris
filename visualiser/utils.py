@@ -143,7 +143,8 @@ def get_response_data_XY(request):
             "dataset_type": request.GET.get("dataset_type", "file"),
             "distinct": request.GET.getlist("distinct[]", []),
             "stacked": request.GET.get("stacked", "false"),
-            "ranges": request.GET.getlist("ranges[]", [])
+            "ranges": request.GET.getlist("ranges[]", []),
+            "markers_on_chart": request.GET.get("markers_on_chart", "true"),
 
         }
     else:
