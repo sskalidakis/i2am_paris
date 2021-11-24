@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from . import countries_data
 from i2amparis_main.models import ModelsInfo, Harmonisation_Variables, HarmDataNew, HarmDataSourcesLinks, ScenariosRes, \
     RegionsRes, ResultsComp, VariablesRes, UnitsRes, DataVariablesModels, HarmDataSourcesTitles, PRWMetaData, SdgsCat, \
-    VaraiblesSdgsRes, RrfPolicy, ProjectModels, PRWEUMetaData, EUHarmData
+    VaraiblesSdgsRes, RrfPolicy, ProjectModels, PRWEUMetaData, EUHarmData, WWHEUResultsComp
 from django.core.mail import send_mail
 from .forms import FeedbackForm
 from django.http import JsonResponse, HttpResponse
@@ -54,6 +54,7 @@ def paris_reinforce_landing(request):
 
 
 def paris_reinforce_harmonisation(request):
+    '''View of harmonisation heatmap for the Global WWH Workspace'''
     models = ModelsInfo.objects.all().filter(
         model_name__in=['e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam', '42']).order_by('model_title')
     variables = Harmonisation_Variables.objects.all().order_by('order')
@@ -73,6 +74,7 @@ def paris_reinforce_harmonisation(request):
 
 
 def paris_advanced_scientific_module(request):
+    '''View of scientific interface for the Global WWH Workspace'''
     models = DataVariablesModels.objects.filter(
         name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).order_by('title')
     scenarios = ScenariosRes.objects.filter(
@@ -93,12 +95,14 @@ def paris_advanced_scientific_module(request):
 
 
 def gw_public_ui(request):
+    '''View of public interface for the Global WWH Workspace'''
     models = ModelsInfo.objects.filter(
         model_name__in=['gcam', 'tiam', 'muse', '42', 'gemini_e3', 'ices', 'e3me']).order_by('model_title')
     return render(request, 'i2amparis_main/paris_reinforce_workspace/gw_public_ui.html', {"models": models})
 
 
 def gw_virtual_library(request, **kwargs):
+    '''View of virtual library for the Global WWH Workspace'''
     if 'section' not in kwargs.keys():
         context = {}
         return render(request, 'i2amparis_main/paris_reinforce_workspace/virtual_library.html', context)
@@ -109,115 +113,11 @@ def gw_virtual_library(request, **kwargs):
                       context)
 
 
-# DEPRECATED NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
-# @csrf_exempt
-# def update_scientific_model_selects_strict(request):
-#     body_unicode = request.body.decode('utf-8')
-#     body = json.loads(body_unicode)
-#
-#     if request.method == 'POST':
-#         models = body['model__name']
-#         scenarios = body['scenario__name']
-#         regions = body['region__name']
-#         variables = body['variable__name']
-#         changed_field = body['changed_field']
-#         fe_all_scenarios = body['fe_all_scenarios']
-#         fe_all_regions = body['fe_all_regions']
-#         fe_all_models = body['fe_all_models']
-#
-#         all_models = [el['name'] for el in DataVariablesModels.objects.filter(
-#             name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
-#         all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
-#         all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
-#         all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
-#
-#         if changed_field == 'clear_all':
-#             allowed_models = all_models
-#             allowed_scenarios = all_scenarios
-#             allowed_variables = all_variables
-#             allowed_regions = all_regions
-#         elif changed_field == 'variable_name':
-#             if len(variables) == 0:
-#                 allowed_models = all_models
-#                 allowed_scenarios = all_scenarios
-#                 allowed_variables = all_variables
-#                 allowed_regions = all_regions
-#             else:
-#                 distinct_regions = []
-#                 for variable in variables:
-#                     distinct_regions.append(
-#                         PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
-#                 final_regions = distinct_regions[0]
-#                 for regions_list in distinct_regions:
-#                     final_regions = final_regions.intersection(regions_list)
-#                 print('common regions', final_regions)
-#                 allowed_regions = [el['region_name'] for el in final_regions]
-#                 allowed_models = all_models
-#                 allowed_variables = all_variables
-#                 allowed_scenarios = all_scenarios
-#         elif changed_field == 'region_name':
-#             if len(regions) == 0:
-#                 allowed_models = all_models
-#                 allowed_regions = [el for el in all_regions if el not in fe_all_regions]
-#                 allowed_variables = variables
-#                 allowed_scenarios = all_scenarios
-#             else:
-#                 distinct_scenarios = []
-#                 for variable in variables:
-#                     for region in regions:
-#                         distinct_scenarios.append(
-#                             PRWMetaData.objects.filter(variable_name=variable, region_name=region).values(
-#                                 'scenario_name').distinct())
-#                 final_scenarios = distinct_scenarios[0]
-#                 for scenarios_list in distinct_scenarios:
-#                     final_scenarios = final_scenarios.intersection(scenarios_list)
-#                 print('common scenarios', final_scenarios)
-#                 allowed_regions = [el for el in all_regions if el not in fe_all_regions]
-#                 allowed_models = all_models
-#                 allowed_variables = variables
-#                 allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
-#         elif changed_field == 'scenario_name':
-#             if len(scenarios) == 0:
-#                 allowed_variables = variables
-#                 allowed_regions = regions
-#                 allowed_models = all_models
-#                 allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
-#             else:
-#                 distinct_models = []
-#                 for variable in variables:
-#                     for region in regions:
-#                         for scenario in scenarios:
-#                             distinct_models.append(
-#                                 PRWMetaData.objects.filter(variable_name=variable, scenario_name=scenario,
-#                                                            region_name=region).values(
-#                                     'model_name').distinct())
-#                 final_models = distinct_models[0]
-#                 for model_list in distinct_models:
-#                     final_models = final_models.intersection(model_list)
-#                 print('common models', final_models)
-#                 allowed_variables = variables
-#                 allowed_regions = regions
-#                 allowed_models = [el['model_name'] for el in final_models]
-#                 allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
-#         elif changed_field == 'model_name':
-#
-#             allowed_variables = variables
-#             allowed_scenarios = scenarios
-#             allowed_models = [el for el in all_models if el not in fe_all_models]
-#             allowed_regions = regions
-#
-#         ls = {'models': [el for el in all_models if el not in allowed_models],
-#               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
-#               'regions': [el for el in all_regions if el not in allowed_regions],
-#               'variables': [el for el in all_variables if el not in allowed_variables]}
-#
-#         print('Changed field: ', changed_field)
-#
-#         return JsonResponse(ls, safe=False)
-
-
 @csrf_exempt
 def update_scientific_model_selects_basic(request):
+    '''Used for the basic filtering in the detailed configurable analysis in all workspaces.
+    It is dependent on the metadata tables.
+    If the workspace data are complete run the proper command to create the metadata'''
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
@@ -322,6 +222,7 @@ def update_scientific_model_selects_basic(request):
 
 @csrf_exempt
 def populate_detailed_analysis_datatables(request):
+    '''View of the populator of datatables in the detailed configurable analysis'''
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
@@ -330,9 +231,16 @@ def populate_detailed_analysis_datatables(request):
         scenarios = body['scenario__name']
         regions = body['region__name']
         variables = body['variable__name']
+        interface = body['interface']
 
-        q = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios, region__name__in=regions,
-                                       variable__name__in=variables)
+        if interface == 'pr_global':
+            q = ResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
+                                           region__name__in=regions,
+                                           variable__name__in=variables)
+        elif interface == 'pr_eu':
+            q = WWHEUResultsComp.objects.filter(model__name__in=models, scenario__name__in=scenarios,
+                                                region__name__in=regions,
+                                                variable__name__in=variables)
 
         ls = []
         for item in q:
@@ -351,6 +259,7 @@ def populate_detailed_analysis_datatables(request):
 
 @csrf_exempt
 def populate_rrf_policy_datatables(request):
+    '''View of the populator of datatables in the RRF Policy DB interface'''
     body_unicode = request.body.decode('utf-8')
 
     if request.method == 'POST':
@@ -372,6 +281,7 @@ def populate_rrf_policy_datatables(request):
 
 
 def get_sdg_variables(request):
+    '''SDG populator in the detailed configurable analysis section'''
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     ls = []
@@ -394,6 +304,7 @@ def eu_workspace_landing(request):
 
 
 def euw_harmonisation(request):
+    '''View of harmonisation heatmap interface for the EU WWH Workspace'''
     models = ModelsInfo.objects.all().filter(
         model_name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis',
                         'tiam', '42']).order_by('model_title')
@@ -419,6 +330,7 @@ def euw_harmonisation(request):
 
 
 def euw_scientific_module(request):
+    '''View of scientific interface for the EU WWH Workspace'''
     models = DataVariablesModels.objects.filter(
         name__in=['aladin', 'eu_times', 'e3me', 'forecast', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam',
                   '42']).order_by('title')
@@ -439,11 +351,13 @@ def euw_scientific_module(request):
 
 
 def euw_public_ui(request):
+    '''View of public interface for the EU WWH Workspace'''
     context = {}
     return render(request, 'i2amparis_main/eu_workspace/euw_public_ui.html', context)
 
 
 def euw_virtual_library(request, **kwargs):
+    '''View of virtual library interface for the EU WWH Workspace'''
     if 'section' not in kwargs.keys():
         context = {}
         return render(request, 'i2amparis_main/eu_workspace/euw_virtual_library.html', context)
@@ -454,6 +368,7 @@ def euw_virtual_library(request, **kwargs):
 
 
 def detailed_model_doc(request, model=''):
+    '''View of the detailed model documentation interface'''
     if model == '':
         print('Detailed Model Documentation')
         sel_project = request.GET.get('project', 'All')
@@ -503,6 +418,8 @@ def detailed_model_doc(request, model=''):
 
 
 def dynamic_doc(request, model=''):
+    '''View of the dynamic documentation interface'''
+    # TODO: BAD IMPLMEMENTATION. The reformatting of data to be sent to the interface is very slow. Consider reconstructing the RetriveDB class and the retrieve_granularities function
     template_format = request.GET.get('format')
     db = countries_data.RetriveDB(model)
     data = db.create_json()
@@ -571,3 +488,109 @@ def contact_form(request):
             else:
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
                 return JsonResponse({'status': 'NOT_OK'})
+
+# DEPRECATED . NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
+# @csrf_exempt
+# def update_scientific_model_selects_strict(request):
+#     body_unicode = request.body.decode('utf-8')
+#     body = json.loads(body_unicode)
+#
+#     if request.method == 'POST':
+#         models = body['model__name']
+#         scenarios = body['scenario__name']
+#         regions = body['region__name']
+#         variables = body['variable__name']
+#         changed_field = body['changed_field']
+#         fe_all_scenarios = body['fe_all_scenarios']
+#         fe_all_regions = body['fe_all_regions']
+#         fe_all_models = body['fe_all_models']
+#
+#         all_models = [el['name'] for el in DataVariablesModels.objects.filter(
+#             name__in=['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam']).values('name')]
+#         all_scenarios = [el['name'] for el in ScenariosRes.objects.values('name')]
+#         all_regions = [el['name'] for el in RegionsRes.objects.values('name')]
+#         all_variables = [el['name'] for el in VariablesRes.objects.values('name')]
+#
+#         if changed_field == 'clear_all':
+#             allowed_models = all_models
+#             allowed_scenarios = all_scenarios
+#             allowed_variables = all_variables
+#             allowed_regions = all_regions
+#         elif changed_field == 'variable_name':
+#             if len(variables) == 0:
+#                 allowed_models = all_models
+#                 allowed_scenarios = all_scenarios
+#                 allowed_variables = all_variables
+#                 allowed_regions = all_regions
+#             else:
+#                 distinct_regions = []
+#                 for variable in variables:
+#                     distinct_regions.append(
+#                         PRWMetaData.objects.filter(variable_name=variable).values('region_name').distinct())
+#                 final_regions = distinct_regions[0]
+#                 for regions_list in distinct_regions:
+#                     final_regions = final_regions.intersection(regions_list)
+#                 print('common regions', final_regions)
+#                 allowed_regions = [el['region_name'] for el in final_regions]
+#                 allowed_models = all_models
+#                 allowed_variables = all_variables
+#                 allowed_scenarios = all_scenarios
+#         elif changed_field == 'region_name':
+#             if len(regions) == 0:
+#                 allowed_models = all_models
+#                 allowed_regions = [el for el in all_regions if el not in fe_all_regions]
+#                 allowed_variables = variables
+#                 allowed_scenarios = all_scenarios
+#             else:
+#                 distinct_scenarios = []
+#                 for variable in variables:
+#                     for region in regions:
+#                         distinct_scenarios.append(
+#                             PRWMetaData.objects.filter(variable_name=variable, region_name=region).values(
+#                                 'scenario_name').distinct())
+#                 final_scenarios = distinct_scenarios[0]
+#                 for scenarios_list in distinct_scenarios:
+#                     final_scenarios = final_scenarios.intersection(scenarios_list)
+#                 print('common scenarios', final_scenarios)
+#                 allowed_regions = [el for el in all_regions if el not in fe_all_regions]
+#                 allowed_models = all_models
+#                 allowed_variables = variables
+#                 allowed_scenarios = [el['scenario_name'] for el in final_scenarios]
+#         elif changed_field == 'scenario_name':
+#             if len(scenarios) == 0:
+#                 allowed_variables = variables
+#                 allowed_regions = regions
+#                 allowed_models = all_models
+#                 allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+#             else:
+#                 distinct_models = []
+#                 for variable in variables:
+#                     for region in regions:
+#                         for scenario in scenarios:
+#                             distinct_models.append(
+#                                 PRWMetaData.objects.filter(variable_name=variable, scenario_name=scenario,
+#                                                            region_name=region).values(
+#                                     'model_name').distinct())
+#                 final_models = distinct_models[0]
+#                 for model_list in distinct_models:
+#                     final_models = final_models.intersection(model_list)
+#                 print('common models', final_models)
+#                 allowed_variables = variables
+#                 allowed_regions = regions
+#                 allowed_models = [el['model_name'] for el in final_models]
+#                 allowed_scenarios = [el for el in all_scenarios if el not in fe_all_scenarios]
+#         elif changed_field == 'model_name':
+#
+#             allowed_variables = variables
+#             allowed_scenarios = scenarios
+#             allowed_models = [el for el in all_models if el not in fe_all_models]
+#             allowed_regions = regions
+#
+#         ls = {'models': [el for el in all_models if el not in allowed_models],
+#               'scenarios': [el for el in all_scenarios if el not in allowed_scenarios],
+#               'regions': [el for el in all_regions if el not in allowed_regions],
+#               'variables': [el for el in all_variables if el not in allowed_variables]}
+#
+#         print('Changed field: ', changed_field)
+#
+#         return JsonResponse(ls, safe=False)
