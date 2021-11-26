@@ -68,9 +68,11 @@ $(document).ready(function () {
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "color_list_request": ["moody_blue",  "light_red",  "orange_yellow", "grey_green"],
             "dataset": query_id,
-            "dataset_type": "query"
+            "dataset_type": "query",
+             "use_default_colors": false,
+            "type": "compare_4",
         };
         var url = '';
         for (var key in data) {

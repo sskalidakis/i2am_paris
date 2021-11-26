@@ -395,7 +395,7 @@ def detailed_model_doc(request, model=''):
                       context)
     else:
         category = ModelsInfo.objects.get(model_name=model).coverage
-        list_of_cat_models = ModelsInfo.objects.filter(coverage=category)
+        list_of_cat_models = ModelsInfo.objects.filter(coverage=category).order_by('model_title')
         print(category)
         print(list_of_cat_models)
         model_dict = []
