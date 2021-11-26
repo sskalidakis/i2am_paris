@@ -1,16 +1,4 @@
 $(document).ready(function () {
-    $('select.sum-boot-select').each(function () {
-        var select = $(this);
-        select.multipleSelect(
-            {
-                filter: true,
-                showClear: true,
-                animate: 'fade',
-                maxHeightUnit: 'row',
-                maxHeight: 8,
-                dropWidth: 250,
-            });
-    });
 
     $("#fossil_energy_co2-clear-button").click(function () {
         $('#fossil_energy_co2 select.sum-boot-select').multipleSelect('setSelects', []);

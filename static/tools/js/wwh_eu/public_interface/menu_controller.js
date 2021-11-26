@@ -31,12 +31,12 @@ $(document).ready(function () {
             if ($(this).hasClass('heading-link')) {
                 $('.content-section').hide();
                 if ($(this).attr('data-section') === 'policies') {
-                    var subheading = $('a[data-section="ht_2050"]')
+                    var subheading = $('.sub-heading-link a').first();
                     subheading.css('background', '#849627');
                     subheading.css('color', 'white');
                     $('.content-section.policies').show();
                     $('.content-section.policies .subcontent').hide();
-                    $('.content-section .subcontent.ht_2050').show();
+                    $('.content-section .subcontent').first().show();
                 }
                 $('.content-section.' + $(this).attr('data-section')).show();
             } else if ($(this).parent().hasClass('sub-heading-link')) {

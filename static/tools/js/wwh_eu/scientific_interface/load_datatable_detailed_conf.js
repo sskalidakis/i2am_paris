@@ -5,7 +5,8 @@ function populate_datatables(model_sel, scenario_sel, region_sel, variable_sel) 
     const regions = region_sel.multipleSelect('getSelects');
     const variables = variable_sel.multipleSelect('getSelects');
 
-    const d = {'model__name': models, 'scenario__name': scenarios, 'region__name': regions, 'variable__name': variables};
+    const d = {'model__name': models, 'scenario__name': scenarios, 'region__name': regions, 'variable__name': variables,
+    'interface':'pr_eu'};
     $.ajax({
             url: "/populate_detailed_analysis_datatables",
             type: "POST",

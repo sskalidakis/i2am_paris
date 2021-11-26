@@ -25,7 +25,8 @@
             var z_axis_cat_titles = {{ cat_axis_titles|safe }};
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
-
+            var legend_position = "{{ legend_position }}";
+            var minmax_y_value = {{ min_max_y_value|safe }};
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
             categoryAxis.dataFields.category = x_axis_name;
             categoryAxis.renderer.grid.template.location = 0;
@@ -45,6 +46,11 @@
 
             valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
             valueAxis.title.fontWeight = 600;
+
+            if (minmax_y_value.length !== 0) {
+                valueAxis.min = parseFloat(minmax_y_value[0]);
+                valueAxis.max = parseFloat(minmax_y_value[1]);
+            }
             chart.exporting.menu = new am4core.ExportMenu();
             chart.exporting.menu.verticalAlign = "bottom";
 
@@ -52,6 +58,7 @@
             categoryAxis.renderer.cellEndLocation = 0.95;
             categoryAxis.renderer.grid.template.stroke = "#000000"
             categoryAxis.renderer.grid.template.strokeWidth = "3px"
+
 
             // Create series
             var series = [];
@@ -87,6 +94,15 @@
                 legend.data.push({"name": y_var_titles[j], "fill": color_list[j]});
             }
 
+            if (legend_position === "bottom" || legend_position === "top") {
+                legend.maxHeight = 150;
+            } else {
+                legend.maxHeight = 530;
+                legend.maxWidth = 500;
+            }
+            legend.position = legend_position;
+            legend.scrollable = true;
+
 
             // Add scrollbar
             chart.scrollbarX = new am4core.Scrollbar()
@@ -96,7 +112,7 @@
                 var series = chart.series.push(new am4charts.ColumnSeries());
                 series.dataFields.valueY = "zero";
                 series.stacked = false;
-                series.dataFields.categoryX = "year";
+                series.dataFields.categoryX = x_axis_name;
                 series.name = name;
                 series.hiddenInLegend = true;
 
@@ -120,7 +136,7 @@
                 {#This is not a good implementation. It's totally specific to the paris reinforce clustered stacked column chart#}
                 const arr = myVar.split('_');
                 if (arr.length === 2) {
-                    series.columns.template.tooltipText = "Year: {categoryX}\n " + arr[0] + "\n" + arr[1] + "\nValue: [bold]{valueY}[/] (" + myVarUnit + ")";
+                    series.columns.template.tooltipText = x_axis_title + ": {categoryX}\n " + arr[0] + "\n" + arr[1] + "\nValue: [bold]{valueY}[/] (" + myVarUnit + ")";
                 } else if (arr.length > 2) {
                     var last = arr.length - 1;
                     var first = "";
@@ -128,9 +144,9 @@
                         first = first + arr[sm] + "_"
                     }
                     first = first.slice(0, -1)
-                    series.columns.template.tooltipText = "Year: {categoryX}\n " + first + "\n" + arr[last] + "\nValue: [bold]{valueY}[/] (" + myVarUnit + ")";
+                    series.columns.template.tooltipText = x_axis_title + ": {categoryX}\n " + first + "\n" + arr[last] + "\nValue: [bold]{valueY}[/] (" + myVarUnit + ")";
                 } else {
-                    series.columns.template.tooltipText = "Year: {categoryX}\n " + myVar + "\nValue: [bold]{valueY}[/] (" + myVarUnit + ")";
+                    series.columns.template.tooltipText = x_axis_title + ": {categoryX}\n " + myVar + "\nValue: [bold]{valueY}[/] (" + myVarUnit + ")";
 
                 }
                 series.dataFields.valueY = myVar;

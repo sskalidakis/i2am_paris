@@ -13,13 +13,14 @@ urlpatterns = [
     path('show_stacked_column_line_chart', views.show_stacked_column_line_chart, name='show_stacked_column_line_chart'),
     path('show_stacked_clustered_column_chart', views.show_stacked_clustered_chart,
          name='show_stacked_clustered_chart'),
+    path('show_dumbell_chart', views.show_dumbell_chart, name='show_dumbell_chart'),
     path('show_heat_map_chart', views.show_heat_map_chart, name='heat_map_chart'),
     path('show_bar_heat_map_chart', views.show_bar_heat_map, name='show_bar_heat_map_chart'),
     path('show_sankey_diagram', views.sankey_diagram, name='sankey_diagram'),
     path('show_chord_diagram', views.chord_diagram, name='chord_diagram'),
     path('show_heat_map', views.heat_map_on_map, name='heat_map'),
-    path('parallel_coordinates_chart', views.parallel_coordinates_chart, name='parallel_coordinates_chart'),
-    path('thermometer_chart', views.thermometer_chart, name='thermometer_chart'),
-    path('parallel_coordinates_chart2', views.parallel_coordinates_chart2, name='parallel_coordinates_chart2')
+    # path('parallel_coordinates_chart', views.parallel_coordinates_chart, name='parallel_coordinates_chart'),
+    # path('thermometer_chart', views.thermometer_chart, name='thermometer_chart'),
+    # path('parallel_coordinates_chart2', views.parallel_coordinates_chart2, name='parallel_coordinates_chart2')
 
 ]
