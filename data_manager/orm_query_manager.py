@@ -36,7 +36,8 @@ def line_chart_query(query_id):
         results = combined_linechart_data_projection(query_id, 'model', 'scenario', 'year')
     elif query_name in ['wwheu_pub_imported_fuels_query']:
         results = simple_linechart_data_projection(query_id, 'model', 'year')
-    elif query_name in ['wwhglobal_pub_global_temp_historical_query']:
+    elif query_name in ['wwhglobal_pub_global_temp_historical_query', 'wwhglobal_pub_total_co2_emissions_cp_historical_query',
+                        'wwhglobal_pub_total_co2_emissions_ndc_historical_query']:
         results = simple_linechart_data_projection(query_id, 'variable', 'year')
     elif query_name in ['wwheu_pub_co2_ccs_ag_co2_reduction_query', 'eu_wwh_scientific_ccs2_query']:
         results = variable_to_variable_linechart_data(query_id, 'Extra_CO2_reduction_ratio', True,
