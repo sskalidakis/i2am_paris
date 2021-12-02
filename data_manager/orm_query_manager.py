@@ -88,7 +88,7 @@ def column_chart_query(query_id):
                                   'PR_Baseline', [2050, 2045], 'max')
     elif query_name in ['wwhglobal_pub_total_co2_emissions_ndc_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario', ['PR_NDC_EI', 'PR_NDC_CP'],
-                                  'PR_Baseline', [2050,2045], 'max')
+                                  'PR_Baseline', [2050, 2045], 'max')
     elif query_name in ['wwhglobal_pub_global_temp_ranges_query']:
         results = dumbell_max_min(query_id, ["model__name", "year"], 'model', 'scenario',
                                   ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'], None, [], '')

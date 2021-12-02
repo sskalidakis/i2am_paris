@@ -19,7 +19,7 @@ $(document).ready(function () {
         "x_axis_title": "Year",
         "x_axis_unit": "-",
         "x_axis_type": "text",
-        "min_max_y_value":[0.8, 1.9],
+        "min_max_y_value":[0.79, 2.92],
         "color_list_request": ["black"],
         "dataset_type": "query",
         "use_default_colors": false,

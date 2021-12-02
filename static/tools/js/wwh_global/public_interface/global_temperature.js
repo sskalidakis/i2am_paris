@@ -30,8 +30,8 @@ $(document).ready(function () {
         "x_axis_title": "Year",
         "x_axis_unit": "-",
         "x_axis_type": "text",
-        "min_max_y_value":[0.8, 1.9],
-        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "light_brown", "gold", "purple"],
+        "min_max_y_value":[0.79, 2.92],
+        "color_list_request": ["moody_blue",  "orange_fire", "light_red", "grey_green", "light_brown", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
         "type": "compare_4",
@@ -71,9 +71,16 @@ $(document).ready(function () {
                 'operation': 'in'
             });
         }
+
+         and_dict.push({
+            'operand_1': 'year',
+            'operand_2': '2020',
+            'operation': '>='
+        });
+
         and_dict.push({
             'operand_1': 'year',
-            'operand_2': '2050',
+            'operand_2': '2100',
             'operation': '<='
         });
 

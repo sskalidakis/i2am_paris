@@ -6,8 +6,8 @@ $(document).ready(function () {
     var viz_frame = $('#' + viz_id + '_viz_frame_div');
     viz_frame.show();
     token_retrieval();
-    var y_var_models = ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'];
-    var y_var_mod_titles = ['42', 'E3ME', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'TIAM'];
+    var y_var_models = ['gcam', 'muse', 'tiam'];
+    var y_var_mod_titles = ['GCAM', 'MUSE', 'TIAM'];
 
     /* # Query creation*/
     var jq_obj = create_global_temp_ranges_query();
@@ -21,10 +21,10 @@ $(document).ready(function () {
         "x_axis_title": "Models",
         "x_axis_unit": "-",
         "x_axis_type": "text",
-        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "light_brown", "gold", "purple"],
+        "color_list_request": [ "orange_fire", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
-        "min_max_y_value":[0.8, 1.9],
+        "min_max_y_value":[0.79, 2.92],
         "markers_on_chart": false
     };
 
@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 
     function create_global_temp_ranges_query() {
-        var models = ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'];
+        var models = ['gcam', 'muse', 'tiam'];
         var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI', 'Baseline Values'];
         var regions = ['World'];
         var variable = ['Temperature|Global Mean'];
@@ -63,7 +63,7 @@ $(document).ready(function () {
         }
         and_dict.push({
             'operand_1': 'year',
-            'operand_2': '2050',
+            'operand_2': '2100',
             'operation': '<='
         });
         and_dict.push({
