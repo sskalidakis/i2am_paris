@@ -148,6 +148,11 @@ $(document).ready(function () {
                 'operation': 'in'
             });
         }
+        and_dict.push({
+            'operand_1': 'year',
+            'operand_2': '2015',
+            'operation': '>='
+        });
 
 
         selected.push('value', 'year');

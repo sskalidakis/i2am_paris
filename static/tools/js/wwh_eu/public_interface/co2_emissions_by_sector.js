@@ -22,7 +22,7 @@ $(document).ready(function () {
         "cat_axis_names": ['aladin', 'e3me', 'eu_times', 'forecast', '42', 'gcam', 'gemini_e3', 'ices', 'muse', 'nemesis', 'tiam'],
         "cat_axis_titles": ['ALADIN', 'E3ME', 'EU-TIMES', 'FORECAST', '42', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'NEMESIS', 'TIAM'],
         "use_default_colors": false,
-        "color_list_request": ["light_blue", "dark_gray", "ceramic", "casual_green", "gold", "purple_new"],
+        "color_list_request": ["blue", "dark_gray", "gold", "violet", "calm_brown", "gray"],
         "dataset_type": "query",
         "type": "normal"
     };

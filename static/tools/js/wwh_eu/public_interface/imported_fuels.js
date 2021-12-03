@@ -29,8 +29,8 @@ $(document).ready(function () {
         var jq_obj = create_imported_fuels_query(variables)
         console.log(viz_id + '- JSON Query Created');
         var viz_payload = {
-            "y_var_names": ['eu_times', 'tiam', 'gemini_e3'],
-            "y_var_titles": ['EU-TIMES', 'TIAM', 'Gemini-E3'],
+            "y_var_names": ['eu_times',  'gemini_e3', 'tiam'],
+            "y_var_titles": ['EU-TIMES', 'Gemini-E3',  'TIAM'],
             "y_var_units": ['billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency', 'billion US$2010/yr OR local currency'],
             "y_axis_title": 'Imported fossil fuels',
             "x_axis_name": "year",
@@ -38,7 +38,7 @@ $(document).ready(function () {
             "x_axis_unit": "-",
             "x_axis_type": "text",
             "use_default_colors": false,
-            "color_list_request": ["blue", "green", "ceramic", "gold"],
+            "color_list_request": ["cyan", "grey_green", "purple"],
             "dataset_type": "query",
             "stacked": "false",
             // "type": "step_by_step"

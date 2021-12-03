@@ -22,7 +22,7 @@ $(document).ready(function () {
         "cat_axis_names": ['eu_times', 'forecast', 'gcam', 'tiam'],
         "cat_axis_titles": ['EU-TIMES', 'FORECAST', 'GCAM', 'TIAM'],
         "use_default_colors": false,
-        "color_list_request": ["light_blue", "gray", "gray", "ceramic", "casual_green", "blue", "blue", "light_brown", "dark_gray"],
+        "color_list_request": ["casual_green", "gray"],
         "dataset_type": "query",
         "type": "normal"
     };

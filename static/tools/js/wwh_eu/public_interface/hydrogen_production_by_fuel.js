@@ -21,7 +21,7 @@ $(document).ready(function () {
         "cat_axis_names": ['eu_times', 'gcam', 'tiam'],
         "cat_axis_titles": ['EU-TIMES', 'GCAM', 'TIAM'],
         "use_default_colors": false,
-        "color_list_request": ["dark_gray","blue", "dark_green", "casual_green", "grey_green", "light_green"],
+        "color_list_request": ["dark_gray","gray", "calm_brown", "brown", "blue"],
         "dataset_type": "query",
         "type": "normal"
     };
