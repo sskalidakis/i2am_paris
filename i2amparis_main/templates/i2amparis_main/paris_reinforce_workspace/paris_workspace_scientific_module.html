@@ -140,29 +140,33 @@
         }
     </script>
     <script>
-    $('select.sum-boot-select').each(function () {
-        var select = $(this);
-        select.multipleSelect(
-            {
-                filter: true,
-                showClear: true,
-                animate: 'fade',
-                maxHeightUnit: 'row',
-                maxHeight: 8,
-                dropWidth: 250,
-            });
-    });
+        $('select.sum-boot-select').each(function () {
+            var select = $(this);
+            select.multipleSelect(
+                {
+                    filter: true,
+                    showClear: true,
+                    animate: 'fade',
+                    maxHeightUnit: 'row',
+                    maxHeight: 8,
+                    dropWidth: 250,
+                });
+        });
     </script>
     <script src={% static "tools/js/wwh_global/scientific_interface/detailed_json_query_creator.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/detailed_configurable_analysis.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/cookie_retriever.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/load_datatable_detailed_conf.js" %}></script>
+    <script src={% static "tools/js/wwh_eu/public_interface/start_query_creation_viz_execution.js" %}></script>
+    <script src={% static "tools/js/wwh_eu/public_interface/create_visualisation.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/intro_page_interface_fossil_energy_co2.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/intro_page_interface_global_primary_energy.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/intro_page_interface_global_ccs_1.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/intro_page_interface_global_approximate_temperature.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/intro_page_interface_global_primary_energy_by_fuel_models.js" %}></script>
     <script src={% static "tools/js/wwh_global/scientific_interface/intro_page_interface_global_primary_energy_by_fuel_scenarios.js" %}></script>
+    <script src={% static "tools/js/wwh_global/scientific_interface/total_co2_emissions_cp_historical.js" %}></script>
+    <script src={% static "tools/js/wwh_global/scientific_interface/global_temperature_historical.js" %}></script>
 
 
 
