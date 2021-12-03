@@ -37,8 +37,8 @@ $(document).ready(function () {
             "cat_axis_names": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "cat_axis_titles": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "use_default_colors": false,
-            'min_max_y_value':[0,450],
-            "color_list_request": ["ceramic", "dark_gray", "gold", "grey_green", "black", "blue", "brown"],
+            'min_max_y_value':[0,620],
+            "color_list_request": ["ceramic", "gray", "gold", "grey_green", "black", "blue", "light_brown"],
             "dataset_type": "query",
             "type": "normal"
         };
@@ -80,8 +80,8 @@ $(document).ready(function () {
             "cat_axis_names": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "cat_axis_titles": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "use_default_colors": false,
-            "color_list_request": ["ceramic", "dark_gray", "gold", "gray_green", "black", "blue", "brown"],
-            'min_max_y_value':[0,450],
+            "color_list_request": ["ceramic", "gray", "gold", "grey_green", "black", "blue", "light_brown"],
+            'min_max_y_value':[0,620],
             "dataset_type": "query",
             "type": "normal"
         };
@@ -124,8 +124,8 @@ $(document).ready(function () {
             "cat_axis_names": ['PR_Baseline', 'PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'],
             "cat_axis_titles": ['PR_Baseline', 'PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'],
             "use_default_colors": false,
-            "color_list_request": ["ceramic", "dark_gray", "gold", "gray_green", "black", "blue", "brown"],
-            'min_max_y_value':[0,450],
+            "color_list_request": ["ceramic", "gray", "gold", "grey_green", "black", "blue", "light_brown"],
+            'min_max_y_value':[0,620],
             "dataset_type": "query",
             "type": "normal"
         };

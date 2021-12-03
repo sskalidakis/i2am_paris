@@ -12,8 +12,8 @@ $(document).ready(function () {
         token_retrieval();
         var y_var_scenarios = ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'];
         var y_var_scenarios_titles = ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'];
-        var variables = ['Final Energy|Non-Energy Use', 'Final Energy|Industry', 'Final Energy|Transportation',
-            'Final Energy|Residential and Commercial', 'Final Energy|Other sector'];
+        var variables = ['Final Energy|Industry', 'Final Energy|Transportation',
+            'Final Energy|Residential and Commercial', 'Final Energy|Other'];
         var y_var_names = []
         var y_var_titles = []
         for (var i = 0; i < y_var_scenarios.length; i++) {
@@ -38,7 +38,7 @@ $(document).ready(function () {
             "cat_axis_titles": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "use_default_colors": false,
             // 'min_max_y_value': [0, 450],
-            "color_list_request": ["ceramic", "dark_gray", "blue", "gold", "grey_green"],
+            "color_list_request": [ "dark_gray", "blue", "gold", "ceramic"],
             "dataset_type": "query",
             "type": "normal"
         };
@@ -55,8 +55,8 @@ $(document).ready(function () {
         token_retrieval();
         var y_var_scenarios = ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'];
         var y_var_scenarios_titles = ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'];
-        var variables = ['Final Energy|Non-Energy Use', 'Final Energy|Industry', 'Final Energy|Transportation',
-            'Final Energy|Residential and Commercial', 'Final Energy|Other sector'];
+        var variables = ['Final Energy|Industry', 'Final Energy|Transportation',
+            'Final Energy|Residential and Commercial', 'Final Energy|Other'];
         var y_var_names = []
         var y_var_titles = []
         for (var i = 0; i < y_var_scenarios.length; i++) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
             "cat_axis_names": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "cat_axis_titles": ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'],
             "use_default_colors": false,
-            "color_list_request": ["ceramic", "dark_gray", "blue", "gold", "grey_green"],
+            "color_list_request": [ "dark_gray", "blue", "gold", "ceramic"],
             // 'min_max_y_value': [0, 450],
             "dataset_type": "query",
             "type": "normal"
@@ -99,8 +99,8 @@ $(document).ready(function () {
         token_retrieval();
         var y_var_scenarios = ['PR_Baseline', 'PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'];
         var y_var_scenarios_titles = ['PR_Baseline', 'PR_CurPol_EI', 'PR_NDC_EI'];
-        var variables = ['Final Energy|Non-Energy Use', 'Final Energy|Industry', 'Final Energy|Transportation',
-            'Final Energy|Residential and Commercial', 'Final Energy|Other sector'];
+        var variables = ['Final Energy|Industry', 'Final Energy|Transportation',
+            'Final Energy|Residential and Commercial', 'Final Energy|Other'];
         var y_var_names = []
         var y_var_titles = []
         for (var i = 0; i < y_var_scenarios.length; i++) {
@@ -124,7 +124,7 @@ $(document).ready(function () {
             "cat_axis_names": ['PR_Baseline', 'PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'],
             "cat_axis_titles": ['PR_Baseline', 'PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'],
             "use_default_colors": false,
-            "color_list_request": ["ceramic", "dark_gray", "blue", "gold", "grey_green"],
+            "color_list_request": [ "dark_gray", "blue", "gold", "ceramic"],
             // 'min_max_y_value': [0, 450],
             "dataset_type": "query",
             "type": "normal"
@@ -137,8 +137,8 @@ $(document).ready(function () {
     function create_final_energy_by_fuel_query(year, scenarios) {
         var regions = ['World'];
         var models = ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'];
-        var variables = ['Final Energy|Non-Energy Use', 'Final Energy|Industry', 'Final Energy|Transportation',
-            'Final Energy|Residential and Commercial', 'Final Energy|Other sector'];
+        var variables = ['Final Energy|Industry', 'Final Energy|Transportation',
+            'Final Energy|Residential and Commercial', 'Final Energy|Other'];
         var agg_func = 'Avg';
         var agg_var = 'scenario_id';
 

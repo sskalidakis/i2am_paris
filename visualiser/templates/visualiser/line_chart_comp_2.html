@@ -84,7 +84,7 @@
             {#chart.legend.useDefaultMarker = true;#}
             if (legend_position === "bottom" || legend_position === "top") {
                 chart.legend.position = legend_position;
-                chart.legend.maxHeight = 150;
+                chart.legend.maxHeight = 200;
             } else {
                 chart.legend.maxHeight = 530;
                 chart.legend.maxWidth = 500;
@@ -124,8 +124,8 @@
                 series.tooltip.pointerOrientation = "vertical";
                 series.tooltip.background.cornerRadius = 20;
                 series.tooltip.background.fillOpacity = 0.8;
-                series.tooltip.label.padding(5, 5, 5, 5);
-                series.tooltip.label.fontSize = '0.9em';
+                series.tooltip.label.padding(3, 3, 3, 3);
+                series.tooltip.label.fontSize = '0.8em';
                 series.tooltip.autoTextColor = false;
                 series.tooltip.label.fill = am4core.color("#FFFFFF");
                 series.tooltip.getFillFromObject = false;
