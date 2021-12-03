@@ -11,8 +11,8 @@ $(document).ready(function () {
     var jq_obj = create_import_dependency_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
-        "y_var_names": ['tiam', 'eu_times', 'gemini_e3'],
-        "y_var_titles": ['TIAM', 'EU-TIMES', 'Gemini-E3'],
+        "y_var_names": ['eu_times', 'gemini_e3', 'tiam'],
+        "y_var_titles": ['EU-TIMES', 'Gemini-E3', 'TIAM'],
         "y_var_units": ['Percentage %'],
         "y_axis_title": 'Import Dependency',
         "x_axis_name": "Extra_CO2_reduction_ratio",
@@ -20,7 +20,7 @@ $(document).ready(function () {
         "x_axis_unit": "percentage %",
         "x_axis_type": "value",
         "use_default_colors": false,
-        "color_list_request": ["moody_blue",  "light_red",  "gold"],
+        "color_list_request": ["cyan",  "grey_green",  "purple"],
         "dataset_type": "query",
 
     };

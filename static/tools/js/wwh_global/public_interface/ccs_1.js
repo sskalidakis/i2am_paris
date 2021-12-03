@@ -31,7 +31,7 @@ $(document).ready(function () {
         "x_axis_unit": "-",
         "x_axis_type": "text",
         // "min_max_y_value":[22000, 48000],
-        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green"],
+        "color_list_request": ["orange_fire",  "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
         "type": "compare_2",

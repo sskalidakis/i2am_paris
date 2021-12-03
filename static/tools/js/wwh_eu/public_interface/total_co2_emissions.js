@@ -19,7 +19,7 @@ $(document).ready(function () {
                     "x_axis_title": "Year",
                     "x_axis_unit": "-",
                     "x_axis_type": "text",
-                    "color_list_request": ["moody_blue", "violet", "light_red", "orange_yellow", "grey_green", "cyan", "black","gold", "purple"],
+                    "color_list_request": ["moody_blue", "cyan", "light_red", "orange_fire", "grey_green", "light_brown", "gold", "ice_gray" ,"purple"],
                     "dataset_type": "query",
                     "use_default_colors": false,
                     // "type": "step_by_step"

@@ -40,7 +40,7 @@ $(document).ready(function () {
             ['tiam Minimum', 'tiam Maximum', 'TIAM - Range'],
         ],
         "min_max_y_value":[22000, 48000],
-        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "black", "gold", "purple"],
+        "color_list_request": ["moody_blue", "light_red", "orange_fire", "grey_green", "light_brown", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
         "type": "min_max",

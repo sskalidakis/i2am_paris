@@ -21,7 +21,7 @@ $(document).ready(function () {
         "x_axis_title": "Models",
         "x_axis_unit": "-",
         "x_axis_type": "text",
-        "color_list_request": ["moody_blue", "light_red", "orange_yellow", "grey_green", "light_brown", "gold", "purple"],
+        "color_list_request": ["moody_blue", "light_red", "orange_fire", "grey_green", "light_brown", "gold", "purple"],
         "dataset_type": "query",
         "use_default_colors": false,
         "min_max_y_value":[25000, 48000]

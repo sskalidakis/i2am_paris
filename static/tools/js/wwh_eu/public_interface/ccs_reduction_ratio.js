@@ -12,15 +12,16 @@ $(document).ready(function () {
     var jq_obj = create_co2_ccs_ag_co2_reduction_query();
     console.log(viz_id + '- JSON Query Created');
     var viz_payload = {
-            "y_var_names": ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis'],
-            "y_var_titles": ['TIAM', 'EU-TIMES', 'E3ME', 'GCAM', 'Gemini-E3', 'MUSE', 'NEMESIS'],
+            "y_var_names": ['eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis', 'tiam'],
+            "y_var_titles": ['EU-TIMES', 'E3ME', 'GCAM', 'Gemini-E3', 'MUSE', 'NEMESIS', 'TIAM'],
             "y_var_units": ['MtCO2/y'],
             "y_axis_title": 'CO2 Captured',
             "x_axis_name": "Extra_CO2_reduction_ratio",
             "x_axis_title": "CO2 emissions reduction",
             "x_axis_unit": "percentage %",
             "x_axis_type": "value",
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "color_list_request": ["cyan", "light_red", "orange_fire", "grey_green", "gold", "ice_gray" ,"purple"],
+            "use_default_colors": false,
             "dataset_type": "query",
             // "type": "step_by_step"
         };
@@ -28,7 +29,7 @@ $(document).ready(function () {
     start_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)
 
     function create_co2_ccs_ag_co2_reduction_query() {
-        var models = ['tiam', 'eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis'];
+        var models = ['eu_times', 'e3me', 'gcam', 'gemini_e3', 'muse', 'nemesis', 'tiam'];
         var scenarios = ['EUWWH'];
         var regions = ['EU'];
         var variable = ['Extra_CO2_Captured_with_CCS', 'Extra_CO2_reduction_ratio'];

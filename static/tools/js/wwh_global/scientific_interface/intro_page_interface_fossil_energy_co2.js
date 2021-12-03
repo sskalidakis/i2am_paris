@@ -60,6 +60,7 @@ $(document).ready(function () {
         viz_frame.off();
         viz_frame.hide();
         $('#fossil_energy_co2_loading_bar').show();
+        console.log(val_list)
 
         var data = {
             "y_var_names": val_list,
