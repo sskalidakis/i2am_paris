@@ -34,7 +34,7 @@ $(document).ready(function () {
                 "x_axis_unit": "percentage %",
                 "x_axis_type": "value",
                 "use_default_colors": false,
-                "color_list_request": ["moody_blue", "violet", "light_red", "orange_yellow", "grey_green", "cyan", "black", "ceramic", "gold"],
+                "color_list_request": [ "cyan", "light_red", "orange_fire", "grey_green", "light_brown", "gold",  "ice_gray" ,"purple" ,"moody_blue"],
                 "dataset_type": "query",
                 "type": "normal"
             };

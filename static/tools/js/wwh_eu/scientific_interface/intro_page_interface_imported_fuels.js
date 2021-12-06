@@ -21,7 +21,7 @@ $(document).ready(function () {
             viz_frame.show();
             var jq_obj = create_imported_fuels_coal_query(dataset,'Trade|Primary Energy|Coal|Volume');
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['ceramic', 'casual_green', 'gold'], [], [], [], String(jq_obj["variables"]));
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['cyan', 'grey_green', 'purple'], [], [], [], String(jq_obj["variables"]));
 
             //Coal Visualisation
             viz_id = 'imported_fuels_gas';
@@ -30,7 +30,7 @@ $(document).ready(function () {
             viz_frame.show();
             jq_obj = create_imported_fuels_coal_query(dataset,'Trade|Primary Energy|Gas|Volume');
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['ceramic', 'casual_green', 'gold'], [], [], [], String(jq_obj["variables"]));
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['cyan', 'grey_green', 'purple'], [], [], [], String(jq_obj["variables"]));
 
               //Oil Visualisation
             viz_id = 'imported_fuels_oil';
@@ -39,7 +39,7 @@ $(document).ready(function () {
             viz_frame.show();
             jq_obj = create_imported_fuels_coal_query(dataset,'Trade|Primary Energy|Oil|Volume');
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['ceramic', 'casual_green', 'gold'], [], [], [], String(jq_obj["variables"]));
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc, false, ['cyan', 'grey_green', 'purple'], [], [], [], String(jq_obj["variables"]));
 
 
         }

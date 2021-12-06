@@ -34,7 +34,7 @@ $(document).ready(function () {
                 "x_axis_unit": "percentage %",
                 "x_axis_type": "value",
                 "use_default_colors": false,
-                "color_list_request": ["moody_blue", "light_red", "gold"],
+                "color_list_request": ['cyan', 'grey_green', 'purple'],
                 "dataset_type": "query",
             };
             start_sci_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)

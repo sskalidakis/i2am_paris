@@ -46,7 +46,7 @@ $(document).ready(function () {
                 "cat_axis_names": y_var_models,
                 "cat_axis_titles": y_var_mod_titles,
                 "use_default_colors": false,
-                "color_list_request": ["dark_gray","blue", "dark_green", "casual_green", "grey_green", "light_green"],
+                "color_list_request": ["dark_gray","gray", "brown", "calm_brown", "blue"],
                 "dataset_type": "query",
                 "type": "normal"
             };

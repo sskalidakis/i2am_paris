@@ -34,7 +34,7 @@ $(document).ready(function () {
                 "line_names": ['Emissions|CO2|Energy'],
                 "line_titles": ['CO2 Emissions'],
                 "use_default_colors": false,
-                "color_list_request": ["dark_gray", "blue", "green", "light_red"],
+                "color_list_request": ["dark_gray", "blue", "casual_green", "light_red"],
                 "dataset_type": "query"
             };
             start_sci_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)

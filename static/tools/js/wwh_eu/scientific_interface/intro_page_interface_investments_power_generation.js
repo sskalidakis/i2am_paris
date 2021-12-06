@@ -22,7 +22,7 @@ $(document).ready(function () {
             /* # Query creation*/
             var jq_obj = create_investments_power_generation_query(dataset);
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,["moody_blue", "ceramic", "grey_green", "cyan", "black"],[],[],[],String(jq_obj["variables"]));
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,["light_red", "cyan", "orange_fire", "grey_green", "ice_gray"],[],[],[],String(jq_obj["variables"]));
 
         }
     });

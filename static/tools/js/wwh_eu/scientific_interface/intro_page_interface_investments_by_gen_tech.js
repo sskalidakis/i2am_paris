@@ -52,7 +52,7 @@ $(document).ready(function () {
                 "cat_axis_names": y_var_models,
                 "cat_axis_titles": y_var_mod_titles,
                 "use_default_colors": false,
-                "color_list_request": ["dark_gray", "purple_new", "light_blue", "gold", "green", "light_brown"],
+                "color_list_request": ["dark_gray", "oil_green", "ice_gray", "gold", "calm_brown", "brown"],
                 "dataset_type": "query",
                 "type": "normal"
             };
