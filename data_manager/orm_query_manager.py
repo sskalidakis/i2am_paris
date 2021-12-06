@@ -31,7 +31,8 @@ def line_chart_query(query_id):
                         'eu_wwh_scientific_imported_fuels_oil_query',
                         'eu_wwh_scientific_investments_energy_supply_query', 'wwhglobal_pub_global_temp_query',
                         'eu_wwh_scientific_investments_power_generation_query',
-                        'wwhglobal_pub_ccs1_query', 'wwhglobal_pub_ccs2_query'
+                        'wwhglobal_pub_ccs1_query', 'wwhglobal_pub_ccs2_query', 'wwhglobal_pub_final_energy_sector_industry_query',
+                        'wwhglobal_pub_final_energy_sector_transportation_query', 'wwhglobal_pub_final_energy_sector_buildings_query'
                         ]:
         results = combined_linechart_data_projection(query_id, 'model', 'scenario', 'year')
     elif query_name in ['wwheu_pub_imported_fuels_query']:

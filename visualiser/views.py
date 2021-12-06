@@ -144,8 +144,14 @@ class XY_chart:
         elif self.chart_type == 'line_chart_comp_2':
             return render(self.request, 'visualiser/line_chart_comp_2.html',
                           self.content)
+        elif self.chart_type == 'line_chart_comp_3':
+            return render(self.request, 'visualiser/line_chart_comp_3.html',
+                          self.content)
         elif self.chart_type == 'line_chart_comp_4':
             return render(self.request, 'visualiser/line_chart_comp_4.html',
+                          self.content)
+        elif self.chart_type == 'line_chart_comp_5':
+            return render(self.request, 'visualiser/line_chart_comp_5.html',
                           self.content)
         elif self.chart_type == 'column_chart':
             return render(self.request, 'visualiser/column_chart_am4.html',
@@ -473,11 +479,21 @@ def show_line_chart(request):
                               x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
                               min_max_y_value, legend_position,
                               'line_chart_comp_2')
+    elif type == 'compare_3':
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value, legend_position,
+                              'line_chart_comp_3')
     elif type == 'compare_4':
         line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                               x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
                               min_max_y_value, legend_position,
                               'line_chart_comp_4')
+    elif type == 'compare_5':
+        line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                              x_axis_type, y_axis_title, ranges, data, color_list, use_default_colors, chart_3d,
+                              min_max_y_value, legend_position,
+                              'line_chart_comp_5')
     else:
         if stacked == 'false':
             line_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles,
