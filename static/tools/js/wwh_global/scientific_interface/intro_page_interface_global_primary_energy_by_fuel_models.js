@@ -58,7 +58,7 @@ $(document).ready(function () {
             "cat_axis_names": ['42', 'e3me', 'gcam', 'gemini_e3', 'ices', 'muse', 'tiam'],
             "cat_axis_titles": ['42', 'E3EME', 'GCAM', 'Gemini-E3', 'ICES', 'MUSE', 'TIAM'],
             "use_default_colors": false,
-            "color_list_request": ["light_blue", "gold", "blue", "casual_green", "ceramic", "petrol_blue", "red", "dark_gray"],
+            "color_list_request": ["ice_gray", "gold", "lighter_blue", "oil_green", "calm_brown", "grey_green", "dark_gray", "gray"],
             "dataset": query_id,
             "dataset_type": "query"
         };

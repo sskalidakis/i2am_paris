@@ -63,9 +63,9 @@ def column_chart_query(query_id):
     results = []
     if query_name == 'scientific_tool_query':
         results = scentific_tool_query(query_id)
-    elif query_name == 'primary_energy_by_fuel_avg_models_query':
+    elif query_name in ['primary_energy_by_fuel_avg_models_query', 'final_energy_by_fuel_avg_models_query']:
         results = variable_clustered_groups_per_parameter(query_id, 'model_id', 'year')
-    elif query_name == 'primary_energy_by_fuel_avg_scenarios_query':
+    elif query_name in['primary_energy_by_fuel_avg_scenarios_query', 'final_energy_by_fuel_avg_scenarios_query']:
         results = variable_clustered_groups_per_parameter(query_id, 'scenario_id', 'year')
     elif query_name in ['wwheu_pub_energy_co2_emissions_by_sector_query', 'wwheu_pub_electrification_fec_query',
                         'wwheu_pub_hydrogen_production_by_fuel_query', 'wwheu_pub_hydrogen_electricity_comp_ind_query',
