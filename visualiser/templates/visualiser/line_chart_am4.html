@@ -24,6 +24,7 @@
             var y_var_units = {{ y_var_units|safe }};
             var y_axis_title = "{{ y_axis_title }}";
             var color_list = {{ color_list|safe }};
+            var line_type_list = {{ line_type_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var xAxis;
             var minmax_y_value = {{ minmax_y_value|safe }};
@@ -61,17 +62,23 @@
             var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(i),'0,0', x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 } else {
-                    series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
-                        y_var_units[i], valueAxis);
+                    if (line_type_list.length === 0) {
+                        series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], '0,0', x_axis_type, y_var_titles[i],
+                            y_var_units[i], valueAxis);
+                    }else{
+                        series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], line_type_list[i], x_axis_type, y_var_titles[i],
+                            y_var_units[i], valueAxis);
+                    }
                 }
             }
 
             //Add Legend
             chart.legend = new am4charts.Legend();
-            chart.legend.useDefaultMarker = true;
+            {#This shows markers instead of lines in the legend#}
+            {#chart.legend.useDefaultMarker = true;#}
             if (legend_position === "bottom" || legend_position === "top") {
                 chart.legend.position = legend_position;
                 chart.legend.maxHeight = 200;
@@ -88,14 +95,17 @@
                 chart.legend.scrollable = true;
                 {#chart.legend.itemContainers.template.paddingLeft= 10;#}
             }{% endcomment %}
-            var marker = chart.legend.markers.template.children.getIndex(0);
-            marker.cornerRadius(5, 5, 5, 5);
-            marker.strokeWidth = 2;
-            marker.strokeOpacity = 1;
-            marker.stroke = am4core.color("#ccc");
-            var markerTemplate = chart.legend.markers.template;
-            markerTemplate.width = 25;
-            markerTemplate.height = 25;
+
+            {# This configures the markers shown in the legend (if hart.legend.useDefaultMarker === true;) #}
+
+            {#var marker = chart.legend.markers.template.children.getIndex(0);#}
+            {#marker.cornerRadius(5, 5, 5, 5);#}
+            {#marker.strokeWidth = 2;#}
+            {#marker.strokeOpacity = 1;#}
+            {#marker.stroke = am4core.color("#ccc");#}
+            {#var markerTemplate = chart.legend.markers.template;#}
+            {#markerTemplate.width = 25;#}
+            {#markerTemplate.height = 25;#}
 
 
             // Add scrollbar
@@ -107,7 +117,7 @@
             chart.cursor.xAxis = xAxis;
             {#chart.cursor.snapToSeries = series[0];#}
 
-            function create_series(setNameOfX, myVar, fillColor, xAxisType, myVarTitle, myVarUnit) {
+            function create_series(setNameOfX, myVar, fillColor, dash_array, xAxisType, myVarTitle, myVarUnit) {
                 <!-- Set the range  between open and close and set and the close-->
                 var series = chart.series.push(new am4charts.LineSeries());
 
@@ -138,6 +148,7 @@
                 series.legendSettings.itemValueText = "[bold]{valueY.formatNumber('#.00')}[/bold]";
                 series.fill = am4core.color(fillColor);
                 series.stroke = am4core.color(fillColor);
+                series.strokeDasharray = dash_array;
                 //Smoothed Lines
                 {#series.tensionX = 0.9;#}
 

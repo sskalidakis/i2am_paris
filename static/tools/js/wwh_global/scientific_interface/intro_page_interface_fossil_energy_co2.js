@@ -46,7 +46,7 @@ $(document).ready(function () {
             success: function (data) {
                 console.log('Fossil Energy Query Saved in DB');
                 var query_id = data['query_id'];
-                create_visualisation_fossil_energy_co2(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable);
+                create_visualisation_fossil_energy_co2(query_id, json_query_obj, variable);
             },
             error: function (data) {
                 console.log(data);
@@ -55,7 +55,12 @@ $(document).ready(function () {
     }
 
 
-    function create_visualisation_fossil_energy_co2(query_id, val_list, title_list, unit_list, variable) {
+    function create_visualisation_fossil_energy_co2(query_id, json_query_obj, variable) {
+        var val_list = json_query_obj['val_list'];
+        var title_list = json_query_obj['title_list'];
+        var unit_list = json_query_obj['unit_list'];
+        var color_list = json_query_obj['color_list'];
+        var line_type_list = json_query_obj['line_type_list'];
         var viz_frame = $('#fossil_energy_co2_viz_iframe');
         viz_frame.off();
         viz_frame.hide();
@@ -72,7 +77,9 @@ $(document).ready(function () {
             "x_axis_unit": "-",
             "x_axis_type": "text",
             "min_max_y_value":[11000, 43000],
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "color_list_request": color_list,
+            "line_type_list": line_type_list,
+            "use_default_colors": false,
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -208,6 +215,8 @@ $(document).ready(function () {
         var final_val_list = [];
         var final_title_list = [];
         var final_unit_list = [];
+        var final_color_list = [];
+        var final_line_type_list = [];
         $.ajax({
             url: "/data_manager/retrieve_series_model_scenario",
             type: "POST",
@@ -220,12 +229,16 @@ $(document).ready(function () {
                     final_val_list.push(instances[i]['series']);
                     final_title_list.push(instances[i]['title']);
                     final_unit_list.push(instances[i]['unit']);
+                    final_color_list.push(instances[i]['color']);
+                    final_line_type_list.push(instances[i]['line_type'])
                 }
                 var json_object = {
                     "data": jq_obj['query_data'],
                     "val_list": final_val_list,
                     "title_list": final_title_list,
-                    "unit_list": final_unit_list
+                    "unit_list": final_unit_list,
+                    "color_list": final_color_list,
+                    "line_type_list": final_line_type_list
                 };
                 start_qc_v_fossil_energy_co2_process(jq_obj["variables"], json_object)
 

@@ -36,7 +36,6 @@ $(document).ready(function () {
         if ($('#region_name').multipleSelect('getSelects').length > 0) {
             $('#dca-region-next-btn').parent().hide();
             $('#dca-scenario-next-btn').parent().show();
-            $('#run-button').parent().removeClass('disabled-select');
             $('#scenario_name').parent().find('.boot-select').removeClass('disabled-select');
             $('#scenario_name').parent().find('label').removeClass('disabled-select');
             $('.clear-sel-button[data-sel_clear="scenario_name"]').removeClass('disabled-select');
@@ -55,6 +54,7 @@ $(document).ready(function () {
     $('#dca-scenario-next-btn').on('click', function () {
         if ($('#scenario_name').multipleSelect('getSelects').length > 0) {
             $('#dca-scenario-next-btn').parent().hide();
+            $('#run-button').parent().removeClass('disabled-select');
             $('#model_name').parent().find('.boot-select').removeClass('disabled-select');
             $('#model_name').parent().find('label').removeClass('disabled-select');
             $('.clear-sel-button[data-sel_clear="model_name"]').removeClass('disabled-select');

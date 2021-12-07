@@ -83,8 +83,6 @@ AM_CHARTS_COLOR_CODES_LIST = {
     "orange_new": "#fdc086",
     "purple_new": "#beaed4"
 
-    
-
 }
 
 AM_CHARTS_COLOR_HEATMAP_COUPLES = {
@@ -99,6 +97,31 @@ AM_CHARTS_COLOR_HEATMAP_COUPLES = {
     "lightblue_green": ["#bbe1ff", "#2e5c20"],
     "darkblue_lightgreen": ["#02487a", "#8cc63f"]
 
+}
+
+# SCIENTIFIC INTERFACE SPECIFIC COLOR MAPPING
+COLOR_MODELS = {
+    "42": "moody_blue",
+    "eu_times": "cyan",
+    "e3me": "light_red",
+    "gcam": "orange_fire",
+    "gemini_e3": "grey_green",
+    "ices": "light_brown",
+    "muse": "gold",
+    "nemesis": "ice_gray",
+    "tiam": "purple"
+}
+
+SCENARIOS_LINE_TYPES = {
+    "PR_CurPol_CP": "0,0",
+    "PR_CurPol_EI": "1,1",
+    "PR_CurPol_CPO": "4,2",
+    "PR_NDC_CP": "3,3",
+    "PR_NDC_EI": "2,5",
+    "PR_NDC_CPO": "1,6",
+    "PR_Baseline": "1,6",
+    "Unharmonised baseline": "0,0",
+    "EUWWH": "0,0"
 }
 
 
@@ -147,6 +170,7 @@ def get_response_data_XY(request):
             "stacked": request.GET.get("stacked", "false"),
             "ranges": request.GET.getlist("ranges[]", []),
             "markers_on_chart": request.GET.get("markers_on_chart", "true"),
+            "line_type_list": request.GET.getlist("line_type_list[]", [])
 
         }
     else:
@@ -260,6 +284,7 @@ def generate_data_for_pie_chart(dataset, dataset_type):
         final_data = pie_chart_query(dataset)
     return final_data
 
+
 def create_stacked_clustered_data(dataset, dataset_type):
     final_data = []
     if dataset_type == 'query':
@@ -267,7 +292,6 @@ def create_stacked_clustered_data(dataset, dataset_type):
     elif dataset_type == 'dataframe':
         pass
     return final_data
-
 
 
 # FILE READING METHODS
@@ -360,7 +384,6 @@ def heatmap_categorisation(categorisation_dataset, workspace=['pr_global', 'pr_e
             dict_el = {'guide_from': el.guide_from, 'guide_to': el.guide_to, 'value': el.value}
             ranges_data.append(dict_el)
     return ranges_data
-
 
 
 def heatmap_ordering_method(col_ordering, data, row_ordering):

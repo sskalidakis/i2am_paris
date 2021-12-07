@@ -31,7 +31,7 @@ $(document).ready(function () {
         }
     });
 
-    function start_qc_v_global_approximate_temperature_process(json_query_obj, variable){
+    function start_qc_v_global_approximate_temperature_process(json_query_obj, variable) {
         var query = {};
         query["query_name"] = "global_approximate_temperature_query";
         query["parameters"] = json_query_obj['data'];
@@ -44,7 +44,7 @@ $(document).ready(function () {
             success: function (data) {
                 console.log('Global Approximate Temperature Query Saved in DB');
                 var query_id = data['query_id'];
-                create_visualisation_global_approximate_temperature(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable);
+                create_visualisation_global_approximate_temperature(query_id, json_query_obj, variable);
             },
             error: function (data) {
                 console.log(data);
@@ -53,7 +53,12 @@ $(document).ready(function () {
     }
 
 
-    function create_visualisation_global_approximate_temperature(query_id, val_list, title_list, unit_list, variable) {
+    function create_visualisation_global_approximate_temperature(query_id, json_query_obj, variable) {
+        var val_list = json_query_obj['val_list'];
+        var title_list = json_query_obj['title_list'];
+        var unit_list = json_query_obj['unit_list'];
+        var color_list = json_query_obj['color_list'];
+        var line_type_list = json_query_obj['line_type_list'];
         var viz_frame = $('#global_approximate_temperature_viz_iframe');
         viz_frame.off();
         viz_frame.hide();
@@ -63,13 +68,15 @@ $(document).ready(function () {
             "y_var_names": val_list,
             "y_var_titles": title_list,
             "y_var_units": unit_list,
-            "y_axis_title": 'Global '+String(variable[0]),
+            "y_axis_title": 'Global ' + String(variable[0]),
             "x_axis_name": "year",
             "x_axis_title": "Year",
             "x_axis_unit": "-",
             "x_axis_type": "text",
-            "min_max_y_value":[0.7, 2.92],
-            "color_list_request": ["moody_blue", "dark_blue", "violet", "light_red", "ceramic", "orange_yellow", "grey_green", "cyan", "black"],
+            "min_max_y_value": [0.7, 2.92],
+            "color_list_request": color_list,
+            "line_type_list": line_type_list,
+            "use_default_colors": false,
             "dataset": query_id,
             "dataset_type": "query"
         };
@@ -205,6 +212,8 @@ $(document).ready(function () {
         var final_val_list = [];
         var final_title_list = [];
         var final_unit_list = [];
+        var final_color_list = [];
+        var final_line_type_list = [];
         $.ajax({
             url: "/data_manager/retrieve_series_model_scenario",
             type: "POST",
@@ -217,12 +226,16 @@ $(document).ready(function () {
                     final_val_list.push(instances[i]['series']);
                     final_title_list.push(instances[i]['title']);
                     final_unit_list.push(instances[i]['unit']);
+                    final_color_list.push(instances[i]['color']);
+                    final_line_type_list.push(instances[i]['line_type'])
                 }
                 var json_object = {
                     "data": jq_obj['query_data'],
                     "val_list": final_val_list,
                     "title_list": final_title_list,
-                    "unit_list": final_unit_list
+                    "unit_list": final_unit_list,
+                    "color_list": final_color_list,
+                    "line_type_list": final_line_type_list
                 };
                 start_qc_v_global_approximate_temperature_process(json_object, jq_obj['variables'])
 

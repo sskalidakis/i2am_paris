@@ -6,6 +6,7 @@ from i2amparis_main.models import *
 
 # Create your views here.
 from i2amparis_main.utils import get_model_by_db_table
+from visualiser.utils import COLOR_MODELS, SCENARIOS_LINE_TYPES
 
 
 def create_query(request):
@@ -55,19 +56,22 @@ def retrieve_series_info(request):
         try:
             model = get_model_by_db_table(unit_info['dataset'])
             units = model.objects.filter(model__name__in=unit_info['model_name'],
-                                                   scenario__name__in=unit_info['scenario_name'],
-                                                   region__name__in=region_info_temp,
-                                                   variable__name__in=unit_info['variable_name']
-                                                   ).values(unit_info['multiple'] + '__name',
-                                                            unit_info['multiple'] + '__title',
-                                                            'unit__name').distinct()
+                                         scenario__name__in=unit_info['scenario_name'],
+                                         region__name__in=region_info_temp,
+                                         variable__name__in=unit_info['variable_name']
+                                         ).values(unit_info['multiple'] + '__name',
+                                                  unit_info['multiple'] + '__title',
+                                                  'unit__name').distinct()
             instances = []
+
             for obj in units:
                 instances.append(
                     {"series": obj[unit_info['multiple'] + '__name'],
                      "title": obj[unit_info['multiple'] + '__title'],
-                     "unit": obj['unit__name']}
+                     "unit": obj['unit__name']
+                     }
                 )
+
             context = {"instances": instances}
 
         except Exception as e:
@@ -137,26 +141,29 @@ def retrieve_series_model_scenario(request):
         try:
             model = get_model_by_db_table(unit_info['dataset'])
             units = model.objects.filter(model__name__in=unit_info['model_name'],
-                                                   scenario__name__in=unit_info['scenario_name'],
-                                                   variable__name__in=unit_info['variable_name'],
-                                                   region__name__in=unit_info['region_name']
-                                                   ).values('model__name',
-                                                            'model__title',
-                                                            'scenario__name',
-                                                            'scenario__title',
-                                                            'unit__name').distinct()
+                                         scenario__name__in=unit_info['scenario_name'],
+                                         variable__name__in=unit_info['variable_name'],
+                                         region__name__in=unit_info['region_name']
+                                         ).values('model__name',
+                                                  'model__title',
+                                                  'scenario__name',
+                                                  'scenario__title',
+                                                  'unit__name').distinct()
 
             instances = []
             for obj in units:
                 instances.append(
                     {"series": "{}_{}".format(obj['model__name'], obj['scenario__name']),
                      "title": "{}- {}".format(obj['model__title'], obj['scenario__title']),
-                     "unit": obj['unit__name']}
+                     "unit": obj['unit__name'],
+                     "color": COLOR_MODELS[obj['model__name']],
+                     "line_type": SCENARIOS_LINE_TYPES[obj['scenario__name']]
+                     }
                 )
             context = {"instances": instances}
 
         except Exception as e:
-            print('Cannot retrieve unit for the selected combination')
+            print('Cannot retrieve series info for the selected combination!')
             print(e)
             context = {}
         print('context: ', context)

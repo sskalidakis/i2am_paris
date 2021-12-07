@@ -22,7 +22,7 @@ $(document).ready(function () {
             /* # Query creation*/
             var jq_obj = create_co2_emissions_query(dataset);
             console.log(viz_id + ' - JSON Query Created');
-            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,["moody_blue", "light_red", "cyan", "orange_fire", "grey_green", "light_brown", "gold", "ice_gray" ,"purple"],[],[],[],String(jq_obj["variables"]));
+            retrieve_series_info_summary(jq_obj, dataset, viz_id, viz_type, intrfc,false,[],[],[],String(jq_obj["variables"]));
 
         }
     });

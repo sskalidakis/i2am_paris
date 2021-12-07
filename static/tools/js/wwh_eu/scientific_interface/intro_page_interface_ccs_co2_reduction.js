@@ -24,6 +24,10 @@ $(document).ready(function () {
             console.log(viz_id + ' - JSON Query Created');
             var y_var_names = model_sel.multipleSelect('getSelects');
             var y_var_titles = model_sel.multipleSelect('getSelects','text');
+            var color_list = [];
+            for(var cnt_models=0; cnt_models < y_var_names.length; cnt_models++){
+                color_list.push(model_colors[y_var_names[cnt_models]]);
+            }
             var viz_payload = {
                 "y_var_names": y_var_names,
                 "y_var_titles": y_var_titles,
@@ -34,7 +38,7 @@ $(document).ready(function () {
                 "x_axis_unit": "percentage %",
                 "x_axis_type": "value",
                 "use_default_colors": false,
-                "color_list_request": ["cyan", "light_red", "orange_fire", "grey_green", "gold","ice_gray","purple"],
+                "color_list_request": color_list,
                 "dataset_type": "query",
             };
             start_sci_query_creation_viz_execution(jq_obj, viz_id, viz_payload, viz_type, intrfc)

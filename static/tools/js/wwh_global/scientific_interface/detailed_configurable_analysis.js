@@ -36,7 +36,6 @@ $(document).ready(function () {
         if ($('#region_name').multipleSelect('getSelects').length > 0) {
             $('#dca-region-next-btn').parent().hide();
             $('#dca-scenario-next-btn').parent().show();
-            $('#run-button').parent().removeClass('disabled-select');
             $('#scenario_name').parent().find('.boot-select').removeClass('disabled-select');
             $('#scenario_name').parent().find('label').removeClass('disabled-select');
             $('.clear-sel-button[data-sel_clear="scenario_name"]').removeClass('disabled-select');
@@ -61,6 +60,7 @@ $(document).ready(function () {
             $('#scenario_name').parent().find('.boot-select').addClass('disabled-select');
             $('#scenario_name').parent().find('label').addClass('disabled-select');
             $('.clear-sel-button[data-sel_clear="scenario_name"]').addClass('disabled-select');
+            $('#run-button').parent().removeClass('disabled-select');
             $('#detailed_configurable_progress_text').text('Please select Model(s) . . .');
             $('#dca_progress_bar div').css('width', '75%');
             $('#dca_progress_bar div').attr('aria-valuenow', '75');
@@ -435,7 +435,7 @@ function start_qc_v_process(model_sel, scenario_sel, region_sel, variable_sel, j
         success: function (data) {
             console.log("Detailed Configurable Analysis query created");
             var query_id = data['query_id'];
-            create_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
+            create_detailed_visualisation(query_id, json_query_obj['val_list'], json_query_obj['title_list'], json_query_obj['unit_list'], variable_selection);
         },
         error: function (data) {
             console.log(data);
@@ -445,7 +445,7 @@ function start_qc_v_process(model_sel, scenario_sel, region_sel, variable_sel, j
 }
 
 
-function create_visualisation(query_id, val_list, title_list, unit_list, variable) {
+function create_detailed_visualisation(query_id, val_list, title_list, unit_list, variable) {
     var viz_frame = $('#viz_iframe');
     viz_frame.off();
     viz_frame.hide();
