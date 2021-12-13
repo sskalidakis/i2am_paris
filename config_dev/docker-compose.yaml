@@ -1,0 +1,36 @@
+version: '3'
+
+
+services:
+
+  i2amparis:
+    container_name: ${APP_HOSTNAME}
+    hostname: ${APP_HOSTNAME}
+    build:
+      context: ".."
+      dockerfile: "./config_dev/Dockerfile"
+      args:
+        SETTINGS: ${SETTINGS}
+        PORT: ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - ../.env/dev/.env_app_dev
+    depends_on:
+      - i2amparis_db
+
+  i2amparis_db:
+    image: postgres:13.0-alpine
+    container_name: ${DB_HOST}
+    hostname: ${DB_HOST}
+    command: ["-c", "shared_buffers=3GB", "-c", "max_connections=1000", "-c", "idle_in_transaction_session_timeout=1min"]
+    ports:
+      - 5439:5432
+    volumes:
+      - i2amparis_db_volume:/var/lib/postgresql/data
+    env_file:
+      - ../.env/dev/.env_db_dev
+
+volumes:
+  i2amparis_db_volume:
+

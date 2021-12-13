@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from i2amparis.private_settings import *
+
+# from i2amparis.private_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -155,3 +156,29 @@ EMAIL_FROM = 'noreply@epu.ntua.gr'
 SERVER_EMAIL = 'noreply@epu.ntua.gr'
 
 GOOGLE_RECAPTCHA_SITE_KEY = '6LcpcJ0aAAAAAPCTYkfoxqGbqe3bv7Lc1P8xzvRF'
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# PRIVATE SETTINGS
+
+# APP SETTINGS
+SECRET_KEY = os.environ.get("SECRET_KEY", "test_key")
+DEBUG = int(os.environ.get("DEBUG", default=1))
+
+# CAPTCHA SETTINGS
+GOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get("GOOGLE_RECAPTCHA_SECRET_KEY")
+
+# EMAIL SETTINGS
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+#DATABASE SETTINGS
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("SQL_DATABASE", 'admin'),
+        'USER': os.environ.get("SQL_USER", 'admin'),
+        'PASSWORD': os.environ.get("SQL_PASSWORD", 'admin'),
+        "HOST": os.environ.get("SQL_HOST", 'paris-reinforce.epu.ntua.gr'),
+        "PORT": os.environ.get("SQL_PORT", '5435'),
+    }
+}

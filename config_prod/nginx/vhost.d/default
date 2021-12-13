@@ -1,0 +1,4 @@
+location /static/ {
+  alias /home/i2amparis/web/staticfiles/;
+  add_header Access-Control-Allow-Origin *;
+}
