@@ -9,29 +9,16 @@ services:
       dockerfile: "./nginx/Dockerfile"
     volumes:
       - static_volume:/home/i2amparis/web/staticfiles
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - www-certs:/etc/letsencrypt
     ports:
       - 80:80
       - 443:443
     restart: always
+    env_file:
+      - ../.env/prod/.env.staging.proxy-companion
     depends_on:
       - i2amparis
 
-  nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    env_file:
-      - ../.env/prod/.env.staging.proxy-companion
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
-      - acme:/etc/acme.sh
-    depends_on:
-      - nginx-proxy
 
   i2amparis:
     container_name: ${APP_HOSTNAME}
