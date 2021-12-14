@@ -53,8 +53,6 @@ services:
 volumes:
   i2amparis_db_prod_data:
   static_volume:
-  certs:
-  html:
-  vhost:
-  acme:
+  www-certs:
+
 
