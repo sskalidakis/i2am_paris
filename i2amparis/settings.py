@@ -155,7 +155,7 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 EMAIL_FROM = 'noreply@epu.ntua.gr'
 SERVER_EMAIL = 'noreply@epu.ntua.gr'
 
-GOOGLE_RECAPTCHA_SITE_KEY = '6Le_CqEdAAAAAH7vz4thVSNhEBaIpLiTdjzHgXv6'
+GOOGLE_RECAPTCHA_SITE_KEY = '6LewHqEdAAAAAG7A1uY2PJJbdLksCuhlD_N4k49j'
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
