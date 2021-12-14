@@ -55,7 +55,7 @@ def feedback_form(request):
                     except:
                         messages.error(request, 'The evaluation could not be stored!')
                         print('The evaluation could not be stored!')
-                        return JsonResponse({'status': 'NOT_OK'})
+                        return JsonResponse({'status': 'NOT_OK_FORM_NOT_SAVED'})
                     try:
                         send_mail(str(username) + "'s Feedback on I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
                                   ['iam@paris-reinforce.eu', 'paris.reinforce@gmail.com'],
@@ -68,7 +68,7 @@ def feedback_form(request):
                 else:
                     messages.error(request, 'Invalid reCAPTCHA. Please try again.')
                     print('Invalid reCAPTCHA. Please try again.')
-                    return JsonResponse({'status': 'NOT_OK'})
+                    return JsonResponse({'status': 'NOT_OK_INVALID_CAPTCHA'})
 
         else:
             form = FeedbackForm()

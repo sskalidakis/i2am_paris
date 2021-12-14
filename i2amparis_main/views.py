@@ -484,9 +484,9 @@ def contact_form(request):
                     messages.success(request, 'New comment added with success!')
                     print('New comment added with success!')
                 except:
-                    messages.error(request, 'The evaluation could not be stored!')
+                    messages.error(request, 'The feedback could not be stored!')
                     print('The evaluation could not be stored!')
-                    return JsonResponse({'status': 'NOT_OK'})
+                    return JsonResponse({'status': 'NOT_OK_FORM_NOT_SAVED'})
                 try:
                     send_mail(str(username) + "has sent and email to the I2AM Paris Platform", email_text, 'noreply@epu.ntua.gr',
                               ['iam@paris-reinforce.eu', 'paris.reinforce@gmail.com'],
@@ -500,7 +500,7 @@ def contact_form(request):
             else:
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
                 print('Invalid reCAPTCHA. Please try again.')
-                return JsonResponse({'status': 'NOT_OK'})
+                return JsonResponse({'status': 'NOT_OK_INVALID_CAPTCHA'})
 
 # DEPRECATED . NEEDS THE SAME CHANGES WITH BASIC TO BE APPLICABLE TO ANY WORKSPACE
 # @csrf_exempt
