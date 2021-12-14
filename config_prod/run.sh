@@ -15,4 +15,4 @@ python manage.py collectstatic --noinput --settings=${SETTINGS}
 
 echo "Run Gunicorn"
 
-gunicorn --workers=4 -b 0.0.0.0:${PORT} i2amparis.wsgi:application
+gunicorn --workers=4 --limit-request-fields 6000 -b 0.0.0.0:${PORT} i2amparis.wsgi:application
