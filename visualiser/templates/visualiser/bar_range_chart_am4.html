@@ -67,8 +67,8 @@
             xAxis.renderer.minGridDistance = 70;
 <!--            dateAxis.baseInterval = {count: 30, timeUnit: "minute"};-->
             xAxis.baseInterval = {count: 30, timeUnit: "minute"};
-<!--            dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime(); // TODO get from backend the max Date-->
-            xAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime(); // TODO get from backend the max Date
+<!--            dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime(); -->
+            xAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime();
 <!--            dateAxis.strictMinMax = true;-->
             xAxis.strictMinMax = true;
 <!--            dateAxis.renderer.tooltipLocation = 0;-->
@@ -90,19 +90,19 @@
             series1.columns.template.column.cornerRadiusTopRight = 10;
             series1.columns.template.column.cornerRadiusBottomLeft = 10;
             series1.columns.template.column.cornerRadiusBottomRight = 10;
-<!--            series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}"; // TODO remove it-->
+<!--            series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
             series1.tooltip.pointerOrientation = "vertical";
             series1.tooltip.background.cornerRadius = 20;
             series1.tooltip.background.fillOpacity = 0.8;
             series1.tooltip.label.padding(12, 12, 12, 12);
              if (x_axis_type === "time") {
                 series1.columns.template.tooltipText = "{" + y_var_names[0] +  "}: {openDateX} - {dateX}";
-                series1.dataFields.openDateX = "fromDate"; // TODO remove it
-                series1.dataFields.dateX = "toDate"; // TODO remove it
+                series1.dataFields.openDateX = "fromDate";
+                series1.dataFields.dateX = "toDate";
             }else{
                 series1.columns.template.tooltipText = "{" + y_var_names[0] +  "}: {openValueX} - {valueX}";
-                series1.dataFields.openValueX = "from"; // TODO remove it
-                series1.dataFields.valueX = "to"; // TODO remove it
+                series1.dataFields.openValueX = "from";
+                series1.dataFields.valueX = "to";
              }
             series1.dataFields.categoryY = y_var_names[0];
             series1.columns.template.propertyFields.fill = "color"; // get color from data

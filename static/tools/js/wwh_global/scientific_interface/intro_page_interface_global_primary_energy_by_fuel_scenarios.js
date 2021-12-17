@@ -104,7 +104,6 @@ $(document).ready(function () {
 
     function create_global_primary_energy_by_fuel_2_query() {
         var regions = ['World'];
-        //TODO: fix the names of the scenarios and the variables
         var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'];
         var variables = ['Primary Energy|Wind', 'Primary Energy|Solar', 'Primary Energy|Hydro', 'Primary Energy|Nuclear', 'Primary Energy|Biomass', 'Primary Energy|Gas', 'Primary Energy|Oil', 'Primary Energy|Coal'];
         var agg_func = 'Avg';

@@ -116,7 +116,6 @@ $(document).ready(function () {
 
     function create_global_final_energy_by_fuel_2_query() {
         var regions = ['World'];
-        //TODO: fix the names of the scenarios and the variables
         var scenarios = ['PR_CurPol_CP', 'PR_CurPol_EI', 'PR_NDC_CP', 'PR_NDC_EI'];
         var variables = ['Final Energy|Heat', 'Final Energy|Solids', 'Final Energy|Hydrogen', 'Final Energy|Gases',
             'Final Energy|Liquids', 'Final Energy|Electricity', 'Final Energy|Geothermal'];

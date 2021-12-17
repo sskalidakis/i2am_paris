@@ -263,7 +263,7 @@ function data_table(sample) {
   // Load data in table-grid
   var grid = d3.divgrid();
   d3.select("#grid")
-  <!--Set how rows we want to appear in 'table'-->
+
     .datum(sample.slice(0,10))
     .call(grid)
     .selectAll(".row")

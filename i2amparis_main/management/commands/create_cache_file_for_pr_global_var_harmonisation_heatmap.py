@@ -5,7 +5,7 @@ from django.apps import apps
 from django.db.models import F
 import json
 
-# TODO: Command not tested yet
+
 class Command(BaseCommand):
     help = 'Create cache files for harmonisation heatmaps'
 
